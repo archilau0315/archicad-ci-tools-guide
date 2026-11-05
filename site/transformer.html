@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -62,6 +62,9 @@ figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
 .brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
 .nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
   color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
 .sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
   border-left:2px solid transparent;transition:background .18s,color .18s}
 .sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
@@ -118,6 +121,44 @@ article{padding-bottom:40px}
 .toc-list a:hover{color:var(--accent)}
 .toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
 .foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
 .missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
   background:var(--paper);color:var(--muted);font-size:12.5px}
 .menubtn{display:none}
@@ -140,50 +181,81 @@ article{padding-bottom:40px}
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t">CI Tools 完全指南</div><div class="brand-s">Archicad Plugin Manual</div></a></div>
-<div class="nav-h">开始</div>
-<a href="index.html"><span class="ic">◈</span>总览与快速开始</a>
-<a href="all.html"><span class="ic">☰</span>全量文章索引</a>
-<a href="guide.html"><span class="ic">★</span>中文主线速查</a>
-<div class="nav-h">16 个工具</div>
-<a class="" href="annotate.html"><span class="ic">Aa</span>Annotate · 文字格式</a>
-<a class=" on" href="transformer.html"><span class="ic">⇄</span>Transformer · 项目镜像</a>
-<a class="" href="timetracker.html"><span class="ic">◷</span>Time Tracker · 工时统计</a>
-<a class="" href="detail.html"><span class="ic">▤</span>Detail Elements · 二维详图</a>
-<a class="" href="keynotes.html"><span class="ic">❝</span>Keynotes · 规范注释</a>
-<a class="" href="metadata.html"><span class="ic">◈</span>MetaData · 属性管理</a>
-<a class="" href="quantities.html"><span class="ic">∑</span>Quantities · 工程量算量</a>
-<a class="" href="cabinets.html"><span class="ic">▦</span>Cabinets · 橱柜木作</a>
-<a class="" href="doors.html"><span class="ic">⌸</span>Doors+Windows · 门窗</a>
-<a class="" href="coverings.html"><span class="ic">▨</span>Coverings · 覆面层</a>
-<a class="" href="electrical.html"><span class="ic">⚡</span>Electrical · 电气</a>
-<a class="" href="stairs.html"><span class="ic">⇱</span>Stairs · 楼梯</a>
-<a class="" href="structural.html"><span class="ic">⌗</span>Structural · 结构构件</a>
-<a class="" href="sites.html"><span class="ic">⛿</span>Sites · 场地景观</a>
-<a class="" href="fitout.html"><span class="ic">⌸</span>Fitout · 室内布置</a>
-<div class="nav-h">关于</div>
-<a href="about.html"><span class="ic">ⓘ</span>来源与说明</a>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<div class="nav-h zh-only block">16 个工具</div><div class="nav-h en-only block">16 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class=" on" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
 </aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
 <main class="main">
 
 
-<div class="crumb"><a href="index.html">总览</a> / Transformer · 项目镜像</div>
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></div>
 <div class="hero">
-  <span class="kicker">工具分册</span>
-  <h1>Transformer · 项目镜像</h1>
-  <p>一键镜像整个项目，含 2D 标注</p>
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>Transformer · <span class="zh-only">项目镜像</span></h1>
+  <p class="zh-only">一键镜像整个项目，含 2D 标注</p>
+  <p class="en-only">Mirror an entire project in one click, 2D annotations included</p>
   <div class="meta">
-    <span><b>5</b> 篇教程</span>
-    <span><b>0.2</b> 万字</span>
-    <span><b>1</b> 张图</span>
+    <span><b>5</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>0.2</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>1</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
   </div>
 </div>
 <article>
 
 <div class="art" id="a-360001695256">
-  <div class="art-h"><span class="no">01</span><h3>1.1 Why?</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695256-1-1-Why" target="_blank" rel="noopener">MyCi 知识库 · 1.1 Why?</a></div>
-  <p>This tool mirrors an entire project in one step. But why not use Archicad’s existing Mirror tool? Although the whole project model can already be mirrored in one step, there are some major clean-up issues to address:</p>
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">1.1 为什么需要这个工具？</h3>
+    <h3 class="en-only block">1.1 Why?</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695256-1-1-Why" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>这个工具能一步镜像整个项目。但为什么不用 Archicad 自带的镜像工具？虽然整个项目模型确实可以一步镜像完成，但仍有一些严重的收尾问题需要处理：</p>
+<ul>
+<li>剖面图与立面图中的所有标注都会跑到错误的位置、方向也会反掉。差异可能非常极端，修复起来很麻烦。</li>
+</ul>
+<ul>
+<li>布局中嵌入的所有裁剪视图会显示图纸的错误部分，甚至可能完全空白。这就意味着需要逐个打开完整图纸、重新裁剪并重新定位。</li>
+</ul>
+<p>经常使用模板项目的人会把这当成巨大的麻烦，苦到与其反复镜像，不如直接存多个项目版本 —— 但这样又会导致修改同步困难。</p>
+<p>Transformer 工具把整个镜像过程（包括剖面、立面与布局）整合成一个简单步骤，一次搞定。</p></div>
+  <div class="en-only"><p>This tool mirrors an entire project in one step. But why not use Archicad’s existing Mirror tool? Although the whole project model can already be mirrored in one step, there are some major clean-up issues to address:</p>
+<ul>
+<li>All annotation in section and elevation views will end up in the wrong place and the wrong way around. The difference can be extreme and difficult to fix.</li>
+</ul>
+<ul>
+<li>All cropped project views embedded in layouts will show the wrong part of the drawing and may be entirely blank. This will necessitate viewing the whole drawing, re-cropping and repositioning.</li>
+</ul>
+<p>Anyone working routinely with template projects will find this a huge chore, to the point where it can be easier to store multiple versions of the project rather than repeat the mirroring exercise multiple time, but this can lead to problems synchronising changes.</p>
+<p>The Transformer tool takes care of the whole mirroring process (including sections, elevations and layouts) in one, easy step.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>This tool mirrors an entire project in one step. But why not use Archicad’s existing Mirror tool? Although the whole project model can already be mirrored in one step, there are some major clean-up issues to address:</p>
 <ul>
 <li>All annotation in section and elevation views will end up in the wrong place and the wrong way around. The difference can be extreme and difficult to fix.</li>
 </ul>
@@ -192,42 +264,113 @@ article{padding-bottom:40px}
 </ul>
 <p>Anyone working routinely with template projects will find this a huge chore, to the point where it can be easier to store multiple versions of the project rather than repeat the mirroring exercise multiple time, but this can lead to problems synchronising changes.</p>
 <p>The Transformer tool takes care of the whole mirroring process (including sections, elevations and layouts) in one, easy step.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001695276">
-  <div class="art-h"><span class="no">02</span><h3>1.2 Mirroring a Project</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695276-1-2-Mirroring-a-Project" target="_blank" rel="noopener">MyCi 知识库 · 1.2 Mirroring a Project</a></div>
-  <p>To start the mirroring process:</p>
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">1.2 镜像项目</h3>
+    <h3 class="en-only block">1.2 Mirroring a Project</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695276-1-2-Mirroring-a-Project" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>开始镜像操作：</p>
+<p>点击菜单项 <strong>CI Tools > Transformer > Mirror Project…</strong>。</p>
+<p>点击镜像轴线的起点。</p>
+<p>工具会在项目上显示镜像操作指引。镜像只能沿水平线或垂直线进行（目前不支持其他角度，但如果你有需要请告诉我们）。预览图会根据鼠标位置在水平轴与垂直轴之间动态切换。</p>
+<p><img src="img/360001695276_0.jpg" alt="1.2 Mirroring a Project 示意图" loading="lazy"></p>
+<p>当轴线方向符合预期时点击即可执行镜像。按 ESC 键则取消本次镜像。</p></div>
+  <div class="en-only"><p>To start the mirroring process:</p>
+<p>Click the menu item CI Tools > Transformer > Mirror Project…</p>
+<p>Click the start point for the mirror axis line.</p>
+<p>The tool will display a guide to the mirror action on the project, which can only be across a horizontal or vertical line (other angles are not currently supported, but let us know if that’s important to you). The image will dynamically switch between the horizontal and vertical axis depending on which is closer to your mouse</p>
+<p><img src="img/360001695276_0.jpg" alt="1.2 Mirroring a Project 示意图" loading="lazy"></p>
+<p>Click when the axis is in the desired direction and the mirroring will be actioned. Alternatively, press escape to cancel the mirror process.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>To start the mirroring process:</p>
 <p>Click the menu item CI Tools > Transformer > Mirror Project…</p>
 <p>Click the start point for the mirror axis line.</p>
 <p>The tool will display a guide to the mirror action on the project, which can only be across a horizontal or vertical line (other angles are not currently supported, but let us know if that’s important to you). The image will dynamically switch between the horizontal and vertical axis depending on which is closer to your mouse</p>
 <p><img src="img/360001695276_0.jpg" alt="1.2 Mirroring a Project 示意图" loading="lazy"></p>
 <p>Click when the axis is in the desired direction and the mirroring will be actioned. Alternatively, press escape to cancel the mirror process.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001695296">
-  <div class="art-h"><span class="no">03</span><h3>1.3 Mirroring Notes</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695296-1-3-Mirroring-Notes" target="_blank" rel="noopener">MyCi 知识库 · 1.3 Mirroring Notes</a></div>
-  <p>There is an issue in Archicad that often causes angular dimensions and level dimensions to fail to mirror in section and elevation views. We hope GS will address this issue in AC25.</p>
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">1.3 镜像时的注意事项</h3>
+    <h3 class="en-only block">1.3 Mirroring Notes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695296-1-3-Mirroring-Notes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Archicad 存在一个问题：剖面图与立面图中的角度标注和标高标注经常无法正确镜像。我们希望 GS 能在 AC25 中修复这个问题。</p>
+<p>另外，虽然镜像操作可以撤销，但 Archicad <strong>不支持撤销布局中的裁剪修改</strong> —— 即使你执行了「编辑 > 撤销」，这些裁剪区域仍会保持镜像状态。</p></div>
+  <div class="en-only"><p>There is an issue in Archicad that often causes angular dimensions and level dimensions to fail to mirror in section and elevation views. We hope GS will address this issue in AC25.</p>
+<p>Also, although the Mirror action is undoable, Archicad does not support undo for the cropping changes in layouts – these will remain mirrored if you select Edit > Undo</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>There is an issue in Archicad that often causes angular dimensions and level dimensions to fail to mirror in section and elevation views. We hope GS will address this issue in AC25.</p>
 <p>Also, although the Mirror action is undoable, Archicad does not support undo for the cropping changes in layouts – these will remain mirrored if you select Edit > Undo</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-9245907340175">
-  <div class="art-h"><span class="no">04</span><h3>Getting Started</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/9245907340175-Getting-Started" target="_blank" rel="noopener">MyCi 知识库 · Getting Started</a></div>
-  
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">开始使用</h3>
+    <h3 class="en-only block">Getting Started</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/9245907340175-Getting-Started" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Transformer 工具可将整个项目一步镜像完成 —— 包括模型、剖面、立面、布局中的裁剪视图，以及所有标记与标注。</p>
+<p><strong>入口</strong>：CI Tools > Transformer > Mirror Project…</p>
+<p>详见「1.2 镜像项目」与「1.3 镜像时的注意事项」。</p></div>
+  <div class="en-only"></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      
+    </div>
+  </details>
 </div>
 <div class="art" id="a-8620665767311">
-  <div class="art-h"><span class="no">05</span><h3>Release Notes - Transformer</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/8620665767311-Release-Notes-Transformer" target="_blank" rel="noopener">MyCi 知识库 · Release Notes - Transformer</a></div>
-  <h1>Release notes - Transformer - 1.03</h1>
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">更新日志 —— Transformer</h3>
+    <h3 class="en-only block">Release Notes - Transformer</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8620665767311-Release-Notes-Transformer" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h1>更新日志 —— Transformer —— 1.03</h1>
+<h3>问题修复</h3>
+<p>TRAN-2 镜像屋面覆层时出错，镜像项目时出错</p>
+<p>TRAN-4 关联标签未被镜像</p>
+<p>TRAN-11 镜像后立面图的标记位置发生偏移</p>
+<p>TRAN-14 室内立面图中绘制的其他二维元素未被镜像</p></div>
+  <div class="en-only"><h1>Release notes - Transformer - 1.03</h1>
+<h3>Bug</h3>
+<p>TRAN-2 Problem mirroring Roof coverings, problem mirroring a project</p>
+<p>TRAN-4 associated labels not mirrored</p>
+<p>TRAN-11 Elevations Markers shift location after Mirroring</p>
+<p>TRAN-14 Additional 2D elements drawn in Interior Elevation views are not mirrored</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h1>Release notes - Transformer - 1.03</h1>
 <h3>Bug</h3>
 <p>TRAN-2 Problem mirroring Roof coverings, problem mirroring a project</p>
 <p>TRAN-4 associated labels not mirrored</p>
 <p>TRAN-11 Elevations Markers shift location after Mirroring</p>
 <p>TRAN-14 Additional 2D elements drawn in Interior Elevation views are not mirrored</p>
+    </div>
+  </details>
 </div>
 </article>
 
 <footer class="foot">
-CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
 </footer>
 </main>
 </div>
@@ -259,6 +402,30 @@ CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 
       });
     });
   }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
 })();
 </script>
 </body>

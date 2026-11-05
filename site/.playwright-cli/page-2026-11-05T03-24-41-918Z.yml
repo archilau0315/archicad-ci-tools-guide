@@ -1,0 +1,364 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - link "CI Tools 完全指南 Archicad Plugin Manual" [ref=e5] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=e6]: CI Tools 完全指南
+      - generic [ref=e7]: Archicad Plugin Manual
+    - generic [ref=e8]: 开始
+    - link "◈ 总览与快速开始" [ref=e9] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=e10]: ◈
+      - generic [ref=e11]: 总览与快速开始
+    - link "☰ 全量文章索引" [ref=e12] [cursor=pointer]:
+      - /url: all.html
+      - generic [ref=e13]: ☰
+      - generic [ref=e14]: 全量文章索引
+    - link "★ 中文主线速查" [ref=e15] [cursor=pointer]:
+      - /url: guide.html
+      - generic [ref=e16]: ★
+      - generic [ref=e17]: 中文主线速查
+    - generic [ref=e18]: 16 个工具
+    - link "Aa Annotate · 文字格式" [ref=e19] [cursor=pointer]:
+      - /url: annotate.html
+      - generic [ref=e20]: Aa
+      - generic [ref=e21]: Annotate · 文字格式
+    - link "⇄ Transformer · 项目镜像" [ref=e22] [cursor=pointer]:
+      - /url: transformer.html
+      - generic [ref=e23]: ⇄
+      - generic [ref=e24]: Transformer · 项目镜像
+    - link "◷ Time Tracker · 工时统计" [ref=e25] [cursor=pointer]:
+      - /url: timetracker.html
+      - generic [ref=e26]: ◷
+      - generic [ref=e27]: Time Tracker · 工时统计
+    - link "▤ Detail Elements · 二维详图" [ref=e28] [cursor=pointer]:
+      - /url: detail.html
+      - generic [ref=e29]: ▤
+      - generic [ref=e30]: Detail Elements · 二维详图
+    - link "❝ Keynotes · 规范注释" [ref=e31] [cursor=pointer]:
+      - /url: keynotes.html
+      - generic [ref=e32]: ❝
+      - generic [ref=e33]: Keynotes · 规范注释
+    - link "◈ MetaData · 属性管理" [ref=e34] [cursor=pointer]:
+      - /url: metadata.html
+      - generic [ref=e35]: ◈
+      - generic [ref=e36]: MetaData · 属性管理
+    - link "∑ Quantities · 工程量算量" [ref=e37] [cursor=pointer]:
+      - /url: quantities.html
+      - generic [ref=e38]: ∑
+      - generic [ref=e39]: Quantities · 工程量算量
+    - link "▦ Cabinets · 橱柜木作" [ref=e40] [cursor=pointer]:
+      - /url: cabinets.html
+      - generic [ref=e41]: ▦
+      - generic [ref=e42]: Cabinets · 橱柜木作
+    - link "⌸ Doors+Windows · 门窗" [ref=e43] [cursor=pointer]:
+      - /url: doors.html
+      - generic [ref=e44]: ⌸
+      - generic [ref=e45]: Doors+Windows · 门窗
+    - link "▨ Coverings · 覆面层" [ref=e46] [cursor=pointer]:
+      - /url: coverings.html
+      - generic [ref=e47]: ▨
+      - generic [ref=e48]: Coverings · 覆面层
+    - link "⚡ Electrical · 电气" [ref=e49] [cursor=pointer]:
+      - /url: electrical.html
+      - generic [ref=e50]: ⚡
+      - generic [ref=e51]: Electrical · 电气
+    - link "⇱ Stairs · 楼梯" [ref=e52] [cursor=pointer]:
+      - /url: stairs.html
+      - generic [ref=e53]: ⇱
+      - generic [ref=e54]: Stairs · 楼梯
+    - link "⌗ Structural · 结构构件" [ref=e55] [cursor=pointer]:
+      - /url: structural.html
+      - generic [ref=e56]: ⌗
+      - generic [ref=e57]: Structural · 结构构件
+    - link "⛿ Sites · 场地景观" [ref=e58] [cursor=pointer]:
+      - /url: sites.html
+      - generic [ref=e59]: ⛿
+      - generic [ref=e60]: Sites · 场地景观
+    - link "⌸ Fitout · 室内布置" [ref=e61] [cursor=pointer]:
+      - /url: fitout.html
+      - generic [ref=e62]: ⌸
+      - generic [ref=e63]: Fitout · 室内布置
+    - generic [ref=e64]: 关于
+    - link "ⓘ 来源与说明" [ref=e65] [cursor=pointer]:
+      - /url: about.html
+      - generic [ref=e66]: ⓘ
+      - generic [ref=e67]: 来源与说明
+  - group "Language" [ref=e68]:
+    - button "中文" [pressed] [ref=e69] [cursor=pointer]
+    - button "EN" [ref=e70] [cursor=pointer]
+  - main [ref=e71]:
+    - generic [ref=e72]:
+      - link "总览" [ref=e73] [cursor=pointer]:
+        - /url: index.html
+      - text: / Annotate · 文字格式
+    - generic [ref=e74]:
+      - generic [ref=e75]: 工具分册
+      - heading "Annotate · 文字格式" [level=1] [ref=e76]
+      - paragraph [ref=e77]: 全项目文字大小写、字体批量统一
+      - generic [ref=e78]:
+        - generic [ref=e79]: 4 篇教程
+        - generic [ref=e80]: 0.8 万字
+        - generic [ref=e81]: 23 张图
+    - article [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - generic [ref=e85]: "01"
+          - heading "1.1 转换文本大小写" [level=3] [ref=e86]
+        - link "MyCi 官方原文 ↗" [ref=e88] [cursor=pointer]:
+          - /url: https://cadimage.zendesk.com/hc/en-us/articles/360001692315-1-1-Convert-Text-Case
+        - generic [ref=e89]:
+          - paragraph [ref=e90]:
+            - text: Annotate 的大小写转换工具可以更改大多数项目元素的文本内容，并可选包含诸如（字符串）属性和参数之类的设置。若只想转换某一部分选定项目的大小写，请先选中它们。要启动转换工具，请点击菜单项
+            - emphasis [ref=e91]: CI Tools > Annotate > Convert Case…
+            - text: （转换大小写）
+          - paragraph [ref=e92]:
+            - img "1.1 Convert Text Case 示意图" [ref=e93]
+          - paragraph [ref=e94]:
+            - text: 首先会弹出
+            - emphasis [ref=e95]: Case Conversion Options
+            - text: （大小写转换选项）对话框。请从以下选项中选择：
+          - list [ref=e96]:
+            - listitem [ref=e97]: Case（大小写）指定所需的文本大小写，以及是否需要遵守例外情况。可选项包括：
+          - list [ref=e98]:
+            - listitem [ref=e99]: Sentence case（句首字母大写）
+          - list [ref=e100]:
+            - listitem [ref=e101]: UPPER CASE（全大写）
+          - list [ref=e102]:
+            - listitem [ref=e103]: lower case（全小写）
+          - list [ref=e104]:
+            - listitem [ref=e105]: Title Case（标题式大小写）
+          - paragraph [ref=e106]:
+            - text: 如果某些单词或缩写应保持固定大小写，请勾选
+            - emphasis [ref=e107]: Observe case exceptions
+            - text: （遵守大小写例外）。此时会出现一个
+            - emphasis [ref=e108]: Edit
+            - text: （编辑）按钮用于查看这些例外（详见 1.2 节）。
+          - list [ref=e109]:
+            - listitem [ref=e110]: Scope（范围）指定文本转换的范围，包括：
+          - paragraph [ref=e111]: Selected items only（仅选定项目） . 若在活动图纸视图中未选中任何内容，则该选项不可用。
+          - list [ref=e112]:
+            - listitem [ref=e113]: Text in the current drawing（当前图纸中的文本） . 仅影响活动的图纸视图。若当前为平面图，则仅针对当前楼层。
+          - list [ref=e114]:
+            - listitem [ref=e115]: Text in floor plan (all storeys)（平面图中的文本，所有楼层） . 平面图中的所有楼层都将被处理。
+          - list [ref=e116]:
+            - listitem [ref=e117]: Text in all drawings（所有图纸中的文本）。所有图纸，包括剖面图、详图等都将被处理。
+          - paragraph [ref=e118]:
+            - text: 勾选
+            - emphasis [ref=e119]: String properties
+            - text: （字符串属性）可转换任意字符串属性值。请注意，这不会影响从预设选项菜单中选取的文本 —— 若要更改这类文本，请使用属性管理器（Property Manager）。
+          - paragraph [ref=e120]:
+            - text: 勾选
+            - emphasis [ref=e121]: String parameters
+            - text: （字符串参数）可转换参数文本。已锁定或隐藏的参数不会受到影响（因为它们大概不是要更改的对象）。若选择了
+            - emphasis [ref=e122]: If displayed
+            - text: （如果已显示）选项，则只有与对象在 2D 中当前显示的文本完全匹配的字符串参数值才会被转换。如果该对象还含有其他可见、未锁定且不应更改的文本，此选项要安全得多。
+          - list [ref=e123]:
+            - listitem [ref=e124]: Ignore（忽略）选择任何不应被转换的项目或图层，包括：
+          - paragraph [ref=e125]: Hidden items（隐藏项目） ，例如隐藏图层上的所有内容；
+          - list [ref=e126]:
+            - listitem [ref=e127]: Locked items（锁定项目） ，即已被显式锁定的元素；
+          - list [ref=e128]:
+            - listitem [ref=e129]: Locked layers（锁定图层） ，例如锁定图层上的所有内容。
+          - paragraph [ref=e130]:
+            - text: 点击
+            - emphasis [ref=e131]: Ok
+            - text: （确定）开始转换过程。
+        - group [ref=e132]:
+          - generic "▸ 英文原文对照 / View original English" [ref=e133] [cursor=pointer]
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - generic [ref=e136]: "02"
+          - heading "1.2 管理大小写例外" [level=3] [ref=e137]
+        - link "MyCi 官方原文 ↗" [ref=e139] [cursor=pointer]:
+          - /url: https://cadimage.zendesk.com/hc/en-us/articles/360001694896-1-2-Manage-Case-Exceptions
+        - generic [ref=e140]:
+          - paragraph [ref=e141]:
+            - emphasis [ref=e142]: Case Exception Manager
+            - text: （大小写例外管理器）收集那些无论一般文本采用何种标准都应保持固定大小写的单词或缩写。可在
+            - emphasis [ref=e143]: Case Conversion Options
+            - text: （大小写转换选项）对话框中点击
+            - emphasis [ref=e144]: Edit
+            - text: （编辑）按钮查看该管理器，也可点击菜单
+            - emphasis [ref=e145]: CI Tools > Annotate > Manage Case Exceptions…
+            - text: （管理大小写例外）
+          - paragraph [ref=e146]:
+            - img "1.2 Manage Case Exceptions 示意图" [ref=e147]
+          - paragraph [ref=e148]: 例外列表与项目相关，但可以导出后导入到其他项目。该管理器对话框包含以下内容：
+          - list [ref=e149]:
+            - listitem [ref=e150]: 例外列表
+          - paragraph [ref=e151]: 列表分为 2 列，两列都可在列表中直接编辑：
+          - list [ref=e152]:
+            - listitem [ref=e153]: Text（文本）字面文本，即其在文档中应呈现的大小写形式。
+          - list [ref=e154]:
+            - listitem [ref=e155]: Context（上下文）此例外所适用的上下文
+          - paragraph [ref=e156]: 例如，millimetre（毫米）的缩写 mm 通常为小写，但我们不希望任何含有双 m 的单词受到影响，例如 "common" 被转换为 "COmmON"。该单位应跟在数字之后，例如 100mm，因此上下文应设置为 "After number"（数字之后）。对于整个单词都应使用特定大小写的情况（例如专有名词），上下文可设置为 "Entire word"（整个单词）。如果一系列字母、符号甚至单词无论出现在何处都应采用特定大小写，则上下文为 "Anywhere"（任意位置）。请注意，对于任何包含非字母数字字符（如 "." 或 "?"）的表达式，必须选择 "Anywhere"。
+          - list [ref=e157]:
+            - listitem [ref=e158]: 右侧的按钮提供附加功能：
+          - list [ref=e159]:
+            - listitem [ref=e160]: Insert（插入）在列表中插入一条新例外
+          - list [ref=e161]:
+            - listitem [ref=e162]: Delete（删除）从列表中删除所选例外
+          - list [ref=e163]:
+            - listitem [ref=e164]: Import（导入）从文件导入大小写例外
+          - list [ref=e165]:
+            - listitem [ref=e166]: Export（导出）将当前的大小写例外列表导出到文件
+          - paragraph [ref=e167]:
+            - text: 大小写例外文件的扩展名为
+            - emphasis [ref=e168]: .keycase
+            - text: 。
+          - paragraph [ref=e169]: 点击 "Ok"（确定）保存对大小写例外的更改，点击 "Cancel"（取消）则放弃更改。
+        - group [ref=e170]:
+          - generic "▸ 英文原文对照 / View original English" [ref=e171] [cursor=pointer]
+      - generic [ref=e172]:
+        - generic [ref=e173]:
+          - generic [ref=e174]: "03"
+          - heading "使用 CI Tools Annotate 进行属性替换" [level=3] [ref=e175]
+        - link "MyCi 官方原文 ↗" [ref=e177] [cursor=pointer]:
+          - /url: https://cadimage.zendesk.com/hc/en-us/articles/14260201378447-Attribute-Replacement-using-Ci-Tools-Annotate
+        - generic [ref=e178]:
+          - heading "属性替换" [level=2] [ref=e179]
+          - paragraph [ref=e180]: Annotate 工具能够同时更改项目中的多个属性。这对于批量修改那些可能源自 Archicad 之外的 Archicad 文件或图纸尤其有用。
+          - paragraph [ref=e181]:
+            - text: Annotate 工具位于
+            - strong [ref=e182]: CI Tools
+            - text: 下拉菜单中：
+          - paragraph [ref=e183]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e184]
+          - paragraph [ref=e185]:
+            - text: 点击
+            - strong [ref=e186]: Convert
+            - text: （转换）菜单项后，Annotate 工具可替换：
+          - list [ref=e187]:
+            - listitem [ref=e188]: Fills（填充）
+          - list [ref=e189]:
+            - listitem [ref=e190]: Pens（画笔）
+          - list [ref=e191]:
+            - listitem [ref=e192]: Linetypes（线型）
+          - list [ref=e193]:
+            - listitem [ref=e194]: Fonts（字体）
+          - list [ref=e195]:
+            - listitem [ref=e196]: Text Case conversion（文本大小写转换）
+          - paragraph [ref=e197]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e198]
+          - paragraph [ref=e199]: 下面我们逐一介绍各个菜单。
+          - paragraph [ref=e200]:
+            - text: 请注意，这三个
+            - strong [ref=e201]: Edit
+            - text: （编辑）按钮都会打开属性替换管理器（Attribute Replacement Manager），在其中可以进行映射；
+            - strong [ref=e202]: Edit
+            - text: 按钮只会默认选中你点击的那一部分。点击
+            - strong [ref=e203]: Replace Linetypes
+            - text: （替换线型）旁的
+            - strong [ref=e204]: Edit
+            - text: 按钮会默认定位到该界面的 Linetypes（线型）选项，但三个选项在同一界面中都可以访问。见下文：
+          - paragraph [ref=e205]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e206]
+          - heading "属性替换管理器" [level=2] [ref=e207]
+          - paragraph [ref=e208]: "**"
+          - paragraph [ref=e209]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e210]
+          - paragraph [ref=e211]: "**"
+          - paragraph [ref=e212]:
+            - strong [ref=e213]: 1 Pen Type（画笔类型）
+          - paragraph [ref=e214]: 选择画笔覆盖映射
+          - paragraph [ref=e215]:
+            - strong [ref=e216]: 2 Fill Type（填充类型）
+          - paragraph [ref=e217]: 选择填充覆盖映射
+          - paragraph [ref=e218]:
+            - strong [ref=e219]: 3 Line Type（线型）
+          - paragraph [ref=e220]: 线型覆盖映射
+          - paragraph [ref=e221]:
+            - strong [ref=e222]: 4 Default value（默认值）
+          - paragraph [ref=e223]: 勾选后，若未添加任何规则，则该画笔类型将应用到所有线条；若已定义部分规则，则应用于所有未定义规则的画笔。
+          - paragraph [ref=e224]:
+            - strong [ref=e225]: 5 Add Rules to list（向列表添加规则）
+          - paragraph [ref=e226]: 可以自动填充属性规则列表，并从以下位置添加画笔、填充与线型：
+          - paragraph [ref=e227]: Selected Items only（仅所选项目） 仅选中的元素
+          - paragraph [ref=e228]: Current Drawing（当前图纸） 当前图纸中的全部元素
+          - paragraph [ref=e229]: Plan (all storeys)（平面图，所有楼层） 所有平面视图中的全部元素
+          - paragraph [ref=e230]: Entire Project（整个项目） 整个项目中的全部元素
+          - paragraph [ref=e231]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e232]
+          - paragraph [ref=e233]: 我们将使用 Current Drawing（当前图纸）。
+          - paragraph [ref=e234]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e235]
+          - paragraph [ref=e236]: 现在已填充出待调整的画笔，列表左侧的每个画笔都可以单独替换为右侧列表中你选择的画笔。
+          - paragraph [ref=e237]: 在此选择中，我们用画笔 2 替换画笔 23，请见下文：
+          - paragraph [ref=e238]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e239]
+          - paragraph [ref=e240]: 通过这种方式，我们可以为每个画笔指定不同的画笔类型。
+          - paragraph [ref=e241]: 在这个对话框中还可以进行以下操作：
+          - paragraph [ref=e242]: 1 手动添加规则
+          - paragraph [ref=e243]: 2 删除规则
+          - paragraph [ref=e244]: 3 导入从另一个项目保存的规则
+          - paragraph [ref=e245]: 4 导出规则，供在另一个项目中使用
+          - paragraph [ref=e246]: 请见下文：
+          - paragraph [ref=e247]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e248]
+          - paragraph [ref=e249]: 同样地，每种填充类型既可以改为默认填充，也可以应用所选的填充替换。
+          - paragraph [ref=e250]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e251]
+          - paragraph [ref=e252]: 线型可以通过将左侧面板映射到右侧来更改：
+          - paragraph [ref=e253]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e254]
+          - paragraph [ref=e255]:
+            - strong [ref=e256]: 重要：
+          - paragraph [ref=e257]:
+            - text: 请注意，替换规则将依据对话框中
+            - strong [ref=e258]: Application to Project
+            - text: （应用于项目）部分的条件，应用于全部填充、线型与画笔；因此必须在此处限定并控制映射的应用范围。请见下文：
+          - paragraph [ref=e259]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e260]
+          - paragraph [ref=e261]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e262]
+        - group [ref=e263]:
+          - generic "▸ 英文原文对照 / View original English" [ref=e264] [cursor=pointer]
+      - generic [ref=e265]:
+        - generic [ref=e266]:
+          - generic [ref=e267]: "04"
+          - heading "使用 CI Tools Annotate 替换字体" [level=3] [ref=e268]
+        - link "MyCi 官方原文 ↗" [ref=e270] [cursor=pointer]:
+          - /url: https://cadimage.zendesk.com/hc/en-us/articles/14260464417679-Replacing-Fonts-using-Ci-Tools-Annotate
+        - generic [ref=e271]:
+          - paragraph [ref=e272]: Archicad 29 中的 Annotate 现在支持替换字体：
+          - paragraph [ref=e273]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e274]
+          - paragraph [ref=e275]:
+            - text: 勾选
+            - strong [ref=e276]: Replace Fonts
+            - text: （替换字体）复选框后，点击
+            - strong [ref=e277]: Edit
+            - text: （编辑）即可启动基于规则的字体替换管理器。
+          - paragraph [ref=e278]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e279]
+          - paragraph [ref=e280]:
+            - strong [ref=e281]: Set Default Font
+            - text: （设置默认字体）会把默认字体应用到所有未分配规则的字体上；请注意，此功能可用于将项目中所有字体统一覆盖为单一字体。
+          - paragraph [ref=e282]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e283]
+          - paragraph [ref=e284]:
+            - text: 勾选
+            - strong [ref=e285]: show only fonts used in the project
+            - text: （仅显示项目中使用的字体）复选框并点击加号后，列表将自动填入项目中的全部字体，供按规则分配。
+          - paragraph [ref=e286]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e287]
+          - paragraph [ref=e288]: 现在我们可以逐个选中每个字体，并选择忽略它，或将其替换为所选字体。这里我们把 Comic Sans 替换为 Calibri。
+          - paragraph [ref=e289]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e290]
+          - paragraph [ref=e291]: 我们在左侧选中 Comic Sans，在右侧选中替换后的字体。
+          - paragraph [ref=e292]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e293]
+          - paragraph [ref=e294]: 可以看到 Arial 字体被忽略了，而 Comic Sans 已变成 Calibri。
+          - paragraph [ref=e295]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e296]
+          - paragraph [ref=e297]:
+            - strong [ref=e298]: 重要
+          - paragraph [ref=e299]: 请特别留意 Application to Project Window（应用于项目窗口），因为它决定了哪些内容会被更改；可以通过它对某些文本进行较高精度的控制。
+          - paragraph [ref=e300]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e301]
+          - paragraph [ref=e302]: 同样可以控制属性转换选项的适用范围。
+          - paragraph [ref=e303]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e304]
+        - group [ref=e305]:
+          - generic "▸ 英文原文对照 / View original English" [ref=e306] [cursor=pointer]
+    - generic [ref=e307]: CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05

@@ -1,0 +1,335 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - link "CI Tools 完全指南 Archicad Plugin Manual" [ref=e5] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=e6]: CI Tools 完全指南
+      - generic [ref=e7]: Archicad Plugin Manual
+    - generic [ref=e8]: Start
+    - link "◈ Overview" [ref=e9] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=e10]: ◈
+      - generic [ref=e11]: Overview
+    - link "☰ All Articles" [ref=e12] [cursor=pointer]:
+      - /url: all.html
+      - generic [ref=e13]: ☰
+      - generic [ref=e14]: All Articles
+    - link "★ Quick Guide" [ref=e15] [cursor=pointer]:
+      - /url: guide.html
+      - generic [ref=e16]: ★
+      - generic [ref=e17]: Quick Guide
+    - generic [ref=e18]: 16 Tools
+    - link "Aa Annotate" [ref=e19] [cursor=pointer]:
+      - /url: annotate.html
+      - generic [ref=e20]: Aa
+      - generic [ref=e21]: Annotate
+    - link "⇄ Transformer" [ref=e22] [cursor=pointer]:
+      - /url: transformer.html
+      - generic [ref=e23]: ⇄
+      - generic [ref=e24]: Transformer
+    - link "◷ Time Tracker" [ref=e25] [cursor=pointer]:
+      - /url: timetracker.html
+      - generic [ref=e26]: ◷
+      - generic [ref=e27]: Time Tracker
+    - link "▤ Detail Elements" [ref=e28] [cursor=pointer]:
+      - /url: detail.html
+      - generic [ref=e29]: ▤
+      - generic [ref=e30]: Detail Elements
+    - link "❝ Keynotes" [ref=e31] [cursor=pointer]:
+      - /url: keynotes.html
+      - generic [ref=e32]: ❝
+      - generic [ref=e33]: Keynotes
+    - link "◈ MetaData" [ref=e34] [cursor=pointer]:
+      - /url: metadata.html
+      - generic [ref=e35]: ◈
+      - generic [ref=e36]: MetaData
+    - link "∑ Quantities" [ref=e37] [cursor=pointer]:
+      - /url: quantities.html
+      - generic [ref=e38]: ∑
+      - generic [ref=e39]: Quantities
+    - link "▦ Cabinets" [ref=e40] [cursor=pointer]:
+      - /url: cabinets.html
+      - generic [ref=e41]: ▦
+      - generic [ref=e42]: Cabinets
+    - link "⌸ Doors+Windows" [ref=e43] [cursor=pointer]:
+      - /url: doors.html
+      - generic [ref=e44]: ⌸
+      - generic [ref=e45]: Doors+Windows
+    - link "▨ Coverings" [ref=e46] [cursor=pointer]:
+      - /url: coverings.html
+      - generic [ref=e47]: ▨
+      - generic [ref=e48]: Coverings
+    - link "⚡ Electrical" [ref=e49] [cursor=pointer]:
+      - /url: electrical.html
+      - generic [ref=e50]: ⚡
+      - generic [ref=e51]: Electrical
+    - link "⇱ Stairs" [ref=e52] [cursor=pointer]:
+      - /url: stairs.html
+      - generic [ref=e53]: ⇱
+      - generic [ref=e54]: Stairs
+    - link "⌗ Structural" [ref=e55] [cursor=pointer]:
+      - /url: structural.html
+      - generic [ref=e56]: ⌗
+      - generic [ref=e57]: Structural
+    - link "⛿ Sites" [ref=e58] [cursor=pointer]:
+      - /url: sites.html
+      - generic [ref=e59]: ⛿
+      - generic [ref=e60]: Sites
+    - link "⌸ Fitout" [ref=e61] [cursor=pointer]:
+      - /url: fitout.html
+      - generic [ref=e62]: ⌸
+      - generic [ref=e63]: Fitout
+    - generic [ref=e64]: About
+    - link "ⓘ Sources" [ref=e65] [cursor=pointer]:
+      - /url: about.html
+      - generic [ref=e66]: ⓘ
+      - generic [ref=e67]: Sources
+  - group "Language" [ref=e68]:
+    - button "中文" [ref=e69] [cursor=pointer]
+    - button "EN" [pressed] [ref=e70] [cursor=pointer]
+  - main [ref=e71]:
+    - generic [ref=e72]:
+      - link "总览" [ref=e73] [cursor=pointer]:
+        - /url: index.html
+      - text: / Annotate · 文字格式
+    - generic [ref=e74]:
+      - generic [ref=e75]: 工具分册
+      - heading "Annotate · 文字格式" [level=1] [ref=e76]
+      - paragraph [ref=e77]: 全项目文字大小写、字体批量统一
+      - generic [ref=e78]:
+        - generic [ref=e79]: 4 篇教程
+        - generic [ref=e80]: 0.8 万字
+        - generic [ref=e81]: 23 张图
+    - article [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - generic [ref=e85]: "01"
+          - heading "1.1 Convert Text Case" [level=3] [ref=e86]
+        - link "MyCi 官方原文 ↗" [ref=e88] [cursor=pointer]:
+          - /url: https://cadimage.zendesk.com/hc/en-us/articles/360001692315-1-1-Convert-Text-Case
+        - generic [ref=e89]:
+          - paragraph [ref=e90]:
+            - text: Annotate’s case conversion tool can change the text content of most project elements, optionally including settings like (string) properties and parameters. To convert the case of just a selection of items, pick them first. To start the conversion tool, click the menu item
+            - emphasis [ref=e91]: CI Tools > Annotate > Convert Case…
+          - paragraph [ref=e92]:
+            - img "1.1 Convert Text Case 示意图" [ref=e93]
+          - paragraph [ref=e94]:
+            - text: The
+            - emphasis [ref=e95]: Case Conversion Options
+            - text: "dialog appears first. Pick from the following:"
+          - list [ref=e96]:
+            - listitem [ref=e97]: "Case Specify the required text case and whether any exceptions should be observed. Options include:"
+          - list [ref=e98]:
+            - listitem [ref=e99]: Sentence case
+          - list [ref=e100]:
+            - listitem [ref=e101]: UPPER CASE
+          - list [ref=e102]:
+            - listitem [ref=e103]: lower case
+          - list [ref=e104]:
+            - listitem [ref=e105]: Title Case
+          - paragraph [ref=e106]:
+            - text: Select
+            - emphasis [ref=e107]: Observe case exceptions
+            - text: if some words or abbreviations should have a fixed case. An
+            - emphasis [ref=e108]: Edit
+            - text: button will appear for reviewing the exceptions (see section 1.2 for more details).
+          - list [ref=e109]:
+            - listitem [ref=e110]: "Scope Specify the scope of the text conversion, including:"
+          - paragraph [ref=e111]: Selected items only . Disabled if nothing is selected in the active drawing view.
+          - list [ref=e112]:
+            - listitem [ref=e113]: Text in the current drawing . Only the active drawing view will be affected. If the floor plan is active, only the current storey will be targeted.
+          - list [ref=e114]:
+            - listitem [ref=e115]: Text in floor plan (all storeys) . All stories in the floor plan will be targeted.
+          - list [ref=e116]:
+            - listitem [ref=e117]: Text in all drawings. All drawings, including sections, worksheets etc will be targeted.
+          - paragraph [ref=e118]:
+            - text: Select
+            - emphasis [ref=e119]: String properties
+            - text: to convert any string property values. Note that this will not affect text picked from a menu of pre-determined choices – if you want to change that, use the Property Manager.
+          - paragraph [ref=e120]:
+            - text: Select
+            - emphasis [ref=e121]: String parameters
+            - text: to convert parameter text. Locked or hidden parameters will not be affected (on the basis that they are probably not intended to be changed). If the option setting
+            - emphasis [ref=e122]: If displayed
+            - text: is selected, only string parameter values exactly matching text currently displayed by the object in 2D will be converted. This is a much safer option if the object holds other visible, unlocked text that shouldn’t be changed.
+          - list [ref=e123]:
+            - listitem [ref=e124]: "Ignore Select any items or layers that shouldn’t be converted, including:"
+          - paragraph [ref=e125]: Hidden items , e.g. everything on hidden layers;
+          - list [ref=e126]:
+            - listitem [ref=e127]: Locked items , i.e. where the element has been explicitly locked;
+          - list [ref=e128]:
+            - listitem [ref=e129]: Locked layers , e.g. everything on locked layers.
+          - paragraph [ref=e130]:
+            - text: Click
+            - emphasis [ref=e131]: Ok
+            - text: to begin the conversion process.
+        - group [ref=e132]:
+          - generic "▸ 英文原文对照 / View original English" [ref=e133] [cursor=pointer]
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - generic [ref=e136]: "02"
+          - heading "1.2 Manage Case Exceptions" [level=3] [ref=e137]
+        - link "MyCi 官方原文 ↗" [ref=e139] [cursor=pointer]:
+          - /url: https://cadimage.zendesk.com/hc/en-us/articles/360001694896-1-2-Manage-Case-Exceptions
+        - generic [ref=e140]:
+          - paragraph [ref=e141]:
+            - text: The
+            - emphasis [ref=e142]: Case Exception Manager
+            - text: collects words or abbreviations that should have a fixed case irrespective of the standard for the general text. The manager can be viewed by clicking the
+            - emphasis [ref=e143]: Edit
+            - text: button from the
+            - emphasis [ref=e144]: Case Conversion Options
+            - text: dialog, or by clicking the menu
+            - emphasis [ref=e145]: CI Tools > Annotate > Manage Case Exceptions…
+          - paragraph [ref=e146]:
+            - img "1.2 Manage Case Exceptions 示意图" [ref=e147]
+          - paragraph [ref=e148]: "The list of exceptions is project-specific, but can be exported for import into other projects. The manager dialog features include:"
+          - list [ref=e149]:
+            - listitem [ref=e150]: The exception list
+          - paragraph [ref=e151]: "The list is divided into 2 columns, both of which can be edited directly in the list:"
+          - list [ref=e152]:
+            - listitem [ref=e153]: Text The literal text, i.e. with the case as it should appear in the document.
+          - list [ref=e154]:
+            - listitem [ref=e155]: Context The context in which this exception is relevant
+          - paragraph [ref=e156]: For example, the abbreviation of millimetre to mm is usually lower case, but we don’t want to see any word containing double-m to be affected, e.g. “common” converted to “COmmON”. The unit would be expected to follow a number, e.g. 100mm, so the context should be set to “After number”. An entire word that should have a specific case, e.g. a proper noun, could have the context as “Entire word”. If a series of letters, symbols or even words should have have a specific case no matter where they occur, the context will be “Anywhere”. Note that “Anywhere” must be selected for any expression that contains non-alphanumeric characters such as “.” or “?”.
+          - list [ref=e157]:
+            - listitem [ref=e158]: "The buttons to the right provide additional functionality:"
+          - list [ref=e159]:
+            - listitem [ref=e160]: Insert Insert a new exception in the list
+          - list [ref=e161]:
+            - listitem [ref=e162]: Delete Delete the selected exception(s) from the list
+          - list [ref=e163]:
+            - listitem [ref=e164]: Import Import case exceptions from a file
+          - list [ref=e165]:
+            - listitem [ref=e166]: Export Export the current list of case exceptions to a file
+          - paragraph [ref=e167]:
+            - text: Case exception files have the
+            - emphasis [ref=e168]: .keycase
+            - text: extension.
+          - paragraph [ref=e169]: Changes to the case exceptions are saved on clicking “Ok” or discarded with “Cancel”.
+        - group [ref=e170]:
+          - generic "▸ 英文原文对照 / View original English" [ref=e171] [cursor=pointer]
+      - generic [ref=e172]:
+        - generic [ref=e173]:
+          - generic [ref=e174]: "03"
+          - heading "Attribute Replacement using Ci Tools Annotate" [level=3] [ref=e175]
+        - link "MyCi 官方原文 ↗" [ref=e177] [cursor=pointer]:
+          - /url: https://cadimage.zendesk.com/hc/en-us/articles/14260201378447-Attribute-Replacement-using-Ci-Tools-Annotate
+        - generic [ref=e178]:
+          - heading "Attribute Replacement" [level=2] [ref=e179]
+          - paragraph [ref=e180]: The Annotate tool has the ability to change several attributes in a project simultaneously. This is especially helpful in making bulk changes to Archicad files or drawings that may have originated outside of Archicad.
+          - paragraph [ref=e181]: "The Annotate Tool is accessed under the CI Tools dropdown:"
+          - paragraph [ref=e182]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e183]
+          - paragraph [ref=e184]: "By Clicking on the Convert Menu item, the Annotate Tool allows for the replacement of:"
+          - list [ref=e185]:
+            - listitem [ref=e186]: Fills
+          - list [ref=e187]:
+            - listitem [ref=e188]: Pens
+          - list [ref=e189]:
+            - listitem [ref=e190]: Linetypes
+          - list [ref=e191]:
+            - listitem [ref=e192]: Fonts
+          - list [ref=e193]:
+            - listitem [ref=e194]: Text Case conversion
+          - paragraph [ref=e195]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e196]
+          - paragraph [ref=e197]: Let us look at the separate menu’s individually.
+          - paragraph [ref=e198]: "Please note that any of these three ‘Edit’ buttons bring up the Attribute Replacement Manager, where mapping can take place, the ‘Edit’ button only selects the part that you have clicked on by default. Clicking on the ‘Edit’ button next to Replace Linetypes defaults to the Linetypes part of that Interface, but all three are accessible in that one interface. See below:"
+          - paragraph [ref=e199]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e200]
+          - heading "Attribute Replacement Manager" [level=2] [ref=e201]
+          - paragraph [ref=e202]: "**"
+          - paragraph [ref=e203]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e204]
+          - paragraph [ref=e205]: "**"
+          - paragraph [ref=e206]:
+            - strong [ref=e207]: 1 Pen Type
+          - paragraph [ref=e208]: Choice of Pen override mapping
+          - paragraph [ref=e209]:
+            - strong [ref=e210]: 2 Fill Type
+          - paragraph [ref=e211]: Choice of Fill override mapping
+          - paragraph [ref=e212]:
+            - strong [ref=e213]: 3 Line Type
+          - paragraph [ref=e214]: Linetype override mapping
+          - paragraph [ref=e215]:
+            - strong [ref=e216]: 4 Default value
+          - paragraph [ref=e217]: When checked this pen type is applied to all lines, if no rules are added, or applied to all Pens that do not have a Rule defined.
+          - paragraph [ref=e218]:
+            - strong [ref=e219]: 5 Add Rules to list
+          - paragraph [ref=e220]: "One can automatically populate the Attributes rules list and add the Pens, Fills and Linetypes from:"
+          - paragraph [ref=e221]: Selected Items only Only the selected elements
+          - paragraph [ref=e222]: Current Drawing All elements in the Current Drawing
+          - paragraph [ref=e223]: Plan (all storeys) All elements in all Plan views
+          - paragraph [ref=e224]: Entire Project All elements in the Entire Project
+          - paragraph [ref=e225]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e226]
+          - paragraph [ref=e227]: We will use Current Drawing.
+          - paragraph [ref=e228]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e229]
+          - paragraph [ref=e230]: The Pens used is now populated for adjustment, each pen in the list to the left can now be individually substituted with a pen of your choice in the list to the right.
+          - paragraph [ref=e231]: "In this choice we substitute Pen 2 for Pen 23, please see below:"
+          - paragraph [ref=e232]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e233]
+          - paragraph [ref=e234]: In this way we can assign each Pen to a different Pen type.
+          - paragraph [ref=e235]: "We can also do the following in this dialogue:"
+          - paragraph [ref=e236]: 1 Add Rule manually
+          - paragraph [ref=e237]: 2 Delete Rules
+          - paragraph [ref=e238]: 3 Import Rules that have been saved from another Project
+          - paragraph [ref=e239]: 4 Export Rules for use in another Project
+          - paragraph [ref=e240]: "Please see below:"
+          - paragraph [ref=e241]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e242]
+          - paragraph [ref=e243]: In the same way each of the Fill Types can be either changed to a Default Fill, or selected Fill replacements can be applied.
+          - paragraph [ref=e244]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e245]
+          - paragraph [ref=e246]: "The Linetype can be changed by mapping the Left pane onto the Right:"
+          - paragraph [ref=e247]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e248]
+          - paragraph [ref=e249]:
+            - strong [ref=e250]: "Important:"
+          - paragraph [ref=e251]: "Please note that the replacement rules will apply to all Fills, Linetypes and Pens based on criteria in the ‘Application to Project’ part of the Dialogue, it is important to limit and control the desired application of your mapping in this selection. Please see below:"
+          - paragraph [ref=e252]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e253]
+          - paragraph [ref=e254]:
+            - img "Attribute Replacement using Ci Tools Annotate 示意图" [ref=e255]
+        - group [ref=e256]:
+          - generic "▸ 英文原文对照 / View original English" [ref=e257] [cursor=pointer]
+      - generic [ref=e258]:
+        - generic [ref=e259]:
+          - generic [ref=e260]: "04"
+          - heading "Replacing Fonts using Ci Tools Annotate" [level=3] [ref=e261]
+        - link "MyCi 官方原文 ↗" [ref=e263] [cursor=pointer]:
+          - /url: https://cadimage.zendesk.com/hc/en-us/articles/14260464417679-Replacing-Fonts-using-Ci-Tools-Annotate
+        - generic [ref=e264]:
+          - paragraph [ref=e265]: "The Annotate in Archicad 29 now allows for the replacement of Fonts:"
+          - paragraph [ref=e266]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e267]
+          - paragraph [ref=e268]: By activating the Replace Fonts check box, we are able to initiate a rule based Font Replacement Manager by clicking on Edit.
+          - paragraph [ref=e269]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e270]
+          - paragraph [ref=e271]: The Set Default Font will apply a Default Font to any Font that has no rule assigned, note this can be used to override all fonts to single font in the project.
+          - paragraph [ref=e272]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e273]
+          - paragraph [ref=e274]: By selecting the check box show only fonts used in the project, and clicking on the plus sign the list will populate with all fonts in the project for rule based assignment.
+          - paragraph [ref=e275]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e276]
+          - paragraph [ref=e277]: We will now b able to select each font and choose either to Ignore it, or replace it with a Font of our choice, we will change the Comic Sans to Calibri.
+          - paragraph [ref=e278]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e279]
+          - paragraph [ref=e280]: We Select the Comic Sans on the left and the replacement on the right.
+          - paragraph [ref=e281]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e282]
+          - paragraph [ref=e283]: As we can see the Arial font was ignored, and the Comic Sans has changed to Calibri.
+          - paragraph [ref=e284]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e285]
+          - paragraph [ref=e286]:
+            - strong [ref=e287]: IMPORTANT
+          - paragraph [ref=e288]: Special attention should be given to the Application to Project Window as this determines what will be changed, one can choose to ignore certain text with high level control.
+          - paragraph [ref=e289]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e290]
+          - paragraph [ref=e291]: It is also possible to exercise control over where any of the Attribute Conversion Options are applied.
+          - paragraph [ref=e292]:
+            - img "Replacing Fonts using Ci Tools Annotate 示意图" [ref=e293]
+        - group [ref=e294]:
+          - generic "▸ 英文原文对照 / View original English" [ref=e295] [cursor=pointer]
+    - generic [ref=e296]: CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05

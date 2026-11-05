@@ -180,3 +180,64 @@ tar czf - -C resources AC_Tutorial/ci_tools/site | \
 截图裁剪自 `site/img/206662343_0.jpg`（CI Tools 完整菜单树），取原图上 74% 保留菜单主体。
 
 实测 150×150 缩略图下「CI Tools 完全指南」清晰可辨。
+
+---
+
+## 2026-11-05 11:40 — 升级：全站中英双语，一键切换
+
+| 项 | 内容 |
+|---|---|
+| 模块 | `docs/full/build_site.py`、`docs/full/zh_translations.json`、站点全部 18 个页面 |
+| 变更简述 | 357 篇官方教程全部译为中文，全站支持中文/EN 一键切换，默认中文 |
+| 备注 | 已部署上线并浏览器实测通过 |
+
+### 翻译规模
+
+| 项 | 数值 |
+|---|---|
+| 翻译篇数 | **357 / 357**（全部） |
+| 英文原文 | 422,951 字符 |
+| 中文译文 | 约 186,000 字符（压缩率约 44%，符合中英密度差） |
+| 图片占位符校验 | 逐篇数量与顺序比对，**不匹配 0** |
+
+**双语呈现方式**（按堂主要求「主线中文 + 原文可对照」）：
+- 中文模式：显示完整中文译文
+- 每篇文章下方有 **「英文原文对照 / Official English Original」** 折叠区，展开即见官方原文原图
+- 英文模式：界面、导航、标题、正文全部切英文
+
+### 切换机制
+
+- 右上角固定 **中文 / EN** 切换按钮
+- 默认中文；选择记忆在 `localStorage`（键 `citools-lang`）
+- 支持 URL 参数 `?lang=en` / `?lang=zh`，可直接分享特定语言版本
+- CSS 用 `html[data-lang]` 属性驱动 `.zh-only` / `.en-only` 两套内容
+
+### 双语覆盖范围
+
+- 侧栏导航（16 工具名 + 分组标题 + 品牌区）
+- 页面标题、面包屑、Hero 区、统计数字
+- 文章标题与正文（357 篇）
+- 首页工具卡片描述、全量目录条目名
+- 三步启动说明、页脚
+
+### 修复的三个技术问题
+
+1. **CSS 缺右花括号** —— 批量正则修复时误伤 `html[data-lang="en"] .nav-h.en-only{display:block`，导致后续所有规则被吞，双语切换完全失效（浏览器显示 `zh=block en=block`）。加了 CSS 括号平衡校验定位。
+2. **f-string 嵌套字典字面量** —— `{_ZH.get(x["id"], {}).get(...)}` 在 f-string 中 `{}` 需转义为 `{{}}`，且右括号易错。改用辅助函数 `zh_title_of(aid, fallback)` 规避。
+3. **display 优先级** —— `.zh-only.block { display:block }` 特异性高于 `html[data-lang="en"] .zh-only { display:none }`。改用 `html:not([data-lang="en"])` 双向规则 + `!important` 兜底。
+
+### 验证
+
+| 项目 | 结果 |
+|---|---|
+| 翻译完整度 | 357 / 357，缺失 0 |
+| 图片占位符 | 不匹配 0 |
+| CSS 括号平衡 | 通过（18 页全部） |
+| 双语块统计 | zh-only 2738｜en-only 2693｜原文对照 465 |
+| 浏览器实测 | 中文模式 `zh=block en=none`；英文模式 `zh=none en=block` |
+| 线上验证 | 线上 `?lang=en` 切换正常，页面 200 |
+
+### 新增文件
+
+- `docs/full/zh_translations.json` —— 357 篇中文译文（主数据）
+- `docs/full/zh_batch1~6.json` —— 各批次原始产出（可追溯）

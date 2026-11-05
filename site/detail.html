@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -62,6 +62,9 @@ figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
 .brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
 .nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
   color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
 .sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
   border-left:2px solid transparent;transition:background .18s,color .18s}
 .sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
@@ -118,6 +121,44 @@ article{padding-bottom:40px}
 .toc-list a:hover{color:var(--accent)}
 .toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
 .foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
 .missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
   background:var(--paper);color:var(--muted);font-size:12.5px}
 .menubtn{display:none}
@@ -140,50 +181,129 @@ article{padding-bottom:40px}
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t">CI Tools 完全指南</div><div class="brand-s">Archicad Plugin Manual</div></a></div>
-<div class="nav-h">开始</div>
-<a href="index.html"><span class="ic">◈</span>总览与快速开始</a>
-<a href="all.html"><span class="ic">☰</span>全量文章索引</a>
-<a href="guide.html"><span class="ic">★</span>中文主线速查</a>
-<div class="nav-h">16 个工具</div>
-<a class="" href="annotate.html"><span class="ic">Aa</span>Annotate · 文字格式</a>
-<a class="" href="transformer.html"><span class="ic">⇄</span>Transformer · 项目镜像</a>
-<a class="" href="timetracker.html"><span class="ic">◷</span>Time Tracker · 工时统计</a>
-<a class=" on" href="detail.html"><span class="ic">▤</span>Detail Elements · 二维详图</a>
-<a class="" href="keynotes.html"><span class="ic">❝</span>Keynotes · 规范注释</a>
-<a class="" href="metadata.html"><span class="ic">◈</span>MetaData · 属性管理</a>
-<a class="" href="quantities.html"><span class="ic">∑</span>Quantities · 工程量算量</a>
-<a class="" href="cabinets.html"><span class="ic">▦</span>Cabinets · 橱柜木作</a>
-<a class="" href="doors.html"><span class="ic">⌸</span>Doors+Windows · 门窗</a>
-<a class="" href="coverings.html"><span class="ic">▨</span>Coverings · 覆面层</a>
-<a class="" href="electrical.html"><span class="ic">⚡</span>Electrical · 电气</a>
-<a class="" href="stairs.html"><span class="ic">⇱</span>Stairs · 楼梯</a>
-<a class="" href="structural.html"><span class="ic">⌗</span>Structural · 结构构件</a>
-<a class="" href="sites.html"><span class="ic">⛿</span>Sites · 场地景观</a>
-<a class="" href="fitout.html"><span class="ic">⌸</span>Fitout · 室内布置</a>
-<div class="nav-h">关于</div>
-<a href="about.html"><span class="ic">ⓘ</span>来源与说明</a>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<div class="nav-h zh-only block">16 个工具</div><div class="nav-h en-only block">16 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class=" on" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
 </aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
 <main class="main">
 
 
-<div class="crumb"><a href="index.html">总览</a> / Detail Elements · 二维详图</div>
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></div>
 <div class="hero">
-  <span class="kicker">工具分册</span>
-  <h1>Detail Elements · 二维详图</h1>
-  <p>拖拽式参数化详图构件库</p>
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>Detail Elements · <span class="zh-only">二维详图</span></h1>
+  <p class="zh-only">拖拽式参数化详图构件库</p>
+  <p class="en-only">Drag-and-drop parametric 2D detail component library</p>
   <div class="meta">
-    <span><b>5</b> 篇教程</span>
-    <span><b>0.5</b> 万字</span>
-    <span><b>19</b> 张图</span>
+    <span><b>5</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>0.5</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>19</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
   </div>
 </div>
 <article>
 
 <div class="art" id="a-115002744746">
-  <div class="art-h"><span class="no">01</span><h3>Add Nails to a Detail Drawing</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/115002744746-Add-Nails-to-a-Detail-Drawing" target="_blank" rel="noopener">MyCi 知识库 · Add Nails to a Detail Drawing</a></div>
-  <p>In this example, a detail has been drawn and to finish it we just need to show the location of nails around the timber battens and box corner.</p>
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">在详图中添加钉子</h3>
+    <h3 class="en-only block">Add Nails to a Detail Drawing</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/115002744746-Add-Nails-to-a-Detail-Drawing" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在本示例中，详图已经绘制完成，要收尾只需显示木龙骨和箱形转角周围钉子的位置。</p>
+<ul>
+<li>在 ARCHICAD 工具箱中双击 <strong>Detail Element</strong>（详图构件）工具。</li>
+</ul>
+<ul>
+<li>打开 <strong>08 Fastenings</strong>（紧固件）文件夹。</li>
+</ul>
+<p><img src="img/115002744746_0.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p>
+<ul>
+<li>选择 <strong>Cadimage Nail</strong>（Cadimage 钉子）详图构件。</li>
+</ul>
+<ul>
+<li>在 <strong>Configuration</strong>（配置）页面中选择 <strong>Jolt Head Nail</strong>（钉头钉）类型。</li>
+</ul>
+<p><img src="img/115002744746_1.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p>
+<ul>
+<li>设置钉子的尺寸。</li>
+</ul>
+<ul>
+<li>点击 <strong>OK</strong>（确定）按钮。</li>
+</ul>
+<ul>
+<li>选择 <strong>Rotated</strong>（旋转）几何方式。</li>
+</ul>
+<p><img src="img/115002744746_2.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p>
+<ul>
+<li>将钉子构件放置到图纸上，放置时旋转至正确的对齐角度。</li>
+</ul>
+<p><img src="img/115002744746_3.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p>
+<ul>
+<li>将其余钉子放置到图纸上。</li>
+</ul>
+<p><img src="img/115002744746_4.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>In this example, a detail has been drawn and to finish it we just need to show the location of nails around the timber battens and box corner.</p>
+<ul>
+<li>Double-click on the <strong>Detail Element</strong> tool in the ARCHICAD toolbox.</li>
+</ul>
+<ul>
+<li>Open the <strong>08 Fastenings</strong> folder.</li>
+</ul>
+<p><img src="img/115002744746_0.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p>
+<ul>
+<li>Select the <strong>Cadimage Nail</strong> detail element.</li>
+</ul>
+<ul>
+<li>On the <strong>Configuration</strong> page, choose the <strong>Jolt Head Nail</strong> type.</li>
+</ul>
+<p><img src="img/115002744746_1.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p>
+<ul>
+<li>Set the nail dimensions.</li>
+</ul>
+<ul>
+<li>Click the <strong>OK</strong> button.</li>
+</ul>
+<ul>
+<li>Choose the <strong>Rotated</strong> Geometry Method.</li>
+</ul>
+<p><img src="img/115002744746_2.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p>
+<ul>
+<li>Place the nail element onto the drawing, rotating it into the correct alignment as you place it.</li>
+</ul>
+<p><img src="img/115002744746_3.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p>
+<ul>
+<li>Place the remaining nails onto the drawing.</li>
+</ul>
+<p><img src="img/115002744746_4.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this example, a detail has been drawn and to finish it we just need to show the location of nails around the timber battens and box corner.</p>
 <ul>
 <li>Double-click on the <strong>Detail Element</strong> tool in the ARCHICAD toolbox.</li>
 </ul>
@@ -216,11 +336,60 @@ article{padding-bottom:40px}
 <li>Place the remaining nails onto the drawing.</li>
 </ul>
 <p><img src="img/115002744746_4.jpg" alt="Add Nails to a Detail Drawing 示意图" loading="lazy"></p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-115002645843">
-  <div class="art-h"><span class="no">02</span><h3>Add a Corner Break Line</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/115002645843-Add-a-Corner-Break-Line" target="_blank" rel="noopener">MyCi 知识库 · Add a Corner Break Line</a></div>
-  <p>To add an L-shaped break symbol to a detail drawing:</p>
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">添加转角折断线</h3>
+    <h3 class="en-only block">Add a Corner Break Line</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/115002645843-Add-a-Corner-Break-Line" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>要在详图中添加 L 形折断符号：</p>
+<ul>
+<li>从 <strong>10 Symbols</strong>（符号）文件夹中选择 <strong>Cadimage Break Line Symbol</strong>（Cadimage 折断线符号）</li>
+</ul>
+<p><img src="img/115002645843_0.jpg" alt="Add a Corner Break Line 示意图" loading="lazy"></p>
+<ul>
+<li>选择 <strong>External Corner Break</strong>（外转角折断）。</li>
+</ul>
+<p><img src="img/115002645843_1.jpg" alt="Add a Corner Break Line 示意图" loading="lazy"></p>
+<ul>
+<li>使用 <strong>Info Box</strong>（信息框）中的 <strong>Diagonal</strong>（对角线）几何方式，将折断符号沿图纸拉伸。</li>
+</ul>
+<p><img src="img/115002645843_2.jpg" alt="Add a Corner Break Line 示意图" loading="lazy"></p>
+<ul>
+<li>将折断线符号置于图纸构件之前（但位于标注构件之后）。</li>
+</ul>
+<p><img src="img/115002645843_3.jpg" alt="Add a Corner Break Line 示意图" loading="lazy"></p>
+<ul>
+<li>调整遮罩填充的范围。</li>
+</ul></div>
+  <div class="en-only"><p>To add an L-shaped break symbol to a detail drawing:</p>
+<ul>
+<li>Select <strong>Cadimage Break Line Symbol</strong> from the <strong>10 Symbols</strong> folder</li>
+</ul>
+<p><img src="img/115002645843_0.jpg" alt="Add a Corner Break Line 示意图" loading="lazy"></p>
+<ul>
+<li>Select an <strong>External Corner Break</strong>.</li>
+</ul>
+<p><img src="img/115002645843_1.jpg" alt="Add a Corner Break Line 示意图" loading="lazy"></p>
+<ul>
+<li>Using the <strong>Diagonal</strong> geometry method from the <strong>Info Box</strong>, stretch the break symbol over the drawing.</li>
+</ul>
+<p><img src="img/115002645843_2.jpg" alt="Add a Corner Break Line 示意图" loading="lazy"></p>
+<ul>
+<li>Bring the break line symbol in front of drawing elements (but behind label elements).</li>
+</ul>
+<p><img src="img/115002645843_3.jpg" alt="Add a Corner Break Line 示意图" loading="lazy"></p>
+<ul>
+<li>Adjust the extent of the masking fill.</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>To add an L-shaped break symbol to a detail drawing:</p>
 <ul>
 <li>Select <strong>Cadimage Break Line Symbol</strong> from the <strong>10 Symbols</strong> folder</li>
 </ul>
@@ -240,11 +409,60 @@ article{padding-bottom:40px}
 <ul>
 <li>Adjust the extent of the masking fill.</li>
 </ul>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-115002672786">
-  <div class="art-h"><span class="no">03</span><h3>How to Manually add the Detail Element tool to the Toolbox</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/115002672786-How-to-Manually-add-the-Detail-Element-tool-to-the-Toolbox" target="_blank" rel="noopener">MyCi 知识库 · How to Manually add the Detail Element tool to the Toolbox</a></div>
-  <p>The <strong>Cadimage Detail Elements</strong> tool is a separate tool in the ARCHICAD toolbox.</p>
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">如何手动将 Detail Element 工具添加到工具箱</h3>
+    <h3 class="en-only block">How to Manually add the Detail Element tool to the Toolbox</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/115002672786-How-to-Manually-add-the-Detail-Element-tool-to-the-Toolbox" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p><strong>Cadimage Detail Elements</strong> 工具是 ARCHICAD 工具箱中的一个独立工具。</p>
+<p>如果你已正确安装该工具，但在工具箱中看不到 <strong>Detail Element</strong>（详图构件）工具，可以应用 Cadimage 工作环境（Work Environment），也可以在当前工作环境中手动将该工具添加到工具箱。</p>
+<p>手动将 <strong>Detail Element</strong> 工具添加到工具箱：</p>
+<ul>
+<li>在工具箱上<strong>右键单击</strong>，选择 <strong>Toolbox...</strong>（工具箱...）</li>
+</ul>
+<p><img src="img/115002672786_0.jpg" alt="How to Manually add the Detail Element tool to the Toolbox 示意图" loading="lazy"></p>
+<ul>
+<li>将 <strong>Detail Element</strong> 工具添加到工具箱。</li>
+</ul>
+<p><img src="img/115002672786_1.jpg" alt="How to Manually add the Detail Element tool to the Toolbox 示意图" loading="lazy"></p>
+<ul>
+<li>选择合适的工具箱分组（例如 Document（文档））。</li>
+</ul>
+<ul>
+<li>在 Available Tools（可用工具）列表中选择 Detail Element 工具。</li>
+</ul>
+<ul>
+<li>点击 <strong>>> Add selected >></strong>（添加所选）按钮将该工具加入列表，然后点击 OK（确定）按钮。</li>
+</ul></div>
+  <div class="en-only"><p>The <strong>Cadimage Detail Elements</strong> tool is a separate tool in the ARCHICAD toolbox.</p>
+<p>If you correctly installed the tool, but you don't see the <strong>Detail Element</strong> tool in the toolbox, you can either apply the Cadimage Work Environment or you can manually add the tool to the toolbox in your current work environment.</p>
+<p>To manually add the <strong>Detail Element</strong> tool to the toolbox:</p>
+<ul>
+<li><strong>Right-click</strong> on the toolbox, and choose <strong>Toolbox...</strong></li>
+</ul>
+<p><img src="img/115002672786_0.jpg" alt="How to Manually add the Detail Element tool to the Toolbox 示意图" loading="lazy"></p>
+<ul>
+<li>Add the <strong>Detail Element</strong> tool to the toolbox.</li>
+</ul>
+<p><img src="img/115002672786_1.jpg" alt="How to Manually add the Detail Element tool to the Toolbox 示意图" loading="lazy"></p>
+<ul>
+<li>Select an appropriate Toolbox Group (e.g. Document ).</li>
+</ul>
+<ul>
+<li>Select the Detail Element tool in the Available Tools list.</li>
+</ul>
+<ul>
+<li>Click the >> Add selected >> button to add the tool to the list, and click the OK button.</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The <strong>Cadimage Detail Elements</strong> tool is a separate tool in the ARCHICAD toolbox.</p>
 <p>If you correctly installed the tool, but you don't see the <strong>Detail Element</strong> tool in the toolbox, you can either apply the Cadimage Work Environment or you can manually add the tool to the toolbox in your current work environment.</p>
 <p>To manually add the <strong>Detail Element</strong> tool to the toolbox:</p>
 <ul>
@@ -264,11 +482,100 @@ article{padding-bottom:40px}
 <ul>
 <li>Click the >> Add selected >> button to add the tool to the list, and click the OK button.</li>
 </ul>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-17875844347023">
-  <div class="art-h"><span class="no">04</span><h3>ProKit Detail Elements – Start here</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/17875844347023-ProKit-Detail-Elements-Start-here" target="_blank" rel="noopener">MyCi 知识库 · ProKit Detail Elements – Start here</a></div>
-  <p>The Detail Elements Tool allows for very quick placement 2D Detail Elements parametric components. This Tool is speeds up the detailing process in Plan Section Elevation or Detail Views.</p>
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">ProKit Detail Elements —— 从这里开始</h3>
+    <h3 class="en-only block">ProKit Detail Elements – Start here</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/17875844347023-ProKit-Detail-Elements-Start-here" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Detail Elements 工具可快速放置 2D Detail Elements 参数化构件。该工具能加快平面图、剖面图、立面图或详图中的详图绘制流程。</p>
+<p>它内置了一个内容丰富且功能强大的参数化 2D 构件库，用于充实详图内容。</p>
+<p>它包含以下分类：</p>
+<p>General Objects（通用构件）</p>
+<p>Floor Objects（楼板构件）</p>
+<p>Wall Objects（墙体构件）</p>
+<p>Roof Objects（屋顶构件）</p>
+<p>Ceiling Objects（顶棚构件）</p>
+<p>Door and Window Objects（门窗构件）</p>
+<p>Interior Trim Objects（室内收边构件）</p>
+<p>Fastening Objects（紧固件构件）</p>
+<p>Reinforcing Objects（加强构件）</p>
+<p>2D Symbols（2D 符号）</p>
+<p>以上内容可通过 ProKit 专用的 Detail Elements 工具访问。</p>
+<p><strong>Libpack 加载（自 ARCHICAD 29 起）</strong></p>
+<p>需要注意的是，ProKit Detail Elements 工具要求将 Detail Elements Libpack 手动加载到项目中。</p>
+<p>与所有库一样，此操作通过库管理器（Library Manager）完成。请注意，所加载的 Libpack 必须在单个文件层级上选中，而不能像早期 ARCHICAD 版本那样在文件夹层级上选中。</p>
+<p>库管理器（Library Manager）通过 File > Library Manager 下拉菜单打开。</p>
+<p><img src="img/17875844347023_0.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>进入库管理器后，我们将使用“Add”按钮添加 Detail Elements Libpack。</p>
+<p><img src="img/17875844347023_1.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>这可以导航到位于 ARCHICAD 安装文件夹中的 ProKit Libpack 文件夹。</p>
+<p><img src="img/17875844347023_2.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>这将加载 Detail Elements Libpack 及相关的宏（Macros）。</p>
+<p>此后 Detail Elements 构件即可在 Detail Elements 工具中使用。</p>
+<p>重要：</p>
+<p>如果 Detail Elements 工具未显示在默认 ARCHICAD 工作环境左侧的工具箱中，可以通过在工具箱上右键单击将其添加。工具箱会弹出一个对话框，用于添加 Coverings Tools。</p>
+<p><img src="img/17875844347023_3.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>这样即可将 Detail Elements 工具添加到工具箱中。</p>
+<p><img src="img/17875844347023_4.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>Detail Elements 工具现在就会显示出来，建议保存工作环境（Work Environment）以免每次都要重新添加，不过 ARCHICAD 通常会保留这些设置。</p>
+<p><img src="img/17875844347023_5.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p><strong>放置 Detail Elements 构件</strong></p>
+<p>在 ARCHICAD 中，Detail Elements 库构件通过 ProKit Detail Elements 工具放置。</p>
+<p>如果 ProKit Detail Elements 工具未显示在工具箱中，可以通过加载 ProKit 工作环境（Work Environment）来添加，或在工具箱设置（Toolbox Settings）中手动添加。</p>
+<p>在工具箱上右键单击，然后导航到 Detail Elements 工具将其添加。</p>
+<p><img src="img/17875844347023_6.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>选中该工具后，即可打开设置面板并放置任意 Detail Elements 构件。</p>
+<p><img src="img/17875844347023_7.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>关于 Detail Elements 工具各项功能的更多信息，请参阅知识库文章。</p></div>
+  <div class="en-only"><p>The Detail Elements Tool allows for very quick placement 2D Detail Elements parametric components. This Tool is speeds up the detailing process in Plan Section Elevation or Detail Views.</p>
+<p>It contains an extensive sophisticated library of parametric 2D Objects used to flesh out the Detail drawings.</p>
+<p>It contains the following Categories:</p>
+<p>General Objects</p>
+<p>Floor Objects</p>
+<p>Wall Objects</p>
+<p>Roof Objects</p>
+<p>Ceiling Objects</p>
+<p>Door and Window Objects</p>
+<p>﻿﻿Interior Trim Objects</p>
+<p>Fastening Objects</p>
+<p>Reinforcing Objects</p>
+<p>2D Symbols</p>
+<p>These are accessible through the ProKit Specific Detail Elements Tool.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Detail Elements Tool requires the Detail Elements Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier ARCHICAD versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17875844347023_0.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Detail Elements Libpack.</p>
+<p><img src="img/17875844347023_1.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17875844347023_2.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>This will load the Detail Elements Libpack and associated Macros.</p>
+<p>The Detail Elements Objects will now be available in the Detail Elements Tool.</p>
+<p>IMPORTANT:</p>
+<p>If the Detail Elements Tool not showing in the toolbox on the left in the default ARCHICAD work environment, they can be added by right clicking on in the Toolbox. The Toolbox will bring up a dialog to add the Coverings Tools.</p>
+<p><img src="img/17875844347023_3.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>This will allow adding the Detail Elements Tool to the Toolbox.</p>
+<p><img src="img/17875844347023_4.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>The Detail Elements Tool will now show up, it is recommended to save the Work Environment to avoid having to add this, although ARCHICAD should retain them.</p>
+<p><img src="img/17875844347023_5.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p><strong>Placing a Detail Elements Object</strong></p>
+<p>The Detail Elements library objects are placed with the Prokit Detail Elements Tool in ARCHCAD.</p>
+<p>If the ProKit Detail Elements tool is not showing in the Toolbox, It can be added through loading the ProKit Work Environment, or adding it manually from the Toolbox Settings.</p>
+<p>Right Click on the Toolbox and Navigate to the Detail Elements tool to add it.</p>
+<p><img src="img/17875844347023_6.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>Once the tool is selected, the settings can be opened and any Detail Elements Object placed.</p>
+<p><img src="img/17875844347023_7.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on the different Detail Elements Tool features please see the Knowledge-base articles.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Detail Elements Tool allows for very quick placement 2D Detail Elements parametric components. This Tool is speeds up the detailing process in Plan Section Elevation or Detail Views.</p>
 <p>It contains an extensive sophisticated library of parametric 2D Objects used to flesh out the Detail drawings.</p>
 <p>It contains the following Categories:</p>
 <p>General Objects</p>
@@ -308,11 +615,48 @@ article{padding-bottom:40px}
 <p>Once the tool is selected, the settings can be opened and any Detail Elements Object placed.</p>
 <p><img src="img/17875844347023_7.jpg" alt="ProKit Detail Elements – Start here 示意图" loading="lazy"></p>
 <p>For more detailed information on the different Detail Elements Tool features please see the Knowledge-base articles.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-8620555913231">
-  <div class="art-h"><span class="no">05</span><h3>Release Notes - Detail Elements</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/8620555913231-Release-Notes-Detail-Elements" target="_blank" rel="noopener">MyCi 知识库 · Release Notes - Detail Elements</a></div>
-  <h1>Release notes - Detail Elements - 8.14</h1>
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">更新日志 —— Detail Elements</h3>
+    <h3 class="en-only block">Release Notes - Detail Elements</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8620555913231-Release-Notes-Detail-Elements" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h1>更新日志 —— Detail Elements —— 8.14</h1>
+<h3>缺陷</h3>
+<p>DET-165 封檐板图形不匹配</p>
+<p>DET-170 Furring Sections 构件中的 48mm Rondo 竖龙骨尺寸有误</p>
+<h3>改进</h3>
+<p>DET-141 封檐板 —— 允许省略企口</p>
+<p>DET-146 CI Tools 桁架椽需要小于 5 度</p>
+<p>DET-151 需求 —— Jack Truss，屋檐宽度可分别调整两侧</p>
+<p>DET-153 恢复 Jack Truss 在 AC25 中与 AC24 相同的能力</p>
+<h3>新功能</h3>
+<p>DET-169 允许将密封胶条显示为压缩状态</p>
+<p>DET-171 墙板剖面 —— 增加粗面（Rusticated）设置</p>
+<h3>任务</h3>
+<p>DET-168 Detail Elements 需要针对 macos ARM 进行构建</p></div>
+  <div class="en-only"><h1>Release notes - Detail Elements - 8.14</h1>
+<h3>Bug</h3>
+<p>DET-165 Fascia Board diagram mismatch</p>
+<p>DET-170 48mm Rondo Furring Channel in the Furring Sections object is the wrong size</p>
+<h3>Improvement</h3>
+<p>DET-141 Fascia Board - allow to omit rebates</p>
+<p>DET-146 Ci Tools Truss Rafter needs less then 5 degrees</p>
+<p>DET-151 WISH - Jack Truss, alter Eaves width separately on each side</p>
+<p>DET-153 Give back the ability for the jack Truss in AC25 what it was in AC24</p>
+<h3>New Feature</h3>
+<p>DET-169 Allow the Sealant Bead to be shown as Compressed</p>
+<p>DET-171 Wall Board Sections - extra setting for Rusticated</p>
+<h3>Task</h3>
+<p>DET-168 Detail Elements needs to be built for macos ARM</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h1>Release notes - Detail Elements - 8.14</h1>
 <h3>Bug</h3>
 <p>DET-165 Fascia Board diagram mismatch</p>
 <p>DET-170 48mm Rondo Furring Channel in the Furring Sections object is the wrong size</p>
@@ -326,11 +670,14 @@ article{padding-bottom:40px}
 <p>DET-171 Wall Board Sections - extra setting for Rusticated</p>
 <h3>Task</h3>
 <p>DET-168 Detail Elements needs to be built for macos ARM</p>
+    </div>
+  </details>
 </div>
 </article>
 
 <footer class="foot">
-CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
 </footer>
 </main>
 </div>
@@ -362,6 +709,30 @@ CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 
       });
     });
   }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
 })();
 </script>
 </body>

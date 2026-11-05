@@ -16,7 +16,9 @@
 
 一套**面向全团队**的 Archicad CI Tools 官方教程全量中文版。
 
-内容来自 Central Innovation / Graphisoft 官方 MyCi 知识库，<b>357 篇官方文档、1193 张界面截图、42.3 万字</b>，按 16 个工具分册整理，配中文主线速查。
+内容来自 Central Innovation / Graphisoft 官方 MyCi 知识库，<b>357 篇官方文档全部译为中文、1193 张界面截图</b>，按 16 个工具分册整理。
+
+**全站中英双语，右上角一键切换，默认中文。** 每篇文章下方可展开「英文原文对照」，随时对照官方原图。
 
 解决的是一个很具体的问题：<b>插件装了，但不知道从哪儿打开，更不知道"为什么打不开"</b>。
 
@@ -161,6 +163,26 @@ python3 tools/localize_images.py docs/CI_Tools_用户手册_图文版.html asset
 1. 从官方知识库取图：`https://cadimage.zendesk.com/hc/en-us`
 2. 压缩后放入 `assets/img/`
 3. 在 `manual_master.md` 里用相对路径引用：`![说明](../assets/img/xxx.jpg)`
+
+### 双语切换
+
+右上角 **中文 / EN** 按钮一键切换，选择记忆在浏览器本地（localStorage 键 `citools-lang`）。
+
+也支持 URL 参数：`?lang=en` / `?lang=zh`，可直接分享特定语言版本，例如
+`https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/quantities.html?lang=en`
+
+**中文模式**显示完整中文译文，每篇文章下方有「英文原文对照」折叠区，展开即见官方英文原文与原图。
+**英文模式**界面、导航、标题、正文全部切英文。
+
+### 重新生成站点
+
+```bash
+cd source/
+python3 clean_html.py ../articles.json ../clean.json      # 官方 HTML → Markdown
+python3 build_site.py .. ../site                         # 生成双语站点
+```
+
+译文改动直接编辑 `zh_translations.json` 后重跑生成器即可。
 
 ### 部署到线上
 

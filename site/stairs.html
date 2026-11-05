@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -62,6 +62,9 @@ figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
 .brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
 .nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
   color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
 .sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
   border-left:2px solid transparent;transition:background .18s,color .18s}
 .sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
@@ -118,6 +121,44 @@ article{padding-bottom:40px}
 .toc-list a:hover{color:var(--accent)}
 .toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
 .foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
 .missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
   background:var(--paper);color:var(--muted);font-size:12.5px}
 .menubtn{display:none}
@@ -140,61 +181,127 @@ article{padding-bottom:40px}
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t">CI Tools 完全指南</div><div class="brand-s">Archicad Plugin Manual</div></a></div>
-<div class="nav-h">开始</div>
-<a href="index.html"><span class="ic">◈</span>总览与快速开始</a>
-<a href="all.html"><span class="ic">☰</span>全量文章索引</a>
-<a href="guide.html"><span class="ic">★</span>中文主线速查</a>
-<div class="nav-h">16 个工具</div>
-<a class="" href="annotate.html"><span class="ic">Aa</span>Annotate · 文字格式</a>
-<a class="" href="transformer.html"><span class="ic">⇄</span>Transformer · 项目镜像</a>
-<a class="" href="timetracker.html"><span class="ic">◷</span>Time Tracker · 工时统计</a>
-<a class="" href="detail.html"><span class="ic">▤</span>Detail Elements · 二维详图</a>
-<a class="" href="keynotes.html"><span class="ic">❝</span>Keynotes · 规范注释</a>
-<a class="" href="metadata.html"><span class="ic">◈</span>MetaData · 属性管理</a>
-<a class="" href="quantities.html"><span class="ic">∑</span>Quantities · 工程量算量</a>
-<a class="" href="cabinets.html"><span class="ic">▦</span>Cabinets · 橱柜木作</a>
-<a class="" href="doors.html"><span class="ic">⌸</span>Doors+Windows · 门窗</a>
-<a class="" href="coverings.html"><span class="ic">▨</span>Coverings · 覆面层</a>
-<a class="" href="electrical.html"><span class="ic">⚡</span>Electrical · 电气</a>
-<a class=" on" href="stairs.html"><span class="ic">⇱</span>Stairs · 楼梯</a>
-<a class="" href="structural.html"><span class="ic">⌗</span>Structural · 结构构件</a>
-<a class="" href="sites.html"><span class="ic">⛿</span>Sites · 场地景观</a>
-<a class="" href="fitout.html"><span class="ic">⌸</span>Fitout · 室内布置</a>
-<div class="nav-h">关于</div>
-<a href="about.html"><span class="ic">ⓘ</span>来源与说明</a>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<div class="nav-h zh-only block">16 个工具</div><div class="nav-h en-only block">16 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class=" on" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
 </aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
 <main class="main">
 
 
-<div class="crumb"><a href="index.html">总览</a> / Stairs · 楼梯</div>
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></div>
 <div class="hero">
-  <span class="kicker">工具分册</span>
-  <h1>Stairs · 楼梯</h1>
-  <p>自由楼梯与栏杆关联</p>
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>Stairs · <span class="zh-only">楼梯</span></h1>
+  <p class="zh-only">自由楼梯与栏杆关联</p>
+  <p class="en-only">Free-form stair design with associative railings</p>
   <div class="meta">
-    <span><b>13</b> 篇教程</span>
-    <span><b>0.8</b> 万字</span>
-    <span><b>30</b> 张图</span>
+    <span><b>13</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>0.8</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>30</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
   </div>
 </div>
 <article>
 
 <div class="art" id="a-206038096">
-  <div class="art-h"><span class="no">01</span><h3>Available Stair Types</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206038096-Available-Stair-Types" target="_blank" rel="noopener">MyCi 知识库 · Available Stair Types</a></div>
-  <p>The Cadimage Stairs Tool lets you choose from three main parametric stair types that can be modified to suit a range of purposes.</p>
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">可用的楼梯类型</h3>
+    <h3 class="en-only block">Available Stair Types</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206038096-Available-Stair-Types" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Cadimage 楼梯工具让你可以从三种主要的参数化楼梯类型中进行选择，并可加以修改以适应各种用途。</p>
+<p>使用楼梯工具时，你可以在楼梯对话框中看到这三种构造类型（<strong>Solid</strong>（实体）、<strong>Floating</strong>（悬浮）和 <strong>Stringer</strong>（梯梁））：</p>
+<p><img src="img/206038096_0.jpg" alt="Available Stair Types 示意图" loading="lazy"></p>
+<p>这三种楼梯类型可创建以下基本楼梯：</p>
+<p><img src="img/206038096_1.jpg" alt="Available Stair Types 示意图" loading="lazy"></p>
+<p>只需稍作调整，还可以实现其他多种楼梯变体：</p>
+<p><img src="img/206038096_2.jpg" alt="Available Stair Types 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>The Cadimage Stairs Tool lets you choose from three main parametric stair types that can be modified to suit a range of purposes.</p>
+<p>When using the Stairs Tool you can see the three construction types (<strong>Solid</strong>, <strong>Floating</strong>and<strong>Stringer</strong>) within the Stairs Dialogue:</p>
+<p><img src="img/206038096_0.jpg" alt="Available Stair Types 示意图" loading="lazy"></p>
+<p>These three stair types create the following basic stairs:</p>
+<p><img src="img/206038096_1.jpg" alt="Available Stair Types 示意图" loading="lazy"></p>
+<p>And with a few tweaks, several other stair variations are possible:</p>
+<p><img src="img/206038096_2.jpg" alt="Available Stair Types 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Cadimage Stairs Tool lets you choose from three main parametric stair types that can be modified to suit a range of purposes.</p>
 <p>When using the Stairs Tool you can see the three construction types (<strong>Solid</strong>, <strong>Floating</strong>and<strong>Stringer</strong>) within the Stairs Dialogue:</p>
 <p><img src="img/206038096_0.jpg" alt="Available Stair Types 示意图" loading="lazy"></p>
 <p>These three stair types create the following basic stairs:</p>
 <p><img src="img/206038096_1.jpg" alt="Available Stair Types 示意图" loading="lazy"></p>
 <p>And with a few tweaks, several other stair variations are possible:</p>
 <p><img src="img/206038096_2.jpg" alt="Available Stair Types 示意图" loading="lazy"></p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-206075106">
-  <div class="art-h"><span class="no">02</span><h3>How to create an L-shaped stair case with landing</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206075106-How-to-create-an-L-shaped-stair-case-with-landing" target="_blank" rel="noopener">MyCi 知识库 · How to create an L-shaped stair case with landing</a></div>
-  <p>The L-shaped stair case shown below can be created in five easy steps:</p>
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">如何创建带休息平台的 L 形楼梯</h3>
+    <h3 class="en-only block">How to create an L-shaped stair case with landing</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206075106-How-to-create-an-L-shaped-stair-case-with-landing" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>下图所示的 L 形楼梯只需五个简单步骤即可创建：</p>
+<p><img src="img/206075106_0.jpg" alt="How to create an L-shaped stair case with landing 示意图" loading="lazy"></p>
+<p>如何制作这个楼梯</p>
+<ul>
+<li>从工具箱中选择 Polystair 图标。</li>
+</ul>
+<p><img src="img/206075106_1.jpg" alt="How to create an L-shaped stair case with landing 示意图" loading="lazy"></p>
+<p>2.<strong>在平面图上单击</strong>以开始绘制楼梯。将鼠标向右移动，在 Tracker（跟踪器）中输入 <strong>Distance = 1800</strong>（距离 = 1800）和 <strong>Angle = 0°</strong>（角度 = 0°）。按回车键确认设置。</p>
+<ul>
+<li>在宠物调色板中，将 Run type（梯段类型）改为 <strong>Landing</strong>（休息平台），然后将鼠标向右移动并输入 <strong>Distance = 1250</strong> 和 <strong>Angle = 0°</strong>。按回车键确认设置。</li>
+<li>将鼠标向下移动，在 Tracker 中输入 <strong>Distance = 1250</strong> 和 <strong>Angle = -90° or 270°</strong>（-90° 或 270°）。按回车键确认设置。</li>
+<li>在宠物调色板中，将 Run type 改为 <strong>Flight</strong>（梯段）。将鼠标向下移动，在 Tracker 中输入 <strong>Distance = 1800</strong> 和 <strong>Angle = -90° or 270°</strong>（-90° 或 270°）。按回车键确认 Tracker 中的设置。</li>
+<li>在最后一个点上单击鼠标，完成几何图形。</li>
+</ul>
+<p><img src="img/206075106_2.jpg" alt="How to create an L-shaped stair case with landing 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>The L-shaped stair case shown below can be created in five easy steps:</p>
+<p><img src="img/206075106_0.jpg" alt="How to create an L-shaped stair case with landing 示意图" loading="lazy"></p>
+<p>How to make this stair</p>
+<ul>
+<li>Select the Polystair icon from the toolbox.</li>
+</ul>
+<p><img src="img/206075106_1.jpg" alt="How to create an L-shaped stair case with landing 示意图" loading="lazy"></p>
+<p>2.<strong>Click on your Plan</strong> to start drawing the stairs. Move the mouse to the right and in the Tracker, enter <strong>Distance = 1800</strong> and <strong>Angle = 0°</strong>. Press enter to confirm the settings.</p>
+<ul>
+<li>In the Pet Palette, change the Run type to <strong>Landing</strong>and move the mouse to the right and enter <strong>Distance = 1250</strong> and <strong>Angle = 0°</strong>. Press enter to confirm the settings.</li>
+<li>Move the mouse down and in the Tracker, enter <strong>Distance = 1250</strong> and <strong>Angle = -90° or 270°</strong>. Press enter to confirm the settings.</li>
+<li>In the Pet Palette, change the Run type to<strong>Flight</strong>. Move the mouse down and enter <strong>Distance = 1800</strong> and <strong>Angle = -90° or 270°</strong> in the Tracker. Press enter to confirm the settings in the Tracker.</li>
+<li>Click the mouse on the last point to complete the geometry.</li>
+</ul>
+<p><img src="img/206075106_2.jpg" alt="How to create an L-shaped stair case with landing 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The L-shaped stair case shown below can be created in five easy steps:</p>
 <p><img src="img/206075106_0.jpg" alt="How to create an L-shaped stair case with landing 示意图" loading="lazy"></p>
 <p>How to make this stair</p>
 <ul>
@@ -209,11 +316,72 @@ article{padding-bottom:40px}
 <li>Click the mouse on the last point to complete the geometry.</li>
 </ul>
 <p><img src="img/206075106_2.jpg" alt="How to create an L-shaped stair case with landing 示意图" loading="lazy"></p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-206045686">
-  <div class="art-h"><span class="no">03</span><h3>How to place a straight stair using the Polystair</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206045686-How-to-place-a-straight-stair-using-the-Polystair" target="_blank" rel="noopener">MyCi 知识库 · How to place a straight stair using the Polystair</a></div>
-  <p>The Cadimage Stairs Tool lets you draw stairs directly onto your ARCHICAD plan. This type of stair is called a 'Polystair'.</p>
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">如何使用 Polystair 放置直行楼梯</h3>
+    <h3 class="en-only block">How to place a straight stair using the Polystair</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206045686-How-to-place-a-straight-stair-using-the-Polystair" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Cadimage 楼梯工具让你能直接在 ARCHICAD 平面图上绘制楼梯。这类楼梯称为 "Polystair"（多段线楼梯）。</p>
+<ul>
+<li>在 ARCHICAD 工具箱中<strong>双击 Polystair 工具</strong>：</li>
+</ul>
+<p><img src="img/206045686_0.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
+<ul>
+<li>选择<strong>楼梯构造类型</strong>（本例中选择 Solid Stair（实体楼梯））：</li>
+</ul>
+<p><img src="img/206045686_1.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
+<ul>
+<li>在 <strong>Preview and Positioning Panel</strong>（预览与定位面板）下可选择<strong>锚点</strong>：</li>
+</ul>
+<p><img src="img/206045686_2.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
+<p>4.<strong>转到</strong> <strong>Treads & Risers</strong>（踏步与踢面）<strong>设置</strong> <strong>Total Rise, Width</strong>（总高、宽度）<strong>等。</strong></p>
+<p>*</p>
+<p><img src="img/206045686_3.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
+<p>*</p>
+<ul>
+<li>点击 <strong>OK</strong> 关闭对话框</li>
+</ul>
+<p>8.<strong>在平面图上单击</strong>以开始绘制楼梯（见下图第 #1 项）</p>
+<ul>
+<li><strong>再次单击</strong>以设置楼梯的"端点"（见下图第 #2 项）：</li>
+</ul>
+<p><img src="img/206045686_4.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
+<p><strong>提示：</strong> 继续在平面图上单击即可为楼梯添加更多段（见上图第 #3 项）。</p></div>
+  <div class="en-only"><p>The Cadimage Stairs Tool lets you draw stairs directly onto your ARCHICAD plan. This type of stair is called a 'Polystair'.</p>
+<ul>
+<li><strong>Double-click the Polystair Tool</strong> in the ARCHICAD Toolbox:</li>
+</ul>
+<p><img src="img/206045686_0.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
+<ul>
+<li>Choose the <strong>stair construction type</strong> (for this exercise we will choose the Solid Stair):</li>
+</ul>
+<p><img src="img/206045686_1.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
+<ul>
+<li>Under <strong>Preview and Positioning Panel</strong>you can choose the <strong>anchor point</strong>:</li>
+</ul>
+<p><img src="img/206045686_2.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
+<p>4.**<strong>Go to</strong>Treads & Risers<strong>to set the</strong>Total Rise, Width**etc.</p>
+<p>*</p>
+<p><img src="img/206045686_3.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
+<p>*</p>
+<ul>
+<li>Click <strong>OK</strong> to close the dialogue</li>
+</ul>
+<p>8.<strong>Click</strong> on your plan to start drawing your stairs (see item #1 in the image below)</p>
+<ul>
+<li><strong>Click again</strong> to set the stair 'end-point' (see item #2 in the image below):</li>
+</ul>
+<p><img src="img/206045686_4.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
+<p><strong>TIP:</strong> Continue clicking on your plan to add more sections to your stairs (see item #3 in the image above).</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Cadimage Stairs Tool lets you draw stairs directly onto your ARCHICAD plan. This type of stair is called a 'Polystair'.</p>
 <ul>
 <li><strong>Double-click the Polystair Tool</strong> in the ARCHICAD Toolbox:</li>
 </ul>
@@ -239,11 +407,38 @@ article{padding-bottom:40px}
 </ul>
 <p><img src="img/206045686_4.jpg" alt="How to place a straight stair using the Polystair 示意图" loading="lazy"></p>
 <p><strong>TIP:</strong> Continue clicking on your plan to add more sections to your stairs (see item #3 in the image above).</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-205030904">
-  <div class="art-h"><span class="no">04</span><h3>Overview</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030904-Overview" target="_blank" rel="noopener">MyCi 知识库 · Overview</a></div>
-  <p>The Cadimage Stairs Tool gives you access to a range of stair construction types that allow for highly flexible stair configurations for residential and commercial designs.</p>
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">概述</h3>
+    <h3 class="en-only block">Overview</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205030904-Overview" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Cadimage 楼梯工具为你提供了多种楼梯构造类型，可在住宅和商业设计中实现高度灵活的楼梯配置。</p>
+<p>楼梯工具包含两个子工具：</p>
+<ul>
+<li>Polystair Tool（多段线楼梯工具）：允许你直接在平面图上绘制楼梯</li>
+</ul>
+<ul>
+<li>Railings Tool（栏杆工具）：允许你独立放置栏杆，或将其链接到楼梯结构。</li>
+</ul>
+<p>该工具高度灵活，楼梯和栏杆可以混合采用不同的高度、宽度、直形或弧形梯段，并可包含斜踏步（winders）和／或休息平台（landing），全部使用常见的 ARCHICAD 输入方式。</p></div>
+  <div class="en-only"><p>The Cadimage Stairs Tool gives you access to a range of stair construction types that allow for highly flexible stair configurations for residential and commercial designs.</p>
+<p>The Stairs Tool includes two sub-tools:</p>
+<ul>
+<li>The Polystair Tool: which allows you to draw stairs directly onto your plan</li>
+</ul>
+<ul>
+<li>The Railings Tool: which allows you to place railings independently or linked to a stair structure.</li>
+</ul>
+<p>The highly flexible nature of the Tool allows for stairs and railings that can incorporate a mixture of heights, widths, straight or curved flights with winders and or landings using typical ARCHICAD input methods.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Cadimage Stairs Tool gives you access to a range of stair construction types that allow for highly flexible stair configurations for residential and commercial designs.</p>
 <p>The Stairs Tool includes two sub-tools:</p>
 <ul>
 <li>The Polystair Tool: which allows you to draw stairs directly onto your plan</li>
@@ -252,11 +447,100 @@ article{padding-bottom:40px}
 <li>The Railings Tool: which allows you to place railings independently or linked to a stair structure.</li>
 </ul>
 <p>The highly flexible nature of the Tool allows for stairs and railings that can incorporate a mixture of heights, widths, straight or curved flights with winders and or landings using typical ARCHICAD input methods.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-17891871502095">
-  <div class="art-h"><span class="no">05</span><h3>ProKit Stair -  Start here</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/17891871502095-ProKit-Stair-Start-here" target="_blank" rel="noopener">MyCi 知识库 · ProKit Stair -  Start here</a></div>
-  <p>ProKit Stair allows you to add a stair quickly and easily in ARCHICAD.</p>
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">ProKit Stair —— 从这里开始</h3>
+    <h3 class="en-only block">ProKit Stair -  Start here</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/17891871502095-ProKit-Stair-Start-here" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>ProKit Stair 让你能在 ARCHICAD 中快速简便地添加楼梯。</p>
+<p>它可以放置带有易于编辑参数的楼梯，并自动为楼梯关联栏杆。</p>
+<p><strong>Libpack 加载（自 ARCHICAD 29 起）</strong></p>
+<p>请注意，ProKit ProKit Stair 工具需要将 ProKit Stair Libpack 手动加载到项目中。</p>
+<p>与所有库一样，这一步通过库管理器（Library Manager）完成。请注意，所加载的 Libpack 需要在单个文件层级上选中，而不像早期 Archicad 版本那样在文件夹层级上选择。</p>
+<p>库管理器可通过 <strong>File > Library Manager</strong>（文件 > 库管理器）下拉菜单访问。</p>
+<p><img src="img/17891871502095_0.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>进入库管理器后，我们将使用 "Add"（添加）按钮添加 ProKit Stair Libpack。</p>
+<p><img src="img/17891871502095_1.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>这样便可导航到位于 ARCHICAD 安装文件夹中的 ProKit Libpack 文件夹。</p>
+<p><img src="img/17891871502095_2.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>这将加载 ProKit Stair Libpack 及其关联的宏。</p>
+<p>重要：</p>
+<p>如果 ProKit 楼梯和栏杆工具没有出现在默认 ARCHICAD 工作环境左侧的工具箱中，可以通过在工具箱上单击右键来添加。工具箱会弹出对话框，可将 Polystair 和 Railing 工具添加进来。</p>
+<p><img src="img/17891871502095_3.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>这样便可以把楼梯工具添加到工具箱中。</p>
+<p><img src="img/17891871502095_4.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p><img src="img/17891871502095_5.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>楼梯工具现在会出现在工具箱中。建议保存工作环境（Work Environment），以免在切换工作环境且不想丢失这些更改时不得不重新执行此过程。</p>
+<p><strong>添加楼梯</strong></p>
+<p>请注意，所有 ProKit Stair 都通过 Polystair 工具放置。</p>
+<p>点击 ProKit Stair 后，会有三个楼梯对象可供选择。</p>
+<p><img src="img/17891871502095_6.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>选定其中一个楼梯对象后，即可在平面图中绘制。</p>
+<p><img src="img/17891871502095_7.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>这与绘制折线非常相似，请注意那个宠物调色板（pet palette），它可用于转弯、休息平台（landing）以及其他绘制方式。</p>
+<p>请注意，在最后放置的节点上再次双击，即可结束楼梯放置。</p>
+<p><img src="img/17891871502095_8.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>选中楼梯后即可放置关联式栏杆。请先选中楼梯。</p>
+<p><img src="img/17891871502095_9.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>访问 <strong>ProKit > Stairs > Place Railings</strong>（放置栏杆）下拉菜单，即可调用 Polystair 栏杆工具。</p>
+<p>完成选择后，栏杆将以关联方式放置到楼梯上。</p>
+<p><img src="img/17891871502095_10.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>请注意，栏杆可根据光标位置放置在左侧、右侧或两侧。</p>
+<p><img src="img/17891871502095_11.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p><img src="img/17891871502095_12.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p><img src="img/17891871502095_13.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>最终效果是带有关联栏杆的楼梯。</p>
+<p><img src="img/17891871502095_14.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>有关各个 ProKit Stair 工具的更多详细信息，请参阅知识库中的相关文章。</p></div>
+  <div class="en-only"><p>ProKit Stair allows you to add a stair quickly and easily in ARCHICAD.</p>
+<p>It can apply a stair, with easily editable parameters, and also associate a railing automatically to the stair.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit ProKit Stair Tool requires the ProKit Stair Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier Archicad versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17891871502095_0.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the ProKit Stair Libpack.</p>
+<p><img src="img/17891871502095_1.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17891871502095_2.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>This will load the ProKit Stair Libpack and associated Macros.</p>
+<p>IMPORTANT:</p>
+<p>If the ProKit stair and railing Tools are not showing in the toolbox on the left in the default ARCHICAD work environment, It can be added by right clicking on in the Toolbox. The Toolbox will bring up a dialog to add the Polystair and Railing Tools.</p>
+<p><img src="img/17891871502095_3.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>This will allow adding the Stair Tools to the Toolbox</p>
+<p><img src="img/17891871502095_4.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p><img src="img/17891871502095_5.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>The Stair Tools will now show up in the Toolbox, it is recommended to save the Work Environment to avoid having to redo this process if you switch work environments and don't want to lose your changes</p>
+<p><strong>Adding a Stair</strong></p>
+<p>Please note that all ProKit Stair are placed with the Polystair Tool.</p>
+<p>By clicking on the ProKit Stair we have a selection of three stair objects to choose from.</p>
+<p><img src="img/17891871502095_6.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>Once we have selected one of the stair Objects, it can be drawn in plan view.</p>
+<p><img src="img/17891871502095_7.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>This is very similar to drawing a polyline, note the pet palette that allows for turns, landings and other drawing methods.</p>
+<p>Note that double clicking again on the last node placed, ends the stair placement.</p>
+<p><img src="img/17891871502095_8.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>With the stair selected an associative railing can be placed. Select the stair.</p>
+<p><img src="img/17891871502095_9.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>Access the ProKit>Stairs>Place Railings dropdown. This will access the Polystair railing Tool.</p>
+<p>After a Selection is made the railing will be placed associative to the stair.</p>
+<p><img src="img/17891871502095_10.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>Please note that the railing can be placed to the left, right or on both sides depending on cursor position.</p>
+<p><img src="img/17891871502095_11.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p><img src="img/17891871502095_12.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p><img src="img/17891871502095_13.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>The result is a stair with associated railing.</p>
+<p><img src="img/17891871502095_14.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on each ProKit Stair Tool please see the articles on the Knowledge-base.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>ProKit Stair allows you to add a stair quickly and easily in ARCHICAD.</p>
 <p>It can apply a stair, with easily editable parameters, and also associate a railing automatically to the stair.</p>
 <p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
 <p>It is important to note that the ProKit ProKit Stair Tool requires the ProKit Stair Libpack to be manually loaded into the project.</p>
@@ -296,11 +580,104 @@ article{padding-bottom:40px}
 <p>The result is a stair with associated railing.</p>
 <p><img src="img/17891871502095_14.jpg" alt="ProKit Stair -  Start here 示意图" loading="lazy"></p>
 <p>For more detailed information on each ProKit Stair Tool please see the articles on the Knowledge-base.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-206075076">
-  <div class="art-h"><span class="no">06</span><h3>Using the Polystair - advanced shapes</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206075076-Using-the-Polystair-advanced-shapes" target="_blank" rel="noopener">MyCi 知识库 · Using the Polystair - advanced shapes</a></div>
-  <p>Using the Polystair functionality of the Stairs Tool, you can create highly custom stair designs that feature straight and curved stair shapes.</p>
+  <div class="art-h"><span class="no">06</span>
+    <h3 class="zh-only block">使用 Polystair —— 高级形状</h3>
+    <h3 class="en-only block">Using the Polystair - advanced shapes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206075076-Using-the-Polystair-advanced-shapes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>借助楼梯工具的 Polystair 功能，你可以创建包含直梯段与弧形梯段、定制度极高的楼梯设计。</p>
+<p>要使用 Polystair 功能，请确保先完成楼梯设置（若不确定，可参阅文章 <a href="https://cadimage.zendesk.com/hc/en-us/articles/206045686-How-to-place-a-stair-using-the-Polystair" target="_blank" rel="noopener">Place a basic Stair using the Polystair</a>），然后：</p>
+<ul>
+<li><strong>在平面图视图上单击</strong>，开始绘制楼梯：</li>
+</ul>
+<p><img src="img/206075076_0.jpg" alt="Using the Polystair - advanced shapes 示意图" loading="lazy"></p>
+<p><strong>提示：</strong> 稍作停顿，看看有哪些可用选项。在上图你可以看到 Polystair Origin（多段线起点）（项 #1）；Polystair Reference Line（多段线参考线）（项 #2）；光标位置（项 #3）；Flight Preview（梯段预览）（项 #4）；Tracker（跟踪器）（项 #5）；以及 Stair Placement 'Pet Palette'（楼梯放置宠物调色板）（项 #6）。</p>
+<ul>
+<li>在宠物调色板中<strong>选择该段楼梯的几何形状</strong>（你需要选择一项 Leg Geometry（梯段几何）选项和一项 Run Type（梯段类型）选项）：</li>
+</ul>
+<p><img src="img/206075076_1.jpg" alt="Using the Polystair - advanced shapes 示意图" loading="lazy"></p>
+<p><strong>区域 1（上方）显示 Leg Geometry（梯段几何）选项</strong></p>
+<ul>
+<li>Straight Edge（直边）</li>
+</ul>
+<ul>
+<li>Curved edge starting at a tangent to the previous edge (not possible to start with this)（与前一段相切起始的弧形边，无法以此作为起始）</li>
+</ul>
+<ul>
+<li>Curved edge starting at a tangent to a defined vector（与指定向量相切起始的弧形边）</li>
+</ul>
+<ul>
+<li>Curved edge by three points（三点弧形边）</li>
+</ul>
+<ul>
+<li>Curved edge by centre point（按圆心弧形边）</li>
+</ul>
+<p><strong>区域 2 显示 Run Type（梯段类型）：</strong> Flight（梯段）或 Landing（休息平台）</p>
+<ul>
+<li>选择 Leg Geometry（即直形或弧形）后，<strong>再次在平面图上单击</strong>进行放置</li>
+</ul>
+<ul>
+<li>返回宠物调色板，<strong>选择另一个梯段几何或梯段类型</strong></li>
+</ul>
+<ul>
+<li><strong>再次在平面图上单击</strong>，放置下一个梯段或休息平台。</li>
+</ul>
+<p><strong>提示：</strong> 如果出现错误，可以按 Backspace（退格键）撤销上一步：</p>
+<p><img src="img/206075076_2.jpg" alt="Using the Polystair - advanced shapes 示意图" loading="lazy"></p>
+<p>如果想取消该设计，请按 Esc 键：</p>
+<p><img src="img/206075076_3.jpg" alt="Using the Polystair - advanced shapes 示意图" loading="lazy"></p>
+<p>按需继续添加梯段和休息平台。</p></div>
+  <div class="en-only"><p>Using the Polystair functionality of the Stairs Tool, you can create highly custom stair designs that feature straight and curved stair shapes.</p>
+<p>To use the Polystair functionality, make sure you set up your Stair Settings first (refer to the article <a href="https://cadimage.zendesk.com/hc/en-us/articles/206045686-How-to-place-a-stair-using-the-Polystair" target="_blank" rel="noopener">Place a basic Stair using the Polystair</a> if you are unsure), then:</p>
+<ul>
+<li><strong>Click on your plan</strong> view to start drawing your stairs:</li>
+</ul>
+<p><img src="img/206075076_0.jpg" alt="Using the Polystair - advanced shapes 示意图" loading="lazy"></p>
+<p><strong>TIP:</strong> Take a moment to view the options available to you. In the image above you can see the Polystair Origin (item #1); Polystair Reference Line (item #2); cursor position (item #3); Flight Preview (item #4); Tracker (item #5); and the Stair Placement 'Pet Palette' (item #6).</p>
+<ul>
+<li><strong>Choose the geometry</strong> of this leg of your stairs from the Pet Palette (you'll need to choose a Leg Geometry option and Run Type option):</li>
+</ul>
+<p><img src="img/206075076_1.jpg" alt="Using the Polystair - advanced shapes 示意图" loading="lazy"></p>
+<p><strong>Zone 1 (above) shows Leg Geometry options</strong></p>
+<ul>
+<li>Straight Edge</li>
+</ul>
+<ul>
+<li>Curved edge starting at a tangent to the previous edge (not possible to start with this)</li>
+</ul>
+<ul>
+<li>Curved edge starting at a tangent to a defined vector</li>
+</ul>
+<ul>
+<li>Curved edge by three points</li>
+</ul>
+<ul>
+<li>Curved edge by centre point</li>
+</ul>
+<p><strong>Zone 2 shows Run Type:</strong>Flight or Landing</p>
+<ul>
+<li>After selecting your Leg Geometry (ie straight or curved), <strong>click again on the plan</strong> to place it</li>
+</ul>
+<ul>
+<li>Return to the Pet Palette to <strong>choose another Leg or Run Type</strong></li>
+</ul>
+<ul>
+<li><strong>Click on your plan again</strong> to place the next Flight or Landing.</li>
+</ul>
+<p><strong>TIP:</strong> If you make a mistake you can press Backspace to undo the last step:</p>
+<p><img src="img/206075076_2.jpg" alt="Using the Polystair - advanced shapes 示意图" loading="lazy"></p>
+<p>If you want to cancel the design, press your Esc key:</p>
+<p><img src="img/206075076_3.jpg" alt="Using the Polystair - advanced shapes 示意图" loading="lazy"></p>
+<p>Continue adding Flights and Landings as desired.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Using the Polystair functionality of the Stairs Tool, you can create highly custom stair designs that feature straight and curved stair shapes.</p>
 <p>To use the Polystair functionality, make sure you set up your Stair Settings first (refer to the article <a href="https://cadimage.zendesk.com/hc/en-us/articles/206045686-How-to-place-a-stair-using-the-Polystair" target="_blank" rel="noopener">Place a basic Stair using the Polystair</a> if you are unsure), then:</p>
 <ul>
 <li><strong>Click on your plan</strong> view to start drawing your stairs:</li>
@@ -342,48 +719,132 @@ article{padding-bottom:40px}
 <p>If you want to cancel the design, press your Esc key:</p>
 <p><img src="img/206075076_3.jpg" alt="Using the Polystair - advanced shapes 示意图" loading="lazy"></p>
 <p>Continue adding Flights and Landings as desired.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-205298320">
-  <div class="art-h"><span class="no">07</span><h3>Watch: Create railings using the dialogue</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205298320-Watch-Create-railings-using-the-dialogue" target="_blank" rel="noopener">MyCi 知识库 · Watch: Create railings using the dialogue</a></div>
-  <p><em>Demonstrated in ARCHICAD 19</em></p>
+  <div class="art-h"><span class="no">07</span>
+    <h3 class="zh-only block">观看：使用对话框创建栏杆</h3>
+    <h3 class="en-only block">Watch: Create railings using the dialogue</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205298320-Watch-Create-railings-using-the-dialogue" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p><em>在 ARCHICAD 19 中演示</em></p></div>
+  <div class="en-only"><p><em>Demonstrated in ARCHICAD 19</em></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p><em>Demonstrated in ARCHICAD 19</em></p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-205030934">
-  <div class="art-h"><span class="no">08</span><h3>Watch: Draw Stairs directly onto your ARCHICAD plan</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030934-Watch-Draw-Stairs-directly-onto-your-ARCHICAD-plan" target="_blank" rel="noopener">MyCi 知识库 · Watch: Draw Stairs directly onto your ARCHICAD plan</a></div>
-  <p><em>Demonstrated in ARCHICAD 19</em></p>
+  <div class="art-h"><span class="no">08</span>
+    <h3 class="zh-only block">观看：直接在 ARCHICAD 平面图上绘制楼梯</h3>
+    <h3 class="en-only block">Watch: Draw Stairs directly onto your ARCHICAD plan</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205030934-Watch-Draw-Stairs-directly-onto-your-ARCHICAD-plan" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p><em>在 ARCHICAD 19 中演示</em></p></div>
+  <div class="en-only"><p><em>Demonstrated in ARCHICAD 19</em></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p><em>Demonstrated in ARCHICAD 19</em></p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-205030944">
-  <div class="art-h"><span class="no">09</span><h3>Watch: Draw Stairs to fit a space</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030944-Watch-Draw-Stairs-to-fit-a-space" target="_blank" rel="noopener">MyCi 知识库 · Watch: Draw Stairs to fit a space</a></div>
-  <p><em>Demonstrated in ARCHICAD 19</em></p>
+  <div class="art-h"><span class="no">09</span>
+    <h3 class="zh-only block">观看：按空间绘制楼梯</h3>
+    <h3 class="en-only block">Watch: Draw Stairs to fit a space</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205030944-Watch-Draw-Stairs-to-fit-a-space" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p><em>在 ARCHICAD 19 中演示</em></p></div>
+  <div class="en-only"><p><em>Demonstrated in ARCHICAD 19</em></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p><em>Demonstrated in ARCHICAD 19</em></p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-213785163">
-  <div class="art-h"><span class="no">10</span><h3>Watch: Get started in 6 minutes!</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/213785163-Watch-Get-started-in-6-minutes" target="_blank" rel="noopener">MyCi 知识库 · Watch: Get started in 6 minutes!</a></div>
-  <p>In this video Ralph provides an overview of the Stairs Tool:</p>
+  <div class="art-h"><span class="no">10</span>
+    <h3 class="zh-only block">观看：6 分钟快速上手！</h3>
+    <h3 class="en-only block">Watch: Get started in 6 minutes!</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/213785163-Watch-Get-started-in-6-minutes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在这段视频中，Ralph 概述了楼梯工具：</p></div>
+  <div class="en-only"><p>In this video Ralph provides an overview of the Stairs Tool:</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this video Ralph provides an overview of the Stairs Tool:</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-205298300">
-  <div class="art-h"><span class="no">11</span><h3>Watch: Graphically add and modify railings</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205298300-Watch-Graphically-add-and-modify-railings" target="_blank" rel="noopener">MyCi 知识库 · Watch: Graphically add and modify railings</a></div>
-  <p><strong>Railings</strong>can be placed on stairs, or independently for use on landings, balconies, ramps and more. In this short video we show you how to create railings for your Cadimage Stairs:</p>
+  <div class="art-h"><span class="no">11</span>
+    <h3 class="zh-only block">观看：以图形方式添加和修改栏杆</h3>
+    <h3 class="en-only block">Watch: Graphically add and modify railings</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205298300-Watch-Graphically-add-and-modify-railings" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p><strong>栏杆</strong>可以放置在楼梯上，也可以独立放置，用于休息平台、阳台、坡道等多种场合。在这段简短视频中，我们展示如何为你的 Cadimage 楼梯创建栏杆：</p>
+<p>在 ARCHICAD 19 中演示</p></div>
+  <div class="en-only"><p><strong>Railings</strong>can be placed on stairs, or independently for use on landings, balconies, ramps and more. In this short video we show you how to create railings for your Cadimage Stairs:</p>
+<p>Demonstrated in ARCHICAD 19</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p><strong>Railings</strong>can be placed on stairs, or independently for use on landings, balconies, ramps and more. In this short video we show you how to create railings for your Cadimage Stairs:</p>
 <p>Demonstrated in ARCHICAD 19</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-205030924">
-  <div class="art-h"><span class="no">12</span><h3>Watch: Graphically edit existing stairs</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030924-Watch-Graphically-edit-existing-stairs" target="_blank" rel="noopener">MyCi 知识库 · Watch: Graphically edit existing stairs</a></div>
-  <p><em>Demonstrated in ARCHICAD 19</em></p>
+  <div class="art-h"><span class="no">12</span>
+    <h3 class="zh-only block">观看：以图形方式编辑现有楼梯</h3>
+    <h3 class="en-only block">Watch: Graphically edit existing stairs</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205030924-Watch-Graphically-edit-existing-stairs" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p><em>在 ARCHICAD 19 中演示</em></p></div>
+  <div class="en-only"><p><em>Demonstrated in ARCHICAD 19</em></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p><em>Demonstrated in ARCHICAD 19</em></p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-205030914">
-  <div class="art-h"><span class="no">13</span><h3>Watch: Overview webinar (21 mins)</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030914-Watch-Overview-webinar-21-mins" target="_blank" rel="noopener">MyCi 知识库 · Watch: Overview webinar (21 mins)</a></div>
-  <p>In this video, Ken provides an introduction to the Stairs Tool. This is a great starting place to learn how to use the tool in most basic situations.</p>
+  <div class="art-h"><span class="no">13</span>
+    <h3 class="zh-only block">观看：概览网络研讨会（21 分钟）</h3>
+    <h3 class="en-only block">Watch: Overview webinar (21 mins)</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205030914-Watch-Overview-webinar-21-mins" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在这段视频中，Ken 介绍了楼梯工具。这是一个很好的起点，可了解在大多数基本场景下如何使用该工具。</p>
+<p><em>在 ARCHICAD 19 中演示</em></p></div>
+  <div class="en-only"><p>In this video, Ken provides an introduction to the Stairs Tool. This is a great starting place to learn how to use the tool in most basic situations.</p>
+<p><em>Demonstrated in ARCHICAD 19</em></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this video, Ken provides an introduction to the Stairs Tool. This is a great starting place to learn how to use the tool in most basic situations.</p>
 <p><em>Demonstrated in ARCHICAD 19</em></p>
+    </div>
+  </details>
 </div>
 </article>
 
 <footer class="foot">
-CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
 </footer>
 </main>
 </div>
@@ -415,6 +876,30 @@ CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 
       });
     });
   }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
 })();
 </script>
 </body>

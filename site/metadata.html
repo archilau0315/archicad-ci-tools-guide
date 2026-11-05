@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -62,6 +62,9 @@ figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
 .brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
 .nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
   color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
 .sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
   border-left:2px solid transparent;transition:background .18s,color .18s}
 .sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
@@ -118,6 +121,44 @@ article{padding-bottom:40px}
 .toc-list a:hover{color:var(--accent)}
 .toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
 .foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
 .missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
   background:var(--paper);color:var(--muted);font-size:12.5px}
 .menubtn{display:none}
@@ -140,50 +181,207 @@ article{padding-bottom:40px}
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t">CI Tools 完全指南</div><div class="brand-s">Archicad Plugin Manual</div></a></div>
-<div class="nav-h">开始</div>
-<a href="index.html"><span class="ic">◈</span>总览与快速开始</a>
-<a href="all.html"><span class="ic">☰</span>全量文章索引</a>
-<a href="guide.html"><span class="ic">★</span>中文主线速查</a>
-<div class="nav-h">16 个工具</div>
-<a class="" href="annotate.html"><span class="ic">Aa</span>Annotate · 文字格式</a>
-<a class="" href="transformer.html"><span class="ic">⇄</span>Transformer · 项目镜像</a>
-<a class="" href="timetracker.html"><span class="ic">◷</span>Time Tracker · 工时统计</a>
-<a class="" href="detail.html"><span class="ic">▤</span>Detail Elements · 二维详图</a>
-<a class="" href="keynotes.html"><span class="ic">❝</span>Keynotes · 规范注释</a>
-<a class=" on" href="metadata.html"><span class="ic">◈</span>MetaData · 属性管理</a>
-<a class="" href="quantities.html"><span class="ic">∑</span>Quantities · 工程量算量</a>
-<a class="" href="cabinets.html"><span class="ic">▦</span>Cabinets · 橱柜木作</a>
-<a class="" href="doors.html"><span class="ic">⌸</span>Doors+Windows · 门窗</a>
-<a class="" href="coverings.html"><span class="ic">▨</span>Coverings · 覆面层</a>
-<a class="" href="electrical.html"><span class="ic">⚡</span>Electrical · 电气</a>
-<a class="" href="stairs.html"><span class="ic">⇱</span>Stairs · 楼梯</a>
-<a class="" href="structural.html"><span class="ic">⌗</span>Structural · 结构构件</a>
-<a class="" href="sites.html"><span class="ic">⛿</span>Sites · 场地景观</a>
-<a class="" href="fitout.html"><span class="ic">⌸</span>Fitout · 室内布置</a>
-<div class="nav-h">关于</div>
-<a href="about.html"><span class="ic">ⓘ</span>来源与说明</a>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<div class="nav-h zh-only block">16 个工具</div><div class="nav-h en-only block">16 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class=" on" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
 </aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
 <main class="main">
 
 
-<div class="crumb"><a href="index.html">总览</a> / MetaData · 属性管理</div>
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></div>
 <div class="hero">
-  <span class="kicker">工具分册</span>
-  <h1>MetaData · 属性管理</h1>
-  <p>属性与分类的批量操作面板</p>
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>MetaData · <span class="zh-only">属性管理</span></h1>
+  <p class="zh-only">属性与分类的批量操作面板</p>
+  <p class="en-only">Palette for bulk editing properties and classifications</p>
   <div class="meta">
-    <span><b>27</b> 篇教程</span>
-    <span><b>2.8</b> 万字</span>
-    <span><b>61</b> 张图</span>
+    <span><b>27</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>2.8</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>61</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
   </div>
 </div>
 <article>
 
 <div class="art" id="a-360001692375">
-  <div class="art-h"><span class="no">01</span><h3>3.1 Reviewing Element Metadata</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692375-3-1-Reviewing-Element-Metadata" target="_blank" rel="noopener">MyCi 知识库 · 3.1 Reviewing Element Metadata</a></div>
-  <p>To view the <em>Metadata</em> palette, click the menu item *CI Tools ><strong>Metadata</strong>><strong>Show Metadata</strong>P**alette…*</p>
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">3.1 查看构件元数据</h3>
+    <h3 class="en-only block">3.1 Reviewing Element Metadata</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692375-3-1-Reviewing-Element-Metadata" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>要查看 <em>Metadata</em>（元数据）面板，点击菜单项 *CI Tools ><strong>Metadata</strong>><strong>Show Metadata</strong>P**alette…*</p>
+<p><img src="img/360001692375_0.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p>该面板的顶部结构与 ARCHICAD 的 <em>Info</em>（信息）面板相似，显示已选中和可编辑构件的数量。相邻的 <em>Live Edit</em>（实时编辑）复选框会显著改变面板的使用方式：</p>
+<ul>
+<li>当 Live Edit 开启时，它的运作方式与 ARCHICAD 的 Info 面板非常相似：</li>
+</ul>
+<p> 内容会根据当前选择动态更新；</p>
+<ul>
+<li>如果没有选中构件但有工具处于激活状态，则显示该激活工具的设置；</li>
+</ul>
+<ul>
+<li>编辑会立即更新选中的构件或激活工具的设置；</li>
+</ul>
+<ul>
+<li>如果既没有工具也没有构件被选中，它只显示 No selection（无选择）并且不做任何事。</li>
+</ul>
+<p><em>Info</em> 面板中没有的附加功能：</p>
+<ul>
+<li>即使属性值是通过表达式计算的，也会显示出来；</li>
+</ul>
+<ul>
+<li>可以同时查看和编辑多个构件的特征标记，并清楚地标识出整个选择集中属性值的差异；</li>
+</ul>
+<ul>
+<li>当所选构件的子集具有相同的属性值时，可以只编辑该子集；</li>
+</ul>
+<ul>
+<li>可以把构件选择集筛选为匹配指定特征标记的子集；</li>
+</ul>
+<ul>
+<li>可以扩展构件选择集，以加入匹配指定特征标记的构件。</li>
+</ul>
+<ul>
+<li>当 Live Edit 关闭时，该面板在管理或转移设置方面起被动作用。所显示的特征标记（包括属性值）是静态的，不随当前选择而变化，只会因明确操作而改变：</li>
+</ul>
+<p> 可以从选中构件中提取特征标记；</p>
+<ul>
+<li>可以有选择地把特征标记注入构件；</li>
+</ul>
+<ul>
+<li>特征标记可以自动应用到项目中新增的任何构件（无论类型）。</li>
+</ul>
+<p>静态的特征标记列表支持一种与标准 ARCHICAD 吸管和注射器工具非常相似的工作流，但允许在构件之间细粒度地转移特定的特征标记和属性值。因此，如果（例如）某个构件包含应应用到许多其他构件上的属性值，你可以把这些值从该构件提取到面板中，选中其他构件，再把这些值注入进去。</p>
+<p>面板的其余部分分为 2 个区域，每个都可以折叠：</p>
+<ul>
+<li>ARCHICAD 属性</li>
+</ul>
+<ul>
+<li>ARCHICAD 分类</li>
+</ul>
+<p>这三个面板的运作方式大体相同，因此无需逐一详细说明。本节总结了面板的通用功能，并给出后续各节更详细说明的引用。构件的特征标记通过以下面板按钮进行管理：</p>
+<div class="table-wrap"><table><thead><tr><th></th><th></th><th>**Live Edit 开启**</th><th>**Live Edit 关闭**</th></tr></thead><tbody><tr><td></td></tr></tbody></table></div>
+<p><img src="img/360001692375_1.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | 添加特征标记 | 仅在选中了构件或工具时可用。提示选择一个或多个特征标记，并立即将其添加到选中的构件或工具中。更多细节见第 3.2.1 节 | 提示选择一个或多个特征标记，并把它们添加到相应的面板列表中。选中的构件或工具不受影响。更多细节见第 3.2.7 节 |</p>
+<p>| </p>
+<p><img src="img/360001692375_2.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | 移除特征标记 | 仅在相应面板列表中选中了特征标记时可用。立即从选中的构件或工具中移除所选特征标记。更多细节见第 3.2.2 节 | 仅在相应面板列表中选中了特征标记时可用。立即从相应面板列表中移除所选特征标记。选中的构件或工具不受影响 |</p>
+<p>| </p>
+<p><img src="img/360001692375_3.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | 提取特征标记 | 在此上下文中不适用 | 仅在选中了构件或工具时可用。从选中的工具或构件中提取所有相关特征标记并显示在列表中。选中的构件或工具不受影响。更多细节见第 3.2.3 节和第 3.2.7 节 |</p>
+<p>| </p>
+<p><img src="img/360001692375_4.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | 注入特征标记 | 在此上下文中不适用 | 仅在选中了构件或工具时可用。把列表中所有相关特征标记注入选中的工具或构件。如果列表中选中了某些项，则只注入这些项。更多细节见第 3.2.3 节和第 3.2.7 节 |</p>
+<p>| </p>
+<p><img src="img/360001692375_5.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | 选择匹配项 | 当相应面板列表中至少选中一个特征标记时可用。立即选中当前视图中具有匹配特征标记的构件（并加入当前选择集）。更多细节见第 3.2.4 节 | 在此上下文中不适用 |</p>
+<p>| </p>
+<p><img src="img/360001692375_6.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | 按特征标记筛选 | 当相应面板列表中至少选中一个特征标记时可用。立即筛选选中的构件，使只有具有匹配特征标记的构件保持选中。更多细节见第 3.2.5 节 | 在此上下文中不适用 |</p>
+<p>请注意，所列出特征标记的文字样式在某些情况下会有所不同。所有条目通常以普通的黑色字体显示，但可能会出现以下替代样式，有时会组合出现：</p>
+<div class="table-wrap"><table><thead><tr><th>蓝色</th><th>唯一特征标记 仅在选中多个构件时相关。当某个特征标记名称并非整个选择集所共有时，即选择集中至少有一个构件没有该特征标记，它会以蓝色显示。这同样适用于单个属性值——选中的构件可能共有该属性但取值不同。更多细节见第 3.3.3 节。</th></tr></thead><tbody><tr><td>**粗体**</td><td>混合属性值 仅对属性相关。当一个属性存在于多个构件中且取值不同时，该属性名称会以粗体显示。点击展开三角即可查看各个属性值。由于它们并非整个选择集所共有，这些取值都会以蓝色显示。</td></tr><tr><td>绿色</td><td>自动注入的特征标记 仅在显示工具默认值时相关（工具已激活且未选中构件），并且属性或分类的自动注入处于激活状态。所选工具的特征标记会显示，但有一处不同：如果有特征标记被添加到静态列表中，它们将覆盖工具设置并以绿色显示。如果注入了分类，它所添加的任何属性也会以绿色显示。更多细节见第 3.2.7 节。</td></tr></tbody></table></div>
+<p>上图中可以看到一些文字样式的示例。这些样式是审核和编辑项目数据的宝贵资源，因为它们能突出差异和潜在问题——更多细节见第 3.2.6 节。</p></div>
+  <div class="en-only"><p>To view the <em>Metadata</em> palette, click the menu item *CI Tools ><strong>Metadata</strong>><strong>Show Metadata</strong>P**alette…*</p>
+<p><img src="img/360001692375_0.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p>The palette is headed up in a similar way to ARCHICAD’s <em>Info</em> palette, showing the number of selected and editable elements. The adjacent <em>Live Edit</em> checkbox markedly changes how the palette is used:</p>
+<ul>
+<li>When Live Edit is on, it works in much the same was as ARCHICAD’s Info palette:</li>
+</ul>
+<p> The contents update dynamically based on the current selection;</p>
+<ul>
+<li>If no elements are selected and a tool is active, the active tool settings are displayed;</li>
+</ul>
+<ul>
+<li>Editing immediately updates either the selected elements or the active tool settings;</li>
+</ul>
+<ul>
+<li>If no tool or element is selected, it simply displays No selection and does nothing.</li>
+</ul>
+<p>Additional features not found in the <em>Info</em> palette:</p>
+<ul>
+<li>Property values are shown, even when calculated by expression;</li>
+</ul>
+<ul>
+<li>The traits of multiple elements can be viewed and edited simultaneously, clearly identifying the differences in property values across the whole selection;</li>
+</ul>
+<ul>
+<li>A subset of the selected elements can be edited when they share the same property value(s);</li>
+</ul>
+<ul>
+<li>The element selection can be filtered to a subset matching specified traits;</li>
+</ul>
+<ul>
+<li>The element selection can be extended to add elements matching specified traits.</li>
+</ul>
+<ul>
+<li>When Live Edit is off, the palette has a passive role in managing or transferring settings. The displayed traits (including property values) are static irrespective of the current selection, only changing in response to explicit actions:</li>
+</ul>
+<p> Traits can be extracted from selected elements;</p>
+<ul>
+<li>Traits can be selectively injected into elements;</li>
+</ul>
+<ul>
+<li>Traits can be automatically applied to any element added to the project (irrespective of type).</li>
+</ul>
+<p>The static list of traits support a workflow much like the standard ARCHICAD pipette and syringe tools, but allowing fine-grained transfer of specific traits and property values between elements. So if (for example) one element contains property values that should be applied to many others, you can extract those values from the element into the palette, select other elements and inject those values into them.</p>
+<p>The remainder of the palette is divided into 2 sections, each of which can be collapsed:</p>
+<ul>
+<li>ARCHICAD properties</li>
+</ul>
+<ul>
+<li>ARCHICAD classifications</li>
+</ul>
+<p>All three panels largely work in the same way, so detailed explanation of each is not required. Common palette features are summarised in this section with a reference to more detailed instructions in following sections. Element traits are managed with the following palette buttons:</p>
+<div class="table-wrap"><table><thead><tr><th></th><th></th><th>**Live Edit On**</th><th>**Live Edit Off**</th></tr></thead><tbody><tr><td></td></tr></tbody></table></div>
+<p><img src="img/360001692375_1.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | Add a trait | Enabled only when an element or tool is selected. Prompts for one or more traits to be selected and immediately adds them to either the selected elements or tool. See section 3.2.1 for more detail | Prompts for one or more traits to be selected and adds them to the relevant palette list. Selected elements or tools are not affected. See section 3.2.7 for more detail |</p>
+<p>| </p>
+<p><img src="img/360001692375_2.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | Remove a trait | Enabled only when a trait is selected in the relevant palette list. Immediately removes the selected traits from the selected elements or tool. See section 3.2.2 for more detail | Enabled only when a trait is selected in the relevant palette list. Immediately removes the selected traits from the relevant palette list. Selected elements or tools are not affected |</p>
+<p>| </p>
+<p><img src="img/360001692375_3.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | Extract traits | n/a to this context | Enabled only when an element or tool is selected. Extracts all the relevant traits from the selected tool or elements and displays them in the list. Selected elements or tools are not affected. See sections 3.2.3 and 3.2.7 for more detail |</p>
+<p>| </p>
+<p><img src="img/360001692375_4.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | Inject traits | n/a to this context | Enabled only when an element or tool is selected. Injects all the relevant traits from the list into the selected tool or elements. If items are selected in the list, only those items are injected. See sections 3.2.3 and 3.2.7 for more detail |</p>
+<p>| </p>
+<p><img src="img/360001692375_5.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | Select matching | Enabled when at least one trait is selected in the relevant palette list. Immediately selects elements in the current view with matching traits (adding to the current selection). See section 3.2.4 for more detail | n/a to this context |</p>
+<p>| </p>
+<p><img src="img/360001692375_6.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
+<p> | Filter by traits | Enabled when at least one trait is selected in the relevant palette list. Immediately filters selected elements so only those with matching traits remain selected. See section 3.2.5 for more detail | n/a to this context |</p>
+<p>Note that the text style of listed traits may vary in certain circumstances. All items are typically displayed with a plain, black typeface, but the following alternatives may appear, sometimes in combination:</p>
+<div class="table-wrap"><table><thead><tr><th>Blue</th><th>Unique Traits Only relevant when multiple elements are selected. A trait name is displayed in blue when it isn’t common to the entire selection, i.e. at least one element in the selection doesn’t have that trait. This also applies to individual property values, where the selected elements might share that property in common but with a different value. See section 3.3.3 for more detail.</th></tr></thead><tbody><tr><td>**Bold**</td><td>Mixed Property Values Only relevant to properties. A property name will be displayed in bold when the property is present in multiple elements with differing values. The individual property values can be viewed by clicking the disclosure triangle. These will all be displayed in blue because they are not common to the entire selection.</td></tr><tr><td>Green</td><td>Auto-injected Traits Only relevant when the tool defaults are displayed (a tool is active and no elements are selected) and automatic injection of properties or classifications is active. The traits of the selected tool are displayed with one difference: if any traits have been added to the static list, these will override the tool settings and are displayed in green. If a classification is injected, any properties it adds will also be shown in green. See section 3.2.7 for more detail.</td></tr></tbody></table></div>
+<p>Examples of some text styles can be seen in the illustration above. These styles are a valuable resource for auditing and editing project data because they highlight differences and potential problems – see section 3.2.6 for more detail.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>To view the <em>Metadata</em> palette, click the menu item *CI Tools ><strong>Metadata</strong>><strong>Show Metadata</strong>P**alette…*</p>
 <p><img src="img/360001692375_0.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
 <p>The palette is headed up in a similar way to ARCHICAD’s <em>Info</em> palette, showing the number of selected and editable elements. The adjacent <em>Live Edit</em> checkbox markedly changes how the palette is used:</p>
 <ul>
@@ -255,16 +453,54 @@ article{padding-bottom:40px}
 <p>Note that the text style of listed traits may vary in certain circumstances. All items are typically displayed with a plain, black typeface, but the following alternatives may appear, sometimes in combination:</p>
 <div class="table-wrap"><table><thead><tr><th>Blue</th><th>Unique Traits Only relevant when multiple elements are selected. A trait name is displayed in blue when it isn’t common to the entire selection, i.e. at least one element in the selection doesn’t have that trait. This also applies to individual property values, where the selected elements might share that property in common but with a different value. See section 3.3.3 for more detail.</th></tr></thead><tbody><tr><td>**Bold**</td><td>Mixed Property Values Only relevant to properties. A property name will be displayed in bold when the property is present in multiple elements with differing values. The individual property values can be viewed by clicking the disclosure triangle. These will all be displayed in blue because they are not common to the entire selection.</td></tr><tr><td>Green</td><td>Auto-injected Traits Only relevant when the tool defaults are displayed (a tool is active and no elements are selected) and automatic injection of properties or classifications is active. The traits of the selected tool are displayed with one difference: if any traits have been added to the static list, these will override the tool settings and are displayed in green. If a classification is injected, any properties it adds will also be shown in green. See section 3.2.7 for more detail.</td></tr></tbody></table></div>
 <p>Examples of some text styles can be seen in the illustration above. These styles are a valuable resource for auditing and editing project data because they highlight differences and potential problems – see section 3.2.6 for more detail.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001692435">
-  <div class="art-h"><span class="no">02</span><h3>3.2 Managing Traits</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692435-3-2-Managing-Traits" target="_blank" rel="noopener">MyCi 知识库 · 3.2 Managing Traits</a></div>
-  <p>The following sections provide detailed instructions for managing data common to all traits (properties and classifications). The following section (3.3) provides additional detail for managing values associated with properties. All changes to attached traits (and values) are undoable.</p>
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">3.2 管理特征标记</h3>
+    <h3 class="en-only block">3.2 Managing Traits</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692435-3-2-Managing-Traits" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>以下各节提供了管理所有特征标记（属性和分类）共用数据的详细说明。下一节（3.3）提供了管理属性关联取值的更多细节。对所附加特征标记（及取值）的所有更改都可以撤销。</p></div>
+  <div class="en-only"><p>The following sections provide detailed instructions for managing data common to all traits (properties and classifications). The following section (3.3) provides additional detail for managing values associated with properties. All changes to attached traits (and values) are undoable.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The following sections provide detailed instructions for managing data common to all traits (properties and classifications). The following section (3.3) provides additional detail for managing values associated with properties. All changes to attached traits (and values) are undoable.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001692455">
-  <div class="art-h"><span class="no">03</span><h3>3.2.1 How to add Traits</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692455-3-2-1-How-to-add-Traits" target="_blank" rel="noopener">MyCi 知识库 · 3.2.1 How to add Traits</a></div>
-  <p>Select the target elements, click the ‘add’ button (</p>
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">3.2.1 如何添加特征标记</h3>
+    <h3 class="en-only block">3.2.1 How to add Traits</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692455-3-2-1-How-to-add-Traits" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>选中目标构件，点击相应列表下方的「add」（添加）按钮（</p>
+<p><img src="img/360001692455_0.jpg" alt="3.2.1 How to add Traits 示意图" loading="lazy"></p>
+<p>），并在列表出现时选择要添加的特征标记：</p>
+<p><img src="img/360001692455_1.jpg" alt="3.2.1 How to add Traits 示意图" loading="lazy"></p>
+<p>一次可以选择并添加多个项目，但请注意每个系统只能添加一个分类。当 Live Edit 激活时，所选特征标记会立即添加到选中的构件上。</p>
+<p>当 Live Edit 关闭时，特征标记只是被添加到一个静态列表（对选中的构件或工具默认设置不做任何改动）。要把这些特征标记注入选中的构件，请在面板列表中选中要添加的特征标记，然后点击注入按钮（</p>
+<p><img src="img/360001692455_2.jpg" alt="3.2.1 How to add Traits 示意图" loading="lazy"></p>
+<p>）。请注意，在 Live Edit 关闭时，很容易在后续的构件选择上重复此操作，因为面板列表不受构件选择或视图变化的影响。第 3.3.5 节提供了添加属性的更多细节。</p>
+<p>在 Live Edit 关闭时添加的任何特征标记还可以被自动注入到新构件中——更多细节参见第 3.2.7 节。</p></div>
+  <div class="en-only"><p>Select the target elements, click the ‘add’ button (</p>
+<p><img src="img/360001692455_0.jpg" alt="3.2.1 How to add Traits 示意图" loading="lazy"></p>
+<p>) under the relevant list and select the traits to be added when the list appears:</p>
+<p><img src="img/360001692455_1.jpg" alt="3.2.1 How to add Traits 示意图" loading="lazy"></p>
+<p>Multiple items can be selected and added in one step, but note that only one classification can be added per system. When Live Edit is active, the selected traits are immediately added to the selected elements.</p>
+<p>When Live Edit is off, the traits are simply added to a static list (nothing happens to selected elements or tool default). To inject these traits into selected elements, pick the traits to be added in the palette list and click the inject button (</p>
+<p><img src="img/360001692455_2.jpg" alt="3.2.1 How to add Traits 示意图" loading="lazy"></p>
+<p>). Note that it is very easy to repeat this action on subsequent element selections when Live Edit is off because the palette list is unaffected by element selection or view changes. Section 3.3.5 provides more detail for adding properties.</p>
+<p>Any traits added when Live Edit is off can also be automatically injected into new elements – refer to section 3.2.7 for more detail.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Select the target elements, click the ‘add’ button (</p>
 <p><img src="img/360001692455_0.jpg" alt="3.2.1 How to add Traits 示意图" loading="lazy"></p>
 <p>) under the relevant list and select the traits to be added when the list appears:</p>
 <p><img src="img/360001692455_1.jpg" alt="3.2.1 How to add Traits 示意图" loading="lazy"></p>
@@ -273,19 +509,67 @@ article{padding-bottom:40px}
 <p><img src="img/360001692455_2.jpg" alt="3.2.1 How to add Traits 示意图" loading="lazy"></p>
 <p>). Note that it is very easy to repeat this action on subsequent element selections when Live Edit is off because the palette list is unaffected by element selection or view changes. Section 3.3.5 provides more detail for adding properties.</p>
 <p>Any traits added when Live Edit is off can also be automatically injected into new elements – refer to section 3.2.7 for more detail.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001692475">
-  <div class="art-h"><span class="no">04</span><h3>3.2.2 How to remove Traits</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692475-3-2-2-How-to-remove-Traits" target="_blank" rel="noopener">MyCi 知识库 · 3.2.2 How to remove Traits</a></div>
-  <p>Traits can only be directly removed from elements when Live Edit is on. Select the target elements, select the traits to be removed in the palette list and click the delete button (</p>
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">3.2.2 如何移除特征标记</h3>
+    <h3 class="en-only block">3.2.2 How to remove Traits</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692475-3-2-2-How-to-remove-Traits" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>只有在 Live Edit 开启时，才能直接从构件中移除特征标记。选中目标构件，在面板列表中选中要移除的特征标记，然后点击删除按钮（</p>
+<p><img src="img/360001692475_0.jpg" alt="3.2.2 How to remove Traits 示意图" loading="lazy"></p>
+<p>）。第 3.3.6 节提供了移除构件属性的更多细节。</p>
+<p>在 Live Edit 关闭时点击删除按钮，只是把选中的特征标记从静态面板列表中移除（选中的构件不受影响）。</p></div>
+  <div class="en-only"><p>Traits can only be directly removed from elements when Live Edit is on. Select the target elements, select the traits to be removed in the palette list and click the delete button (</p>
+<p><img src="img/360001692475_0.jpg" alt="3.2.2 How to remove Traits 示意图" loading="lazy"></p>
+<p>). Section 3.3.6 provides more detail for removing element properties.</p>
+<p>Clicking the delete button when Live Edit is off simply removes the selected traits from the static palette list (selected elements are unaffected).</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Traits can only be directly removed from elements when Live Edit is on. Select the target elements, select the traits to be removed in the palette list and click the delete button (</p>
 <p><img src="img/360001692475_0.jpg" alt="3.2.2 How to remove Traits 示意图" loading="lazy"></p>
 <p>). Section 3.3.6 provides more detail for removing element properties.</p>
 <p>Clicking the delete button when Live Edit is off simply removes the selected traits from the static palette list (selected elements are unaffected).</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001692595">
-  <div class="art-h"><span class="no">05</span><h3>3.2.3 How to set or transfer selected traits into elements</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692595-3-2-3-How-to-set-or-transfer-selected-traits-into-elements" target="_blank" rel="noopener">MyCi 知识库 · 3.2.3 How to set or transfer selected traits into elements</a></div>
-  <p>ARCHICAD already provides a method for extracting data from one element and injecting it into another, but lacks any detail for managing property values. The Metadata palette allows any selection of traits to be applied or transferred to selected elements, even allowing just a single property value to be changed. This method is only applicable when Live Edit is off.</p>
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">3.2.3 如何把所选特征标记设置或转移到构件中</h3>
+    <h3 class="en-only block">3.2.3 How to set or transfer selected traits into elements</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692595-3-2-3-How-to-set-or-transfer-selected-traits-into-elements" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>ARCHICAD 已经提供了一种从一个构件提取数据并注入另一个构件的方法，但在管理属性取值方面缺乏任何细节。Metadata 面板允许把任意选择的特征标记应用到选中的构件或从构件中转移，甚至可以只更改单个属性值。此方法仅适用于 Live Edit 关闭的情况。</p>
+<p>点击提取按钮（</p>
+<p><img src="img/360001692595_0.jpg" alt="3.2.3 How to set or transfer selected traits into elements 示意图" loading="lazy"></p>
+<p>）可以把从选中构件中提取的特征标记（包括属性值）填充到面板中。它们也可以手动添加（点击</p>
+<p><img src="img/360001692595_1.jpg" alt="3.2.3 How to set or transfer selected traits into elements 示意图" loading="lazy"></p>
+<p>）、移除（点击</p>
+<p><img src="img/360001692595_2.jpg" alt="3.2.3 How to set or transfer selected traits into elements 示意图" loading="lazy"></p>
+<p>）并在列表中编辑取值。通过选中它们并点击注入按钮（</p>
+<p><img src="img/360001692595_3.jpg" alt="3.2.3 How to set or transfer selected traits into elements 示意图" loading="lazy"></p>
+<p>）可以把这些特征标记转移到其他构件中。如果面板列表中没有选中任何特征标记，则整个特征标记列表会替换此前指派给该构件的全部内容（因此特征标记可以同时被添加和移除）。如果列表中选中了任何项，则只注入这些项（不会有任何内容被移除）。</p>
+<p>关于管理构件属性值的更多细节，见第 3.3.9 节。</p></div>
+  <div class="en-only"><p>ARCHICAD already provides a method for extracting data from one element and injecting it into another, but lacks any detail for managing property values. The Metadata palette allows any selection of traits to be applied or transferred to selected elements, even allowing just a single property value to be changed. This method is only applicable when Live Edit is off.</p>
+<p>The palette can be populated with traits extracted from selected elements (including property values) by clicking the extract button (</p>
+<p><img src="img/360001692595_0.jpg" alt="3.2.3 How to set or transfer selected traits into elements 示意图" loading="lazy"></p>
+<p>). They can also be manually added (clicking</p>
+<p><img src="img/360001692595_1.jpg" alt="3.2.3 How to set or transfer selected traits into elements 示意图" loading="lazy"></p>
+<p>), removed (clicking</p>
+<p><img src="img/360001692595_2.jpg" alt="3.2.3 How to set or transfer selected traits into elements 示意图" loading="lazy"></p>
+<p>) and values edited in the list. These traits can be transferred into other elements by selecting them and clicking the inject button (</p>
+<p><img src="img/360001692595_3.jpg" alt="3.2.3 How to set or transfer selected traits into elements 示意图" loading="lazy"></p>
+<p>). If no traits are selected in the palette list, the entire list of traits replaces everything previously assigned to the element (so traits may be simultaneously added and removed). If any are selected in the list, only those traits are injected (and nothing is removed).</p>
+<p>Some additional detail for managing element property values is provided in section 3.3.9.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>ARCHICAD already provides a method for extracting data from one element and injecting it into another, but lacks any detail for managing property values. The Metadata palette allows any selection of traits to be applied or transferred to selected elements, even allowing just a single property value to be changed. This method is only applicable when Live Edit is off.</p>
 <p>The palette can be populated with traits extracted from selected elements (including property values) by clicking the extract button (</p>
 <p><img src="img/360001692595_0.jpg" alt="3.2.3 How to set or transfer selected traits into elements 示意图" loading="lazy"></p>
 <p>). They can also be manually added (clicking</p>
@@ -296,27 +580,88 @@ article{padding-bottom:40px}
 <p><img src="img/360001692595_3.jpg" alt="3.2.3 How to set or transfer selected traits into elements 示意图" loading="lazy"></p>
 <p>). If no traits are selected in the palette list, the entire list of traits replaces everything previously assigned to the element (so traits may be simultaneously added and removed). If any are selected in the list, only those traits are injected (and nothing is removed).</p>
 <p>Some additional detail for managing element property values is provided in section 3.3.9.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001692615">
-  <div class="art-h"><span class="no">06</span><h3>3.2.4 How to select elements matching specified traits</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692615-3-2-4-How-to-select-elements-matching-specified-traits" target="_blank" rel="noopener">MyCi 知识库 · 3.2.4 How to select elements matching specified traits</a></div>
-  <p>This feature only works when Live Edit is on. Simply click on any combination traits and click the select matching button (</p>
+  <div class="art-h"><span class="no">06</span>
+    <h3 class="zh-only block">3.2.4 如何选择匹配指定特征标记的构件</h3>
+    <h3 class="en-only block">3.2.4 How to select elements matching specified traits</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692615-3-2-4-How-to-select-elements-matching-specified-traits" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>此功能仅在 Live Edit 开启时可用。只需点击任意组合的特征标记，然后点击选择匹配项（select matching）按钮（</p>
+<p><img src="img/360001692615_0.jpg" alt="3.2.4 How to select elements matching specified traits 示意图" loading="lazy"></p>
+<p>）。同一视图中的任何匹配所选特征标记的构件都会被加入当前选择集。视图会缩放到整个选择集。</p>
+<p>关于选择具有匹配属性值的构件的更多细节，见第 3.3.7 节。</p></div>
+  <div class="en-only"><p>This feature only works when Live Edit is on. Simply click on any combination traits and click the select matching button (</p>
+<p><img src="img/360001692615_0.jpg" alt="3.2.4 How to select elements matching specified traits 示意图" loading="lazy"></p>
+<p>). Any elements in the same view matching the selected traits will be added to the current selection. The current view will be zoomed to the entire selection.</p>
+<p>Some additional detail for selecting elements with matching property values is provided in section 3.3.7.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>This feature only works when Live Edit is on. Simply click on any combination traits and click the select matching button (</p>
 <p><img src="img/360001692615_0.jpg" alt="3.2.4 How to select elements matching specified traits 示意图" loading="lazy"></p>
 <p>). Any elements in the same view matching the selected traits will be added to the current selection. The current view will be zoomed to the entire selection.</p>
 <p>Some additional detail for selecting elements with matching property values is provided in section 3.3.7.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001695056">
-  <div class="art-h"><span class="no">07</span><h3>3.2.5 How to filter selected elements to those matching selected traits</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695056-3-2-5-How-to-filter-selected-elements-to-those-matching-selected-traits" target="_blank" rel="noopener">MyCi 知识库 · 3.2.5 How to filter selected elements to those matching selected traits</a></div>
-  <p>This feature only works when Live Edit is on. Simply click on any combination traits and click the filter by traits button (</p>
+  <div class="art-h"><span class="no">07</span>
+    <h3 class="zh-only block">3.2.5 如何把选中构件筛选为匹配所选特征标记的构件</h3>
+    <h3 class="en-only block">3.2.5 How to filter selected elements to those matching selected traits</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695056-3-2-5-How-to-filter-selected-elements-to-those-matching-selected-traits" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>此功能仅在 Live Edit 开启时可用。只需点击任意组合的特征标记，然后点击按特征标记筛选按钮（</p>
+<p><img src="img/360001695056_0.jpg" alt="3.2.5 How to filter selected elements to those matching selected traits 示意图" loading="lazy"></p>
+<p>）。只有具有匹配特征标记的构件会保持选中。视图会缩放到整个选择集。</p>
+<p>关于按属性取值筛选选择集的更多细节，见第 3.3.8 节。</p></div>
+  <div class="en-only"><p>This feature only works when Live Edit is on. Simply click on any combination traits and click the filter by traits button (</p>
+<p><img src="img/360001695056_0.jpg" alt="3.2.5 How to filter selected elements to those matching selected traits 示意图" loading="lazy"></p>
+<p>). Only elements with matching traits will remain selected. The current view will be zoomed to the entire selection.</p>
+<p>Some additional detail for filtering the selection based on property values is provided in section 3.3.8.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>This feature only works when Live Edit is on. Simply click on any combination traits and click the filter by traits button (</p>
 <p><img src="img/360001695056_0.jpg" alt="3.2.5 How to filter selected elements to those matching selected traits 示意图" loading="lazy"></p>
 <p>). Only elements with matching traits will remain selected. The current view will be zoomed to the entire selection.</p>
 <p>Some additional detail for filtering the selection based on property values is provided in section 3.3.8.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001695076">
-  <div class="art-h"><span class="no">08</span><h3>3.2.6 How to quickly spot anomalies or problems in selected elements</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695076-3-2-6-How-to-quickly-spot-anomalies-or-problems-in-selected-elements" target="_blank" rel="noopener">MyCi 知识库 · 3.2.6 How to quickly spot anomalies or problems in selected elements</a></div>
-  <p>The text style of traits listed in the Metadata palette provides important feedback about the their status.</p>
+  <div class="art-h"><span class="no">08</span>
+    <h3 class="zh-only block">3.2.6 如何快速发现选中构件中的异常或问题</h3>
+    <h3 class="en-only block">3.2.6 How to quickly spot anomalies or problems in selected elements</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695076-3-2-6-How-to-quickly-spot-anomalies-or-problems-in-selected-elements" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Metadata 面板中列出特征标记所采用的文字样式，能就其状态提供重要反馈。</p>
+<p>例如：</p>
+<ul>
+<li>蓝色表示该特征标记并非选中构件所共有，这对于发现本应统一的特征标记很有用。ARCHICAD 的 Find & Select（查找并选择）面板可与此功能配合使用：先找出本应完全相同的构件，再检查 Metadata 面板中是否存在不一致。</li>
+</ul>
+<ul>
+<li>当一个属性在选中构件上具有多个取值时，会使用粗体显示。点击展开三角即可查看这些取值。</li>
+</ul>
+<p>发现异常的特征标记或属性值后，可以在列表中选中相应的特征标记/取值，然后点击按特征标记筛选（filter by traits）按钮，把相关构件隔离出来。第 3.3.8 节给出了一个使用属性的示例。</p></div>
+  <div class="en-only"><p>The text style of traits listed in the Metadata palette provides important feedback about the their status.</p>
+<p>For example:</p>
+<ul>
+<li>Blue indicates that the trait is not common to the selected elements, which is useful for spotting traits that are supposed to be uniform. ARCHICAD’s Find & Select palette is useful in conjunction with this feature, first finding elements that should be identical and then checking the Metadata palette for inconsistencies.</li>
+</ul>
+<ul>
+<li>A bold face is used wherever a property has multiple values across the selected elements. The values can be viewed by clicking the disclosure triangle.</li>
+</ul>
+<p>When an anomalous trait or property value is spotted, the contributing elements can be isolated by selecting the traits/values in the list and clicking the filter by traits button. An example using properties can be seen in section 3.3.8.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The text style of traits listed in the Metadata palette provides important feedback about the their status.</p>
 <p>For example:</p>
 <ul>
 <li>Blue indicates that the trait is not common to the selected elements, which is useful for spotting traits that are supposed to be uniform. ARCHICAD’s Find & Select palette is useful in conjunction with this feature, first finding elements that should be identical and then checking the Metadata palette for inconsistencies.</li>
@@ -325,11 +670,36 @@ article{padding-bottom:40px}
 <li>A bold face is used wherever a property has multiple values across the selected elements. The values can be viewed by clicking the disclosure triangle.</li>
 </ul>
 <p>When an anomalous trait or property value is spotted, the contributing elements can be isolated by selecting the traits/values in the list and clicking the filter by traits button. An example using properties can be seen in section 3.3.8.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001692635">
-  <div class="art-h"><span class="no">09</span><h3>3.2.7 How to automatically add traits to new elements</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692635-3-2-7-How-to-automatically-add-traits-to-new-elements" target="_blank" rel="noopener">MyCi 知识库 · 3.2.7 How to automatically add traits to new elements</a></div>
-  <p>The settings for new elements are usually governed by the Settings dialog for the relevant tool. The ARCHICAD Info and CI Tools Metadata palettes also provide an interactive view on those settings, but these settings are never shared by multiple tools using base ARCHICAD features.</p>
+  <div class="art-h"><span class="no">09</span>
+    <h3 class="zh-only block">3.2.7 如何自动给新构件添加特征标记</h3>
+    <h3 class="en-only block">3.2.7 How to automatically add traits to new elements</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692635-3-2-7-How-to-automatically-add-traits-to-new-elements" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>新构件的设置通常由相应工具的 Settings（设置）对话框决定。ARCHICAD 的 Info（信息）面板和 CI Tools 的 Metadata 面板也提供了这些设置的交互式视图，但这些设置绝不会被多个使用 ARCHICAD 基础功能的工具共享。</p>
+<p>不过，Metadata 面板可以把特征标记应用到任意类型的新构件上。面板中显示的任何特征标记都会被添加到每一个新构件上，无论其类型，而 Settings 对话框中的数据保持不变。当一系列构件必须共享某些特征标记或取值时，该功能很有用，因为它省去了打开多个 Settings 对话框反复做同样更改的麻烦。</p>
+<p>例如，一个项目可能有一套针对不同施工阶段和/或建筑特征的分类系统。只要激活分类注入并选择相应的分类，正确的分类就能自动应用到所有绘制的对象上（无论使用哪个工具）。</p>
+<p>面板中属性和分类的标题是按钮，用于打开和关闭注入功能：</p>
+<p><img src="img/360001692635_0.jpg" alt="3.2.7 How to automatically add traits to new elements 示意图" loading="lazy"></p>
+<p>无论 Live Edit 开启还是关闭，只要这些按钮被打开，特征标记就会被注入到新构件中。任何要被注入的属性或分类都以绿色高亮显示。请注意，注入不同的分类会自动注入与该分类关联的所有附加属性（同样以绿色高亮显示）。</p>
+<p>请注意，任何要被自动注入的分类和属性都可以随时通过关闭 Live Edit 来编辑。否则，无论在 Live Edit 激活状态下进行何种编辑，这些特征标记都保持不变。与被注入属性关联的属性值同样保持不变，除非被明确编辑。</p>
+<p>请注意，在 ARCHICAD 标准工具设置对话框中查看的设置绝不会因该功能而改变。因此，可以按需打开和关闭注入，而不会影响其他任何设置。</p></div>
+  <div class="en-only"><p>The settings for new elements are usually governed by the Settings dialog for the relevant tool. The ARCHICAD Info and CI Tools Metadata palettes also provide an interactive view on those settings, but these settings are never shared by multiple tools using base ARCHICAD features.</p>
+<p>However, the Metadata palette can apply traits to new elements of any type. Any traits displayed in the palette will be added to every new element irrespective of type, but the data in the Settings dialog remains unchanged. This feature is beneficial when a series of elements must share certain traits or values because it removes the need to open multiple Settings dialogs to repeatedly make the same change.</p>
+<p>For example, a project may have a classification system targeting different construction stages and/or building features. The correct classification can be automatically applied to everything drawn (with any tool) simply by activating classification injection and picking the appropriate classification.</p>
+<p>The palette headings for properties and classifications are buttons that toggles the injection feature on and off:</p>
+<p><img src="img/360001692635_0.jpg" alt="3.2.7 How to automatically add traits to new elements 示意图" loading="lazy"></p>
+<p>Traits will be injected into new elements when these buttons are toggled on whether Live Edit is on or off. Any properties or classifications to be injected are highlighted in green. Note that injecting a different classification will automatically inject any additional properties associated with that classification (also highlighted in green).</p>
+<p>Note that any classifications and properties to be automatically injected can be edited at any time by switching off Live Edit. Otherwise, these traits remain constant irrespective of editing carries out in with Live Edit active. Any property values associated with injected properties are also constant unless they are explicitly edited.</p>
+<p>Note that the settings viewed in ARCHICAD’s standard tool settings dialogs are never changed by this feature. Therefore, injection can be toggled on and off at need without disturbing any other settings.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The settings for new elements are usually governed by the Settings dialog for the relevant tool. The ARCHICAD Info and CI Tools Metadata palettes also provide an interactive view on those settings, but these settings are never shared by multiple tools using base ARCHICAD features.</p>
 <p>However, the Metadata palette can apply traits to new elements of any type. Any traits displayed in the palette will be added to every new element irrespective of type, but the data in the Settings dialog remains unchanged. This feature is beneficial when a series of elements must share certain traits or values because it removes the need to open multiple Settings dialogs to repeatedly make the same change.</p>
 <p>For example, a project may have a classification system targeting different construction stages and/or building features. The correct classification can be automatically applied to everything drawn (with any tool) simply by activating classification injection and picking the appropriate classification.</p>
 <p>The palette headings for properties and classifications are buttons that toggles the injection feature on and off:</p>
@@ -337,16 +707,62 @@ article{padding-bottom:40px}
 <p>Traits will be injected into new elements when these buttons are toggled on whether Live Edit is on or off. Any properties or classifications to be injected are highlighted in green. Note that injecting a different classification will automatically inject any additional properties associated with that classification (also highlighted in green).</p>
 <p>Note that any classifications and properties to be automatically injected can be edited at any time by switching off Live Edit. Otherwise, these traits remain constant irrespective of editing carries out in with Live Edit active. Any property values associated with injected properties are also constant unless they are explicitly edited.</p>
 <p>Note that the settings viewed in ARCHICAD’s standard tool settings dialogs are never changed by this feature. Therefore, injection can be toggled on and off at need without disturbing any other settings.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001695096">
-  <div class="art-h"><span class="no">10</span><h3>3.3 Managing Properties</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695096-3-3-Managing-Properties" target="_blank" rel="noopener">MyCi 知识库 · 3.3 Managing Properties</a></div>
-  <p>ARCHICAD properties are generally displayed and managed like any other trait (in the previous section) but the paired value adds complexity. This section describes any special characteristics associated with property values. All property changes are undoable.</p>
+  <div class="art-h"><span class="no">10</span>
+    <h3 class="zh-only block">3.3 管理属性</h3>
+    <h3 class="en-only block">3.3 Managing Properties</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695096-3-3-Managing-Properties" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>ARCHICAD 属性通常与其他任何特征标记一样显示和管理（见上一节），但成对的取值增加了复杂性。本节描述与属性取值相关的一些特殊特性。所有属性更改都可以撤销。</p></div>
+  <div class="en-only"><p>ARCHICAD properties are generally displayed and managed like any other trait (in the previous section) but the paired value adds complexity. This section describes any special characteristics associated with property values. All property changes are undoable.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>ARCHICAD properties are generally displayed and managed like any other trait (in the previous section) but the paired value adds complexity. This section describes any special characteristics associated with property values. All property changes are undoable.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001692655">
-  <div class="art-h"><span class="no">11</span><h3>3.3.1 Performance Notes</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692655-3-3-1-Performance-Notes" target="_blank" rel="noopener">MyCi 知识库 · 3.3.1 Performance Notes</a></div>
-  <p>The metadata palette displays all property values, even when calculated by expression. There may be times when the palette refresh causes a noticeable lag, depending on:</p>
+  <div class="art-h"><span class="no">11</span>
+    <h3 class="zh-only block">3.3.1 性能提示</h3>
+    <h3 class="en-only block">3.3.1 Performance Notes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692655-3-3-1-Performance-Notes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Metadata 面板会显示所有属性值，即使它们是通过表达式计算得出的。在某些情况下，面板刷新可能会造成明显的延迟，具体取决于：</p>
+<ul>
+<li>属性的数量；</li>
+</ul>
+<ul>
+<li>属性表达式的复杂度；</li>
+</ul>
+<ul>
+<li>选中构件的数量。</li>
+</ul>
+<p>如果延迟变得明显，而你并不需要属性值，点击 Properties（属性）的展开三角以折叠该面板。属性求值将停止运行，速度会恢复正常。</p>
+<p><img src="img/360001692655_0.jpg" alt="3.3.1 Performance Notes 示意图" loading="lazy"></p>
+<p>无需关闭面板。</p></div>
+  <div class="en-only"><p>The metadata palette displays all property values, even when calculated by expression. There may be times when the palette refresh causes a noticeable lag, depending on:</p>
+<ul>
+<li>The number of properties;</li>
+</ul>
+<ul>
+<li>The complexity of the property expressions;</li>
+</ul>
+<ul>
+<li>The number of selected elements.</li>
+</ul>
+<p>If the delay becomes noticeable and property values are not required, click the Properties disclosure triangle to collapse the panel. Property evaluation will become inactive and normal speed will resume.</p>
+<p><img src="img/360001692655_0.jpg" alt="3.3.1 Performance Notes 示意图" loading="lazy"></p>
+<p>There is no need to close the palette.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The metadata palette displays all property values, even when calculated by expression. There may be times when the palette refresh causes a noticeable lag, depending on:</p>
 <ul>
 <li>The number of properties;</li>
 </ul>
@@ -359,46 +775,148 @@ article{padding-bottom:40px}
 <p>If the delay becomes noticeable and property values are not required, click the Properties disclosure triangle to collapse the panel. Property evaluation will become inactive and normal speed will resume.</p>
 <p><img src="img/360001692655_0.jpg" alt="3.3.1 Performance Notes 示意图" loading="lazy"></p>
 <p>There is no need to close the palette.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001695116">
-  <div class="art-h"><span class="no">12</span><h3>3.3.2 How to edit a single property value</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695116-3-3-2-How-to-edit-a-single-property-value" target="_blank" rel="noopener">MyCi 知识库 · 3.3.2 How to edit a single property value</a></div>
-  <p>Editing individual property values in the Metadata palette is identical to the ARCHICAD UI and offers the same features. When Live Edit is on, any selected elements with that property are immediately updated with the new value.</p>
+  <div class="art-h"><span class="no">12</span>
+    <h3 class="zh-only block">3.3.2 如何编辑单个属性值</h3>
+    <h3 class="en-only block">3.3.2 How to edit a single property value</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695116-3-3-2-How-to-edit-a-single-property-value" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在 Metadata 面板中编辑单个属性值与 ARCHICAD 界面完全一致，并提供相同的功能。当 Live Edit 开启时，任何具有该属性的选中构件都会立即更新为新值。</p></div>
+  <div class="en-only"><p>Editing individual property values in the Metadata palette is identical to the ARCHICAD UI and offers the same features. When Live Edit is on, any selected elements with that property are immediately updated with the new value.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Editing individual property values in the Metadata palette is identical to the ARCHICAD UI and offers the same features. When Live Edit is on, any selected elements with that property are immediately updated with the new value.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001692695">
-  <div class="art-h"><span class="no">13</span><h3>3.3.3 How to view different values for the same property</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692695-3-3-3-How-to-view-different-values-for-the-same-property" target="_blank" rel="noopener">MyCi 知识库 · 3.3.3 How to view different values for the same property</a></div>
-  <p>When a property has different values across multiple selected elements, the property name is displayed in a bold face with a leading disclosure triangle. The property values are revealed by clicking the disclosure triangle:</p>
+  <div class="art-h"><span class="no">13</span>
+    <h3 class="zh-only block">3.3.3 如何查看同一属性的不同取值</h3>
+    <h3 class="en-only block">3.3.3 How to view different values for the same property</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692695-3-3-3-How-to-view-different-values-for-the-same-property" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当一个属性在多个选中构件上具有不同取值时，该属性名称会以粗体显示，并带有一个展开三角。点击该展开三角即可显示各属性值：</p>
+<p><img src="img/360001692695_0.jpg" alt="3.3.3 How to view different values for the same property 示意图" loading="lazy"></p>
+<p>括号中显示的是设为每个取值的构件数量。如果并非所有选中的构件都有该属性，属性名称也可能显示为蓝色。</p></div>
+  <div class="en-only"><p>When a property has different values across multiple selected elements, the property name is displayed in a bold face with a leading disclosure triangle. The property values are revealed by clicking the disclosure triangle:</p>
+<p><img src="img/360001692695_0.jpg" alt="3.3.3 How to view different values for the same property 示意图" loading="lazy"></p>
+<p>The number of elements set to each value is displayed in parentheses. The property name may also be displayed in blue if not all the selected elements have that property.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>When a property has different values across multiple selected elements, the property name is displayed in a bold face with a leading disclosure triangle. The property values are revealed by clicking the disclosure triangle:</p>
 <p><img src="img/360001692695_0.jpg" alt="3.3.3 How to view different values for the same property 示意图" loading="lazy"></p>
 <p>The number of elements set to each value is displayed in parentheses. The property name may also be displayed in blue if not all the selected elements have that property.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001695136">
-  <div class="art-h"><span class="no">14</span><h3>3.3.4 How to edit multiple property values simultaneously</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695136-3-3-4-How-to-edit-multiple-property-values-simultaneously" target="_blank" rel="noopener">MyCi 知识库 · 3.3.4 How to edit multiple property values simultaneously</a></div>
-  <p>Multiple property values can be simultaneously selected in the palette, but only the foremost will be shown as editable. If that value is changed, all selected values will be changed to the same value (and associated elements are updated). If different values are changed to the same value, they will collapse to a single row.</p>
+  <div class="art-h"><span class="no">14</span>
+    <h3 class="zh-only block">3.3.4 如何同时编辑多个属性值</h3>
+    <h3 class="en-only block">3.3.4 How to edit multiple property values simultaneously</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695136-3-3-4-How-to-edit-multiple-property-values-simultaneously" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>可以在面板中同时选中多个属性值，但只有最前面的那个会显示为可编辑。如果更改了该取值，所有选中的取值都会改为相同的值（相关构件也会随之更新）。如果把不同的取值改成相同的值，它们会合并为一行。</p>
+<p>例如，一组墙体有 3 种不同的砖类型——主流类型应保持不变（“Jumbo Modular”），另外两种应改为 “Ambassador”：</p>
+<p>a) 选中要更改的属性值并选取一个新取值；</p>
+<p>b) 面板更新为只显示所需的 2 种砖类型。</p>
+<p><img src="img/360001695136_0.jpg" alt="3.3.4 How to edit multiple property values simultaneously 示意图" loading="lazy"></p>
+<p>属性值的更改可以撤销。</p></div>
+  <div class="en-only"><p>Multiple property values can be simultaneously selected in the palette, but only the foremost will be shown as editable. If that value is changed, all selected values will be changed to the same value (and associated elements are updated). If different values are changed to the same value, they will collapse to a single row.</p>
+<p>For example, a selection of walls is noted to have 3 different brick types – the predominant type should remain unchanged (“Jumbo Modular”) but the other two should become “Ambassador”:</p>
+<p>a) Select the property values to be changed and pick a new value;</p>
+<p>b) The palette is updated to show just 2 types of brick as required.</p>
+<p><img src="img/360001695136_0.jpg" alt="3.3.4 How to edit multiple property values simultaneously 示意图" loading="lazy"></p>
+<p>Property value changes are undoable.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Multiple property values can be simultaneously selected in the palette, but only the foremost will be shown as editable. If that value is changed, all selected values will be changed to the same value (and associated elements are updated). If different values are changed to the same value, they will collapse to a single row.</p>
 <p>For example, a selection of walls is noted to have 3 different brick types – the predominant type should remain unchanged (“Jumbo Modular”) but the other two should become “Ambassador”:</p>
 <p>a) Select the property values to be changed and pick a new value;</p>
 <p>b) The palette is updated to show just 2 types of brick as required.</p>
 <p><img src="img/360001695136_0.jpg" alt="3.3.4 How to edit multiple property values simultaneously 示意图" loading="lazy"></p>
 <p>Property value changes are undoable.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001695156">
-  <div class="art-h"><span class="no">15</span><h3>3.3.5 How to add a property to an element</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695156-3-3-5-How-to-add-a-property-to-an-element" target="_blank" rel="noopener">MyCi 知识库 · 3.3.5 How to add a property to an element</a></div>
-  <p>Adding a property is essentially the same as adding any other trait, but there is an important difference. Properties are associated with elements on the basis of their classification – therefore, the only way to add a property to an element is to change the classification it is associated with, i.e. by adding the property to the classification. Metadatawill do this automatically to facilitate adding a property. The change is non-destructive and undoable, but it is important to understand that adding a property to an element will likewise affect other elements with the same classification.</p>
+  <div class="art-h"><span class="no">15</span>
+    <h3 class="zh-only block">3.3.5 如何给构件添加属性</h3>
+    <h3 class="en-only block">3.3.5 How to add a property to an element</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695156-3-3-5-How-to-add-a-property-to-an-element" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>添加属性本质上与添加其他任何特征标记相同，但有一个重要区别。属性是基于分类与构件关联的——因此，给构件添加属性的唯一方式是更改它所关联的分类，即把该属性添加到分类中。Metadata 会自动完成这一步，以便于添加属性。该更改是非破坏性的且可撤销，但需要明白的是，给构件添加属性同样会影响具有相同分类的其他构件。</p>
+<p>属性可以同时添加到多个构件上，这可能导致多个分类发生变化。</p></div>
+  <div class="en-only"><p>Adding a property is essentially the same as adding any other trait, but there is an important difference. Properties are associated with elements on the basis of their classification – therefore, the only way to add a property to an element is to change the classification it is associated with, i.e. by adding the property to the classification. Metadatawill do this automatically to facilitate adding a property. The change is non-destructive and undoable, but it is important to understand that adding a property to an element will likewise affect other elements with the same classification.</p>
+<p>Properties can be added to multiple elements simultaneously, which could result in changes to multiple classifications.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Adding a property is essentially the same as adding any other trait, but there is an important difference. Properties are associated with elements on the basis of their classification – therefore, the only way to add a property to an element is to change the classification it is associated with, i.e. by adding the property to the classification. Metadatawill do this automatically to facilitate adding a property. The change is non-destructive and undoable, but it is important to understand that adding a property to an element will likewise affect other elements with the same classification.</p>
 <p>Properties can be added to multiple elements simultaneously, which could result in changes to multiple classifications.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001695176">
-  <div class="art-h"><span class="no">16</span><h3>3.3.6 How to delete a property from an element</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695176-3-3-6-How-to-delete-a-property-from-an-element" target="_blank" rel="noopener">MyCi 知识库 · 3.3.6 How to delete a property from an element</a></div>
-  <p>The process of removing a property from an element is the same as any other trait, but there is an important difference in how the add-on achieves this. Properties are associated with elements on the basis of their classification – therefore, the only way to remove a property from an element is to change the classification it is associated with, i.e. by removing the property to the classification.</p>
+  <div class="art-h"><span class="no">16</span>
+    <h3 class="zh-only block">3.3.6 如何从构件中删除属性</h3>
+    <h3 class="en-only block">3.3.6 How to delete a property from an element</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695176-3-3-6-How-to-delete-a-property-from-an-element" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>从构件中移除属性的过程与其他任何特征标记相同，但插件实现这一点的方式有一个重要区别。属性是基于分类与构件关联的——因此，从构件中移除属性的唯一方式是更改它所关联的分类，即从分类中移除该属性。</p>
+<p>Metadata 不这样做，因为那具有破坏性——也就是说，与许多其他构件关联的属性取值可能会被悄无声息地丢失。因此，插件只是把属性值设为未定义而非真正移除它——实际上，结果是一样的。</p>
+<p>属性可以同时从多个构件中移除。属性移除操作可以撤销。</p></div>
+  <div class="en-only"><p>The process of removing a property from an element is the same as any other trait, but there is an important difference in how the add-on achieves this. Properties are associated with elements on the basis of their classification – therefore, the only way to remove a property from an element is to change the classification it is associated with, i.e. by removing the property to the classification.</p>
+<p>Metadata doesn’t do this because it’s destructive, i.e. the property values associated with many other elements may be silently lost. Therefore, the add-on sets the property value to undefined rather than removing it – in effect, the result is the same.</p>
+<p>Properties can be removed from multiple elements simultaneously. Property removal is undoable.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The process of removing a property from an element is the same as any other trait, but there is an important difference in how the add-on achieves this. Properties are associated with elements on the basis of their classification – therefore, the only way to remove a property from an element is to change the classification it is associated with, i.e. by removing the property to the classification.</p>
 <p>Metadata doesn’t do this because it’s destructive, i.e. the property values associated with many other elements may be silently lost. Therefore, the add-on sets the property value to undefined rather than removing it – in effect, the result is the same.</p>
 <p>Properties can be removed from multiple elements simultaneously. Property removal is undoable.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001692715">
-  <div class="art-h"><span class="no">17</span><h3>3.3.7 How to select elements with specific property values</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692715-3-3-7-How-to-select-elements-with-specific-property-values" target="_blank" rel="noopener">MyCi 知识库 · 3.3.7 How to select elements with specific property values</a></div>
-  <p>The trait selection button (</p>
+  <div class="art-h"><span class="no">17</span>
+    <h3 class="zh-only block">3.3.7 如何选择具有特定属性值的构件</h3>
+    <h3 class="en-only block">3.3.7 How to select elements with specific property values</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692715-3-3-7-How-to-select-elements-with-specific-property-values" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>特征标记选择按钮（</p>
+<p><img src="img/360001692715_0.jpg" alt="3.3.7 How to select elements with specific property values 示意图" loading="lazy"></p>
+<p>）可以查找并选中具有相同属性的构件，而且还可以指定具体的取值。如果在面板中选中多个取值，则属性和取值与其中任意一项匹配的所有构件都会被加入选择集。视图会缩放到整个选择集。</p>
+<p>例如，选中的墙体具有 1hr 的耐火等级，了解还有哪些墙体相同会很有用：</p>
+<p>a) 选中 1hr 的属性值；</p>
+<p>b) 点击选择按钮（</p>
+<p><img src="img/360001692715_1.jpg" alt="3.3.7 How to select elements with specific property values 示意图" loading="lazy"></p>
+<p>）以查找所有匹配的（可见的）墙体。</p>
+<p>%%IMG2%%</p></div>
+  <div class="en-only"><p>The trait selection button (</p>
+<p><img src="img/360001692715_0.jpg" alt="3.3.7 How to select elements with specific property values 示意图" loading="lazy"></p>
+<p>) can find and select elements with the same property, but additionally with a specific value. If multiple values are selected in the palette, all elements with a property and value matching any one of those items will be added to the selection. The current view will be zoomed to the entire selection.</p>
+<p>For example, a selected wall has a 1hr fire rating and it would be useful to know what other walls are the same:</p>
+<p>a) Select the 1hr property value;</p>
+<p>b) Click the selection button (</p>
+<p><img src="img/360001692715_1.jpg" alt="3.3.7 How to select elements with specific property values 示意图" loading="lazy"></p>
+<p>) to find all matching (visible) walls.</p>
+<p>%%IMG2%%</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The trait selection button (</p>
 <p><img src="img/360001692715_0.jpg" alt="3.3.7 How to select elements with specific property values 示意图" loading="lazy"></p>
 <p>) can find and select elements with the same property, but additionally with a specific value. If multiple values are selected in the palette, all elements with a property and value matching any one of those items will be added to the selection. The current view will be zoomed to the entire selection.</p>
 <p>For example, a selected wall has a 1hr fire rating and it would be useful to know what other walls are the same:</p>
@@ -407,11 +925,38 @@ article{padding-bottom:40px}
 <p><img src="img/360001692715_1.jpg" alt="3.3.7 How to select elements with specific property values 示意图" loading="lazy"></p>
 <p>) to find all matching (visible) walls.</p>
 <p>%%IMG2%%</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001692755">
-  <div class="art-h"><span class="no">18</span><h3>3.3.8 How to filter an element selection for those matching specific property values</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692755-3-3-8-How-to-filter-an-element-selection-for-those-matching-specific-property-values" target="_blank" rel="noopener">MyCi 知识库 · 3.3.8 How to filter an element selection for those matching specific property values</a></div>
-  <p>The trait filter button (</p>
+  <div class="art-h"><span class="no">18</span>
+    <h3 class="zh-only block">3.3.8 如何筛选出匹配特定属性值的构件选择集</h3>
+    <h3 class="en-only block">3.3.8 How to filter an element selection for those matching specific property values</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692755-3-3-8-How-to-filter-an-element-selection-for-those-matching-specific-property-values" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>特征标记筛选按钮（</p>
+<p><img src="img/360001692755_0.jpg" alt="3.3.8 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
+<p>）与其他特征标记一样可用于属性，但它还会把选择集筛选为具有相同属性且取值匹配的构件。如果在面板中选中多个取值，则属性和取值与其中任意一项匹配的构件都会通过筛选。视图会缩放到整个选择集。</p>
+<p>例如，一组墙体本应全部指定相同的砖类型，但有 2 个例外，需要把它们隔离出来检查：</p>
+<p>a) 选中那个不寻常的砖类型；</p>
+<p>b) 点击筛选按钮（</p>
+<p><img src="img/360001692755_1.jpg" alt="3.3.8 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
+<p>）把选择集缩减为仅剩那些砖类型不同的墙体。</p>
+<p>%%IMG2%%</p></div>
+  <div class="en-only"><p>The trait filter button (</p>
+<p><img src="img/360001692755_0.jpg" alt="3.3.8 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
+<p>) works with properties in the same way as other traits, but also filters the selection to elements with the same property and a matching value. If multiple values are selected in the palette, elements with a property and value matching any one of those items will pass the filter. The current view will be zoomed to the entire selection.</p>
+<p>For example, a selection of walls should all be assigned the same brick type, but there are 2 exceptions and these should be isolated for checking:</p>
+<p>a) Select the unexpected brick type;</p>
+<p>b) Click the filter button (</p>
+<p><img src="img/360001692755_1.jpg" alt="3.3.8 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
+<p>) to reduce the selection to only those walls with the varying brick type.</p>
+<p>%%IMG2%%</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The trait filter button (</p>
 <p><img src="img/360001692755_0.jpg" alt="3.3.8 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
 <p>) works with properties in the same way as other traits, but also filters the selection to elements with the same property and a matching value. If multiple values are selected in the palette, elements with a property and value matching any one of those items will pass the filter. The current view will be zoomed to the entire selection.</p>
 <p>For example, a selection of walls should all be assigned the same brick type, but there are 2 exceptions and these should be isolated for checking:</p>
@@ -420,11 +965,52 @@ article{padding-bottom:40px}
 <p><img src="img/360001692755_1.jpg" alt="3.3.8 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
 <p>) to reduce the selection to only those walls with the varying brick type.</p>
 <p>%%IMG2%%</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001695216">
-  <div class="art-h"><span class="no">19</span><h3>3.3.9 How to inject a property with a specific value into selected elements</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695216-3-3-9-How-to-inject-a-property-with-a-specific-value-into-selected-elements" target="_blank" rel="noopener">MyCi 知识库 · 3.3.9 How to inject a property with a specific value into selected elements</a></div>
-  <p>When Live Edit is on, a property can be added in the same way as any other trait (with the add trait button</p>
+  <div class="art-h"><span class="no">19</span>
+    <h3 class="zh-only block">3.3.9 如何把带特定值的属性注入选中的构件</h3>
+    <h3 class="en-only block">3.3.9 How to inject a property with a specific value into selected elements</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695216-3-3-9-How-to-inject-a-property-with-a-specific-value-into-selected-elements" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当 Live Edit 开启时，属性可以像其他任何特征标记（trait）一样添加（使用添加特征标记按钮</p>
+<p><img src="img/360001695216_0.jpg" alt="3.3.9 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p>）。取值可以通过选中该属性的所有值并将其编辑为所需值来设置。</p>
+<p>或者，当 Live Edit 关闭时，可以把所需属性添加到列表中、设为所需值，然后点击注入按钮（</p>
+<p><img src="img/360001695216_1.jpg" alt="3.3.9 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p>）将其设置到选中的构件中。</p>
+<p>这两种方式有一个重要区别——前者在设置正确取值之前，如有必要会修改分类，以确保属性已附着；而后者只会为已经具有该属性的构件设置属性值（分类保持不变）。</p>
+<p>例如，要从一组墙体中提取属性值，把耐火等级设为 1Hr、砖类型设为 “Ambassador” 到其他墙体上：</p>
+<p>a) 选中要提取属性值的墙体，然后点击提取按钮（</p>
+<p><img src="img/360001695216_2.jpg" alt="3.3.9 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p>）；</p>
+<p>b) 选中要赋予新属性值的墙体，选择要应用的属性值，然后点击注入按钮（</p>
+<p><img src="img/360001695216_3.jpg" alt="3.3.9 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p>）。</p>
+<p>%%IMG4%%</p>
+<p>该技巧能极大简化把大量构件的详细属性值转移到其他构件上的过程。</p></div>
+  <div class="en-only"><p>When Live Edit is on, a property can be added in the same way as any other trait (with the add trait button</p>
+<p><img src="img/360001695216_0.jpg" alt="3.3.9 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p>). The value can be set by selecting all values of that property and editing it the required value.</p>
+<p>Alternatively, when Live Edit is off, the required property can be added to the list, set to the required value and set in the selected elements by clicking the inject button (</p>
+<p><img src="img/360001695216_1.jpg" alt="3.3.9 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p>).</p>
+<p>There is an important difference in these two approaches – the former will modify a classification if necessary to ensure the property is attached before setting the correct value, whereas the latter will only set the property value in elements that already have that property (and classifications remain unchanged).</p>
+<p>For example, property values are extracted from a selection of walls. From these properties, the fire rating is to be set to 1Hr and brick type to “Ambassador” to other walls:</p>
+<p>a) Select the walls to extract property values from and click the extract button (</p>
+<p><img src="img/360001695216_2.jpg" alt="3.3.9 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p>);</p>
+<p>b) Select the walls to have new property values, pick the property values to apply and click the inject button (</p>
+<p><img src="img/360001695216_3.jpg" alt="3.3.9 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p>).</p>
+<p>%%IMG4%%</p>
+<p>This technique can greatly simplify the transfer of large selections of detailed property values to other elements.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>When Live Edit is on, a property can be added in the same way as any other trait (with the add trait button</p>
 <p><img src="img/360001695216_0.jpg" alt="3.3.9 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
 <p>). The value can be set by selecting all values of that property and editing it the required value.</p>
 <p>Alternatively, when Live Edit is off, the required property can be added to the list, set to the required value and set in the selected elements by clicking the inject button (</p>
@@ -440,27 +1026,154 @@ article{padding-bottom:40px}
 <p>).</p>
 <p>%%IMG4%%</p>
 <p>This technique can greatly simplify the transfer of large selections of detailed property values to other elements.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-16173485834895">
-  <div class="art-h"><span class="no">20</span><h3>Bulk Editing with Metadata Palette</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/16173485834895-Bulk-Editing-with-Metadata-Palette" target="_blank" rel="noopener">MyCi 知识库 · Bulk Editing with Metadata Palette</a></div>
-  <p>With Multiple Elements Selected and Properties Populated, we can make bulk changes to several Elements at the Same Time.</p>
+  <div class="art-h"><span class="no">20</span>
+    <h3 class="zh-only block">使用 Metadata 面板进行批量编辑</h3>
+    <h3 class="en-only block">Bulk Editing with Metadata Palette</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/16173485834895-Bulk-Editing-with-Metadata-Palette" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当选中多个构件且属性已填充后，我们可以同时对多个构件进行批量更改。</p>
+<p>在下面的选择集中选中了两个构件，一道墙和一块楼板。由于这些构件存在属性不匹配的情况——也就是说并非所有选中的构件都拥有相同的属性集——这些差异以蓝色标示。</p>
+<p>如果属性显示为黑色，则可以对所有选中的构件进行批量编辑，这意味着所有选中的构件都共享该属性。在下面所示的案例中，一个自定义值 False 正被应用到这两个构件上。</p>
+<p><img src="img/16173485834895_0.jpg" alt="Bulk Editing with Metadata Palette 示意图" loading="lazy"></p>
+<p>你可以根据 Property Manager（属性管理器）中的属性设置，从下拉列表中选择可用选项，或直接输入文本。</p>
+<p><img src="img/16173485834895_1.jpg" alt="Bulk Editing with Metadata Palette 示意图" loading="lazy"></p>
+<p>这使得在项目中面对大规模的构件选择时，无论构件类型如何都可以修改属性。</p></div>
+  <div class="en-only"><p>With Multiple Elements Selected and Properties Populated, we can make bulk changes to several Elements at the Same Time.</p>
+<p>In the Selection below we have two elements selected, a wall and a slab. Because the Elements have a property mismatch, that is to say that not all Elements selected have the same property sets, these are indicated in blue.</p>
+<p>It is then possible to do bulk editing across all selected Elements if the property is in Black, meaning that all selected Elements share this Property. In the case shown below a custom value of False is being applied to both these Elements.</p>
+<p><img src="img/16173485834895_0.jpg" alt="Bulk Editing with Metadata Palette 示意图" loading="lazy"></p>
+<p>We can select from the Property settings available as drop-downs or enter text depending on the Property Settings in the Property Manager.</p>
+<p><img src="img/16173485834895_1.jpg" alt="Bulk Editing with Metadata Palette 示意图" loading="lazy"></p>
+<p>This allows for Properties to be changed irrespective of the Element type across a large selection in the project.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>With Multiple Elements Selected and Properties Populated, we can make bulk changes to several Elements at the Same Time.</p>
 <p>In the Selection below we have two elements selected, a wall and a slab. Because the Elements have a property mismatch, that is to say that not all Elements selected have the same property sets, these are indicated in blue.</p>
 <p>It is then possible to do bulk editing across all selected Elements if the property is in Black, meaning that all selected Elements share this Property. In the case shown below a custom value of False is being applied to both these Elements.</p>
 <p><img src="img/16173485834895_0.jpg" alt="Bulk Editing with Metadata Palette 示意图" loading="lazy"></p>
 <p>We can select from the Property settings available as drop-downs or enter text depending on the Property Settings in the Property Manager.</p>
 <p><img src="img/16173485834895_1.jpg" alt="Bulk Editing with Metadata Palette 示意图" loading="lazy"></p>
 <p>This allows for Properties to be changed irrespective of the Element type across a large selection in the project.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001694996">
-  <div class="art-h"><span class="no">21</span><h3>Definitions</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001694996-Definitions" target="_blank" rel="noopener">MyCi 知识库 · Definitions</a></div>
-  <p>The add-on currently focusses on properties and classifications, but other metadata may be added in future. Rather than repeating expressions like “<em>properties/classifications</em>” throughout the document, this data will generally be summarised as BIM element <em><strong>traits</strong></em>. Only elements that contain these traits can be managed and measured by the add-on, primarily those that can be seen in the 3D building model.</p>
+  <div class="art-h"><span class="no">21</span>
+    <h3 class="zh-only block">定义</h3>
+    <h3 class="en-only block">Definitions</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001694996-Definitions" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>该插件目前聚焦于属性和分类，但未来可能会加入其他元数据。为了避免在整份文档中重复出现诸如「<em>属性/分类</em>」这样的表述，这些数据将统称为 BIM 构件的<em><strong>特征标记（traits）</strong></em>。只有包含这些特征标记的构件才能被该插件管理和度量，主要是那些能在三维建筑模型中看到的构件。</p></div>
+  <div class="en-only"><p>The add-on currently focusses on properties and classifications, but other metadata may be added in future. Rather than repeating expressions like “<em>properties/classifications</em>” throughout the document, this data will generally be summarised as BIM element <em><strong>traits</strong></em>. Only elements that contain these traits can be managed and measured by the add-on, primarily those that can be seen in the 3D building model.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The add-on currently focusses on properties and classifications, but other metadata may be added in future. Rather than repeating expressions like “<em>properties/classifications</em>” throughout the document, this data will generally be summarised as BIM element <em><strong>traits</strong></em>. Only elements that contain these traits can be managed and measured by the add-on, primarily those that can be seen in the 3D building model.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-16173477300879">
-  <div class="art-h"><span class="no">22</span><h3>Metadata - Filtering and Selecting</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/16173477300879-Metadata-Filtering-and-Selecting" target="_blank" rel="noopener">MyCi 知识库 · Metadata - Filtering and Selecting</a></div>
-  <p>The Controls at the bottom are very powerful to use as a filtering and selection tool in one of three ways:</p>
+  <div class="art-h"><span class="no">22</span>
+    <h3 class="zh-only block">Metadata - 筛选与选择</h3>
+    <h3 class="en-only block">Metadata - Filtering and Selecting</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/16173477300879-Metadata-Filtering-and-Selecting" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>底部的控件作为筛选和选择工具非常强大，共有三种用法：</p>
+<ul>
+<li>从 Live Edit 列表中添加或移除属性</li>
+</ul>
+<ul>
+<li>基于特定属性进行选择</li>
+</ul>
+<ul>
+<li>筛选并选择具有特定属性值的构件</li>
+</ul>
+<p>下面我们逐一详细说明。</p>
+<p>下面显示的四个按钮具有以下功能：</p>
+<ul>
+<li>「加号」允许我们添加不在 Live Edit 属性列表中的属性</li>
+</ul>
+<ul>
+<li>「X」将属性设为未定义（undefined），实际上意味着忽略该属性</li>
+</ul>
+<ul>
+<li>Selection（选择）按钮会基于所选属性扩展选择，把所有具有该属性值的构件加入选择集</li>
+</ul>
+<ul>
+<li>Filter（筛选）按钮将只选中具有特定值的构件，实际上会取消选中所有不具有该属性值的构件。</li>
+</ul>
+<p><img src="img/16173477300879_0.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>我们来看示例中的四个构件，以便说明清楚。</p>
+<p>有两道相同的墙、一块楼板和一根柱。</p>
+<p>为说明选择功能，我们只聚焦一个属性，即 ‘Combustible’（可燃性）。</p>
+<p>在下图中，‘Combustible’ 属性按所示方式设置。</p>
+<p><img src="img/16173477300879_1.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>我们先看第 3 点 Selection（选择）和第 4 点 Filter（筛选）。</p>
+<p>一旦我们选中全部 4 个构件，Metadata 面板中就会显示如下内容。</p>
+<p><img src="img/16173477300879_2.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>我们可以看到它与此前的取值相对应。如果我们在 Metadata 面板中选中 ‘True’ 值并点击第 4 点 Filter（筛选），它会取消选中其他构件，只在选择集中保留具有该值的两个构件。</p>
+<p><img src="img/16173477300879_3.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>于是只有具有该属性值的构件保持选中状态。</p>
+<p><img src="img/16173477300879_4.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>反过来，我们也可以选中其中一个构件，然后选中该属性以扩展选择。</p>
+<p><img src="img/16173477300879_5.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>这会把所有具有相同取值的构件加入选择集。</p>
+<p><img src="img/16173477300879_6.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>我们也可以在关闭 Live Edit 的情况下使用添加和删除属性的功能，随心所欲地操作属性。</p></div>
+  <div class="en-only"><p>The Controls at the bottom are very powerful to use as a filtering and selection tool in one of three ways:</p>
+<ul>
+<li>Add or Remove properties from the Live Edit list</li>
+</ul>
+<ul>
+<li>To make a selection based on a specific property</li>
+</ul>
+<ul>
+<li>Filter and select elements that have a specific property value</li>
+</ul>
+<p>Let us look at these in more detail.</p>
+<p>The four buttons shown below have the following Functions:</p>
+<ul>
+<li>The ‘plus’ allows us to add properties not in the Live edit list of properties</li>
+</ul>
+<ul>
+<li>The ‘X’ sets a property to undefined, which effectively means that it is ignored</li>
+</ul>
+<ul>
+<li>The Selection button will add to the selection based on a selected property, adding any elements that HAVE that property value to the selection</li>
+</ul>
+<ul>
+<li>The Filter button will select only elements that have a specific value, effectively de-selecting all elements that HAVE NOT got that property value.</li>
+</ul>
+<p><img src="img/16173477300879_0.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>Let us look at the four elements in the example to clarify.</p>
+<p>We have two identical walls, one slab and one column.</p>
+<p>We will focus on only one single property namely ‘Combustible’ to explain the selection functionality.</p>
+<p>In the diagram below the ‘Combustible’ property is set as indicated</p>
+<p><img src="img/16173477300879_1.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>Let us look at point 3, Selection and 4, Filter first.</p>
+<p>Once we have selected all 4 these Elements we will now see the following in the Metadata palette.</p>
+<p><img src="img/16173477300879_2.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>We can see it corresponds with the values from before. If we were to select the ‘True’ value from the Metadata palette and Click on 4, Filter, it will deselect the other elements and only retain the two elements that have that value in the selection.</p>
+<p><img src="img/16173477300879_3.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>and only those elements with that property value remain selected</p>
+<p><img src="img/16173477300879_4.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>Inversely we could select one of these elements, and select the property to add to the selection.</p>
+<p><img src="img/16173477300879_5.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>This will add any elements with the Same value to the selection.</p>
+<p><img src="img/16173477300879_6.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
+<p>We can also utilise the add and delete properties with Live edit switched off to manipulate properties as we see fit.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Controls at the bottom are very powerful to use as a filtering and selection tool in one of three ways:</p>
 <ul>
 <li>Add or Remove properties from the Live Edit list</li>
 </ul>
@@ -502,11 +1215,66 @@ article{padding-bottom:40px}
 <p>This will add any elements with the Same value to the selection.</p>
 <p><img src="img/16173477300879_6.jpg" alt="Metadata - Filtering and Selecting 示意图" loading="lazy"></p>
 <p>We can also utilise the add and delete properties with Live edit switched off to manipulate properties as we see fit.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-360001694976">
-  <div class="art-h"><span class="no">23</span><h3>Overview</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001694976-Overview" target="_blank" rel="noopener">MyCi 知识库 · Overview</a></div>
-  <p>BIM projects become more valuable to to the processes of design, documentation, construction and facilities management when they expand beyond simple geometric models and embrace data modelling. Metadata like *p**roperties<em> and </em>classifications*, for example, enable relatively simple objects to play a wide variety of roles with no ambiguity. This is particularly true for costing. Even if it was possible for cost to be calculated exclusively from BIM element geometry, the effort involved would be prohibitive.</p>
+  <div class="art-h"><span class="no">23</span>
+    <h3 class="zh-only block">概述</h3>
+    <h3 class="en-only block">Overview</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001694976-Overview" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当 BIM 项目超越简单的几何模型、拥抱数据建模时，它们对设计、文档编制、施工和设施管理的流程而言会变得更有价值。例如 <em>属性（properties）</em> 和 <em>分类（classifications）</em> 这样的元数据，能让相对简单的对象毫无歧义地承担多种多样的角色。这一点在成本核算上尤其正确。即使成本完全可以通过 BIM 构件的几何形状来计算，所需的工作量也将大得令人却步。</p>
+<p>例如，属性能让单个椅子对象代表来自不同制造商的各式各样产品。关键在于把这些信息承载在对象元数据中。然而，这也给 BIM 建模和 QA 检查流程带来更重的负担。错误或遗漏可能导致严重的成本或工期计算失误。</p>
+<p><em>Metadata</em> 插件的设计目的，就是在建模流程的每一个阶段帮助避免这些问题，为管理构件属性和分类提供交互式的查看与编辑功能。</p>
+<p>标准的 ARCHICAD <em>Settings</em>（设置）对话框和 <em>Info</em>（信息）面板在多种原因下可能都不奏效：</p>
+<ul>
+<li>看不到所选构件之间的差异；</li>
+</ul>
+<ul>
+<li>无法同时编辑不同类型的构件；</li>
+</ul>
+<ul>
+<li>离散的属性值选择无法轻松地在构件之间转移。</li>
+</ul>
+<p><em>Metadata</em> 面板正是为解决这些问题而明确设计的，它可以实现：</p>
+<ul>
+<li>快速识别并修正非预期的差异，细化到很深的层次。</li>
+</ul>
+<ul>
+<li>对多个构件进行元数据查看和编辑，即使它们类型不同。</li>
+</ul>
+<ul>
+<li>在任意数量的构件之间提取和插入所选的属性值。</li>
+</ul></div>
+  <div class="en-only"><p>BIM projects become more valuable to to the processes of design, documentation, construction and facilities management when they expand beyond simple geometric models and embrace data modelling. Metadata like *p**roperties<em> and </em>classifications*, for example, enable relatively simple objects to play a wide variety of roles with no ambiguity. This is particularly true for costing. Even if it was possible for cost to be calculated exclusively from BIM element geometry, the effort involved would be prohibitive.</p>
+<p>For example, properties enable a single chair object to represent a wide variety of products from different manufacturers. The key is to carry this information in the object metadata. However, this places a heavier burden on the BIM modelling and QA checking processes. Errors or omissions could result in serious cost or scheduling miscalculations.</p>
+<p>The <em>Metadata</em> add-on has been designed to help avoid these problems at every stage of the modelling process, providing interactive viewing and editing facilities for managing element properties and classifications.</p>
+<p>The standard ARCHICAD <em>Settings</em> dialog and <em>Info</em> palette can be ineffective for a variety or reasons:</p>
+<ul>
+<li>V ariations between selected element s cannot be seen;</li>
+</ul>
+<ul>
+<li>D ifferent element types cannot be edited simultaneously;</li>
+</ul>
+<ul>
+<li>Discrete property value selections cannot be easily transferred between elements.</li>
+</ul>
+<p>The <em>Metadata</em> palette is explicitly designed to target these issues, enabling:</p>
+<ul>
+<li>U n expected variations to be quickly identified and remedied to a fine level of detail.</li>
+</ul>
+<ul>
+<li>Metadata v iewing and editing for multiple elements, even when they are of differing types.</li>
+</ul>
+<ul>
+<li>E xtraction and insertion of selected property values across any number o f elements .</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>BIM projects become more valuable to to the processes of design, documentation, construction and facilities management when they expand beyond simple geometric models and embrace data modelling. Metadata like *p**roperties<em> and </em>classifications*, for example, enable relatively simple objects to play a wide variety of roles with no ambiguity. This is particularly true for costing. Even if it was possible for cost to be calculated exclusively from BIM element geometry, the effort involved would be prohibitive.</p>
 <p>For example, properties enable a single chair object to represent a wide variety of products from different manufacturers. The key is to carry this information in the object metadata. However, this places a heavier burden on the BIM modelling and QA checking processes. Errors or omissions could result in serious cost or scheduling miscalculations.</p>
 <p>The <em>Metadata</em> add-on has been designed to help avoid these problems at every stage of the modelling process, providing interactive viewing and editing facilities for managing element properties and classifications.</p>
 <p>The standard ARCHICAD <em>Settings</em> dialog and <em>Info</em> palette can be ineffective for a variety or reasons:</p>
@@ -529,18 +1297,76 @@ article{padding-bottom:40px}
 <ul>
 <li>E xtraction and insertion of selected property values across any number o f elements .</li>
 </ul>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-8620586027919">
-  <div class="art-h"><span class="no">24</span><h3>Release Notes - Metadata</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/8620586027919-Release-Notes-Metadata" target="_blank" rel="noopener">MyCi 知识库 · Release Notes - Metadata</a></div>
-  <h1>Release notes - Metadata - 1.07</h1>
+  <div class="art-h"><span class="no">24</span>
+    <h3 class="zh-only block">发行说明 - Metadata</h3>
+    <h3 class="en-only block">Release Notes - Metadata</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8620586027919-Release-Notes-Metadata" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h1>发行说明 - Metadata - 1.07</h1>
+<h3>缺陷</h3>
+<p>MET-1 属性在 Metadata 面板中显示为未定义</p></div>
+  <div class="en-only"><h1>Release notes - Metadata - 1.07</h1>
+<h3>Bug</h3>
+<p>MET-1 Properties show as undefined in the metadata panel</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h1>Release notes - Metadata - 1.07</h1>
 <h3>Bug</h3>
 <p>MET-1 Properties show as undefined in the metadata panel</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-16173522114063">
-  <div class="art-h"><span class="no">25</span><h3>Using Metadata to transfer Properties</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/16173522114063-Using-Metadata-to-transfer-Properties" target="_blank" rel="noopener">MyCi 知识库 · Using Metadata to transfer Properties</a></div>
-  <p>With the Live Edit Switched off we are able to use the Metadata Tool to transfer Properties from one Element to another in the following way. Ensure that Live Edit is switch off as shown below.</p>
+  <div class="art-h"><span class="no">25</span>
+    <h3 class="zh-only block">使用 Metadata 转移属性</h3>
+    <h3 class="en-only block">Using Metadata to transfer Properties</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/16173522114063-Using-Metadata-to-transfer-Properties" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在关闭 Live Edit（实时编辑）的情况下，我们可以用以下方式使用 Metadata 工具把属性从一个构件转移到另一个构件。请确保 Live Edit 已关闭，如下图所示。</p>
+<p><img src="img/16173522114063_0.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p>此时选中任意构件，列表不会像 Live Edit 开启时那样自动填充。</p>
+<p>然后我们可以利用吸管（Eye Dropper）工具来获取某个构件或多个构件的属性。本例中我们选中那块楼板（Slab），并用吸管取出它的属性。</p>
+<p><img src="img/16173522114063_1.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p>我们可以看到 Combustibility（可燃性）被设为 True。</p>
+<p>现在可以删除我们不想要使用的属性，或更改所选属性「篮子」中的任意属性。</p>
+<p>我们将只保留 Combustibility 和 Fire Rating（耐火等级）属性，并更改其中一个的值（我们只需选中不想转移的属性并点击 X 删除）。</p>
+<p><img src="img/16173522114063_2.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p><img src="img/16173522114063_3.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p>我们接着来更改 Fire Rating。</p>
+<p><img src="img/16173522114063_4.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p>现在我们可以选中任意构件并转移属性，前提是该构件上存在这些属性。请注意，这可以在 Archicad 的 Property Manager（属性管理器）中编辑。</p>
+<p>我们选中想要把属性转移过去的构件，然后点击 inject（注入）按钮。</p>
+<p><img src="img/16173522114063_5.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p>我们可以看到属性已在选中的墙体构件上被调整。</p>
+<p><img src="img/16173522114063_6.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>With the Live Edit Switched off we are able to use the Metadata Tool to transfer Properties from one Element to another in the following way. Ensure that Live Edit is switch off as shown below.</p>
+<p><img src="img/16173522114063_0.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p>If we then select any Element the list will not automatically populate as is the case when we have Live Edit on.</p>
+<p>We can then utilise the Eye Dropper tool to fetch the Properties of a selected Element, or multiple elements. We will select the Slab in our Example and add it’s properties with the Eye Dropper.</p>
+<p><img src="img/16173522114063_1.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p>We can see that the Combustibility is set to True.</p>
+<p>It is no possible to delete the properties that we do not wish to use, cange any of the ones in our selected ‘basket’ of Properties.</p>
+<p>We will leave only the Combustibility and the Fire Rating Property, with an altered value (We simply select the Properties we don’t want to transfer and click the X to delete).</p>
+<p><img src="img/16173522114063_2.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p><img src="img/16173522114063_3.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p>We will no proceed to change the Fire Rating</p>
+<p><img src="img/16173522114063_4.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p>We can now select any Element and transfer the Properties, if those Properties are present in that Element. Please note this can be edited in Archicad’s Property Manager.</p>
+<p>We select the Element that we ant to transfer the Properties to and Click the inject button</p>
+<p><img src="img/16173522114063_5.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+<p>We can see the Properties have been adjusted in the selected wall Element.</p>
+<p><img src="img/16173522114063_6.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>With the Live Edit Switched off we are able to use the Metadata Tool to transfer Properties from one Element to another in the following way. Ensure that Live Edit is switch off as shown below.</p>
 <p><img src="img/16173522114063_0.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
 <p>If we then select any Element the list will not automatically populate as is the case when we have Live Edit on.</p>
 <p>We can then utilise the Eye Dropper tool to fetch the Properties of a selected Element, or multiple elements. We will select the Slab in our Example and add it’s properties with the Eye Dropper.</p>
@@ -557,11 +1383,76 @@ article{padding-bottom:40px}
 <p><img src="img/16173522114063_5.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
 <p>We can see the Properties have been adjusted in the selected wall Element.</p>
 <p><img src="img/16173522114063_6.jpg" alt="Using Metadata to transfer Properties 示意图" loading="lazy"></p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-16173542333967">
-  <div class="art-h"><span class="no">26</span><h3>Using the Metadata Tool to input Properties 'on the fly'</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/16173542333967-Using-the-Metadata-Tool-to-input-Properties-on-the-fly" target="_blank" rel="noopener">MyCi 知识库 · Using the Metadata Tool to input Properties 'on the fly'</a></div>
-  <p>The Metadata Tool can also be used to populate properties as Elements are created in Archicad.</p>
+  <div class="art-h"><span class="no">26</span>
+    <h3 class="zh-only block">使用 Metadata 工具「即时」输入属性</h3>
+    <h3 class="en-only block">Using the Metadata Tool to input Properties 'on the fly'</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/16173542333967-Using-the-Metadata-Tool-to-input-Properties-on-the-fly" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Metadata 工具还可以用于在 Archicad 中创建构件时自动填充属性。</p>
+<p>我们将使用「+」按钮，把我们希望放入选择「篮子」中的属性加进来，以便在绘制新构件时自动填充。本例中我们将添加 Thermal Transmittance（传热系数）。</p>
+<p><img src="img/16173542333967_0.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>点击 Choose（选择），使其成为我们选择的一部分。</p>
+<p><img src="img/16173542333967_1.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>我们可以像之前一样在面板中定义该值。</p>
+<p><img src="img/16173542333967_2.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>我们把它设为 5。</p>
+<p><img src="img/16173542333967_3.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>打开面板中的 Properties（属性）按钮后，任何以这些设置创建的构件都可以被自动填充到构件中。</p>
+<p><img src="img/16173542333967_4.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>现在我们以绘制一根梁（Beam）为例，在绘制过程中我们会看到属性变成绿色，表示它们正在被导入到构件中。</p>
+<p><img src="img/16173542333967_5.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>我们会看到这些属性已被转移到该梁上。</p>
+<p><img src="img/16173542333967_6.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>同样地，也可以控制新建构件的分类（Classification）。</p>
+<p>我们再次用「+」号向 Metadata 面板添加一个分类。</p>
+<p><img src="img/16173542333967_7.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>然后我们就可以从项目已加载的分类中选择任意一个分类。</p>
+<p><img src="img/16173542333967_8.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>任何新建的构件都会自动拥有这个分类，以及此前所选择并调整过的属性。</p>
+<p>必须点击 Classifications（分类）按钮来启用分类转移。</p>
+<p><img src="img/16173542333967_9.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>我们再来绘制一根梁。</p>
+<p><img src="img/16173542333967_10.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>我们可以看到分类和属性都变成了绿色，说明它们正在被填充到构件中。</p>
+<p><img src="img/16173542333967_11.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>可以看到分类和属性已被填充到这个新构件中。</p></div>
+  <div class="en-only"><p>The Metadata Tool can also be used to populate properties as Elements are created in Archicad.</p>
+<p>We will us the “+” button to add Properties hat we want n our selection ‘basket’ to populate as we draw new Elements. We will add Thermal Transmittance in this example.</p>
+<p><img src="img/16173542333967_0.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>Click on Choose to make this part of our Selection.</p>
+<p><img src="img/16173542333967_1.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>We can define this value in the Palette as previously.</p>
+<p><img src="img/16173542333967_2.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>We set this to 5.</p>
+<p><img src="img/16173542333967_3.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>Any Element created with these settings can be automatically populated into an element by switching on the Properties button in the palette.</p>
+<p><img src="img/16173542333967_4.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>We will now draw a Beam as an Example, we wwill see the Properies turn green that are being imported into the Element as we draw.</p>
+<p><img src="img/16173542333967_5.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>We will see the Properties have been transferred into the Beam.</p>
+<p><img src="img/16173542333967_6.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>In the same way it is possible to control the Classifications of newly created Elements.</p>
+<p>Lets add a Classification to the Metadata Palette. We will add it once again with the “+” sign.</p>
+<p><img src="img/16173542333967_7.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>We can then choose any Classification from the loaded Classification of the project.</p>
+<p><img src="img/16173542333967_8.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>Any new Elements created will automatically have this Classification irrespective of Element Type, and the Properties previously selected and adjusted.</p>
+<p>We have to engage the Classification transfer by clicking on the Classifications button.</p>
+<p><img src="img/16173542333967_9.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>Let us draw another Beam.</p>
+<p><img src="img/16173542333967_10.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>We can see that the Classification and Properties have turned green, meaning they are no being populated into the Element.</p>
+<p><img src="img/16173542333967_11.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
+<p>As we can see the Classification and the properties have been populated into the new Element.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Metadata Tool can also be used to populate properties as Elements are created in Archicad.</p>
 <p>We will us the “+” button to add Properties hat we want n our selection ‘basket’ to populate as we draw new Elements. We will add Thermal Transmittance in this example.</p>
 <p><img src="img/16173542333967_0.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
 <p>Click on Choose to make this part of our Selection.</p>
@@ -589,11 +1480,48 @@ article{padding-bottom:40px}
 <p>We can see that the Classification and Properties have turned green, meaning they are no being populated into the Element.</p>
 <p><img src="img/16173542333967_11.jpg" alt="Using the Metadata Tool to input Properties 'on the fly' 示意图" loading="lazy"></p>
 <p>As we can see the Classification and the properties have been populated into the new Element.</p>
+    </div>
+  </details>
 </div>
 <div class="art" id="a-16173433012751">
-  <div class="art-h"><span class="no">27</span><h3>What does the Metadata tool do?</h3></div>
-  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/16173433012751-What-does-the-Metadata-tool-do" target="_blank" rel="noopener">MyCi 知识库 · What does the Metadata tool do?</a></div>
-  <p>The Metadata tool offers powerful control over properties in Archicad.</p>
+  <div class="art-h"><span class="no">27</span>
+    <h3 class="zh-only block">Metadata 工具能做什么？</h3>
+    <h3 class="en-only block">What does the Metadata tool do?</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/16173433012751-What-does-the-Metadata-tool-do" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Metadata 工具提供了对 Archicad 中属性的强大控制能力。</p>
+<p>Metadata 面板的启动入口位于 CI Tools>Metadata>Show Metadata palette（显示 Metadata 面板）。</p>
+<p><img src="img/16173433012751_0.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
+<p>这会弹出用于处理 Archicad 中构件的面板。</p>
+<p><img src="img/16173433012751_1.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
+<p>该面板主要让你能同时编辑多个构件的属性和分类。这与 Archicad 的 Find & Select（查找并选择）不同——后者编辑多个构件时只会编辑所选中某一种构件类型的属性。</p>
+<p>我们来看一些示例：</p>
+<p>我们在开启 Live Edit 开关的情况下同时选中一道墙和一块楼板。</p>
+<p><img src="img/16173433012751_2.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
+<p>面板中会填充所有构件的属性；显示为黑色的属性</p>
+<p>在所有选中构件的属性中都存在，而显示为蓝色的属性则不是所有构件都共有，或者在当前选择集中确实不同。</p>
+<p>要编辑其中任何一项，只需点击属性左侧的 Custom Value（自定义值）按钮。</p>
+<p>另一个重要特点是：如果我们选中了两个同类型构件，而某些属性不同——例如两面墙的可燃性取值不同——列表会以蓝色下拉形式同时给出两个值。它还会标明每个取值对应的选中项数量，本例中各为一个。</p>
+<p><img src="img/16173433012751_3.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>The Metadata tool offers powerful control over properties in Archicad.</p>
+<p>The activation of the Metadata palette is under CI Tools>Metadata>Show Metadata palette.</p>
+<p><img src="img/16173433012751_0.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
+<p> This will bring up the palette for use with Elements in Archicad.</p>
+<p><img src="img/16173433012751_1.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
+<p>Primarily the palette allows you to edit Properties and Classifications across multiple Element simultaneously. This is different to Archicad Find & Select as editing multiple Elements will only edit the properties of one of the selected Element type.</p>
+<p>Let us look at some examples:</p>
+<p>We will select a wall and a slab simultaneously with the Live Edit toggle engaged.</p>
+<p><img src="img/16173433012751_2.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
+<p>The Properties will populate with all the Properties of the Elements, the properties in Black</p>
+<p>exist across all the Properties of selected elements, while the ones in Blue do not exist across all Elements or are in fact different across the current selection.</p>
+<p>To edit any of these we can simply click on the Custom Value button to the left of the Property.</p>
+<p>Another important feature is that if we have two Elements selected of the same type and there are properties that are different, in this instance two walls with different values for combustibility the list will give us both values as a dropdown in blue. It will also indicate the number of selected items with each value, in this case one of each.</p>
+<p><img src="img/16173433012751_3.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Metadata tool offers powerful control over properties in Archicad.</p>
 <p>The activation of the Metadata palette is under CI Tools>Metadata>Show Metadata palette.</p>
 <p><img src="img/16173433012751_0.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
 <p> This will bring up the palette for use with Elements in Archicad.</p>
@@ -607,11 +1535,14 @@ article{padding-bottom:40px}
 <p>To edit any of these we can simply click on the Custom Value button to the left of the Property.</p>
 <p>Another important feature is that if we have two Elements selected of the same type and there are properties that are different, in this instance two walls with different values for combustibility the list will give us both values as a dropdown in blue. It will also indicate the number of selected items with each value, in this case one of each.</p>
 <p><img src="img/16173433012751_3.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
+    </div>
+  </details>
 </div>
 </article>
 
 <footer class="foot">
-CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
 </footer>
 </main>
 </div>
@@ -643,6 +1574,30 @@ CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 
       });
     });
   }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
 })();
 </script>
 </body>
