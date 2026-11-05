@@ -615,3 +615,82 @@ TEL：13512848962 刘珂 · E-mail：kbit_ai@126.com
 ### 踩坑记录
 
 作品集页的滚动容器是 `.viewport`（`overflow-y:auto` + `position:fixed`），不是 window。测试时用 `window.scrollTo` 无效，需 `document.getElementById('viewport').scrollTop`，且因 `scroll-behavior:smooth` 需临时置 `auto` 才能立即生效。
+
+---
+
+## 2026-11-05 13:15 — 优化：主页标语居中、详情页响应式图幅、子页页脚精简
+
+| 项 | 内容 |
+|---|---|
+| 模块 | 主站 `index.html`、`Portfolio/index.html`、`resources/index.html`、`public/sub-footer.css` |
+| 变更简述 | 三处改动：主页标语真正居中；作品集详情页适配大屏图幅；两个子页页脚精简为联系方式+版权 |
+| 备注 | 已部署上线，线上浏览器实测通过 |
+
+### 1. 主页标语居中
+
+**问题**：「设计有形 科技无界」视觉偏左，与下方英文不居中。
+
+**原因**：`letter-spacing:4px` 会在末字后额外留 4px 空白，而 `.footer-slogan-cn` 是块级元素、文字默认左对齐 —— 两个 div 的盒子虽然同宽（都是 262px），但中文实际只占了左侧一段。
+
+**解决**：
+```css
+.footer-slogan { text-align:center; }
+.footer-slogan-cn { letter-spacing:4px; margin-right:-4px; }  /* 抵消末字后空白 */
+.footer-slogan-en { letter-spacing:3px; margin-right:-3px; }
+```
+
+实测中英文中点均为 722px，偏差 0。
+
+### 2. 作品集详情页适配台式显示器
+
+**问题**：详情页所有内容锁在 `max-width:480px` 窄容器内，在 1440px 屏幕上只占三分之一，两侧大片留白。
+
+**解决**：加 `@media (min-width:900px)` 断点，移动端保持原样：
+
+| 元素 | 移动端 | 桌面端 |
+|---|---|---|
+| 主图 `.hero-image` | 480px | **1080px** |
+| 图库 `.gallery-item` | 480px | **1080px** |
+| 视频区 `.video-section` | 480px | **1080px** |
+| 标题区 `.detail-title-area` | 480px | 1080px，字号 2.1rem |
+| 信息卡 `.info-card` | 432px | 1016px，内边距 32/40px |
+
+**图幅选择依据**：1080px 兼顾大屏观感与加载速度——再大则建筑实景图在 1440 屏上会出现明显拉伸感，反而失真。
+
+实测：1440px 视口下主图与图库均 1080px；390px 视口下主图仍为 390px（未受影响）。
+
+### 3. 子页页脚精简
+
+**保留**：联系方式（TEL / E-mail）+ 版权声明
+**移除**：标语、快捷链接、ICP 备案号
+
+结构：
+```
+联系方式
+TEL：13512848962 刘珂 · E-mail：kbit_ai@126.com
+© 2024 天津匡形无界智能科技有限公司（KBITAI）. All rights reserved.
+```
+
+**响应式处理**：桌面端电话与邮箱同行；窄屏（≤640px）自动分行，避免折行错乱。
+
+```css
+@media (max-width:640px) {
+  .sub-footer-contact .fc-item { display:block; }
+  .sub-footer-contact .fc-sep { display:none; }
+}
+```
+
+共享样式 `sub-footer.css` 保留 `.hidden` 类，需要恢复标语/链接/备案时去掉该类即可。
+
+### 验证
+
+| 项目 | 结果 |
+|---|---|
+| 主页标语对齐 | cnMid=722 / enMid=722，偏差 0 |
+| 详情页桌面端 | 主图 1080px、图库 1080px |
+| 详情页移动端 | 主图 390px，未受影响 |
+| 子页页脚 | 仅联系方式 + 版权，两页一致 |
+| 桌面端页脚 | TEL 与邮箱同行 |
+| 移动端页脚 | 各占一行，无折行错乱 |
+| i18n 词条 | Portfolio 7/7、资源页 27/27，zh 与 en 均无缺失 |
+| 线上一致性 | 主页 80263 / Portfolio 74827 / 资源页 16624 字节 |
