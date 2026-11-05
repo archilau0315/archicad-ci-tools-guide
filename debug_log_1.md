@@ -129,3 +129,54 @@ tar czf - -C resources AC_Tutorial/ci_tools/site | \
 
 - 33 张图官方源站已失效，已用占位说明替代
 - 英文原文 357 篇保持原文收录（未逐篇精译），中文主线已覆盖 16 个工具的核心操作
+
+---
+
+## 2026-11-05 10:30 — 修订：主站资源下拉 + 封面优化
+
+| 项 | 内容 |
+|---|---|
+| 模块 | `index.html`（主站导航）、`resources/AC_Tutorial/ci_tools/cover.jpg` |
+| 变更简述 | 主站右上角「资源」改为下拉菜单（5 项）；CI Tools 封面重做为正方形适配卡片裁切 |
+| 备注 | 已部署上线并浏览器实测通过 |
+
+### 主站资源下拉
+
+复用既有 `.nav-dropdown` 机制（与「AI工具」下拉同款），新增 `#resDropdown`：
+
+```html
+<li class="nav-dropdown" id="resDropdown">
+    <a href="./resources/index.html" class="nav-cta resource-cta nav-dropdown-toggle"
+       data-i18n="nav-other" onclick="toggleResDropdown(event)">资源</a>
+    <ul class="nav-dropdown-menu"> ... 5 项 ... </ul>
+</li>
+```
+
+菜单项：全部资源 / Archicad CI Tools 完全指南 / 澳洲设计实务资料包 / Vibe Coding 学员实践手册 / 用魔法创建魔法
+
+**配套改动**：
+- `toggleResDropdown(e)` —— 移动端（≤768px）点击切换 `.open`，PC 端 CSS `:hover` 展开
+- 点击外部自动关闭（复用 AI 下拉的 document 监听，追加 `resDropdown` 判断）
+- i18n 中英词典各补 5 个 key（`nav-res-all` / `nav-res-citools` / `nav-res-autrain` / `nav-res-vibe` / `nav-res-magic`）
+- 定位修正：`#resDropdown > .nav-dropdown-toggle` 抬 `z-index:103`，避免菜单遮挡触发按钮
+
+### 封面优化
+
+**问题**：`.article-thumb` 是 150×150 正方形 + `object-fit:cover`，原 1200×900 横版封面被裁掉两侧，标题全部丢失。
+
+**解决**：改为 1000×1000 正方形，重新布局：
+
+```
+┌─────────────────────┐
+│  CI Tools 菜单截图    │  ← 上部 43%，品牌色横线分隔
+├─────────────────────┤
+│      CI Tools        │  ← 112px 特大字
+│      完全指南        │  ← 蓝色
+│  16 个效率插件 · …    │  ← 灰色小字
+│  357 篇文档 · 1193 图 │  ← 蓝色粗体
+└─────────────────────┘
+```
+
+截图裁剪自 `site/img/206662343_0.jpg`（CI Tools 完整菜单树），取原图上 74% 保留菜单主体。
+
+实测 150×150 缩略图下「CI Tools 完全指南」清晰可辨。
