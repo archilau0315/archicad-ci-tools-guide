@@ -4,9 +4,9 @@
 
 **ci_tools** — Central Innovation CI Tools / Graphisoft ProKit 的完整中文操作手册与速查卡
 
-[![Version](https://img.shields.io/badge/version-v1.0-35613f?style=flat-square)](https://www.workbuddy.cn/space/s/Z05k7HSgZXSkCw1Ecirqi0) [![Tools](https://img.shields.io/badge/tools-16-6d9470?style=flat-square)](https://www.workbuddy.cn/space/s/Z05k7HSgZXSkCw1Ecirqi0) [![Screenshots](https://img.shields.io/badge/screenshots-24-35613f?style=flat-square)](https://www.workbuddy.cn/space/s/Z05k7HSgZXSkCw1Ecirqi0) [![CAD](https://img.shields.io/badge/CAD-ArchiCAD-c0392b?style=flat-square)](https://www.workbuddy.cn/space/s/Z05k7HSgZXSkCw1Ecirqi0)
+[![Version](https://img.shields.io/badge/version-v2.0-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![Articles](https://img.shields.io/badge/articles-357-6d9470?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) [![Screenshots](https://img.shields.io/badge/screenshots-1193-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![CAD](https://img.shields.io/badge/CAD-ArchiCAD-c0392b?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)
 
-[在线访问](https://workbuddy.link/p/5fCzXnHhFkUQ2Cb0QS5FyA) · [速查卡](https://workbuddy.link/p/N2l4YSAqze2nG2azDYrkgg) · [快速开始](#-快速开始) · [工具目录](#-工具目录) · [工程结构](#-工程结构)
+**[在线访问](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)** · [中文主线速查](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/guide.html) · [全量文章索引](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) · [工具目录](#-工具目录) · [工程结构](#-工程结构)
 
 </div>
 
@@ -14,7 +14,9 @@
 
 ## 这是什么
 
-一套**面向全团队**的 Archicad CI Tools 操作手册。
+一套**面向全团队**的 Archicad CI Tools 官方教程全量中文版。
+
+内容来自 Central Innovation / Graphisoft 官方 MyCi 知识库，<b>357 篇官方文档、1193 张界面截图、42.3 万字</b>，按 16 个工具分册整理，配中文主线速查。
 
 解决的是一个很具体的问题：<b>插件装了，但不知道从哪儿打开，更不知道"为什么打不开"</b>。
 
@@ -160,9 +162,22 @@ python3 tools/localize_images.py docs/CI_Tools_用户手册_图文版.html asset
 2. 压缩后放入 `assets/img/`
 3. 在 `manual_master.md` 里用相对路径引用：`![说明](../assets/img/xxx.jpg)`
 
+### 部署到线上
+
+站点已部署至 `https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/`（公网公开，无需登录）。
+
+服务器：阿里云 `47.93.210.248`，Web 根目录 `/www/wwwroot/kbitai.com.cn/`
+
+```bash
+# 从 resources 目录打包上传
+tar czf - -C /path/to/resources AC_Tutorial/ci_tools/site | \
+  ssh -i ~/.ssh/id_ed25519 root@47.93.210.248 \
+  "cd /www/wwwroot/kbitai.com.cn/resources && tar xzf - && chown -R www:www AC_Tutorial"
+```
+
 ### 同步到资料库
 
-资料库版本供云端协作使用，链接见 readme 顶部。更新后覆盖导入对应节点再重新发布即可。
+资料库版本供云端协作使用：https://workbuddy.link/p/5fCzXnHhFkUQ2Cb0QS5FyA
 
 ---
 

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Fitout（室内布置）完整中文教程：房间一键配齐家具">
+<title>Fitout · 室内布置 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t">CI Tools 完全指南</div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h">开始</div>
+<a href="index.html"><span class="ic">◈</span>总览与快速开始</a>
+<a href="all.html"><span class="ic">☰</span>全量文章索引</a>
+<a href="guide.html"><span class="ic">★</span>中文主线速查</a>
+<div class="nav-h">16 个工具</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span>Annotate · 文字格式</a>
+<a class="" href="transformer.html"><span class="ic">⇄</span>Transformer · 项目镜像</a>
+<a class="" href="timetracker.html"><span class="ic">◷</span>Time Tracker · 工时统计</a>
+<a class="" href="detail.html"><span class="ic">▤</span>Detail Elements · 二维详图</a>
+<a class="" href="keynotes.html"><span class="ic">❝</span>Keynotes · 规范注释</a>
+<a class="" href="metadata.html"><span class="ic">◈</span>MetaData · 属性管理</a>
+<a class="" href="quantities.html"><span class="ic">∑</span>Quantities · 工程量算量</a>
+<a class="" href="cabinets.html"><span class="ic">▦</span>Cabinets · 橱柜木作</a>
+<a class="" href="doors.html"><span class="ic">⌸</span>Doors+Windows · 门窗</a>
+<a class="" href="coverings.html"><span class="ic">▨</span>Coverings · 覆面层</a>
+<a class="" href="electrical.html"><span class="ic">⚡</span>Electrical · 电气</a>
+<a class="" href="stairs.html"><span class="ic">⇱</span>Stairs · 楼梯</a>
+<a class="" href="structural.html"><span class="ic">⌗</span>Structural · 结构构件</a>
+<a class="" href="sites.html"><span class="ic">⛿</span>Sites · 场地景观</a>
+<a class=" on" href="fitout.html"><span class="ic">⌸</span>Fitout · 室内布置</a>
+<div class="nav-h">关于</div>
+<a href="about.html"><span class="ic">ⓘ</span>来源与说明</a>
+</aside>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html">总览</a> / Fitout · 室内布置</div>
+<div class="hero">
+  <span class="kicker">工具分册</span>
+  <h1>Fitout · 室内布置</h1>
+  <p>房间一键配齐家具</p>
+  <div class="meta">
+    <span><b>5</b> 篇教程</span>
+    <span><b>1.0</b> 万字</span>
+    <span><b>40</b> 张图</span>
+  </div>
+</div>
+<article>
+
+<div class="art" id="a-10897513971471">
+  <div class="art-h"><span class="no">01</span><h3>Ci Fitout Tool Released</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/10897513971471-Ci-Fitout-Tool-Released" target="_blank" rel="noopener">MyCi 知识库 · Ci Fitout Tool Released</a></div>
+  <p>The Ci Fitout tool is designed to allow you to quickly and easily fit out the rooms in your building with a minimum of fuss.</p>
+<p>Simply choose the Type of room you are fitting out, set some parameters for it - amount of beds, type of tables, dressers, or baths, etc - and then click on your room to place all the elements.</p>
+<p>You can essentially go from an empty room to a fully outfitted bedroom in just 1 click!</p>
+<p>The Fitout tool is only available in Archicad 28, and can be accessed via the Fitout tool in your Toolbox (make sure to apply the Ci Tools Work Environment to get it in there):</p>
+<p><img src="img/10897513971471_0.jpg" alt="Ci Fitout Tool Released 示意图" loading="lazy"></p>
+<p>The just select the Room Type you want, and click in the rooms to place</p>
+<p><img src="img/10897513971471_1.jpg" alt="Ci Fitout Tool Released 示意图" loading="lazy"></p>
+<p>Once placed, you can easily rearrange the placed elements, while still keeping them grouped together for ease of handling:</p>
+<p><img src="img/10897513971471_2.jpg" alt="Ci Fitout Tool Released 示意图" loading="lazy"></p>
+<p>And you can also specify the settings for the elements in each room (these can be saved as favourites too, so you can setup a bunch of ready-to-go room presets)</p>
+<p><img src="img/10897513971471_3.jpg" alt="Ci Fitout Tool Released 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-13992052507023">
+  <div class="art-h"><span class="no">02</span><h3>Fitout  - Window Treatments and Door Circulation</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/13992052507023-Fitout-Window-Treatments-and-Door-Circulation" target="_blank" rel="noopener">MyCi 知识库 · Fitout  - Window Treatments and Door Circulation</a></div>
+  <h1>Window Treatment</h1>
+<p>Let us look at creating a Window Treatment</p>
+<p><img src="img/13992052507023_0.jpg" alt="Fitout  - Window Treatments and Door Circulation 示意图" loading="lazy"></p>
+<p>The Window treatment allows for a space that is off limits to be defined around a window. We can adjust the 3D space to have extra clearance above, below, to the left, and to the right of the window.</p>
+<p>The depth of the clearance is also defined.</p>
+<p>As can be seen in the Settings above, the 3D preview shows the reflected inputs.</p>
+<p>Window treatments can be placed automatically with the Fitout tool, or saved manually as a Set.</p>
+<p>We can also place a library object within the Clearance space before saving it as a Set as shown below.</p>
+<p><img src="img/13992052507023_1.jpg" alt="Fitout  - Window Treatments and Door Circulation 示意图" loading="lazy"></p>
+<p>These Window Treatments are in the Fitout Library.</p>
+<p>The Window Treatment can be placed in the Clearance Area and when this is saved as a set it will operate as a single entity and adjust the width and height to the Window placed in the Zone we intend to use for the Fitout.</p>
+<p><img src="img/13992052507023_2.jpg" alt="Fitout  - Window Treatments and Door Circulation 示意图" loading="lazy"></p>
+<p> To save this as a Set, for use on its own, or in a Fitout we proceed as follows:</p>
+<ul>
+<li>Place the Clearance and Window Treatment.</li>
+</ul>
+<ul>
+<li>Adjust the sizing and placement in 2D and 3D.</li>
+</ul>
+<ul>
+<li>Select it in 2D or 3D</li>
+</ul>
+<ul>
+<li>Click on CI Tools>Fitout>Save Objects as a Set</li>
+</ul>
+<p><img src="img/13992052507023_3.jpg" alt="Fitout  - Window Treatments and Door Circulation 示意图" loading="lazy"></p>
+<p>We give it a sensible name and save it to a directory of our choice.</p>
+<p><img src="img/13992052507023_4.jpg" alt="Fitout  - Window Treatments and Door Circulation 示意图" loading="lazy"></p>
+<p>Upon saving the Set, we can also immediately replace the placed separate Objects with the Set by clicking Yes in the subsequent dialogue.</p>
+<p><img src="img/13992052507023_5.jpg" alt="Fitout  - Window Treatments and Door Circulation 示意图" loading="lazy"></p>
+<p>If you would like to make finer adjustments to the Set, it is advisable to keep the Objects and replace the Set by saving it with the same name.</p>
+<h1>Door Circulation</h1>
+<p>Let us look at defining a set as a door circulation</p>
+<p><img src="img/13992052507023_6.jpg" alt="Fitout  - Window Treatments and Door Circulation 示意图" loading="lazy"></p>
+<p>The Door Circulation allows for a space that is off limits to be defined around a door. We can adjust the 3D space to have extra clearance above, below, to the left, and to the right of the door.</p>
+<p>The depth of the clearance is also defined.</p>
+<p>As can be seen in the Settings above, the 3D preview shows the reflected inputs.</p>
+<p>Door Circulation can currently only be placed manually by saving it manually as a Set.</p>
+<p>We can also place a library object within the Clearance space before saving it as a Set as shown below.</p>
+<p>The Door Circulation is saved as a Set in exactly the same way as a Window Treatment above, First by clicking on CI Tools>Fitout>Save Objects as a Set.</p>
+<p><img src="img/13992052507023_7.jpg" alt="Fitout  - Window Treatments and Door Circulation 示意图" loading="lazy"></p>
+<p>We then choose a name and a Directory.</p>
+<p><img src="img/13992052507023_8.jpg" alt="Fitout  - Window Treatments and Door Circulation 示意图" loading="lazy"></p>
+<p>The Door Circulation can now be placed as a Set in the Zone to create a circulation space around the door.</p>
+<p>We are also prompted to replace the Objects with a set in real-time, which we can accept or decline.</p>
+<p>%%IMG9%%</p>
+<p>Please see Knowledge Base Articles on <em>Creating a Fitout</em></p>
+</div>
+<div class="art" id="a-13991958051983">
+  <div class="art-h"><span class="no">03</span><h3>How to Place a Fitout</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/13991958051983-How-to-Place-a-Fitout" target="_blank" rel="noopener">MyCi 知识库 · How to Place a Fitout</a></div>
+  <p>This Article will cover the placement of a Fitout created using Sets. The creation of Sets and Fitouts is described in this section.</p>
+<p>A Fitout is placed using the Fitout Tool - if you don't already have it in your toolbox, you can add it by loading the <strong>Ci Tools Profile 29</strong> work environment.</p>
+<p><img src="img/13991958051983_0.jpg" alt="How to Place a Fitout 示意图" loading="lazy"></p>
+<p>The Fitout Examples are saved in the CI Tools Library>Fitout Folder. By selecting an Example Fitout, it can be placed in a Zone.</p>
+<p>We will use a Bathroom Fitout as an example. In the Zone shown below we will place a Bathroom Fitout that contains a Bath, Shower, WC and hand wash basin.</p>
+<p><img src="img/13991958051983_1.jpg" alt="How to Place a Fitout 示意图" loading="lazy"></p>
+<p>Once we have selected the Fitout we want to place in the Fitout Tool, we can click in the Zone to place it.</p>
+<p>Please note that the Fitout tool is sensitive to cursor placement, and will try to place priority objects closest to where you click the cursor in the zone.</p>
+<p><img src="img/13991958051983_2.jpg" alt="How to Place a Fitout 示意图" loading="lazy"></p>
+<p>It may be necessary to retry placement more than once to achieve the desired result. It is also worth noting that if a Window Clearance was not placed already in the Zone, the Fitout tool will automatically place one.</p>
+<p><img src="img/13991958051983_3.jpg" alt="How to Place a Fitout 示意图" loading="lazy"></p>
+<p>We can see that the Zone has now been populated with a Bathroom Fitout.</p>
+<p>If you aren't completely satisfied with the placement, you can also move one of the objects into a different position. The placed Sets will be grouped, so Toggle the Suspend groups function with Alt+G or Command+G.</p>
+<p>We can move the hand wash basin to a more desirable position, and once we do, it will automatically snap to the wall we move it towards.</p>
+<p><img src="img/13991958051983_4.jpg" alt="How to Place a Fitout 示意图" loading="lazy"></p>
+<p>This is the result.</p>
+<p><img src="img/13991958051983_5.jpg" alt="How to Place a Fitout 示意图" loading="lazy"></p>
+<p>Please refer to the Articles about Compiling Sets and Fitouts on the Knowledge Base.</p>
+</div>
+<div class="art" id="a-13992048044687">
+  <div class="art-h"><span class="no">04</span><h3>Introduction to Fitout</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/13992048044687-Introduction-to-Fitout" target="_blank" rel="noopener">MyCi 知识库 · Introduction to Fitout</a></div>
+  <p>In this article we'll look at the basics of creating individually tailored Fitout solutions for your project.</p>
+<p>This solution is especially effective where repetition is common, and also very useful to change numerous items simultaneously in several spaces at the same time.</p>
+<p>The Basis of how the new Fitout functionality works is threefold:</p>
+<p>Objects are placed and converted to Sets, and Sets that are placed and converted into Fitouts.</p>
+<p>These are represented in the Library with the following Images:</p>
+<p><img src="img/13992048044687_0.jpg" alt="Introduction to Fitout 示意图" loading="lazy"></p>
+<p><img src="img/13992048044687_1.jpg" alt="Introduction to Fitout 示意图" loading="lazy"></p>
+<p>The most crucial part of the new Fitout tool to understand is the new Clearance Area object that is placed with Archicad’s object tool.</p>
+<p>It is located in the Fitout>Clearances folder in the Library(see below):</p>
+<p><img src="img/13992048044687_2.jpg" alt="Introduction to Fitout 示意图" loading="lazy"></p>
+<p>This allows a definition of how an object will interact with its surroundings.</p>
+<p>We have eight options available to select from, as can be seen in the image below:</p>
+<p><img src="img/13992048044687_3.jpg" alt="Introduction to Fitout 示意图" loading="lazy"></p>
+<p>How these options are intended to be used:</p>
+<ul>
+<li>Above the Floor Free Standing  - such as a Dining Room Set or a Sofa</li>
+</ul>
+<ul>
+<li>Above the Floor against a wall -  such as a TV Unit, WC, Basin or a bookshelf</li>
+</ul>
+<ul>
+<li>Above the Floor in a Corner - such as a shower or a Floor Standing Lamp</li>
+</ul>
+<ul>
+<li>Below Ceiling Free Standing - such as a Ceiling Fan or Lighting</li>
+</ul>
+<ul>
+<li>Below Ceiling against a wall  - such as an HVAC unit or feature lighting</li>
+</ul>
+<ul>
+<li>Below Ceiling in a Corner  - such as an alarm detector or down-lighter</li>
+</ul>
+<ul>
+<li>Door circulation  - placed in doorway areas to ensure operability</li>
+</ul>
+<ul>
+<li>Window Treatment -  placed in window areas to ensure operability</li>
+</ul>
+<p>Please see the Article on <em>Window Treatments</em>and <em>Door Circulation</em> clearances.</p>
+</div>
+<div class="art" id="a-17876153803919">
+  <div class="art-h"><span class="no">05</span><h3>ProKit Fitout – Start here</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/17876153803919-ProKit-Fitout-Start-here" target="_blank" rel="noopener">MyCi 知识库 · ProKit Fitout – Start here</a></div>
+  <p>The Fitout Tool allows for very quick placement of furniture or any assembly of components with a rule based geometry method. This Tool is especially effective where repetition is common, and also very useful to change numerous items simultaneously in several zone spaces at the same time. It also contains an extensive sophisticated library of Components consisting of:</p>
+<p>Bathroom</p>
+<p>Bedroom</p>
+<p>Cabinet</p>
+<p>Commercial and Domestic Kitchen objects</p>
+<p>Dining Room</p>
+<p>Healthcare objects</p>
+<p>HVAC Equipment</p>
+<p>Laundry</p>
+<p>Living Area</p>
+<p>Office</p>
+<p>Safety and Security equipment.</p>
+<p>These are accessible through the normal ARCHICAD Object Tool.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Fitout Tool requires the Fitout Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier ARCHICAD versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17876153803919_0.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Fitout Libpack.</p>
+<p><img src="img/17876153803919_1.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17876153803919_2.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>This will load the Fitout Libpack and associated Macros.</p>
+<p>The Fitout Objects will now be available in the Object Tool.</p>
+<p>IMPORTANT:</p>
+<p>If the two Fitout Tools, place Set and place Fitout, and Slab are not showing in the toolbox on the left in the default ARCHICAD work environment, they can be added by right clicking on in the Toolbox. The Toolbox will bring up a dialog to add the Fitout Tools.</p>
+<p><img src="img/17876153803919_3.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>This will allow adding the Coverings Tools to the Toolbox.</p>
+<p><img src="img/17876153803919_4.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>The Fitout Tools will now show up, it is recommended to save the Work Environment to avoid having to add this, although ARCHICAD should retain them.</p>
+<p><img src="img/17876153803919_5.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p><strong>Placing a Fitout Object</strong></p>
+<p>The Fitout library objects are placed with the Object Tool in ARCHCAD.</p>
+<p>Once the tool is selected, the settings can be opened and any Fitout Object placed.</p>
+<p><img src="img/17876153803919_6.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>The Fitout Tool allows for the creation of a pre-saved room type, this is referred to as a Fitout.</p>
+<p>The Fitout is comprised from a Fitout Set, which in turn is made up of Components or Objects with clearance areas. These are saved as a Set and a Fitout using the ProKit Fitout dropdown.</p>
+<p><img src="img/17876153803919_7.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>The Diagram below outlines the broader process of saving a Fitout.</p>
+<p><img src="img/17876153803919_8.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>The First step is to place a Clearance object with the Archicad Object Tool.</p>
+<p><img src="img/17876153803919_9.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>After this any objects can be placed in the Clearance Area.</p>
+<p><img src="img/17876153803919_10.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>This is then saved as a Set. We do this by Selecting the Object and Clearance, and saving it as a Set. This is done through ProKit>Fitout>Save Objects as a Set.</p>
+<p><img src="img/17876153803919_11.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p><img src="img/17876153803919_12.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>Lastly, multiple sets can be placed and saved as a Fitout.</p>
+<p><img src="img/17876153803919_13.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p><img src="img/17876153803919_14.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p><img src="img/17876153803919_15.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>This Fitout is now available for placement inside any Zone</p>
+<p><img src="img/17876153803919_16.jpg" alt="ProKit Fitout – Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on the different Fitout features please see the other articles on the Knowledge-base</p>
+</div>
+</article>
+
+<footer class="foot">
+CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

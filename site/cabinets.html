@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Cabinets（橱柜木作）完整中文教程：一个对象搞定所有橱柜类型">
+<title>Cabinets · 橱柜木作 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t">CI Tools 完全指南</div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h">开始</div>
+<a href="index.html"><span class="ic">◈</span>总览与快速开始</a>
+<a href="all.html"><span class="ic">☰</span>全量文章索引</a>
+<a href="guide.html"><span class="ic">★</span>中文主线速查</a>
+<div class="nav-h">16 个工具</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span>Annotate · 文字格式</a>
+<a class="" href="transformer.html"><span class="ic">⇄</span>Transformer · 项目镜像</a>
+<a class="" href="timetracker.html"><span class="ic">◷</span>Time Tracker · 工时统计</a>
+<a class="" href="detail.html"><span class="ic">▤</span>Detail Elements · 二维详图</a>
+<a class="" href="keynotes.html"><span class="ic">❝</span>Keynotes · 规范注释</a>
+<a class="" href="metadata.html"><span class="ic">◈</span>MetaData · 属性管理</a>
+<a class="" href="quantities.html"><span class="ic">∑</span>Quantities · 工程量算量</a>
+<a class=" on" href="cabinets.html"><span class="ic">▦</span>Cabinets · 橱柜木作</a>
+<a class="" href="doors.html"><span class="ic">⌸</span>Doors+Windows · 门窗</a>
+<a class="" href="coverings.html"><span class="ic">▨</span>Coverings · 覆面层</a>
+<a class="" href="electrical.html"><span class="ic">⚡</span>Electrical · 电气</a>
+<a class="" href="stairs.html"><span class="ic">⇱</span>Stairs · 楼梯</a>
+<a class="" href="structural.html"><span class="ic">⌗</span>Structural · 结构构件</a>
+<a class="" href="sites.html"><span class="ic">⛿</span>Sites · 场地景观</a>
+<a class="" href="fitout.html"><span class="ic">⌸</span>Fitout · 室内布置</a>
+<div class="nav-h">关于</div>
+<a href="about.html"><span class="ic">ⓘ</span>来源与说明</a>
+</aside>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html">总览</a> / Cabinets · 橱柜木作</div>
+<div class="hero">
+  <span class="kicker">工具分册</span>
+  <h1>Cabinets · 橱柜木作</h1>
+  <p>一个对象搞定所有橱柜类型</p>
+  <div class="meta">
+    <span><b>49</b> 篇教程</span>
+    <span><b>7.8</b> 万字</span>
+    <span><b>353</b> 张图</span>
+  </div>
+</div>
+<article>
+
+<div class="art" id="a-360000558536">
+  <div class="art-h"><span class="no">01</span><h3>(ARCHICAD 22) How to Create a Custom Knob</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360000558536--ARCHICAD-22-How-to-Create-a-Custom-Knob" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to Create a Custom Knob</a></div>
+  <p>The <em>Cadimage Cabinet</em> can use custom knobs created from standard ArchiCAD elements.</p>
+<p>To create a custom knob:</p>
+<ul>
+<li>Draw the knob in plan view using slabs, columns, walls, etc.<a href="http://blog.cadimageworld.com/2012/02/how-to-create-a-custom-knob/custom-knob_02-2/" target="_blank" rel="noopener"><img src="img/il_d0de96627f.jpg" alt="" loading="lazy"></a></li>
+</ul>
+<ul>
+<li>Ensure the pens and materials are set as you want them to appear in the finished knob.</li>
+</ul>
+<ul>
+<li>The knob should oriented as if you are viewing it in elevation. This means it will be standing on its connecting surface when viewed in 3D. <a href="http://blog.cadimageworld.com/2012/02/how-to-create-a-custom-knob/custom-knob_01/" target="_blank" rel="noopener"><img src="img/il_8195f053a6.jpg" alt="" loading="lazy"></a></li>
+</ul>
+<ul>
+<li>From ArchiCAD's  File  menu, choose  Libraries and Objects > Save Custom Component . <a href="http://blog.cadimageworld.com/2012/02/how-to-create-a-custom-knob/custom-knob_03/" target="_blank" rel="noopener"><img src="img/il_d4c96eb91b.jpg" alt="" loading="lazy"></a></li>
+</ul>
+<ul>
+<li>Choose the  Custom Knob  type. <a href="http://blog.cadimageworld.com/2012/02/how-to-create-a-custom-knob/custom-knob_04/" target="_blank" rel="noopener"><img src="img/il_39568f2f5c.jpg" alt="" loading="lazy"></a></li>
+</ul>
+<ul>
+<li>Enter a name for the knob, and save it into the embedded library. <a href="http://blog.cadimageworld.com/2012/02/how-to-create-a-custom-knob/custom-knob_05/" target="_blank" rel="noopener"><img src="img/il_42c6094428.jpg" alt="" loading="lazy"></a></li>
+</ul>
+<p>Having saved the knob, now you can include it as part of a Cadimage Cabinet.</p>
+<ul>
+<li>Open the cabinet's Settings dialog, and choose the  Handle  type to be a  Custom Knob . <a href="http://blog.cadimageworld.com/2012/02/how-to-create-a-custom-knob/custom-knob_07/" target="_blank" rel="noopener"><img src="img/il_ec7bf6624e.jpg" alt="" loading="lazy"></a></li>
+</ul>
+<ul>
+<li>Adjust the position, dimensions and orientation under  Doors & Drawers > Handles  and  Doors & Drawers > Place Handles . <a href="http://blog.cadimageworld.com/2012/02/how-to-create-a-custom-knob/custom-knob_10/" target="_blank" rel="noopener"><img src="img/il_9e33734c98.jpg" alt="" loading="lazy"></a></li>
+</ul>
+<ul>
+<li>The handle will now appear on the cabinet's doors or drawers. <a href="http://blog.cadimageworld.com/2012/02/how-to-create-a-custom-knob/custom-knob_09/" target="_blank" rel="noopener"><img src="img/il_f9253c3f85.jpg" alt="" loading="lazy"></a></li>
+</ul>
+</div>
+<div class="art" id="a-204957686">
+  <div class="art-h"><span class="no">02</span><h3>(ARCHICAD 22) How to choose the Face Mounting type for Doors and Drawers</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/204957686--ARCHICAD-22-How-to-choose-the-Face-Mounting-type-for-Doors-and-Drawers" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to choose the Face Mounting type for Doors and Drawers</a></div>
+  <p>When you build a Cadimage Cabinet, you have four options to mount the doors or drawers on the carcass. The four options are illustrated below:</p>
+<p><img src="img/204957686_0.jpg" alt="(ARCHICAD 22) How to choose the Face Mounting type for Doors and Drawers 示意图" loading="lazy"></p>
+<p>To view and set your preferred option, go to:</p>
+<ul>
+<li>Navigate to<strong>Face Frame page</strong>from the drop-down menu:</li>
+</ul>
+<p><img src="img/204957686_1.jpg" alt="(ARCHICAD 22) How to choose the Face Mounting type for Doors and Drawers 示意图" loading="lazy"></p>
+<ul>
+<li>Click the main drop-down button and you should see the following list of options:</li>
+</ul>
+<p><img src="img/204957686_2.jpg" alt="(ARCHICAD 22) How to choose the Face Mounting type for Doors and Drawers 示意图" loading="lazy"></p>
+<p><strong>TIP:</strong> If you choose either '<strong>Flush Mount</strong>' or '<strong>Surface Mount onto Face Frame</strong>', you may notice a new option is added to your menu (shown below). The <strong>Face Frame</strong> option allows you to control the Face Frame attributes:</p>
+<p><img src="img/204957686_3.jpg" alt="(ARCHICAD 22) How to choose the Face Mounting type for Doors and Drawers 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205218106">
+  <div class="art-h"><span class="no">03</span><h3>(ARCHICAD 22) How to configure Cabinet Display Options</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205218106--ARCHICAD-22-How-to-configure-Cabinet-Display-Options" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to configure Cabinet Display Options</a></div>
+  <p>Once you have created a Cadimage Cabinet, you can modify its <strong>Display Options</strong> via the menu on the left side of the Settings Dialogue (see image below).</p>
+<p>In this area you can modify:</p>
+<ul>
+<li><a href="#Resolution" target="_blank" rel="noopener">Resolution</a></li>
+</ul>
+<ul>
+<li><a href="#ShelfOutlines" target="_blank" rel="noopener">Shelf Outlines on Cabinet Surface</a></li>
+</ul>
+<ul>
+<li><a href="#PlanView" target="_blank" rel="noopener">Plan View Label</a></li>
+</ul>
+<p><img src="img/205218106_0.jpg" alt="(ARCHICAD 22) How to configure Cabinet Display Options 示意图" loading="lazy"></p>
+<p>Resolution</p>
+<p>Here you can choose to set the <strong>Model</strong> <strong>Properties</strong> as:</p>
+<p><img src="img/205218106_1.jpg" alt="(ARCHICAD 22) How to configure Cabinet Display Options 示意图" loading="lazy"></p>
+<p>and the <strong>Plan View Symbol</strong> as:</p>
+<p><img src="img/205218106_2.jpg" alt="(ARCHICAD 22) How to configure Cabinet Display Options 示意图" loading="lazy"></p>
+<p>Both of these options allow you to control the performance of the model. High resolution cabinets look the best – but may be difficult for your computer to work with if you have a number of them. By decreasing the resolution you will improve the performance of the 3D Window as well as 3D generated views such as sections or elevations.</p>
+<p>In a similar way, if you have large numbers of cabinets on plan, a ‘Projection’ will have slower performance than a symbol based view. This is because the projection needs to generate the 3D view in order to display the plan view symbol. The symbol on the other hand uses a script to show a symbolic view of the cabinet.</p>
+<p>Shelf Outlines</p>
+<p>This setting controls whether you will see the shelf outlines on the surface of your cabinet:</p>
+<p><img src="img/205218106_3.jpg" alt="(ARCHICAD 22) How to configure Cabinet Display Options 示意图" loading="lazy"></p>
+<p>You can either choose to have the Shelf Outlines on Model Surface <strong>'On'</strong> or <strong>'Off'</strong> and you can set the <strong>Dash Length</strong>.</p>
+<p><strong>TIP:</strong> As the Dash Length is drawn by the object and not placed as a ‘dashed line’, you may need to check your sections and interior elevations to make sure these are correct for the scale you are working with.</p>
+<p>Plan View Label</p>
+<p>Here you can set a <strong>Plan View Label</strong>:</p>
+<p><img src="img/205218106_4.jpg" alt="(ARCHICAD 22) How to configure Cabinet Display Options 示意图" loading="lazy"></p>
+<p>In this area you can add content for <strong>Full Label Text</strong> and <strong>Short Label</strong> <strong>Text</strong>, and whether the label rotates with the cabinet or not.</p>
+<p><strong>TIP:</strong> The Floor Plan display is controlled through <strong>Model View Options</strong> for Cadimage Cabinets. The data can also be used for scheduling purposes.</p>
+</div>
+<div class="art" id="a-204957716">
+  <div class="art-h"><span class="no">04</span><h3>(ARCHICAD 22) How to configure Cabinet Door Panels</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/204957716--ARCHICAD-22-How-to-configure-Cabinet-Door-Panels" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to configure Cabinet Door Panels</a></div>
+  <p>To configure the door panels of your cabinet:</p>
+<ul>
+<li>Open the Cadimage Cabinet <strong>settings</strong> dialogue</li>
+</ul>
+<ul>
+<li>Go to<strong>Doors & Drawers</strong> from the menu:</li>
+</ul>
+<p><img src="img/204957716_0.jpg" alt="(ARCHICAD 22) How to configure Cabinet Door Panels 示意图" loading="lazy"></p>
+<ul>
+<li>Under the<strong>Door</strong>drop-down, you will see a button which will let you change the panel type (in the image above the Flat Panel option is selected).</li>
+</ul>
+<ul>
+<li><strong>Choose</strong> your desired <strong>panel type</strong>(Use the<strong>'...'</strong>button to access all settings)</li>
+</ul>
+<p><em>Depending on which Panel</em> <em>Type you choose, you will see different parameters that will let you customise the panel. In the image below we have chosen the 'Frame 1 + Glass panel'.</em></p>
+<p><img src="img/204957716_1.jpg" alt="(ARCHICAD 22) How to configure Cabinet Door Panels 示意图" loading="lazy"></p>
+<p><strong>TIP:</strong> If you choose a panel that has glazing, you will see an additional twirl-down item called 'Glazing Bars/Muntins' (shown above).</p>
+<ul>
+<li>Select the <strong>Glazing Bars/Muntins</strong> twirl-down (if it is available to you):</li>
+</ul>
+<p><img src="img/204957716_2.jpg" alt="(ARCHICAD 22) How to configure Cabinet Door Panels 示意图" loading="lazy"></p>
+<ul>
+<li>Choose your <strong>preferred glazing style</strong>:</li>
+</ul>
+<p><img src="img/204957716_3.jpg" alt="(ARCHICAD 22) How to configure Cabinet Door Panels 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-204957726">
+  <div class="art-h"><span class="no">05</span><h3>(ARCHICAD 22) How to configure Cabinet Drawer Fronts</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/204957726--ARCHICAD-22-How-to-configure-Cabinet-Drawer-Fronts" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to configure Cabinet Drawer Fronts</a></div>
+  <p>To configure the drawer panels of your cabinet:</p>
+<ul>
+<li>Open the Cadimage Cabinet <strong>settings</strong> dialogue</li>
+</ul>
+<ul>
+<li>Navigate to the <strong>Drawer Fronts</strong> page from the main menu drop-down:</li>
+</ul>
+<p><img src="img/204957726_0.jpg" alt="(ARCHICAD 22) How to configure Cabinet Drawer Fronts 示意图" loading="lazy"></p>
+<ul>
+<li>Click the Panel Type icon (indicated below) to choose a different panel style:</li>
+</ul>
+<p><img src="img/204957726_1.jpg" alt="(ARCHICAD 22) How to configure Cabinet Drawer Fronts 示意图" loading="lazy"></p>
+<ul>
+<li>Edit to suit and click <strong>OK</strong> to apply the settings.</li>
+</ul>
+</div>
+<div class="art" id="a-205264303">
+  <div class="art-h"><span class="no">06</span><h3>(ARCHICAD 22) How to configure Cabinet handles</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205264303--ARCHICAD-22-How-to-configure-Cabinet-handles" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to configure Cabinet handles</a></div>
+  <p>You can add or modify your Cabinet handles at any time during the design process. To do this:</p>
+<ul>
+<li><strong>Select</strong> an existing <strong>cabinet</strong> (or create a new one)</li>
+</ul>
+<ul>
+<li>Open the Cadimage Cabinets<strong>Settings dialogue</strong></li>
+</ul>
+<ul>
+<li>Choose <strong>Handles</strong> from the menu:</li>
+</ul>
+<p><img src="img/205264303_0.jpg" alt="(ARCHICAD 22) How to configure Cabinet handles 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Click</strong> the <strong>Handle Type button</strong> to choose from a range of handle designs:</li>
+</ul>
+<p><img src="img/205264303_1.jpg" alt="(ARCHICAD 22) How to configure Cabinet handles 示意图" loading="lazy"></p>
+<p><strong>TIP</strong>: Depending on the handle chosen, you will see a different range of settings to modify its' appearance.</p>
+<p>In this example, the <strong>Full Length</strong> handle has been chosen</p>
+<p>6.<strong>Configure your handle</strong> as shown below:</p>
+<p><img src="img/205264303_2.jpg" alt="(ARCHICAD 22) How to configure Cabinet handles 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205216066">
+  <div class="art-h"><span class="no">07</span><h3>(ARCHICAD 22) How to configure a Counter top</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205216066--ARCHICAD-22-How-to-configure-a-Counter-top" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to configure a Counter top</a></div>
+  <p>All Counter top settings are accessed under the <strong>Counter</strong> options area of the <strong>Cabinets Settings dialogue</strong>:</p>
+<p><img src="img/205216066_0.jpg" alt="(ARCHICAD 22) How to configure a Counter top 示意图" loading="lazy"></p>
+<p>Configure the Benchtop</p>
+<p>Here are the options available for configuring your Benchtop:</p>
+<p><img src="img/205216066_1.jpg" alt="(ARCHICAD 22) How to configure a Counter top 示意图" loading="lazy"></p>
+<ul>
+<li>Switch the benchtop <strong>on</strong> or<strong>off</strong></li>
+</ul>
+<ul>
+<li>The benchtop <strong>offsets</strong> to the sides, rear and front of the cabinet carcass</li>
+</ul>
+<ul>
+<li>The <strong>thickness</strong> of the benchtop</li>
+</ul>
+<ul>
+<li>Define how the benchtop <strong>merges</strong> with adjacent cabinets using the following options:</li>
+</ul>
+<p><img src="img/205216066_2.jpg" alt="(ARCHICAD 22) How to configure a Counter top 示意图" loading="lazy"></p>
+<ul>
+<li>Choose if a Rail is present under the benchtop. This option allows you to turn the <strong>Rail</strong> <strong>on</strong> or <strong>off</strong> and by expanding the twirl down you can configure the size.</li>
+</ul>
+<p>Nosing Options</p>
+<p>The options allowing you to configure and control the Nosings are:</p>
+<p><img src="img/205216066_3.jpg" alt="(ARCHICAD 22) How to configure a Counter top 示意图" loading="lazy"></p>
+<ul>
+<li>The <strong>Edges</strong> to which the nosing can be applied which can be set as follows:</li>
+</ul>
+<p><img src="img/205216066_4.jpg" alt="(ARCHICAD 22) How to configure a Counter top 示意图" loading="lazy"></p>
+<ul>
+<li>The option to Include Nosing Thickness within the Counter.</li>
+</ul>
+<p>Configure the Upstands</p>
+<p>The options allowing you to configure and control the Upstands are:</p>
+<p><img src="img/205216066_5.jpg" alt="(ARCHICAD 22) How to configure a Counter top 示意图" loading="lazy"></p>
+<ul>
+<li>The Profile of the upstand which can be set for either Rectangular or Radiused</li>
+</ul>
+<ul>
+<li>The Height and Thickness of the upstand</li>
+</ul>
+<ul>
+<li>The Edges to which the upstand can be applied which can be set as follows:</li>
+</ul>
+<p><img src="img/205216066_6.jpg" alt="(ARCHICAD 22) How to configure a Counter top 示意图" loading="lazy"></p>
+<p>Change the Surfaces of a Counter</p>
+<p>To change the surfaces applied to the different areas of your Counter, navigate to the <strong>Attributes</strong> page from the upper right corner of the Settings dialogue:</p>
+<p><img src="img/205216066_7.jpg" alt="(ARCHICAD 22) How to configure a Counter top 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205263323">
+  <div class="art-h"><span class="no">08</span><h3>(ARCHICAD 22) How to create Drawers in your Cadimage Cabinet</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205263323--ARCHICAD-22-How-to-create-Drawers-in-your-Cadimage-Cabinet" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to create Drawers in your Cadimage Cabinet</a></div>
+  <p>In this tip we show you how to add drawers to the top of your Cadimage cabinet.</p>
+<p>The resulting cabinet will look similar to this:</p>
+<p><img src="img/205263323_0.jpg" alt="(ARCHICAD 22) How to create Drawers in your Cadimage Cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Either select an existing Cabinet or create a new one</li>
+</ul>
+<ul>
+<li>Go to the <strong>Base Unit...</strong>page</li>
+</ul>
+<ul>
+<li>Change the settings under <strong>Set the Number of Modules</strong>to 2****</li>
+</ul>
+<p><img src="img/205263323_1.jpg" alt="(ARCHICAD 22) How to create Drawers in your Cadimage Cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Go to the <strong>Modules... page</strong></li>
+</ul>
+<ul>
+<li>Set the <strong>Upper Module</strong> on both sides to <strong>Drawers</strong> by clicking on the drop-down button and set <strong>Module height</strong> to 150mm</li>
+</ul>
+<p><img src="img/205263323_2.jpg" alt="(ARCHICAD 22) How to create Drawers in your Cadimage Cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Click on <strong>Drawer Sizes...</strong> if you would like to edit the <strong>Drawer Trays</strong> dimensions.</li>
+</ul>
+<p><img src="img/205263323_3.jpg" alt="(ARCHICAD 22) How to create Drawers in your Cadimage Cabinet 示意图" loading="lazy"></p>
+<p>Note: use the back button whenever you wish to navigate back to the previous page you were on.</p>
+<p><img src="img/205263323_4.jpg" alt="(ARCHICAD 22) How to create Drawers in your Cadimage Cabinet 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205263233">
+  <div class="art-h"><span class="no">09</span><h3>(ARCHICAD 22) How to create a Corner Cabinet</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205263233--ARCHICAD-22-How-to-create-a-Corner-Cabinet" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to create a Corner Cabinet</a></div>
+  <p>In this tutorial we show you how to create a corner cabinet like the one shown below, using the Cadimage Cabinets tool.</p>
+<p><img src="img/205263233_0.jpg" alt="(ARCHICAD 22) How to create a Corner Cabinet 示意图" loading="lazy"></p>
+<p>To do this:</p>
+<ul>
+<li>Click the <strong>Cabinet Tool</strong> in the <strong>ARCHICAD Toolbox</strong></li>
+</ul>
+<ul>
+<li>Choose the <strong>Cadimage Cabinet</strong>from <strong>Linked Libraries> ARCHICAD Library 20</strong> folder</li>
+</ul>
+<p><img src="img/205263233_1.jpg" alt="(ARCHICAD 22) How to create a Corner Cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Go to the <strong>Base Unit...</strong>page and select<strong>Internal Corner</strong>from the drop-down menu.</li>
+</ul>
+<ul>
+<li>Choose <strong>Cabinet > Shape</strong> from the menu area on the left of the panel:</li>
+</ul>
+<p><img src="img/205263233_2.jpg" alt="(ARCHICAD 22) How to create a Corner Cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Adjust dimensions accordingly</li>
+</ul>
+<p><img src="img/205263233_3.jpg" alt="(ARCHICAD 22) How to create a Corner Cabinet 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-204956676">
+  <div class="art-h"><span class="no">10</span><h3>(ARCHICAD 22) How to create a Double Cabinet</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/204956676--ARCHICAD-22-How-to-create-a-Double-Cabinet" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to create a Double Cabinet</a></div>
+  <ul>
+<li>Double click on the <strong>Cabinet Tool</strong> in the <strong>ARCHICAD Toolbox</strong></li>
+<li>Choose the <strong>Cadimage Cabinet</strong>from <strong>Linked Libraries> ARCHICAD Library 20</strong></li>
+</ul>
+<p><img src="img/204956676_0.jpg" alt="(ARCHICAD 22) How to create a Double Cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Set the Cabinet size to 1,200 x 600 x 900mm high</li>
+</ul>
+<ul>
+<li>In the <strong>Preview and Positioning</strong>panel you can set the position of the Cabinet (ie floor or wall mounted):</li>
+</ul>
+<p><img src="img/204956676_1.jpg" alt="(ARCHICAD 22) How to create a Double Cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Go to the <strong>Base Unit...</strong> page and set the number of Modules to 2</li>
+</ul>
+<p><img src="img/204956676_2.jpg" alt="(ARCHICAD 22) How to create a Double Cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Click on Modules... to set the module types:</li>
+</ul>
+<p><img src="img/204956676_3.jpg" alt="(ARCHICAD 22) How to create a Double Cabinet 示意图" loading="lazy"></p>
+<p>A rendered example of our double Cabinet is shown below:</p>
+<p><img src="img/204956676_4.jpg" alt="(ARCHICAD 22) How to create a Double Cabinet 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-204957456">
+  <div class="art-h"><span class="no">11</span><h3>(ARCHICAD 22) How to create a Set of Drawers</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/204957456--ARCHICAD-22-How-to-create-a-Set-of-Drawers" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to create a Set of Drawers</a></div>
+  <p>Create a vertical set of drawers</p>
+<p>In this example we have created a single width cabinet unit which we will turn into a vertical set of drawers. To do this:</p>
+<ul>
+<li>Double click on the <strong>Cabinet Tool</strong> in the <strong>ARCHICAD Toolbox</strong></li>
+</ul>
+<ul>
+<li>Choose the <strong>Cadimage Cabinet</strong>from <strong>Linked Libraries> ARCHICAD Library 20</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/204957456_0.jpg" alt="(ARCHICAD 22) How to create a Set of Drawers 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Set the <strong>Cabinet size</strong> as desired</li>
+</ul>
+<ul>
+<li>Under <strong>Cabinet > Base Unit</strong>, edit the settings to ensure just one module is created</li>
+</ul>
+<ul>
+<li>Set <strong>Module Width B</strong> and then click on <strong>Modules...</strong></li>
+</ul>
+<p><img src="img/204957456_1.jpg" alt="(ARCHICAD 22) How to create a Set of Drawers 示意图" loading="lazy"></p>
+<ul>
+<li>Set Upper Module to <strong>X None</strong>and Lower Module to <strong>Drawers</strong> and select the number of drawers you would like to set.</li>
+</ul>
+<p><img src="img/204957456_2.jpg" alt="(ARCHICAD 22) How to create a Set of Drawers 示意图" loading="lazy"></p>
+<ul>
+<li>Click on Drawer Sizes to adjust the drawer heights. (Number 4 on screenshot above)</li>
+</ul>
+<p><img src="img/204957456_3.jpg" alt="(ARCHICAD 22) How to create a Set of Drawers 示意图" loading="lazy"></p>
+<p> 3.<strong>Check</strong> the '<strong>Equal Heights'</strong> option if you would like the height to be the same.</p>
+<p><img src="img/204957456_4.jpg" alt="(ARCHICAD 22) How to create a Set of Drawers 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205264283">
+  <div class="art-h"><span class="no">12</span><h3>(ARCHICAD 22) How to create a Tambour Door Panel</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205264283--ARCHICAD-22-How-to-create-a-Tambour-Door-Panel" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to create a Tambour Door Panel</a></div>
+  <p>To configure the door panels of your cabinet:</p>
+<ul>
+<li>Open the Cadimage Cabinet <strong>settings</strong> dialogue</li>
+</ul>
+<ul>
+<li>Go to<strong>Doors & Drawers > Tambour Doors</strong> to modify the settings:</li>
+</ul>
+<p><img src="img/205264283_0.jpg" alt="(ARCHICAD 22) How to create a Tambour Door Panel 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205226656">
+  <div class="art-h"><span class="no">13</span><h3>(ARCHICAD 22) How to create an End Panel for a cabinet</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205226656--ARCHICAD-22-How-to-create-an-End-Panel-for-a-cabinet" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) How to create an End Panel for a cabinet</a></div>
+  <p>You can use the 'Cadimage Cabinet End Panel' to close the end of a run of cabinets where there might not be space for a normal drawer or door unit.</p>
+<p>In this article we show you how to create an end panel similar to the one shown below (this one has been placed next to a standard Cabinet):</p>
+<p><img src="img/205226656_0.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<p>To create an end panel:</p>
+<ul>
+<li>Create a <strong>new Cadimage Cabinet</strong></li>
+</ul>
+<ul>
+<li>Choose '<strong>Cadimage Cabinet End Panel</strong>' from the ARCHICAD Library area on the left of the dialogue (see '1' below):</li>
+</ul>
+<p><img src="img/205226656_1.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>From the top of the <strong>Cabinet End Panel</strong> panel, choose <strong>Base Unit</strong>(see '2' above)</li>
+</ul>
+<ul>
+<li>Click the <strong>End Panel Options</strong> button (see '3' above)</li>
+</ul>
+<p>You will now see the following four panel options:</p>
+<p><img src="img/205226656_2.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Choose the<strong>Bullnose Shelves</strong> option</li>
+</ul>
+<ul>
+<li>You can also see a variety of options for setting the dimensions of your end panel. Enter the following dimensions for your Panel Dimensions (see '1' below):</li>
+</ul>
+<ul>
+<li>Length(A) = 300mm / Depth(B) = 600mm / Height(C) = 900mm</li>
+</ul>
+<ul>
+<li>Radius(D) = 200mm</li>
+</ul>
+<p><img src="img/205226656_3.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Click the drop-down below the image (see '2' above) and choose <strong>Against Wall</strong></li>
+</ul>
+<p>TIP: Here you can change the panel to be placed against a wall or free-standing</p>
+<ul>
+<li>Click on the page menu button, and choose Walls</li>
+</ul>
+<p><img src="img/205226656_4.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Set the End Wall Thickness(A) = <strong>20mm</strong> / Back Wall Thickness(B) = <strong>20mm</strong></li>
+</ul>
+<p><img src="img/205226656_5.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<p>Configure the Shelves</p>
+<p>To configure the <strong>shelves</strong> of our end panel:</p>
+<ul>
+<li>Go to the <strong>Shelves</strong> page</li>
+</ul>
+<p><img src="img/205226656_6.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Set the Shelf Thickness(see '1' below) to 20mm. This will match the Wall Thickness.</li>
+</ul>
+<p><img src="img/205226656_7.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Set the Number of Shelves to 2 (see '2' above), and then enter the dimensions for the Setout as shown (in '3' above), or modify to suit your own needs.</li>
+</ul>
+<p>Configure the Base & Plinth</p>
+<p>The <strong>Base & Plinth</strong> settings allow you to individually set the <strong>Base</strong> <strong>Shelf</strong>, the <strong>Plinth</strong> and the <strong>Toe Space</strong> for the End Panel. Each item can be switched '<strong>On</strong>' or '<strong>Off</strong>' using the tick box, and if switched 'On', a Dimension can be set.</p>
+<ul>
+<li>Go to the <strong>Base & Plinth</strong> page</li>
+</ul>
+<p><img src="img/205226656_8.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Ensure the<strong>Base Shelf</strong> item is <strong>ticked</strong>(see '1' below), and enter a<strong>dimension of 20</strong> (see '2' below)</li>
+</ul>
+<p><img src="img/205226656_9.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Turn the<strong>Plinth</strong> option On (see '3' above), and enter <strong>100</strong> and <strong>20</strong> as the dimensions for your plinth (see '4' above)</li>
+</ul>
+<ul>
+<li>Set the Toe Space to <strong>70mm</strong> (see '5' above)<strong>,</strong>or choose your own dimension to match your other cabinets.</li>
+</ul>
+<p>Configure the Counter</p>
+<p>Your Cadimage Cabinet End Panel counter can be configured so that it matches your other placed cabinets. To do this:</p>
+<ul>
+<li>Go to the Counter page. Here you can control the <strong>Thickness</strong> and <strong>Offsets</strong> from front and sides, and choose the <strong>Nosing Profile</strong></li>
+</ul>
+<p><img src="img/205226656_10.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<p><img src="img/205226656_11.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Changing to the <strong>Counter Nosings</strong> page will allow you to set the thickness (A)</li>
+</ul>
+<p><img src="img/205226656_12.jpg" alt="(ARCHICAD 22) How to create an End Panel for a cabinet 示意图" loading="lazy"></p>
+<p>Configure the Display Options</p>
+<p>You can modify the way your cabinet is displayed in your model and plan views - for more information see our <a href="https://cadimage.zendesk.com/hc/en-us/articles/205218106" target="_blank" rel="noopener">Article: How to configure Cabinet Display Options</a></p>
+</div>
+<div class="art" id="a-205298090">
+  <div class="art-h"><span class="no">14</span><h3>(ARCHICAD 22) Overview</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205298090--ARCHICAD-22-Overview" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) Overview</a></div>
+  <p>With Cadimage Cabinets, you can save time and get creative by using just one highly configurable object to model all your cabinetry.</p>
+<p>Cabinets can be created with flat or curved fronts; and can include any combination of doors or drawers. A wide range of handle types and panel styles are also available, with the option of using your own custom cabinet panels.</p>
+<p>To embellish the cabinet design and layout, there is also a Pelmet and Cabinet End Panel object.</p>
+<p>If you want to save time on building unnecessary cabinetry or have a completely bespoke layout, you can even use a Doors and Drawers object to build only the front panels of your cabinet.</p>
+</div>
+<div class="art" id="a-205030544">
+  <div class="art-h"><span class="no">15</span><h3>(ARCHICAD 22) Watch: Get started in 6 minutes!</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030544--ARCHICAD-22-Watch-Get-started-in-6-minutes" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) Watch: Get started in 6 minutes!</a></div>
+  <p>In this video Ralph provides an overview of the Cabinets Tool:</p>
+</div>
+<div class="art" id="a-206647023">
+  <div class="art-h"><span class="no">16</span><h3>(ARCHICAD 22) Watch: How to create a Cabinet</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206647023--ARCHICAD-22-Watch-How-to-create-a-Cabinet" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) Watch: How to create a Cabinet</a></div>
+  <p>**</p>
+</div>
+<div class="art" id="a-205030564">
+  <div class="art-h"><span class="no">17</span><h3>(ARCHICAD 22) Watch: Overview webinar (17 mins)</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030564--ARCHICAD-22-Watch-Overview-webinar-17-mins" target="_blank" rel="noopener">MyCi 知识库 · (ARCHICAD 22) Watch: Overview webinar (17 mins)</a></div>
+  <p>In this webinar recording, Ken provides an introduction to the Cabinets Tool. This is a great starting place to learn how to use the tool in most basic situations.</p>
+<p><em>The tool has been demonstrated using ARCHICAD 18.</em></p>
+</div>
+<div class="art" id="a-15879753509135">
+  <div class="art-h"><span class="no">18</span><h3>Curved Cabinet placement and basic editing</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/15879753509135-Curved-Cabinet-placement-and-basic-editing" target="_blank" rel="noopener">MyCi 知识库 · Curved Cabinet placement and basic editing</a></div>
+  <p>Once place, the Curved Cabinet allows you to Select and Edit its edges in both 2D Floorplan views, and in 3D</p>
+<p>The first time you select an edge of a Cabinet, a palette will open, which lets you set the editing mode for the Cabinet.</p>
+<p><em>Make that the standard Archicad palette is set to point adjustment as indicated by the arrow.</em></p>
+<p>*</p>
+<p><img src="img/15879753509135_0.jpg" alt="Curved Cabinet placement and basic editing 示意图" loading="lazy"></p>
+<p>*</p>
+<p>The Palette has three options available to edit Cabinet Edges</p>
+<p><img src="img/15879753509135_1.jpg" alt="Curved Cabinet placement and basic editing 示意图" loading="lazy"></p>
+<p>Polygon editing:</p>
+<p><img src="img/15879753509135_2.jpg" alt="Curved Cabinet placement and basic editing 示意图" loading="lazy"></p>
+<p>This will introduce more vertices to the Cabinet.</p>
+<p>Curve editing:</p>
+<p><img src="img/15879753509135_3.jpg" alt="Curved Cabinet placement and basic editing 示意图" loading="lazy"></p>
+<p>This will introduce a Curve on the selected edge.</p>
+<p>Offset or Stretch editing</p>
+<p><img src="img/15879753509135_4.jpg" alt="Curved Cabinet placement and basic editing 示意图" loading="lazy"></p>
+<p>This will offset the edge by the required amount.</p>
+<p>These can also be applied in plan view:</p>
+<p><img src="img/15879753509135_5.jpg" alt="Curved Cabinet placement and basic editing 示意图" loading="lazy"></p>
+<p><img src="img/15879753509135_6.jpg" alt="Curved Cabinet placement and basic editing 示意图" loading="lazy"></p>
+<p><img src="img/15879753509135_7.jpg" alt="Curved Cabinet placement and basic editing 示意图" loading="lazy"></p>
+<p>Below all three have been applied to different edges.</p>
+<p><img src="img/15879753509135_8.jpg" alt="Curved Cabinet placement and basic editing 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-4404280900623">
+  <div class="art-h"><span class="no">19</span><h3>How to Add Shelves and Dividers</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/4404280900623-How-to-Add-Shelves-and-Dividers" target="_blank" rel="noopener">MyCi 知识库 · How to Add Shelves and Dividers</a></div>
+  <p>You can add shelves and dividers within modules, either graphically or via the library-part's <strong>Settings</strong> dialog.</p>
+<p>Having placed shelves and dividers, you can use hotspots to adjust their positions in 3D, Section and Elevation views.</p>
+<h2>Add Shelves and Dividers Graphically</h2>
+<p>Select the cabinet in a 3D, Section or Elevation view.</p>
+<p><img src="img/4404280900623_0.jpg" alt="How to Add Shelves and Dividers 示意图" loading="lazy"></p>
+<p>Open the <strong>Settings</strong> dialog, and on the <strong>Grids & Editing</strong> page, set the <strong>Editing Palette > Edit Mode</strong> to <strong>Partitions</strong>.</p>
+<p><img src="img/4404280900623_1.jpg" alt="How to Add Shelves and Dividers 示意图" loading="lazy"></p>
+<p>Click <strong>OK</strong>. A palette will display near the cabinet.</p>
+<p><img src="img/4404280900623_2.jpg" alt="How to Add Shelves and Dividers 示意图" loading="lazy"></p>
+<p>Use the last two hotspots on the <strong>Partitions</strong> palette to pull shelves and vertical dividers into the cabinet.</p>
+<p><img src="img/4404280900623_3.jpg" alt="How to Add Shelves and Dividers 示意图" loading="lazy"></p>
+<p><img src="img/4404280900623_4.jpg" alt="How to Add Shelves and Dividers 示意图" loading="lazy"></p>
+<p>Slide the main palette control to the top to hide the editing palette.</p>
+<p><img src="img/4404280900623_5.jpg" alt="How to Add Shelves and Dividers 示意图" loading="lazy"></p>
+<p><img src="img/4404280900623_6.jpg" alt="How to Add Shelves and Dividers 示意图" loading="lazy"></p>
+<h2>Add Shelves and Dividers via the Settings Dialog</h2>
+<p>Select a cabinet, and open the <strong>Settings</strong> dialog. On the <strong>Shelves & Dividers</strong> page, select the modules to which you want to add shelves or vertical dividers.</p>
+<p><img src="img/4404280900623_7.jpg" alt="How to Add Shelves and Dividers 示意图" loading="lazy"></p>
+<p>Choose a <strong>Shelf Type</strong> and a <strong>Divider Type</strong>.</p>
+<p>In the <strong>Add Shelves and Dividers</strong> settings group, set the number of <strong>Shelves</strong> and <strong>Dividers</strong> that you want to add. Then click the <strong>Divide Evenly</strong> button.</p>
+<p><img src="img/4404280900623_8.jpg" alt="How to Add Shelves and Dividers 示意图" loading="lazy"></p>
+<p>Shelves and dividers will be added to the selected modules, at even spacings.</p>
+<p>If you set an offset to the top or base, an extra shelf will be added at that position relative to the top and/or base, and the shelf spacing will be calculated accordingly.</p>
+</div>
+<div class="art" id="a-360001009115">
+  <div class="art-h"><span class="no">20</span><h3>How to Add a Bench Top</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001009115-How-to-Add-a-Bench-Top" target="_blank" rel="noopener">MyCi 知识库 · How to Add a Bench Top</a></div>
+  <p>Use the <em>CI Bench Top</em> object to add a bench top to cabinets.</p>
+<h2>Add a Bench Top</h2>
+<p>To add a bench top:</p>
+<ul>
+<li>Double-click on the Cabinet tool in the ARCHICAD toolbox, and choose the CI Bench Top object.</li>
+</ul>
+<ul>
+<li>On the Configuration page, set basic options:</li>
+</ul>
+<p><img src="img/360001009115_0.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<p> Base height – this should match the cabinet top height.</p>
+<ul>
+<li>Nosing Profile</li>
+</ul>
+<ul>
+<li>A – E Dimensions for bench thickness, upstand and waterfall edges.</li>
+</ul>
+<ul>
+<li>From the Graphic Editing options, choose Shape .</li>
+</ul>
+<ul>
+<li>Place the Ci Bench Top object onto the cabinets.</li>
+</ul>
+<p>The default shape is a simple rectangle. The next step is to edit the shape to match the cabinets.</p>
+<p><img src="img/360001009115_1.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<h2>Edit the Shape</h2>
+<p>Because you chose the <strong>Shape</strong> option for <strong>Graphic Editing</strong> in step 2d above, the editing palette is already showing the options for editing the shape of the bench top.</p>
+<p>To match the example L-shaped cabinetry:</p>
+<ul>
+<li>Use the shape edit mode slider to select the Offset Edge</li>
+</ul>
+<p><img src="img/360001009115_2.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<ul>
+<li>Offset the right end to extend it over the corner cabinet.</li>
+</ul>
+<p><img src="img/360001009115_3.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<ul>
+<li>Use the shape edit mode slider to select the Move Vertex</li>
+</ul>
+<p><img src="img/360001009115_4.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<ul>
+<li>Move the midpoint of the front edge to form a new vertex at the inside corner.</li>
+</ul>
+<p><img src="img/360001009115_5.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<ul>
+<li>Use the shape edit mode slider to select the Offset Edge mode again (as in step 1).</li>
+</ul>
+<ul>
+<li>Offset the right-hand edge to the end of the second leg.</li>
+</ul>
+<p><img src="img/360001009115_6.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<ul>
+<li>If you want to add an overhang to the ends and front, use the offset mode to extend these edges.</li>
+</ul>
+<p><img src="img/360001009115_7.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<ul>
+<li>Move the main edit mode slider to the X position to hide the palette.</li>
+</ul>
+<p><img src="img/360001009115_8.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<p><img src="img/360001009115_9.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<h2>Change the Edge Types</h2>
+<p>To add a splashback to the second leg:</p>
+<ul>
+<li>Set the main slider mode to Edge Types .</li>
+</ul>
+<p><img src="img/360001009115_10.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<ul>
+<li>Pull the Splashback dropper hotspot onto the back edge of the second leg.</li>
+</ul>
+<p><img src="img/360001009115_11.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<p> When you drop the hotspot on the edge, it will become a splashback.</p>
+<ul>
+<li>Move the main slider to the X position to hide the edit palette.</li>
+</ul>
+<p><img src="img/360001009115_12.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<p><img src="img/360001009115_13.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+<h2>Plan View Symbol</h2>
+<p>Note that in the plan view, the bench top is drawn as a dashed outline, while the cabinets below are shown as though cut through. The representation of the bench top and cabinets for any given plan view, is controlled by the <strong>Cutting Plane Height</strong> (see <em>How to Define a Plan View > Cutting Plane Height</em>).</p>
+<p>If you change the cutting plane height so that it sits above the bench top, the plan view representation changes. Now the bench top is drawn as a projection, with the cabinets shown as dashed lines below.</p>
+<p><img src="img/360001009115_14.jpg" alt="How to Add a Bench Top 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-4404565022095">
+  <div class="art-h"><span class="no">21</span><h3>How to Add a Cornice Moulding</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/4404565022095-How-to-Add-a-Cornice-Moulding" target="_blank" rel="noopener">MyCi 知识库 · How to Add a Cornice Moulding</a></div>
+  <p>Use the <em>Ci Edge Moulding</em> library-part to add a cornice moulding around the top edge of full-height or wall-mounted cabinets.</p>
+<p>First, use Archicad's <em>Profile Manager</em> to define the profile of the moulding.</p>
+<p><img src="img/4404565022095_0.jpg" alt="How to Add a Cornice Moulding 示意图" loading="lazy"></p>
+<p>Double-click on the <strong>Cabinet</strong> tool in the Archicad toolbox, and select the <em>Ci Edge Moulding</em> library-part.</p>
+<p><img src="img/4404565022095_1.jpg" alt="How to Add a Cornice Moulding 示意图" loading="lazy"></p>
+<p>In the <strong>Custom Settings</strong> dialog, choose the profile you created. Set the <strong>Path</strong> to <strong>Split Edges</strong>, and <strong>Attributes</strong> to <strong>Custom</strong>.</p>
+<p><img src="img/4404565022095_2.jpg" alt="How to Add a Cornice Moulding 示意图" loading="lazy"></p>
+<p>Place the moulding into the model, and use hotspot editing to stretch it around the edges of the cabinet. This can be done in a plan or a 3D view.</p>
+<ul>
+<li>Use the hotspot on each vertex to move the vertex.</li>
+</ul>
+<ul>
+<li>Use the hotspot on each edge midpoint to split the edge into two.</li>
+</ul>
+<ul>
+<li>Move a vertex hotspot onto the previous or next vertex to remove an edge.</li>
+</ul>
+<p><img src="img/4404565022095_3.jpg" alt="How to Add a Cornice Moulding 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-4404288114703">
+  <div class="art-h"><span class="no">22</span><h3>How to Add a Wine Rack</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/4404288114703-How-to-Add-a-Wine-Rack" target="_blank" rel="noopener">MyCi 知识库 · How to Add a Wine Rack</a></div>
+  <h2>Configure the Cabinet</h2>
+<p>Add module partitions, shelves and vertical dividers to configure the cabinet (see<em><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001017896" target="_blank" rel="noopener">How to Partition a Cabinet Graphically</a>,</em><a href="https://cadimage.zendesk.com/hc/en-us/articles/4404256585615" target="_blank" rel="noopener">How to Partition a Cabinet in the Settings Dialog</a>).</p>
+<p><img src="img/4404288114703_0.jpg" alt="How to Add a Wine Rack 示意图" loading="lazy"></p>
+<h2>Define a Wine Rack</h2>
+<p>Before you can use a wine rack, you need to define one. If you are using the factory defaults, a wine rack is already available. Otherwise follow the steps below.</p>
+<p>Select the cabinet, and open its <strong>Settings</strong> dialog.</p>
+<p><img src="img/4404288114703_1.jpg" alt="How to Add a Wine Rack 示意图" loading="lazy"></p>
+<p>On the <strong>Spaces</strong> > <strong>Available Filler Types</strong> page, click the <strong>+</strong> button to add a filler type. Enter a <strong>Name</strong> and set the <strong>Type</strong> to be <strong>Wine Rack</strong>. Set values for <strong>Dimensions</strong> and <strong>Surfaces</strong>.</p>
+<h2>Insert the Wine Rack into a Space</h2>
+<p>Select the cabinet, and open its <strong>Settings</strong> dialog.</p>
+<p><img src="img/4404288114703_2.jpg" alt="How to Add a Wine Rack 示意图" loading="lazy"></p>
+<p>On the <strong>Spaces</strong> page, select the space you want to use for a wine rack, and set the <strong>Type</strong> to <strong>Wine Rack</strong>.</p>
+<p>Click <strong>OK</strong>.</p>
+<p><img src="img/4404288114703_3.jpg" alt="How to Add a Wine Rack 示意图" loading="lazy"></p>
+<p>The wine rack will be filled (or partially filled, depending on the settings) with bottles. The bottles are of standard size, and only bottles that fit within the grid will be placed. To hide the bottles in any given view, open the <strong>Model View Options</strong> > <strong>Ci Cabinets</strong> settings and set <strong>Model</strong> > <strong>Space Fillers</strong> to <strong>Off</strong>.</p>
+<p><img src="img/4404288114703_4.jpg" alt="How to Add a Wine Rack 示意图" loading="lazy"></p>
+<p><img src="img/4404288114703_5.jpg" alt="How to Add a Wine Rack 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-360001018136">
+  <div class="art-h"><span class="no">23</span><h3>How to Change Module Settings</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001018136-How-to-Change-Module-Settings" target="_blank" rel="noopener">MyCi 知识库 · How to Change Module Settings</a></div>
+  <p>Every cabinet includes one or more <em>module</em>. To learn how to partition a cabinet into multiple modules, see the articles <em><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001017896-How-to-Partition-a-Cabinet-Graphically" target="_blank" rel="noopener">How to Partition a Cabinet Graphically</a></em> and <a href="https://cadimage.zendesk.com/hc/en-us/articles/4404256585615" target="_blank" rel="noopener">How to Partition a Cabinet in the Settings Dialog</a>.</p>
+<p>A module consists of three basic components – a <em>Type</em>, a <em>Front</em>, and a <em>Handle</em>.</p>
+<p>For each module, you can select a style for each of these components. This allows you to set one module to be a door, another to be a drawer stack, and a third to be a slide-out bin. They can all have the same style of front, or you can choose the front style independently. Similarly, you can independently choose a handle style for each module.</p>
+<p>To change the module type, front and handle:</p>
+<ul>
+<li>Select the cabinet and open its Settings dialog.</li>
+</ul>
+<p><img src="img/360001018136_0.jpg" alt="How to Change Module Settings 示意图" loading="lazy"></p>
+<ul>
+<li>On the Modules page, click to select the module(s) you want to edit.</li>
+</ul>
+<p><img src="img/360001018136_1.jpg" alt="How to Change Module Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Choose a module type, front and handle from the lists.</li>
+</ul>
+<p><img src="img/360001018136_2.jpg" alt="How to Change Module Settings 示意图" loading="lazy"></p>
+<p> Set a few other values for the module (i.e. change the Label , set the Open ing angle/margin, and choose the handle location).</p>
+<ul>
+<li>Click OK to apply the settings.</li>
+</ul>
+<p><img src="img/360001018136_3.jpg" alt="How to Change Module Settings 示意图" loading="lazy"></p>
+<h2>Available Module Types</h2>
+<p>To edit the list of available module types, go to the <strong>Modules > Available Module Types</strong> page.</p>
+<p><img src="img/360001018136_4.jpg" alt="How to Change Module Settings 示意图" loading="lazy"></p>
+<p>While working on this page, the 3D preview shows only an example of the selected module type.</p>
+<p>Here you can:</p>
+<ul>
+<li>Rename a module type</li>
+</ul>
+<ul>
+<li>Delete a module type (provided it is not in current use)</li>
+</ul>
+<ul>
+<li>Add a new module type</li>
+</ul>
+<ul>
+<li>Adjust the settings of a module type</li>
+</ul>
+<h2>Available Fronts</h2>
+<p>To edit the list of available fronts, go to the <strong>Modules > Available Fronts</strong> page.</p>
+<p><img src="img/360001018136_5.jpg" alt="How to Change Module Settings 示意图" loading="lazy"></p>
+<p>While working on this page, the 3D preview shows only an example of the selected front.</p>
+<p>Here you can:</p>
+<ul>
+<li>Rename a front.</li>
+</ul>
+<ul>
+<li>Delete a front (provided it is not in current use)</li>
+</ul>
+<ul>
+<li>Add a front</li>
+</ul>
+<ul>
+<li>Adjust the settings of a front</li>
+</ul>
+<p>Settings for a front include:</p>
+<ul>
+<li>Style – a number of basic frame shape are available. Note that the Framed shape follows the shape of the door (which is generally rectangular unless placed in the Ci Cabinet Polygon object).</li>
+</ul>
+<ul>
+<li>Panel type – choose a panel type (e.g. glass, tongue & groove, etc). Depending on the selected panel style, set dimensions.</li>
+</ul>
+<ul>
+<li>For glass panels, select a Muntins pattern and dimensions for the muntins/glazing bars.</li>
+</ul>
+<ul>
+<li>Surfaces</li>
+</ul>
+<ul>
+<li>Dimensions for the rails and panel shape (if any).</li>
+</ul>
+<h2>Available Handles</h2>
+<p>To edit the list of available fronts, go to the <strong>Modules > Available Handles</strong> page.</p>
+<p><img src="img/360001018136_6.jpg" alt="How to Change Module Settings 示意图" loading="lazy"></p>
+<p>While working on this page, the 3D preview shows only an example of the selected handle.</p>
+<p>Here you can:</p>
+<ul>
+<li>Rename a handle.</li>
+</ul>
+<ul>
+<li>Delete a handle (provided it is not in current use)</li>
+</ul>
+<ul>
+<li>Add a handle</li>
+</ul>
+<ul>
+<li>Adjust the settings of a handle</li>
+</ul>
+<p>Note that the settings include not only the handle’s shape and dimensions, but also its surface.</p>
+</div>
+<div class="art" id="a-360001018596">
+  <div class="art-h"><span class="no">24</span><h3>How to Change Shelf and Divider Settings</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001018596-How-to-Change-Shelf-and-Divider-Settings" target="_blank" rel="noopener">MyCi 知识库 · How to Change Shelf and Divider Settings</a></div>
+  <p>Shelves and dividers may be placed within a module:</p>
+<ul>
+<li>Via the Settings dialog - see <a href="https://cadimage.zendesk.com/hc/en-us/articles/4404256585615" target="_blank" rel="noopener">How to Partition a Cabinet in the Settings Dialog</a></li>
+</ul>
+<ul>
+<li>Graphically - see <a href="https://cadimage.zendesk.com/hc/en-us/articles/360001017896-How-to-Partition-a-Cabinet-Graphically" target="_blank" rel="noopener">How to Partition a Cabinet Graphically</a> .</li>
+</ul>
+<p>You can define different shelf and divider types. Once defined, these may be used anywhere within the cabinet.</p>
+<p>Having placed shelves and dividers, you can later edit the settings of:</p>
+<ul>
+<li>All shelves and dividers within selected modules.</li>
+</ul>
+<ul>
+<li>Individual shelves and dividers.</li>
+</ul>
+<h2>How to Define Shelf Types</h2>
+<p>To edit the list of available shelf types, go to the <strong>Shelves & Dividers > Available Shelf Types</strong> page.</p>
+<p><img src="img/360001018596_0.jpg" alt="How to Change Shelf and Divider Settings 示意图" loading="lazy"></p>
+<p>While working on this page, the 3D preview shows only an example of the selected shelf type. If you don't see this, click on the <strong>Refresh</strong> button at the bottom of the screen.</p>
+<p><img src="img/360001018596_1.jpg" alt="How to Change Shelf and Divider Settings 示意图" loading="lazy"></p>
+<p>On the <strong>Available Shelf Types</strong> page, you can:</p>
+<ul>
+<li>Rename a shelf type.</li>
+</ul>
+<ul>
+<li>Delete a shelf type (provided it is not in current use).</li>
+</ul>
+<ul>
+<li>Add a shelf type.</li>
+</ul>
+<ul>
+<li>Adjust the settings of a shelf type.</li>
+</ul>
+<p>The shelf type defines not only the shelf style (solid panel, slats, roll-out tray, etc.) but also the dimensions and surface.</p>
+<h2>How to Edit All Shelves and Dividers within Selected Modules</h2>
+<p>To edit all shelf and divider types for selected modules:</p>
+<ul>
+<li>Select the cabinet and open its Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Shelves & Dividers page, select modules for which you want to edit the shelves and dividers.</li>
+</ul>
+<p><img src="img/360001018596_2.jpg" alt="How to Change Shelf and Divider Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Choose a different Shelf Type or Divider Type for the selected modules.</li>
+</ul>
+<p><img src="img/360001018596_3.jpg" alt="How to Change Shelf and Divider Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK to apply the settings.</li>
+</ul>
+<h2>How to Edit Individual Shelves and Dividers within a Module</h2>
+<p>To edit individual shelves and dividers within a module:</p>
+<ul>
+<li>Select the cabinet and open its Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Shelves & Dividers page, select a single module.</li>
+</ul>
+<p><img src="img/360001018596_4.jpg" alt="How to Change Shelf and Divider Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Choose Edit Individual Components , then select the shelves or dividers you want to edit.</li>
+</ul>
+<p><img src="img/360001018596_5.jpg" alt="How to Change Shelf and Divider Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Choose a Shelf Type or Divider Type for the selected components.</li>
+</ul>
+<p><img src="img/360001018596_6.jpg" alt="How to Change Shelf and Divider Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Choose Edit Whole Module .</li>
+</ul>
+<p><img src="img/360001018596_7.jpg" alt="How to Change Shelf and Divider Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK to apply the settings.</li>
+</ul>
+</div>
+<div class="art" id="a-6569472190991">
+  <div class="art-h"><span class="no">25</span><h3>How to Create an Inner Drawer</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/6569472190991-How-to-Create-an-Inner-Drawer" target="_blank" rel="noopener">MyCi 知识库 · How to Create an Inner Drawer</a></div>
+  <p>It is possible to create inner drawers in the CI Cabinet Tool to suit your joinery design.</p>
+<p>• Select the Cabinet tool from your CI Tools Profile Tool Box</p>
+<p>• Enter the configuration sizes and split your drawer to suit.</p>
+<p><img src="img/6569472190991_0.jpg" alt="How to Create an Inner Drawer 示意图" loading="lazy"></p>
+<p>• Create a new shelf type by selecting Available Shelf Type > Roll Out Drawer > + sign > Rename the Copy "Inner Drawer".</p>
+<p>• Reset the dimensions of the Inner Drawer shelf type to suit.</p>
+<p><img src="img/6569472190991_1.jpg" alt="How to Create an Inner Drawer 示意图" loading="lazy"></p>
+<p>• Move to Shelves and Dividers in the settings. Select <strong>Edit Individual Module.</strong></p>
+<p>• Add a single Inner Drawer by Selecting the green button next to Number 1.</p>
+<p><img src="img/6569472190991_2.jpg" alt="How to Create an Inner Drawer 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-360001018896">
+  <div class="art-h"><span class="no">26</span><h3>How to Create and Use Custom Muntins</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001018896-How-to-Create-and-Use-Custom-Muntins" target="_blank" rel="noopener">MyCi 知识库 · How to Create and Use Custom Muntins</a></div>
+  <h2>Create Custom Muntins</h2>
+<p>To create custom muntins/glazing bars:</p>
+<ul>
+<li>Use the Line tool in plan-view, to draw a rectangular region into which the muntins should fit.</li>
+</ul>
+<ul>
+<li>Model the muntins within the rectangular region, using ARCHICAD building elements (e.g. the Slab tool).</li>
+</ul>
+<p><img src="img/360001018896_0.jpg" alt="How to Create and Use Custom Muntins 示意图" loading="lazy"></p>
+<p> Make sure you choose the correct surfaces.</p>
+<p><img src="img/360001018896_1.jpg" alt="How to Create and Use Custom Muntins 示意图" loading="lazy"></p>
+<ul>
+<li>Select the muntins, and from the File menu choose Libraries and Objects > Save Selection as > Cabinet Muntins .</li>
+</ul>
+<p><img src="img/360001018896_2.jpg" alt="How to Create and Use Custom Muntins 示意图" loading="lazy"></p>
+<ul>
+<li>Give the new muntins a meaningful name (i.e. not My Custom Muntins ), and click the Save button.</li>
+</ul>
+<p><img src="img/360001018896_3.jpg" alt="How to Create and Use Custom Muntins 示意图" loading="lazy"></p>
+<h2>Apply Custom Muntins to an Available Front</h2>
+<p>Having created custom muntins, the next step is to apply them to one of the <strong>Available Fronts</strong>.</p>
+<ul>
+<li>Select the cabinet in which you want to use the new muntins, and open its Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Available Fronts page, select an existing front that has a glass panel, or add a new one.</li>
+</ul>
+<p><img src="img/360001018896_4.jpg" alt="How to Create and Use Custom Muntins 示意图" loading="lazy"></p>
+<ul>
+<li>Set the Muntins field to Custom Muntins.</li>
+</ul>
+<ul>
+<li>Choose your new custom muntins from the list.</li>
+</ul>
+<h2>Use the Front</h2>
+<p>To apply the front containing custom muntins to selected modules:</p>
+<ul>
+<li>On the Modules page, click to make a selection of modules.</li>
+</ul>
+<p><img src="img/360001018896_5.jpg" alt="How to Create and Use Custom Muntins 示意图" loading="lazy"></p>
+<ul>
+<li>From the Front list, choose the front that contains custom muntins.</li>
+</ul>
+<ul>
+<li>Click OK to apply the settings.</li>
+</ul>
+<p><img src="img/360001018896_6.jpg" alt="How to Create and Use Custom Muntins 示意图" loading="lazy"></p>
+<h2>Share the Front</h2>
+<p>To share the front, including its new custom muntins, with other cabinets in the project:</p>
+<ul>
+<li>Select a cabinet that uses the front, and open its Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Available Fronts page, click the Copy button.</li>
+</ul>
+<ul>
+<li>Click OK to close the dialog.</li>
+</ul>
+<ul>
+<li>Select any other cabinet in which you wish to use the front, and open its Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Available Fronts page, click the Paste button. The front, including the custom muntins, will be added to the list, and is ready for use within the selected cabinet.</li>
+</ul>
+</div>
+<div class="art" id="a-360001018656">
+  <div class="art-h"><span class="no">27</span><h3>How to Create and Use a Custom Front</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001018656-How-to-Create-and-Use-a-Custom-Front" target="_blank" rel="noopener">MyCi 知识库 · How to Create and Use a Custom Front</a></div>
+  <h2>Create a Custom Cabinet Front</h2>
+<p>To create a custom cabinet front:</p>
+<ul>
+<li>Model the door/drawer-front/end-panel lying flat in plan-view. Set the width and height of the front correctly. If you intend to use different sizes of the same front style, model each one and save it as a separate Cabinet Door. The front can be stretched to fit, but it will distort in the process.</li>
+</ul>
+<p><img src="img/360001018656_0.jpg" alt="How to Create and Use a Custom Front 示意图" loading="lazy"></p>
+<p> Remember to set the surface for each building element that you use.</p>
+<p><img src="img/360001018656_1.jpg" alt="How to Create and Use a Custom Front 示意图" loading="lazy"></p>
+<ul>
+<li>From the File menu, choose Libraries and Objects > Save Selection As > Cabinet Door .</li>
+</ul>
+<p><img src="img/360001018656_2.jpg" alt="How to Create and Use a Custom Front 示意图" loading="lazy"></p>
+<h2>Make it Available for Use</h2>
+<p>To use a custom cabinet front:</p>
+<ul>
+<li>Create the front as described above.</li>
+</ul>
+<ul>
+<li>Open the Settings dialog of the cabinet object.</li>
+</ul>
+<ul>
+<li>On the Modules > Available Fronts page:</li>
+</ul>
+<p><img src="img/360001018656_3.jpg" alt="How to Create and Use a Custom Front 示意图" loading="lazy"></p>
+<p> Use the + button to add a new front.</p>
+<ul>
+<li>Give it a Name .</li>
+</ul>
+<ul>
+<li>Set the Style to Custom Cabinet Door , and choose the new custom cabinet doors from the list.</li>
+</ul>
+<h2>Use it</h2>
+<p>Having created a custom cabinet front, and added it to the list of available fronts, you can now use it in selected modules of the cabinet.</p>
+<ul>
+<li>On the Modules page, select any modules to which the new front should be applied.</li>
+</ul>
+<p><img src="img/360001018656_4.jpg" alt="How to Create and Use a Custom Front 示意图" loading="lazy"></p>
+<ul>
+<li>Choose the new Front from the list.</li>
+</ul>
+<ul>
+<li>Click OK to apply the settings.</li>
+</ul>
+<p><img src="img/360001018656_5.jpg" alt="How to Create and Use a Custom Front 示意图" loading="lazy"></p>
+<h2>Share it</h2>
+<p>To share the new front:</p>
+<ul>
+<li>Select a cabinet that uses the custom front, and open its Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Available Fronts page, click the Copy button.</li>
+</ul>
+<ul>
+<li>Click OK to close the dialog.</li>
+</ul>
+<ul>
+<li>Select any other cabinet in which you wish to use the custom front, and open its Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Available Fronts page, click the Paste button. The custom front will be added to the list, and is ready to use within the selected cabinet.</li>
+</ul>
+</div>
+<div class="art" id="a-360001018716">
+  <div class="art-h"><span class="no">28</span><h3>How to Create and Use a Custom Handle</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001018716-How-to-Create-and-Use-a-Custom-Handle" target="_blank" rel="noopener">MyCi 知识库 · How to Create and Use a Custom Handle</a></div>
+  <h2>Create a Custom Handle</h2>
+<p>To create a custom handle:</p>
+<ul>
+<li>Model the handle using ARCHICAD building elements, or import a handle from an external file. (In this example, I've imported a handle from a 3DS file, and converted it to a Morph ).</li>
+</ul>
+<p><img src="img/360001018716_0.jpg" alt="How to Create and Use a Custom Handle 示意图" loading="lazy"></p>
+<ul>
+<li>Select the handle, and from the File menu choose Libraries and Objects > Save Selection as > Knob .</li>
+</ul>
+<p><img src="img/360001018716_1.jpg" alt="How to Create and Use a Custom Handle 示意图" loading="lazy"></p>
+<ul>
+<li>Give the new knob a meaningful name (i.e. not My Custom Handle ), and click the Save button.</li>
+</ul>
+<p><img src="img/360001018716_2.jpg" alt="How to Create and Use a Custom Handle 示意图" loading="lazy"></p>
+<h2>Make it Available for Use</h2>
+<p>To use the new handle in a cabinet:</p>
+<ul>
+<li>Select the cabinet in which you want to use the new handle, and open its Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Available Handles page, add a new handle:</li>
+</ul>
+<p><img src="img/360001018716_3.jpg" alt="How to Create and Use a Custom Handle 示意图" loading="lazy"></p>
+<p> Give the new handle a name.</p>
+<ul>
+<li>Set the Shape to Custom Knob.</li>
+</ul>
+<ul>
+<li>Choose the handle you created, from the list of custom knobs.</li>
+</ul>
+<ul>
+<li>Choose how the handle should be applied:</li>
+</ul>
+<p> Place Directly on Front – choose this option if the natural orientation of the handle you created was in the plane of the floor plan, as in the example.</p>
+<ul>
+<li>Rotate and Place on Front – choose this option if the natural orientation of the handle you created was in the vertical plane.</li>
+</ul>
+<ul>
+<li>Apply as Cutter – choose this option to use the handle you created to cut a hole in the front.</li>
+</ul>
+<ul>
+<li>Enter the Dimensions of the handle (these should match the actual handle dimensions, otherwise the handle will distort to fit).</li>
+</ul>
+<h2>Use the New Handle</h2>
+<p>Having created a custom handle, and added it to the list of available handles, you can use it on any module in the cabinet.</p>
+<ul>
+<li>On the Modules page, select the modules to which you want to assign the new handle.</li>
+</ul>
+<p><img src="img/360001018716_4.jpg" alt="How to Create and Use a Custom Handle 示意图" loading="lazy"></p>
+<ul>
+<li>Choose the new Handle from the list.</li>
+</ul>
+<ul>
+<li>Click OK to apply the settings.</li>
+</ul>
+<p><img src="img/360001018716_5.jpg" alt="How to Create and Use a Custom Handle 示意图" loading="lazy"></p>
+<h2>Share it</h2>
+<p>To share the new handle:</p>
+<ul>
+<li>Select a cabinet that uses the custom handle, and open its Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Available Handles page, click the Copy button.</li>
+</ul>
+<ul>
+<li>Click OK to close the dialog.</li>
+</ul>
+<ul>
+<li>Select any other cabinet in which you wish to use the custom front, and open its Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Available Handles page, click the Paste button. The custom handle will be added to the list, and is ready to use within the selected cabinet.</li>
+</ul>
+</div>
+<div class="art" id="a-4405455066767">
+  <div class="art-h"><span class="no">29</span><h3>How to Create and Use a Custom Space Filler</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/4405455066767-How-to-Create-and-Use-a-Custom-Space-Filler" target="_blank" rel="noopener">MyCi 知识库 · How to Create and Use a Custom Space Filler</a></div>
+  <p>There are a (growing) number of different space filler types (wine rack, plate rack, glassware, books, etc.) built into the cabinets. However, if you want to place something completely different into a cabinet, you can always create a <em>Custom Space Filler</em>.</p>
+<p>To create a custom space filler:</p>
+<ul>
+<li>Model (or obtain a model of) the item you want to include. This should be modeled using basic Archicad elements (e.g. slab, wall, mesh, morph) rather than a library-part.</li>
+</ul>
+<ul>
+<li>Select the model in plan view.</li>
+</ul>
+<ul>
+<li>From the File menu, choose Libraries and Objects > Save Selection As ... and choose the type to be Cabinet Space Filler.</li>
+</ul>
+<ul>
+<li>Enter a name for the new space filler.</li>
+</ul>
+<div class="table-wrap"><table><thead><tr><th>Note that you can append the bounding-box dimensions of the space filler to the filename, e.g.  *MyTeapot_213x160x175mm*. The dimensions should: - Begin with an underscore character. - Be in the order x , y , z . - Be separated with the x character. - Be followed by either mm or inch to indicate the unit. If you do this, whenever you select the space filler, the correct dimensions will be applied.</th></tr></thead><tbody></tbody></table></div>
+<p>To use the space filler you created above:</p>
+<ul>
+<li>Select the cabinet into which you want to place the space filler.</li>
+</ul>
+<ul>
+<li>Open the cabinet's Settings dialog.</li>
+</ul>
+<ul>
+<li>On the Spaces > Available Filler Types page, click the + button to add a new filler type.</li>
+</ul>
+<ul>
+<li>Enter a Name , and set the Type to Custom Space Filler .</li>
+</ul>
+<ul>
+<li>Choose the space filler you created from the list.</li>
+</ul>
+<ul>
+<li>If you didn't include the bounding-box dimension in the space filler's filename, or if you want to change the dimensions, set the dimensions manually.</li>
+</ul>
+<ul>
+<li>On the Spaces page, select one or more spaces, and choose the new space filler type you created in steps 1 - 6.</li>
+</ul>
+</div>
+<div class="art" id="a-360001008435">
+  <div class="art-h"><span class="no">30</span><h3>How to Define a Plan View</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001008435-How-to-Define-a-Plan-View" target="_blank" rel="noopener">MyCi 知识库 · How to Define a Plan View</a></div>
+  <p>The way in which cabinetry should display in plan view, will depend on the type of information you want to convey in that view.</p>
+<p>For instance, you might want to show:</p>
+<ul>
+<li>Under-bench cabinets in detail, including door swings, drawers and vertical walls and partitions. Benchtop and wall-mounted cabinets as a dashed outline above. This could be used to show the dimensions of the under-bench cabinets, or to label under-bench units.</li>
+</ul>
+<ul>
+<li>Wall-mounted cabinets in detail, with the benchtop a filled polygon, and under-bench cabinetry as a dashed outline below. This could be used to show the dimensions of wall-mounted cabinets, or to label wall-mounted units.</li>
+</ul>
+<ul>
+<li>The benchtop as a filled polygon, with both under-bench cabinetry and wall-mounted cabinetry as dashed outlines. This could be used to indicate the spatial extent of the cabinetry while keeping the plan view relatively uncluttered.</li>
+</ul>
+<p>The <strong>Model View Option</strong> settings provides control over how cabinets and benchtop will appear in plan views, depending on their height in relation to the cutting plane.</p>
+<h2>Cutting Plane Height</h2>
+<p>On the <strong>Plan View</strong> page, set the <strong>Cutting Plane Height</strong> relative to the current story level.</p>
+<p><img src="img/360001008435_0.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>Cabinets will respond to the cutting plane height based on their position relative to the cutting plane. Each cabinet may be:</p>
+<ul>
+<li>Sliced through – the cutting place slices through the cabinet in this view.</li>
+</ul>
+<ul>
+<li>Wholly below the cutting plane.</li>
+</ul>
+<ul>
+<li>Wholly above the cutting plane.</li>
+</ul>
+<h3>Sliced-Through Cabinets</h3>
+<p>Cabinets that are sliced through by the <strong>Cutting Plane Height</strong> will display as cut elements in plan view.</p>
+<p>If the <strong>Show Detail at Cutting Plane</strong> setting is <strong>On</strong>, Doors, drawer fronts, walls and vertical dividers that are sliced by the cutting plane will appear in detail, using section pens, fills and line types.</p>
+<p><img src="img/360001008435_1.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>If the <strong>Show Detail at Cutting Plane</strong> setting is <strong>Off</strong>, a simplified view will be displayed.</p>
+<p><img src="img/360001008435_2.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<h3>Cabinets Below the Cutting Plane</h3>
+<p>Any cabinet that lies wholly beneath the cutting plane will display as a simple polygon.</p>
+<p><img src="img/360001008435_3.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>If a cabinet has been tagged as <strong>Under Bench</strong>, …</p>
+<p><img src="img/360001008435_4.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>… its outline will use the <strong>Hidden Detail</strong> pen and line type, ...</p>
+<p><img src="img/360001008435_5.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>... as defined in the <strong>Model View Options > Ci Cabinets > Attributes</strong> settings.</p>
+<p><img src="img/360001008435_6.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>Remove the unit partition lines using the <strong>Model View Options</strong> control <strong>Unit Partitions on Outline Views</strong>.</p>
+<p><img src="img/360001008435_7.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p><img src="img/360001008435_8.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<h3>Cabinets Above the Cutting Plane</h3>
+<p>Cabinets that lie wholly above the cutting plane will display as a simple outline, ...</p>
+<p><img src="img/360001008435_9.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>... using the <strong>Above Cutting Plane</strong> line type and pen as defined in the <strong>Model View Options > Ci Cabinets > Attributes</strong>settings.</p>
+<p><img src="img/360001008435_10.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<h2>Reflected Ceiling Plan</h2>
+<p>In the <strong>Model View Options > Ci Cabinets > Options</strong> settings, a plan view may be tagged as a <strong>Reflected Ceiling Plan</strong>.</p>
+<p>In this case, elements wholly below the cutting plane will respond as though they were wholly above the cutting plane, and vice versa.</p>
+<h2>Unit Partitions</h2>
+<p>Cabinets that lie either wholly above or wholly below the cutting plane, may display or hide <em>unit partitions</em> in plan-view.</p>
+<p>Cabinets will always display partitions that are sliced through by the floor plan cutting plane.</p>
+<h3>Hide Unit Partitions</h3>
+<p><img src="img/360001008435_11.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>Hide unit partitions if you want a clean, simple plan view.</p>
+<p><img src="img/360001008435_12.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>Note that the cabinet ends will display as open, unless you add an end panel.</p>
+<h3>Show Unit Partitions</h3>
+<p>Show unit partitions to identify the extent of adjacent units in plan-view.</p>
+<ul>
+<li>Cabinets that are wholly above the cutting plane will display any unit partitions that extend to the cabinet base.</li>
+</ul>
+<ul>
+<li>Cabinets that are wholly below the cutting plane will display any unit partitions that extend to the cabinet top.</li>
+</ul>
+<h2>Set Doors & Drawers Open or Shut</h2>
+<p>For cabinets that are sliced by the cutting plane, doors and drawers may be set open or shut in plan-view.</p>
+<p><img src="img/360001008435_13.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>Set the <strong>Angle</strong> for hinged modules (e.g. doors) and the <strong>Margin</strong> for sliding modules (e.g. drawers).</p>
+<p><img src="img/360001008435_14.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>To display doors and/or drawers fully closed in plan view, set the <strong>Angle</strong> or <strong>Margin</strong> to zero.</p>
+<p><img src="img/360001008435_15.jpg" alt="How to Define a Plan View 示意图" loading="lazy"></p>
+<p>%%IMG16%%</p>
+</div>
+<div class="art" id="a-360001017816">
+  <div class="art-h"><span class="no">31</span><h3>How to Define a Section, Elevation or 3D View</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001017816-How-to-Define-a-Section-Elevation-or-3D-View" target="_blank" rel="noopener">MyCi 知识库 · How to Define a Section, Elevation or 3D View</a></div>
+  <p>The <em>Ci Cabinets</em> tool provides <strong>Model View Options</strong> that control how cabinets are displayed in section, elevation and 3D views. These settings are all available on the <strong>Model</strong> page of the <strong>Model View Options > Ci Cabinets</strong> dialog.</p>
+<p><img src="img/360001017816_0.jpg" alt="How to Define a Section, Elevation or 3D View 示意图" loading="lazy"></p>
+<p>Use these options to tailor each view to display appropriate information, and to reduce the polygon count.</p>
+<h2>Doors & Drawers</h2>
+<p>Settings that control doors and drawers appear in the model view, include:</p>
+<ul>
+<li>All Shut - all the doors and drawers will be displayed as shut, even if set to open in the cabinet's Settings dialog.</li>
+</ul>
+<ul>
+<li>Show Opening Lines - control whether to display opening lines for doors and drawers, and how the opening lines should appear.</li>
+</ul>
+<h2>Space Fillers</h2>
+<p><strong>Show in View</strong> - choose whether to display space fillers in the current view.</p>
+<p>Space fillers can be useful in a presentation view, but you probably don't want to display them in a dimensioned drawing. Space fillers also tend to be polygon-heavy, so it's nice to be able to keep the polygon count in check by removing them from all but a few key views.</p>
+<h2>Module Fronts</h2>
+<p>Options for module fronts include:</p>
+<ul>
+<li>Show in View - choose to show/hide the module fronts in a given view. Generally you'll want to show the fronts, but there may be some views for which you only want to show the carcass.</li>
+</ul>
+<ul>
+<li>Transparency - set the transparency of module fronts, to partially reveal hidden components.</li>
+</ul>
+<ul>
+<li>Show Handles - show the handles (you may want to hide them to reduce the polygon count).</li>
+</ul>
+<ul>
+<li>Show Labels - show/hide the optional labels on each module.</li>
+</ul>
+<h2>Internal Components</h2>
+<p>Some components of a cabinet (e.g. shelves, adjustable legs, space fillers) are hidden behind non-glazed doors and drawers when closed, or behind the plinth. For 3D views, or for interior elevations, it may not be helpful to generate all of this hidden detail, given that it's not actually visible.</p>
+<p>Use the <strong>Show in View</strong> option to help control the polygon count for views that don't require hidden shelves, partitions, legs and space fillers.</p>
+<h2>Shelves</h2>
+<p>Shelves and partitions may be shown as hidden detail lines drawn on the cabinet fronts.</p>
+</div>
+<div class="art" id="a-360001017836">
+  <div class="art-h"><span class="no">32</span><h3>How to Define the Cabinet Structure</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001017836-How-to-Define-the-Cabinet-Structure" target="_blank" rel="noopener">MyCi 知识库 · How to Define the Cabinet Structure</a></div>
+  <h2>Configuration</h2>
+<p><img src="img/360001017836_0.jpg" alt="How to Define the Cabinet Structure 示意图" loading="lazy"></p>
+<p>On the <strong>Configuration</strong> page, set the basic structure of the cabinet.</p>
+<ul>
+<li>Set the overall dimensions of the Carcass .</li>
+</ul>
+<ul>
+<li>Choose a Face Frame construction method from the list.</li>
+</ul>
+<ul>
+<li>Choose a Plinth type from the list.</li>
+</ul>
+<ul>
+<li>Choose Surfaces for the face frame, carcass, plinth and legs.</li>
+</ul>
+<p>The cabinet has three vertical dimensions (<strong>C</strong> total height, <strong>D</strong> carcass height and <strong>E</strong> plinth height) that are inter-related. In the field directly below the <strong>Shape</strong> settings, choose which one should remain fixed when editing the other two. In the illustration above, the carcass height <strong>D</strong> is locked, so changing <strong>C</strong> total height will result in the plinth height updating.</p>
+<p>Click on the navigation buttons to further edit the cabinet’s structure.</p>
+<h2>Face</h2>
+<p>Depending on the <strong>Face Frame</strong> type you set on the <strong>Configuration</strong> page, set various dimensions for the cabinet’s face construction on the <strong>Configuration > Face</strong>page.</p>
+<h3>Face Frame set to Frameless</h3>
+<p><img src="img/360001017836_1.jpg" alt="How to Define the Cabinet Structure 示意图" loading="lazy"></p>
+<h4>Frame</h4>
+<p>Choose the face frame type, and set dimensions for a top rail depth <strong>A</strong>and thickness<strong>T.</strong></p>
+<h4>Fronts</h4>
+<p>Set offsets for the cabinet fronts (e.g. drawer fronts and doors). Dimensions include offsets from the edges (<strong>A</strong>, <strong>C</strong>, <strong>D</strong>), and space between adjacent fronts (<strong>B</strong>).</p>
+<h3>Face Frame set to Inset</h3>
+<p><img src="img/360001017836_2.jpg" alt="How to Define the Cabinet Structure 示意图" loading="lazy"></p>
+<h4>Frame</h4>
+<p>Choose the face frame type, and set frame widths for <em>unit</em> (<strong>A</strong>, <strong>B</strong>, <strong>C</strong>, <strong>D</strong>,<strong>E</strong>) and <em>module</em> (<strong>F</strong>, <strong>G, H</strong>) edges and dividers. Set the thickness <strong>T</strong> of the face frame.</p>
+<h4>Fronts</h4>
+<p>Set offsets for the cabinet fronts (e.g. a gap between the face frame and drawer fronts, doors, etc.).</p>
+<h3>Face Frame set to Half Overlay</h3>
+<p><img src="img/360001017836_3.jpg" alt="How to Define the Cabinet Structure 示意图" loading="lazy"></p>
+<h4>Frame</h4>
+<p>Set frame widths for <em>unit</em> (<strong>A</strong>, <strong>B</strong>, <strong>C</strong>, <strong>D</strong>,<strong>E</strong>) and <em>module</em> (<strong>F</strong>, <strong>G, H</strong>) edges. Set the thickness <strong>T</strong> of the face frame.</p>
+<h4>Fronts</h4>
+<p>Set offsets for the cabinet fronts (i.e. the overlap of drawer fronts, doors, etc. onto the face frame).</p>
+<h3>Face Frame set to Full Overlay</h3>
+<p><img src="img/360001017836_4.jpg" alt="How to Define the Cabinet Structure 示意图" loading="lazy"></p>
+<h4>Frame</h4>
+<p>Set frame widths for <em>unit</em> (<strong>A</strong>, <strong>B</strong>, <strong>C</strong>, <strong>D</strong>,<strong>E</strong>) and <em>module</em> (<strong>F</strong>, <strong>G, H</strong>) edges. Set the thickness <strong>T</strong> of the face frame.</p>
+<h4>Fronts</h4>
+<p>Set the gap to be left around the cabinet fronts (drawer fronts, doors, etc.).</p>
+<h2>Carcass</h2>
+<p><img src="img/360001017836_5.jpg" alt="How to Define the Cabinet Structure 示意图" loading="lazy"></p>
+<h4>Dimensions</h4>
+<p>In the left column, set:</p>
+<ul>
+<li>The thickness of all construction materials used to build the carcass.</li>
+</ul>
+<ul>
+<li>The offset of back wall from the carcass back.</li>
+</ul>
+<h4>Carcass Inset from Face Edge</h4>
+<p>In the right column, set the carcass inset from the face edges. This allows for design of a cabinet whose front must fill a space defined by walls and ceiling, while leaving some tolerance around the carcass for installation purposes.</p>
+<h4>End Panels</h4>
+<p>Set the <strong>Placement</strong> (Left End, Right End, Both Ends or None) and <strong>Type</strong> of panels to use for the cabinet ends.</p>
+<p>Note the list of end panel <strong>Types</strong> is the same as that used for module fronts (doors, drawer fronts, etc.)</p>
+<p>End panels can't be applied to the <em>Ci Cabinet Polygon</em> library-part.</p>
+<h2>Plinth & Legs</h2>
+<p><img src="img/360001017836_6.jpg" alt="How to Define the Cabinet Structure 示意图" loading="lazy"></p>
+<p>Choose the <strong>Plinth</strong> type and set plinth thickness and toe space.</p>
+<p>If you choose <strong>Adjustable Legs</strong>, also set the leg dimensions here. Offset the legs from the unit ends (<strong>A</strong>), cabinet back (<strong>B</strong>), and front plinth (<strong>C</strong>). Note that legs are placed to each unit.</p>
+</div>
+<div class="art" id="a-4404558405391">
+  <div class="art-h"><span class="no">33</span><h3>How to Fill a Cabinet</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/4404558405391-How-to-Fill-a-Cabinet" target="_blank" rel="noopener">MyCi 知识库 · How to Fill a Cabinet</a></div>
+  <p>You can fill a cabinet with various items, including tableware, glassware, wine racks, books and microwave ovens. If you need something that's not available, you can create a <em>Custom Space Filler</em>.</p>
+<p><img src="img/4404558405391_0.jpg" alt="How to Fill a Cabinet 示意图" loading="lazy"></p>
+<p>To fill a cabinet, select it and open its <strong>Settings</strong> dialog.</p>
+<p><img src="img/4404558405391_1.jpg" alt="How to Fill a Cabinet 示意图" loading="lazy"></p>
+<p>On the <strong>Spaces</strong> page, select the spaces you wish to fill, and choose a filler <strong>Type</strong>. Depending on the filler type selected, set values to control the placement of filler items within the selected spaces. Typical settings include <strong>Single</strong>/<strong>Multiple</strong>, <strong>Random Shift</strong> and <strong>Turn</strong>. If <strong>Multiple</strong> items are placed, set spacings and offsets from the space boundaries.</p>
+<p>Click <strong>OK</strong> to view the result. (If you don't see anything check your <strong>Model View Option</strong> settings).</p>
+<p><img src="img/4404558405391_2.jpg" alt="How to Fill a Cabinet 示意图" loading="lazy"></p>
+<p>Add different space fillers to other spaces in the cabinet.</p>
+<p><img src="img/4404558405391_3.jpg" alt="How to Fill a Cabinet 示意图" loading="lazy"></p>
+<p><img src="img/4404558405391_4.jpg" alt="How to Fill a Cabinet 示意图" loading="lazy"></p>
+<p><img src="img/4404558405391_5.jpg" alt="How to Fill a Cabinet 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-360001017896">
+  <div class="art-h"><span class="no">34</span><h3>How to Partition a Cabinet Graphically</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001017896-How-to-Partition-a-Cabinet-Graphically" target="_blank" rel="noopener">MyCi 知识库 · How to Partition a Cabinet Graphically</a></div>
+  <p>Partitions may be inserted into a cabinet to divide it into units and modules, and to add shelves and horizontal dividers within modules. In order to use the <em>CI Cabinet</em> tool effectively, you need to understand how to work with partitions.</p>
+<p>Note that partitions may also be added, removed and moved within the library-part <strong>Settings</strong> dialog - see<em><a href="https://cadimage.zendesk.com/hc/en-us/articles/4404256585615" target="_blank" rel="noopener">How to Partition a Cabinet in the Settings Dialog</a></em>.</p>
+<h2>Special Functions for the CI Cabinet Object</h2>
+<p>The <em>CI Cabinet</em>object provides some special functionality to make it easier to quickly place a set of rectangular units in a plan view. This supports a workflow in which multiple units are drawn as a single entity, so as to convey design intent without scheduling separate units.</p>
+<h3>Add Partitions when adjusting the Cabinet Width</h3>
+<p>On first placement, the <em>Ci Cabinet Linear</em> includes a single unit.</p>
+<p><img src="img/360001017896_0.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p>On the <strong>Grids & Editing</strong> page, under <strong>Cabinet Width Adjustment</strong>, choose how you want the cabinet to behave when stretched in plan view.</p>
+<p><img src="img/360001017896_1.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p>Under <strong>Cabinet Width Adjustment</strong>, choose what partition type should be inserted when increasing the cabinet's width<strong>:</strong></p>
+<ul>
+<li>Insert Unit Partitions - a unit partition will be inserted whenever the cabinet's width increases beyond the default spacing, provided the remaining width exceeds the minimum spacing.</li>
+</ul>
+<ul>
+<li>Insert Module Partitions - a module partition will be inserted whenever the cabinet's width increases beyond the default spacing, provided the remaining width exceeds the minimum spacing.</li>
+</ul>
+<ul>
+<li>Insert No Partitions - the cabinet width will adjust without inserting partitions.</li>
+</ul>
+<p>Use the end hotspot at the front of the cabinet, to adjust the cabinet's width. Extra units are added at regular intervals.</p>
+<p><img src="img/360001017896_2.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p>A new unit partition is inserted each time the cabinet length extends beyond the <strong>Default Width.</strong> The final unit will fit the remaining space. If this remaining space is too narrow (i.e. less than the <strong>Minimum Width</strong>), the last partition will be omitted, resulting in a wider unit.</p>
+<h3>Move a Unit Partition in Plan-View</h3>
+<p>Having stretched the cabinet to the correct length, you can adjust the positions of the unit partitions.</p>
+<ul>
+<li>Select the cabinet, and click on a dynamic hotspot at the back edge of the unit partition you want to move.</li>
+</ul>
+<p><img src="img/360001017896_3.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>Move the partition and click to drop the hotspot, or enter the position via the keyboard.</li>
+</ul>
+<p><img src="img/360001017896_4.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p><img src="img/360001017896_5.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<h3>Add a Unit Partition in Plan-View</h3>
+<p>You can add a vertical unit partition while in plan-view.</p>
+<ul>
+<li>Select the cabinet in plan-view.</li>
+</ul>
+<p><img src="img/360001017896_6.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>Open the library-part's Settings dialog, and on the Grids & Editing page set the Editing Palette > Edit Mode to Partitions .</li>
+</ul>
+<p><img src="img/360001017896_7.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK . The editing palette will appear beside the cabinet.</li>
+</ul>
+<p><img src="img/360001017896_8.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>Drag the unit partition icon from the palette into the cabinet plan view, to add a partition.</li>
+</ul>
+<p><img src="img/360001017896_9.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>Move the palette slider to the X position to hide the palette.</li>
+</ul>
+<p><img src="img/360001017896_10.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p><img src="img/360001017896_11.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<h3>Remove a Unit Partition in Plan-View</h3>
+<p>To remove a vertical unit partition:</p>
+<ul>
+<li>Select the cabinet in plan-view.</li>
+</ul>
+<p><img src="img/360001017896_12.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the hotspot at the back edge of a unit partition, and drag the partition out of the cabinet. The partition will disappear.</li>
+</ul>
+<p><img src="img/360001017896_13.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p><img src="img/360001017896_14.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p><img src="img/360001017896_15.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<h2>General Partition Functions for all Cabinets</h2>
+<p>All cabinets in the <em>CI Cabinets</em> library provide functionality to split the cabinet with vertical and horizontal partitions. Each partition may define the boundary of a unit or module, or the position of a shelf or divider.</p>
+<h3>Add a Partition</h3>
+<p>Partitioning may be carried out in a 3D, Elevation or Section view.</p>
+<ul>
+<li>In a 3D view (or in a Section or Elevation view), select the cabinet that you want to partition, and open its Settings dialog.</li>
+</ul>
+<p><img src="img/360001017896_16.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>On the Grids and Editing page, set Editing Palette > Edit Mode to Partitions , and click OK .</li>
+</ul>
+<p><img src="img/360001017896_17.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>You’ll notice some changes:</li>
+</ul>
+<p> An editing palette will appear near the cabinet.</p>
+<ul>
+<li>The cabinet will be drawn in wireframe.</li>
+</ul>
+<p><img src="img/360001017896_18.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p>From top to bottom, the partition types provided by the editing palette are:</p>
+<ul>
+<li>Unit partition (vertical)</li>
+</ul>
+<ul>
+<li>Unit partition (horizontal)</li>
+</ul>
+<ul>
+<li>Module partition – closed (vertical) – includes a partition wall within the carcass</li>
+</ul>
+<ul>
+<li>Module partition - closed (horizontal) – including partition wall within the carcass</li>
+</ul>
+<ul>
+<li>Module partition – open (vertical) – no partition wall</li>
+</ul>
+<ul>
+<li>Module partition – open (horizontal) – no partition wall</li>
+</ul>
+<ul>
+<li>Internal divider (vertical) – a vertical divider within a module</li>
+</ul>
+<ul>
+<li>Internal shelf (horizontal) – a shelf or rail within a module</li>
+</ul>
+<ul>
+<li>Drag a hotspot from the editing palette onto the front face of the cabinet. As you do so, you will see that a partition is created at the hotspot position.</li>
+</ul>
+<p><img src="img/360001017896_19.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>Drop the hotspot at the desired position to create the partition.</li>
+</ul>
+<p><img src="img/360001017896_20.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>You can continue to add any number of partitions. Once you’ve finished, move the palette slider to the X</li>
+</ul>
+<p><img src="img/360001017896_21.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p><img src="img/360001017896_22.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>The editing palette will disappear, and the cabinet will display in full detail.</li>
+</ul>
+<p><img src="img/360001017896_23.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<h3>Move a Partition</h3>
+<p>Each partition has a dynamic hotspot that allows you to move it within the cabinet.</p>
+<p>To move a partition:</p>
+<ul>
+<li>Go to a 3D, Section or Elevation view.</li>
+</ul>
+<p><img src="img/360001017896_24.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>Select the cabinet.</li>
+</ul>
+<p><img src="img/360001017896_25.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<ul>
+<li>Drag the partition hotspot to move the partition.</li>
+</ul>
+<p><img src="img/360001017896_26.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p><img src="img/360001017896_27.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<h3>Remove a Partition</h3>
+<p>To remove a partition, simply move it outside of the cabinet.</p>
+<p><img src="img/360001017896_28.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p><img src="img/360001017896_29.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<h3>Align Partitions to Grid</h3>
+<p>Defining the precise position of a partition can be made easier by using the <strong>Align Partitions to Grid</strong> option.</p>
+<p><img src="img/360001017896_30.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p>On the <strong>Grids & Editing</strong> page, set the <strong>Anchor & Spacing</strong> settings. For instance you might want to snap to the nearest 50mm in both the <strong>X</strong> and <strong>Y</strong> directions, and anchor the grid to the bottom left of the carcass. Choose a proximity for snapping (partitions within this range of a grid line will snap to the grid line).</p>
+<p>Click the <strong>Align Partitions to Grid</strong> checkbox once you're done.</p>
+<p>Existing partitions will snap to the grid, and when a partition is moved it will snap to the grid line if within the chosen proximity.</p>
+<h2>Special Functions for Shelves in the Ci Corner Unit</h2>
+<p>Shelves in the CI Corner unit can either follow the shape of the carcass (i.e. an L-shape), or they can run parallel with one or other of the two edges.</p>
+<p>The path followed by the shelf is controlled by moving the partition hotspot:</p>
+<p>| </p>
+<p><img src="img/360001017896_31.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p> | </p>
+<p><img src="img/360001017896_32.jpg" alt="How to Partition a Cabinet Graphically 示意图" loading="lazy"></p>
+<p> |</p>
+<p>| --- | --- |</p>
+<p>| %%IMG33%% | %%IMG34%% |</p>
+<ul>
+<li>Hotspot at the far left of the front face – the shelf runs along the first leg of the corner cabinet.</li>
+</ul>
+<ul>
+<li>Hotspot just left of the middle of the front face – the shelf follows the cabinet shape, with the main part parallel with the first leg of the corner cabinet.</li>
+</ul>
+<ul>
+<li>Hotspot just right of the middle of the front face – the shelf follows the cabinet shape, with the main part parallel with the second leg of the corner cabinet.</li>
+</ul>
+<ul>
+<li>Hotspot at the far right of the front face – the shelf runs along the second leg of the corner cabinet.</li>
+</ul>
+</div>
+<div class="art" id="a-4404256585615">
+  <div class="art-h"><span class="no">35</span><h3>How to Partition a Cabinet in the Settings Dialog</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/4404256585615-How-to-Partition-a-Cabinet-in-the-Settings-Dialog" target="_blank" rel="noopener">MyCi 知识库 · How to Partition a Cabinet in the Settings Dialog</a></div>
+  <p>Partitions may be inserted into a cabinet to divide it into units and modules, and to add shelves and horizontal dividers within modules. In order to use the <em>CI Cabinet</em> tool effectively, you need to understand how to work with partitions.</p>
+<p><img src="img/4404256585615_0.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>On the <strong>Modules</strong> page, you can:</p>
+<ul>
+<li>Set the width and height of a selected module.</li>
+</ul>
+<ul>
+<li>Split a selected module into even spacings, using either horizontal or vertical partitions.</li>
+</ul>
+<ul>
+<li>Remove partitions.</li>
+</ul>
+<p>To access these functions, <strong>click on the first of the four edit mode icons</strong> that head the module settings.</p>
+<p>Note that partitions may also be added, removed and moved graphically.</p>
+<h2>Split a Selected Module</h2>
+<p>You can split a selected module horizontally or vertically into equal divisions.</p>
+<h3>Vertical Partitions</h3>
+<p>Select a module.</p>
+<p><img src="img/4404256585615_1.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>In the <strong>Split</strong> settings group, choose to split the single module into two or more modules.</p>
+<p><img src="img/4404256585615_2.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>Click the button to split the selected module.</p>
+<h3>Horizontal Partitions</h3>
+<p>Select a module.</p>
+<p><img src="img/4404256585615_3.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>In the <strong>Split</strong> settings group, choose to split the single module into two or more modules.</p>
+<p><img src="img/4404256585615_4.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>Click the button to split the selected module.</p>
+<h2>Remove Partitions</h2>
+<p>Select a module.</p>
+<p><img src="img/4404256585615_5.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>Click one of the <strong>Remove Partitions</strong> buttons to remove the partition at the left, right, top or base of the selected module.</p>
+<p><img src="img/4404256585615_6.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<h2>Set Module Width or Height</h2>
+<p>Setting the module's width in the Settings dialog is equivalent to moving the left or right bounding partition. Similarly, setting the module's height is equivalent to moving the top or bottom bounding partition.</p>
+<h3>Set Module Width</h3>
+<p>Select a module. The module's current width will be displayed.</p>
+<p><img src="img/4404256585615_7.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>Choose how the width should be measured - from either the left or the right.</p>
+<p><img src="img/4404256585615_8.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>Enter the desired module width.</p>
+<p><img src="img/4404256585615_9.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>If you chose to measure the module width <strong>From Left</strong>, the right, bounding partition will move. If you chose to measure the module width <strong>From Right</strong>, the left, bounding partition will move.</p>
+<h3>Set Module Height</h3>
+<p>Select a module. The module's current height will be displayed.</p>
+<p><img src="img/4404256585615_10.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>Choose how the height should be measured - from either the top or the base.</p>
+<p><img src="img/4404256585615_11.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>Enter the desired module height.</p>
+<p><img src="img/4404256585615_12.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p>If you chose to measure the module height <strong>From Top</strong>, the bottom, bounding partition will move. If you chose to measure the module width <strong>From Base</strong>, the top, bounding partition will move.</p>
+<p>In this example, I wanted three 150mm deep drawers, and one larger drawer at the bottom. So I can proceed to change the drawer depths one by one.</p>
+<p><img src="img/4404256585615_13.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+<p><img src="img/4404256585615_14.jpg" alt="How to Partition a Cabinet in the Settings Dialog 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-9276900771983">
+  <div class="art-h"><span class="no">36</span><h3>How to create a custom door for your CI tools Cabinet</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/9276900771983-How-to-create-a-custom-door-for-your-CI-tools-Cabinet" target="_blank" rel="noopener">MyCi 知识库 · How to create a custom door for your CI tools Cabinet</a></div>
+  <p>Customised doors can be created following these steps:</p>
+<ul>
+<li>Design your customised door to design the overall shape use drafting lines and then use slab or morph tool to add the general parametric characteristics ( width, hight, depth and finishes).</li>
+</ul>
+<p>| </p>
+<p><img src="img/9276900771983_0.jpg" alt="How to create a custom door for your CI tools Cabinet 示意图" loading="lazy"></p>
+<p> Plan view | </p>
+<p><img src="img/9276900771983_1.jpg" alt="How to create a custom door for your CI tools Cabinet 示意图" loading="lazy"></p>
+<p> 3D view |</p>
+<p>| --- | --- |</p>
+<ul>
+<li>Save your cabinet door: Go to File> Libraries and Objects . Save selection as.. Cabinet Door</li>
+</ul>
+<p><img src="img/9276900771983_2.jpg" alt="How to create a custom door for your CI tools Cabinet 示意图" loading="lazy"></p>
+<p>Your new door will be created and saved on your Embedded Library:</p>
+<p><img src="img/9276900771983_3.jpg" alt="How to create a custom door for your CI tools Cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>A message saying the Cabinet Door will be available for elements in which this setting is recognised or available.</li>
+</ul>
+<p><img src="img/9276900771983_4.jpg" alt="How to create a custom door for your CI tools Cabinet 示意图" loading="lazy"></p>
+<ul>
+<li>Then open the cabinet tool. Go to the Ci Cabinet -Settings> Available fronts> Shape and choose custom Cabinet Door.</li>
+</ul>
+<p><img src="img/9276900771983_5.jpg" alt="How to create a custom door for your CI tools Cabinet 示意图" loading="lazy"></p>
+<p><img src="img/9276900771983_6.jpg" alt="How to create a custom door for your CI tools Cabinet 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-360001017756">
+  <div class="art-h"><span class="no">37</span><h3>Overview</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001017756-Overview" target="_blank" rel="noopener">MyCi 知识库 · Overview</a></div>
+  <p>The <em>Ci Cabinets</em> tool provides design freedom to create and document joinery within the Building Information Model.</p>
+<h2>Glossary of Terms</h2>
+<p>These terms are used in the documentation and in the user interface:</p>
+<div class="table-wrap"><table><thead><tr><th>Cabinet</th><th>A complete cabinet structure (may be subdivided into *units* and *modules*).</th></tr></thead><tbody><tr><td>Partition</td><td>A cabinet may be split along vertical and horizontal lines. Each of these lines is referred to as a *partition*. The partition may be of different types – *unit*, *module*, vertical*divider* or horizontal *shelf*.</td></tr><tr><td>Unit</td><td>The physical item that will be delivered to site. It may be subdivided into *modules*. Each unit includes a wall at each end, a base and a top.</td></tr><tr><td>Module</td><td>A division within a unit. Adjacent modules may include a partition wall (e.g. two adjacent cupboard modules have separate internal spaces), or there may be no partition wall (e.g. two drawers in a stack are not typically separated by a partition). Each module has a *type*, a *front* and a *handle type*.</td></tr><tr><td>Module Type</td><td>Each module has a *type* that controls the function of the module (e.g. door, drawer, open shelving, slide-out bins)</td></tr><tr><td>Front</td><td>The panel style associated with the module’s door, drawer-front, etc.</td></tr><tr><td>Handle</td><td>The handle type used by a module.</td></tr><tr><td>Shelf</td><td>A horizontal division within a module. It may be a fixed shelf, slats, roll-out tray or a horizontal rail.</td></tr><tr><td>Vertical Divider</td><td>A vertical internal divider within a module.</td></tr><tr><td>Face</td><td>The front face of the cabinet.</td></tr><tr><td>Plinth</td><td>The ‘toe kick’ panel that runs along the front of a floor-mounted cabinet.</td></tr><tr><td>Muntins</td><td>Glazing-bar patterns that may be applied to glass panels.</td></tr><tr><td>Space</td><td>Carcass walls, top, base, partitions, shelves and vertical dividers form *spaces* within the cabinet. Each such space may be filled with a *space filler*.</td></tr><tr><td>Space Filler</td><td>Items for visualization, such as glassware, tableware, storage jars and wine racks.</td></tr></tbody></table></div>
+<h2>Design Flexibility</h2>
+<p>The software provides a high level of design flexibility. Design options include:</p>
+<ul>
+<li>A range of cabinet shapes (rectangular, corner, angled corner, custom shape)</li>
+</ul>
+<ul>
+<li>Face-frame construction options (Frameless, Inset, Half Overlay, or Full Overlay)</li>
+</ul>
+<ul>
+<li>Base types (Adjustable Legs, Extend Walls, Inset from Cabinet, or None (for wall-mounted cabinets))</li>
+</ul>
+<ul>
+<li>Ability to configure a cabinet as a set of units and modules</li>
+</ul>
+<ul>
+<li>Ability to define shelves and dividers within a given module</li>
+</ul>
+<ul>
+<li>An extensive range of customizable module types (single drawer, drawer stack, doors, slide-out bins, slide-out shelving, etc.)</li>
+</ul>
+<ul>
+<li>A range of customizable shelf types (solid shelf, slat shelf, roll-out shelf, wardrobe rails)</li>
+</ul>
+<ul>
+<li>A range of customizable drawer/door fronts</li>
+</ul>
+<ul>
+<li>A range of customizable handle types including recessed handles</li>
+</ul>
+<ul>
+<li>A customizable bench top with a range of edge types (upstand/splashback, nosing, waterfall edge)</li>
+</ul>
+<h2>Supported Documentation Types</h2>
+<p>Having designed the cabinetry for a project, it’s important to be able to document it so as to communicate the design effectively to the customer, manufacturer and the construction team. The software provides a number of documentation options. Many of these are controlled by the <strong>Model View Options</strong>, so that each view can show an appropriate subset of the information.</p>
+<h3>Model View Option Settings</h3>
+<p>From the <strong>Document</strong> menu, choose <strong>Model View > Model View Options</strong> to bring up the <strong>Model View Options</strong> palette. On this palette you will see listed the settings for <strong>CI Cabinets</strong>.</p>
+<p><img src="img/360001017756_0.jpg" alt="Overview 示意图" loading="lazy"></p>
+<p>Open the <strong>CI Cabinets</strong> tab to view the options and settings. Click on the <strong>Options</strong> button to show options for the view.</p>
+<p>On the <strong>Options</strong> page you’ll see settings for <strong>Model Views</strong> (i.e. Section, Elevation, Interior Elevation, 3D and 3D Document views) and for <strong>Plan View</strong>.</p>
+<h4>Model Views</h4>
+<p>Options for <strong>Model Views</strong> (section, elevation, interior elevation, 3D, etc.) include:</p>
+<ul>
+<li>Show Opening Lines – These lines indicate the opening direction and method for each module. However in some views (e.g. presentation renderings) it would be distracting to show these.</li>
+</ul>
+<p>Choose how the arrows should show for hinged doors, and what symbol should be used for drawers.</p>
+<p>Select a pen for the opening lines.</p>
+<ul>
+<li>Show Shelves as Dashed Lines – If this option is selected, any internal vertical dividers or horizontal shelves, will be projected onto the front face of the cabinets.</li>
+</ul>
+<ul>
+<li>Show Labels on Module Fronts - Each module may be labelled. Each module type has a default label, which is applied on selection. The default label may be overwritten.</li>
+</ul>
+<ul>
+<li>Doors & Drawers All Shut - In presentation views you might want to show some doors or drawers open. In other views (e.g. sections, elevations, interior elevations) you will want to show all closed. Use the checkbox to control this for each view.</li>
+</ul>
+<ul>
+<li>Opening Lines symbols – Choose how the opening lines should appear.</li>
+</ul>
+<h4>Plan View</h4>
+<p>Options for <strong>Plan Views</strong> include:</p>
+<ul>
+<li>Cutting Plane Height - A dedicated cutting plane defines how cabinets display in a particular view. This helps to bring either under-bench or wall-hung units into focus. If the cabinet is positioned above the set cutting plane height, the object’s outline is drawn using a customisable line type, by default this is dashed. If the cutting plane slices through a cabinet, the construction detail (walls and vertical dividers) is displayed.</li>
+</ul>
+<ul>
+<li>Reflected Ceiling Plan – When this option is On , everything above the cutting plane is displayed as an outline with background polygon and everything below is represented with simple clear outline. When Off , everything below the cutting plane is displayed with detail and everything above in simple clear outline.</li>
+</ul>
+<ul>
+<li>Show Unit Partitions on Outline Views – Cabinets that are not cut through by the cutting plane, are shown as outlines. On these outline views, the location of unit partitions may be shown or hidden.</li>
+</ul>
+<ul>
+<li>Doors & Drawers opening Angle and Margin – In plan-view, the doors and drawers can be shown open.</li>
+</ul>
+<h3>Scheduling Cabinets</h3>
+<p>Cabinets may be scheduled. Note the section <em>Supported Workflows</em> on choosing the best workflow to use, if you intend to schedule cabinetry.</p>
+<h2>Supported Workflows</h2>
+<p>The workflow for modelling cabinets will depend on the requirements of the project.</p>
+<ul>
+<li>For some projects, the documented cabinetry is intended only to indicate design intent, while the precise details are left to cabinet manufacturers. In this case, the cabinet may be modeled as a single entity containing multiple units . When scheduled, the cabinet will be listed as a whole. This approach provides quick initial placement and later editing.</li>
+</ul>
+<ul>
+<li>In other projects, you may be working with clearly defined units that must be scheduled. In this case, each unit should be modeled and placed as a separate cabinet . This approach permits scheduling of the individual units. If you save favorites of the units you intend to use, it can be relatively quick to place the cabinetry.</li>
+</ul>
+<p><em>CI Cabinets</em> works well for both workflows.</p>
+<h2>Supported Construction Methods</h2>
+<h3>Cabinet Top</h3>
+<p>The cabinet top may be open or closed.</p>
+<p><img src="img/360001017756_1.jpg" alt="Overview 示意图" loading="lazy"></p>
+<p><img src="img/360001017756_2.jpg" alt="Overview 示意图" loading="lazy"></p>
+<h3>Face Frame Types</h3>
+<p><img src="img/360001017756_3.jpg" alt="Overview 示意图" loading="lazy"></p>
+<p>Four face-frame options are supported:</p>
+<ul>
+<li>Frameless – the door/drawer fronts fit directly onto the carcass</li>
+</ul>
+<ul>
+<li>Inset – a framework is attached to the carcass front, and the door/drawer fronts fit within this frame</li>
+</ul>
+<ul>
+<li>Half-Overlay – a framework is attached to the carcass front, and the door/drawer fronts close onto this framework. The fronts overlap the framework by a narrow margin.</li>
+</ul>
+<ul>
+<li>Full Overlay – a framework is attached to the carcass front, and the door/drawer fronts close onto this framework. The door/drawer fronts overlap far enough to effectively hide the framework when closed.</li>
+</ul>
+<h3>Plinth Types</h3>
+<p><img src="img/360001017756_4.jpg" alt="Overview 示意图" loading="lazy"></p>
+<p><img src="img/360001017756_5.jpg" alt="Overview 示意图" loading="lazy"></p>
+<p><img src="img/360001017756_6.jpg" alt="Overview 示意图" loading="lazy"></p>
+<p>Four base methods are supported:</p>
+<ul>
+<li>Adjustable legs</li>
+</ul>
+<ul>
+<li>Walls extend to floor – for joinery where the ends extend down to the floor to form a part of the plinth</li>
+</ul>
+<ul>
+<li>Inset from Cabinet - for joinery where the plinth is constructed separately from the carcass</li>
+</ul>
+<ul>
+<li>No plinth – use this for wall-mounted cabinets</li>
+</ul>
+<h2>Objects in the Library</h2>
+<p>The library includes a handful of objects, each of which has a specific purpose:</p>
+<ul>
+<li>CI Bench Top - A polygonal benchtop that can include holes, nosings, upstands and waterfall edges. This would typically be used to form the benchtop for kitchen cabinetry.</li>
+</ul>
+<ul>
+<li>CI Cabinet - A basic, rectangular cabinet. This would be used for most under-bench or wall-hung cabinets.</li>
+</ul>
+<ul>
+<li>CI Cabinet Corner - An L-shaped corner cabinet.</li>
+</ul>
+<ul>
+<li>CI Cabinet Corner Angled - A corner cabinet with angled front.</li>
+</ul>
+<ul>
+<li>CI Cabinet Polygon - A cabinet with customisable shape in elevation. It could be used, for instance, to model:</li>
+</ul>
+<p> A cabinet whose top follows a raking ceiling or a flight of stairs.</p>
+<ul>
+<li>An odd-shaped bookshelf.</li>
+</ul>
+<p>The <em>Ci Cabinet Linear</em> is better suited for rectangular cabinets.</p>
+<ul>
+<li>CI Edge Moulding - An object to add pelmets and crown mouldings to cabinets. Compatible with complex profiles.</li>
+</ul>
+<h2>Custom Components</h2>
+<p>The cabinet supports the following custom component types:</p>
+<ul>
+<li>Cabinet Door - essentially this is a custom front.</li>
+</ul>
+<ul>
+<li>Cabinet Muntins – for use in fronts containing glass panels.</li>
+</ul>
+<ul>
+<li>Knob – a cabinet handle.</li>
+</ul>
+<ul>
+<li>Cabinet Oven - a custom oven unit that can be directly incorporated into the cabinet.</li>
+</ul>
+<ul>
+<li>Space Filler - an item that can be inserted into any space within the cabinet.</li>
+</ul>
+</div>
+<div class="art" id="a-15879765706127">
+  <div class="art-h"><span class="no">38</span><h3>Placing a Benchtop</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/15879765706127-Placing-a-Benchtop" target="_blank" rel="noopener">MyCi 知识库 · Placing a Benchtop</a></div>
+  <p>From Cabinets version 8.40 a Benchtop can be placed, automatically following the size and shape of a Cabinet, in 2D and 3D views.</p>
+<p>This Benchtop can be placed on a single or multiple cabinets simultaneously. Please note that the Benchtop is not associative to the Cabinet, in other words if the geometry of the Cabinet changes, the Benchtop will have to be edited manually, or placed again.</p>
+<p>Let us place a Benchtop on a Curved cabinet.</p>
+<p>Firstly we select the Cabinet, then we navigate to CI Tools>Cabinets>Add a Benchtop.</p>
+<p><img src="img/15879765706127_0.jpg" alt="Placing a Benchtop 示意图" loading="lazy"></p>
+<p>We will then be able to enter the details of the Benchtop to our requirements.</p>
+<p><img src="img/15879765706127_1.jpg" alt="Placing a Benchtop 示意图" loading="lazy"></p>
+<p>Number 1. We will be able to select the following for the Back Edge:</p>
+<ul>
+<li>Upstand</li>
+</ul>
+<ul>
+<li>Nosing</li>
+</ul>
+<ul>
+<li>None</li>
+</ul>
+<p>Number 2 and 3.</p>
+<p> For the Ends and Front edge we can opt for:</p>
+<ul>
+<li>None</li>
+</ul>
+<ul>
+<li>Nosing</li>
+</ul>
+<p>Number 4.</p>
+<p>We can also set the overhang of the nosing.</p>
+<p>As we can see the settings have been executed:</p>
+<p><img src="img/15879765706127_2.jpg" alt="Placing a Benchtop 示意图" loading="lazy"></p>
+<p>In the same way a Benchtop can be added to multiple Cabinets at the same time.</p>
+<p><img src="img/15879765706127_3.jpg" alt="Placing a Benchtop 示意图" loading="lazy"></p>
+<p>We can select all the Cabinets that are under the Bench height and add the Benchtop with the CI Tools>Cabinets>Add a Benchtop Command.</p>
+<p><img src="img/15879765706127_4.jpg" alt="Placing a Benchtop 示意图" loading="lazy"></p>
+<p>A single Benchtop will b placed on the selected Cabinets.</p>
+<p><img src="img/15879765706127_5.jpg" alt="Placing a Benchtop 示意图" loading="lazy"></p>
+<p>Adjusting The Benchtop edges</p>
+<p>The Benchtop can also be adjusted in 3D to create variations on the edges.</p>
+<p>With the Benchtop selected in 3D we can activate the edge editor, please note the Individual settings</p>
+<p><img src="img/15879765706127_6.jpg" alt="Placing a Benchtop 示意图" loading="lazy"></p>
+<p>It is also possible to do an adjustment to all contiguous edges.</p>
+<p><img src="img/15879765706127_7.jpg" alt="Placing a Benchtop 示意图" loading="lazy"></p>
+<p>The edge overhang can also be adjusted or removed in the plan view.</p>
+<p>By selecting the Benchtop and the Offset button (with individual editing selected) the overhang can be changed.</p>
+<p><img src="img/15879765706127_8.jpg" alt="Placing a Benchtop 示意图" loading="lazy"></p>
+<p>One can also change the edge type of the Nosing Profile in the Settings dialog of the benchtop.</p>
+<p><img src="img/15879765706127_9.jpg" alt="Placing a Benchtop 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-15879813550095">
+  <div class="art-h"><span class="no">39</span><h3>Placing a hole in a Benchtop</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/15879813550095-Placing-a-hole-in-a-Benchtop" target="_blank" rel="noopener">MyCi 知识库 · Placing a hole in a Benchtop</a></div>
+  <p>To insert a hole in a Benchtop, the benchtop needs to be selected in either 3D or 2D plan view.</p>
+<p>The next step is to open the settings dialog and in the Configuration page, check the box “Insert a Hole”</p>
+<p><img src="img/15879813550095_0.jpg" alt="Placing a hole in a Benchtop 示意图" loading="lazy"></p>
+<p>Once you click OK the cabinet will show extra geometry in the centre position of the Benchtop.</p>
+<p><img src="img/15879813550095_1.jpg" alt="Placing a hole in a Benchtop 示意图" loading="lazy"></p>
+<p>This is now a movable Geometry that can be manipulated with the use of the palette,</p>
+<p><img src="img/15879813550095_2.jpg" alt="Placing a hole in a Benchtop 示意图" loading="lazy"></p>
+<p>The three buttons in the palette allow you to Move the hole.</p>
+<p><img src="img/15879813550095_3.jpg" alt="Placing a hole in a Benchtop 示意图" loading="lazy"></p>
+<p>Rotate the Hole</p>
+<p><img src="img/15879813550095_4.jpg" alt="Placing a hole in a Benchtop 示意图" loading="lazy"></p>
+<p>and lastly, duplicate the Hole.</p>
+<p><img src="img/15879813550095_5.jpg" alt="Placing a hole in a Benchtop 示意图" loading="lazy"></p>
+<p>It is also possible to edit the individual (single) or contiguous (all similar) edges with the palette.</p>
+<p>As with the edges of the Cabinets and Benchtops, it is possible to add a polygon Node</p>
+<p><img src="img/15879813550095_6.jpg" alt="Placing a hole in a Benchtop 示意图" loading="lazy"></p>
+<p> a Curve</p>
+<p><img src="img/15879813550095_7.jpg" alt="Placing a hole in a Benchtop 示意图" loading="lazy"></p>
+<p>or simply offset the edge as shown below.</p>
+<p><img src="img/15879813550095_8.jpg" alt="Placing a hole in a Benchtop 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-17876187425167">
+  <div class="art-h"><span class="no">40</span><h3>ProKit Cabinets – Start here</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/17876187425167-ProKit-Cabinets-Start-here" target="_blank" rel="noopener">MyCi 知识库 · ProKit Cabinets – Start here</a></div>
+  <p>The Cabinets Tools allows the design of custom and bespoke Cabinetry with ease and accuracy. It utilises a handful of highly-configurable objects to model Cabinetssry.</p>
+<p>Instead of using separate objects for each different Cabinets type and shape, the library allows the accurate 2D and 3D representation of flat and curved cupboard doors and drawer fronts. There is a large assortment of editable panel styles and handle types to create the most unique of Cabinetssry.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Cabinets Tool requires the Cabinets Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier Archicad versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17876187425167_0.jpg" alt="ProKit Cabinets – Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Cabinetss Libpack.</p>
+<p><img src="img/17876187425167_1.jpg" alt="ProKit Cabinets – Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17876187425167_2.jpg" alt="ProKit Cabinets – Start here 示意图" loading="lazy"></p>
+<p>This will load the Cabinets Libpack and associated Macros.</p>
+<p>The Cabinets Objects will now be available in the Cabinets Tool.</p>
+<p>IMPORTANT:</p>
+<p>If the Cabinets Tool is not showing in the toolbox on the left in the default ARCHICAD work environment, It can be added by right clicking on in the Toolbox. The Toolbox will bring up a dialog to add the Cabinets Tool.</p>
+<p><img src="img/17876187425167_3.jpg" alt="ProKit Cabinets – Start here 示意图" loading="lazy"></p>
+<p>This will allow adding the Cabinets Tool to the Toolbox.</p>
+<p><img src="img/17876187425167_4.jpg" alt="ProKit Cabinets – Start here 示意图" loading="lazy"></p>
+<p>The Cabinets Tools will now show up, it is recommended to save the Work Environment to avoid having to add this, although ARCHICAD should retain them.</p>
+<p><img src="img/17876187425167_5.jpg" alt="ProKit Cabinets – Start here 示意图" loading="lazy"></p>
+<p><strong>Placing a Cabinet</strong></p>
+<p>The Cabinets Tool operates very similarly to the Object Tool in ARCHCAD.</p>
+<p>Once the tool is selected, the settings can be opened and a cabinet type selected.</p>
+<p><img src="img/17876187425167_6.jpg" alt="ProKit Cabinets – Start here 示意图" loading="lazy"></p>
+<p>This allows for various Cabinet permutations and possibilities.</p>
+<p>For more detailed information on the different Cabinet types and features, please see the articles on the Knowledge-base.</p>
+</div>
+<div class="art" id="a-11755959840143">
+  <div class="art-h"><span class="no">41</span><h3>Reference Guide - Available Fronts</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/11755959840143-Reference-Guide-Available-Fronts" target="_blank" rel="noopener">MyCi 知识库 · Reference Guide - Available Fronts</a></div>
+  <p>Available Fronts</p>
+<p>There are three types of Fronts that can be selected and adjusted.</p>
+<p>In the images below the numbering indicate the following:</p>
+<ul>
+<li>Type of Panel</li>
+</ul>
+<ul>
+<li>Associated settings</li>
+</ul>
+<p>Shaker</p>
+<p><img src="img/11755959840143_0.jpg" alt="Reference Guide - Available Fronts 示意图" loading="lazy"></p>
+<p>Glass</p>
+<p><img src="img/11755959840143_1.jpg" alt="Reference Guide - Available Fronts 示意图" loading="lazy"></p>
+<p>Flat Panel</p>
+<p><img src="img/11755959840143_2.jpg" alt="Reference Guide - Available Fronts 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-11729566274191">
+  <div class="art-h"><span class="no">42</span><h3>Reference Guide - Available Handles</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/11729566274191-Reference-Guide-Available-Handles" target="_blank" rel="noopener">MyCi 知识库 · Reference Guide - Available Handles</a></div>
+  <p>Available Handles</p>
+<p>There are several Handle types that can be selected and once selected their size and shape can be adjusted accordingly.</p>
+<p><img src="img/11729566274191_0.jpg" alt="Reference Guide - Available Handles 示意图" loading="lazy"></p>
+<p>On all the Following images the numbers indicate the Following:</p>
+<ul>
+<li>Selected Handle Type</li>
+</ul>
+<ul>
+<li>Available Settings</li>
+</ul>
+<p>Bar</p>
+<p><img src="img/11729566274191_1.jpg" alt="Reference Guide - Available Handles 示意图" loading="lazy"></p>
+<p>Bow</p>
+<p><img src="img/11729566274191_2.jpg" alt="Reference Guide - Available Handles 示意图" loading="lazy"></p>
+<p>Dee Pull</p>
+<p><img src="img/11729566274191_3.jpg" alt="Reference Guide - Available Handles 示意图" loading="lazy"></p>
+<p>Finger Pull</p>
+<p><img src="img/11729566274191_4.jpg" alt="Reference Guide - Available Handles 示意图" loading="lazy"></p>
+<p>L-Profile</p>
+<p><img src="img/11729566274191_5.jpg" alt="Reference Guide - Available Handles 示意图" loading="lazy"></p>
+<p>Recessed</p>
+<p><img src="img/11729566274191_6.jpg" alt="Reference Guide - Available Handles 示意图" loading="lazy"></p>
+<p>Round Knob</p>
+<p><img src="img/11729566274191_7.jpg" alt="Reference Guide - Available Handles 示意图" loading="lazy"></p>
+<p>Shell</p>
+<p><img src="img/11729566274191_8.jpg" alt="Reference Guide - Available Handles 示意图" loading="lazy"></p>
+<p>Turned</p>
+<p><img src="img/11729566274191_9.jpg" alt="Reference Guide - Available Handles 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-11755939741455">
+  <div class="art-h"><span class="no">43</span><h3>Reference Guide - Available Module Types</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/11755939741455-Reference-Guide-Available-Module-Types" target="_blank" rel="noopener">MyCi 知识库 · Reference Guide - Available Module Types</a></div>
+  <p>Available Module Types</p>
+<p>The Module types that are available for selection can be set under the Module Types tab and a diagram is shown of what has been selected, please note the label displayed on the module can also be set. The images below show an example of each available module type and the associated settings.</p>
+<p>Open Shelves</p>
+<p><img src="img/11755939741455_0.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Bins Double</p>
+<p><img src="img/11755939741455_1.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Bins Single</p>
+<p><img src="img/11755939741455_2.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Door Bottom Hinge</p>
+<p><img src="img/11755939741455_3.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Door Double</p>
+<p><img src="img/11755939741455_4.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Door Left</p>
+<p><img src="img/11755939741455_5.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Door Right</p>
+<p><img src="img/11755939741455_6.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Door Top Hinge</p>
+<p><img src="img/11755939741455_7.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Drawer</p>
+<p><img src="img/11755939741455_8.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Drawer Stack</p>
+<p><img src="img/11755939741455_9.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Oven</p>
+<p><img src="img/11755939741455_10.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Panel</p>
+<p><img src="img/11755939741455_11.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Slide-out Shelving</p>
+<p><img src="img/11755939741455_12.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p>Tambour Door</p>
+<p><img src="img/11755939741455_13.jpg" alt="Reference Guide - Available Module Types 示意图" loading="lazy"></p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+</div>
+<div class="art" id="a-11733463596815">
+  <div class="art-h"><span class="no">44</span><h3>Reference Guide - Cabinet Configuration</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/11733463596815-Reference-Guide-Cabinet-Configuration" target="_blank" rel="noopener">MyCi 知识库 · Reference Guide - Cabinet Configuration</a></div>
+  <p>The Cabinets Tool allows for the creation of very detailed cabinetry models with speed and ease. It allow for the placement of basic ‘place-holder’ cabinetry or intricate fully bespoke cabinetry design for documentation and manufacturing.</p>
+<p><strong>Reference Guide - Cabinet Configuration</strong></p>
+<p>Under the Configuration tab the overall dimensions of the Cabinet can be set.</p>
+<ul>
+<li>It is also possible to lock a particular aspect of the Cabinet for ease of adjustment.</li>
+</ul>
+<p>(This option will be greyed out.)</p>
+<ul>
+<li>It is also possible to set the overall Face and Plinth options in this tab.</li>
+</ul>
+<ul>
+<li>The Surfaces to be used in the model can also be set.</li>
+</ul>
+<p><img src="img/11733463596815_0.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p><strong>Face</strong></p>
+<p>Under the Face menu selection it is possible to adjust the width and appearance of all aspects of the Face.</p>
+<ul>
+<li>The type of Face can be selected as Frameless, Inset , Half Overlay and Full Overlay.</li>
+</ul>
+<p><img src="img/11733463596815_1.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p>Let us explore each of these individually.</p>
+<p>Frameless</p>
+<ul>
+<li>The size of the frame inside the Cabinet can be adjusted.</li>
+</ul>
+<ul>
+<li>All tolerances between doors can be set.</li>
+</ul>
+<p><img src="img/11733463596815_2.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p>Inset</p>
+<p>This means that doors will be inset into the Carcass.</p>
+<ul>
+<li>All dimensions of the framing around the doors, drawers etc. are adjustable</li>
+</ul>
+<ul>
+<li>Tolerances between the Framing and the chosen door, drawer etc. can be adjusted.</li>
+</ul>
+<p><img src="img/11733463596815_3.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p>Half Overlay</p>
+<ul>
+<li>All dimensions of the framing around the doors, drawers etc. are adjustable</li>
+</ul>
+<ul>
+<li>Tolerances between the Framing and the chosen door, drawer etc. can be adjusted.</li>
+</ul>
+<p><img src="img/11733463596815_4.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p>Full Overlay</p>
+<ul>
+<li>All dimensions of the framing around the doors, drawers etc. are adjustable</li>
+</ul>
+<ul>
+<li>Tolerances between the Framing and the chosen door, drawer etc. can be adjusted.</li>
+</ul>
+<p><img src="img/11733463596815_5.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p><strong>Carcass</strong></p>
+<p>As with the Face settings, the underlying Carcass dimensions are fully adjustable.</p>
+<ul>
+<li>The Dimensions of the Carcass can be set.</li>
+</ul>
+<ul>
+<li>The Inset from the edges can be set.</li>
+</ul>
+<p><img src="img/11733463596815_6.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p><strong>Plinth and Legs</strong></p>
+<p>The Plinth and Leg settings allow for a wide variety of options determining how the Cabinet is mounted on the floor.</p>
+<ul>
+<li>In the first place the Plinth type can be selected.</li>
+</ul>
+<p><img src="img/11733463596815_7.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p>A selection can be made to have Adjustable Legs, Extend Walls (Sidewalls of the Cabinet), Inset from Cabinet or no Plinth.</p>
+<p>Adjustable Legs</p>
+<ul>
+<li>Toe Space and Height of the Plinth can be set.</li>
+</ul>
+<ul>
+<li>The size and diameter of the Legs can be set.</li>
+</ul>
+<ul>
+<li>The position of the legs can be adjusted.</li>
+</ul>
+<p><img src="img/11733463596815_8.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p>Extend Walls</p>
+<ul>
+<li>Toe Space and Height of the Plinth can be set.</li>
+</ul>
+<p><img src="img/11733463596815_9.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p>Inset from Cabinet</p>
+<ul>
+<li>The Inset from all sides can be adjusted.</li>
+</ul>
+<p><img src="img/11733463596815_10.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+<p>No Plinth</p>
+<p>No Plinth will be displayed and the Carcass will b mounted on the story level.</p>
+<p><strong>Back and End Panels</strong></p>
+<p>It is also possible to set a variety of back and end panels allowing for all configuration types.</p>
+<ul>
+<li>Back Panel and Type can be selected</li>
+</ul>
+<ul>
+<li>Side Panel variation and Type can be selected.</li>
+</ul>
+<p><img src="img/11733463596815_11.jpg" alt="Reference Guide - Cabinet Configuration 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-11733472767759">
+  <div class="art-h"><span class="no">45</span><h3>Reference Guide - Modules</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/11733472767759-Reference-Guide-Modules" target="_blank" rel="noopener">MyCi 知识库 · Reference Guide - Modules</a></div>
+  <p><strong>Modules</strong></p>
+<p>The Modules tab is where the finer detail of the Cabinet Module can be set, this will determine all aspects of the specific module sizing and divisions, type, panel and handle types. These are all set from different menus indicated by an icon. Please see image below.</p>
+<p><img src="img/11733472767759_0.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Dimensions</p>
+<ul>
+<li>In the first Instance the following settings can be adjusted:</li>
+</ul>
+<ul>
+<li>Measurement Justification can be set from left, right or proportionally.</li>
+</ul>
+<ul>
+<li>Height measurement can be set to be from the top, bas or proportionally</li>
+</ul>
+<ul>
+<li>Selected modules can be split or merged as required.</li>
+</ul>
+<p><img src="img/11733472767759_1.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Please see image below after the Panel has been split once vertically and then again one split horizontally.</p>
+<p><img src="img/11733472767759_2.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Module Type</p>
+<ul>
+<li>The second icon allows for various selections to be made:</li>
+</ul>
+<ul>
+<li>The type of module that is required. We will explore this in more detail.</li>
+</ul>
+<ul>
+<li>The Label to be displayed on the model and the opening of the chosen Module type.</li>
+</ul>
+<p>(Please note that global opening or closing of all module types can be controlled from the Model View Settings for Cabinets Under Document >Model Views Options >CI Cabinets)</p>
+<p><img src="img/11733472767759_3.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>As mentioned under the Second Icon Selection a whole range of options become available.</p>
+<p>(Note the asterisk indicates the currently selected)</p>
+<p><img src="img/11733472767759_4.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>These Options Include:</p>
+<p>Open Shelving - No Door or Closer added to front</p>
+<p><img src="img/11733472767759_5.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Bins Double - Double set of waste bins.</p>
+<p><img src="img/11733472767759_6.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Bins Single - Single waste bin</p>
+<p><img src="img/11733472767759_7.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Door Bottom Hinge - Door with hinges placed at the bottom</p>
+<p><img src="img/11733472767759_8.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Door Double - Double door, one left hinged, one right hinged.</p>
+<p><img src="img/11733472767759_9.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Door Left - Door with a hinge to the Left.</p>
+<p><img src="img/11733472767759_10.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Door Right - Door with a hinge to the Right.</p>
+<p><img src="img/11733472767759_11.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Door Top Hinge - Bi-fold door with Hinge placed at the top.</p>
+<p><img src="img/11733472767759_12.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Drawer - Entire module as a single drawer.</p>
+<p><img src="img/11733472767759_13.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Drawer Stack - Set of drawers (as defined in Available Module Types).</p>
+<p><img src="img/11733472767759_14.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Oven - Places and oven (as defined in Available Module Types).</p>
+<p><img src="img/11733472767759_15.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Panel - Places a panel that can be defined under Available Module Types.</p>
+<p><img src="img/11733472767759_16.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Slide out Shelving - Creates a slide out shelving Module</p>
+<p>(*Note-Shelving must be placed under Shelves and Dividers)</p>
+<p><img src="img/11733472767759_17.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Tambour Door - Places a ‘Roll-up’ Style Tambour Door.</p>
+<p><img src="img/11733472767759_18.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Panel Type</p>
+<ul>
+<li>The next icon allows the selection of the panel type.</li>
+</ul>
+<ul>
+<li>The Selection can be Flat Panel, Glass or Shaker.</li>
+</ul>
+<p><img src="img/11733472767759_19.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Each Type is indicated below:</p>
+<p>Flat Panel</p>
+<p><img src="img/11733472767759_20.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Glass</p>
+<p><img src="img/11733472767759_21.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Shaker</p>
+<p><img src="img/11733472767759_22.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Handles</p>
+<ul>
+<li>The fourth the last Icon.</li>
+</ul>
+<ul>
+<li>A Handle type can be selected.</li>
+</ul>
+<ul>
+<li>The size and position can be adjusted.</li>
+</ul>
+<p><img src="img/11733472767759_23.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>The choice varies as shown below:</p>
+<p><img src="img/11733472767759_24.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Bar</p>
+<p><img src="img/11733472767759_25.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Bow</p>
+<p><img src="img/11733472767759_26.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Dee Pull</p>
+<p><img src="img/11733472767759_27.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Finger Pull</p>
+<p><img src="img/11733472767759_28.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>L – Profile</p>
+<p><img src="img/11733472767759_29.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Recessed</p>
+<p><img src="img/11733472767759_30.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Round Knob</p>
+<p><img src="img/11733472767759_31.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Shell</p>
+<p><img src="img/11733472767759_32.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+<p>Turned</p>
+<p><img src="img/11733472767759_33.jpg" alt="Reference Guide - Modules 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-11756064005647">
+  <div class="art-h"><span class="no">46</span><h3>Reference Guide - Spaces</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/11756064005647-Reference-Guide-Spaces" target="_blank" rel="noopener">MyCi 知识库 · Reference Guide - Spaces</a></div>
+  <p>Spaces</p>
+<p>The ‘voids’ that have been created as spaces can be filled with various types of objects in that particular space.</p>
+<p><img src="img/11756064005647_0.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>After a selection is made it is displayed in preview mode</p>
+<p><img src="img/11756064005647_1.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>These are each adjustable to varying degrees.</p>
+<p>These space fillers have their own settings based on selection.</p>
+<ul>
+<li>Available Space filler selection.</li>
+</ul>
+<ul>
+<li>Associated Settings.</li>
+</ul>
+<p>Book Set 1</p>
+<p><img src="img/11756064005647_2.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Bowl Stack</p>
+<p><img src="img/11756064005647_3.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Microwave</p>
+<p><img src="img/11756064005647_4.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Mugs</p>
+<p><img src="img/11756064005647_5.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Plate Stack Large</p>
+<p><img src="img/11756064005647_6.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Plate Stack small</p>
+<p><img src="img/11756064005647_7.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Spice Jar Rect.</p>
+<p><img src="img/11756064005647_8.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Spice Jar Round</p>
+<p><img src="img/11756064005647_9.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Storage Jar Large Rect.</p>
+<p><img src="img/11756064005647_10.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Storage Jar Large Round</p>
+<p><img src="img/11756064005647_11.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Wine Glass 1</p>
+<p><img src="img/11756064005647_12.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+<p>Wine Rack</p>
+<p><img src="img/11756064005647_13.jpg" alt="Reference Guide - Spaces 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-8620453763215">
+  <div class="art-h"><span class="no">47</span><h3>Release Notes - Cabinets</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/8620453763215-Release-Notes-Cabinets" target="_blank" rel="noopener">MyCi 知识库 · Release Notes - Cabinets</a></div>
+  <h1>Release notes - Cabinets - 8.17</h1>
+<h3>Bug</h3>
+<p>CAB-202 the panels can't apply to the side panel and front AC24</p>
+<p>CAB-260 Can't change width of stile for framed front shape adjacent to cabinet right end</p>
+</div>
+<div class="art" id="a-205030554">
+  <div class="art-h"><span class="no">48</span><h3>Watch: Add a sink object to a Cabinet</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030554-Watch-Add-a-sink-object-to-a-Cabinet" target="_blank" rel="noopener">MyCi 知识库 · Watch: Add a sink object to a Cabinet</a></div>
+  <p>**</p>
+<p><em>Demonstrated in ARCHICAD 17</em></p>
+</div>
+<div class="art" id="a-360001317095">
+  <div class="art-h"><span class="no">49</span><h3>Watch: Update overview for AC23</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001317095-Watch-Update-overview-for-AC23" target="_blank" rel="noopener">MyCi 知识库 · Watch: Update overview for AC23</a></div>
+  
+</div>
+</article>
+
+<footer class="foot">
+CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

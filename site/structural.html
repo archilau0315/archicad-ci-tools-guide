@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Structural（结构构件）完整中文教程：桁架、框架与连接件">
+<title>Structural · 结构构件 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t">CI Tools 完全指南</div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h">开始</div>
+<a href="index.html"><span class="ic">◈</span>总览与快速开始</a>
+<a href="all.html"><span class="ic">☰</span>全量文章索引</a>
+<a href="guide.html"><span class="ic">★</span>中文主线速查</a>
+<div class="nav-h">16 个工具</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span>Annotate · 文字格式</a>
+<a class="" href="transformer.html"><span class="ic">⇄</span>Transformer · 项目镜像</a>
+<a class="" href="timetracker.html"><span class="ic">◷</span>Time Tracker · 工时统计</a>
+<a class="" href="detail.html"><span class="ic">▤</span>Detail Elements · 二维详图</a>
+<a class="" href="keynotes.html"><span class="ic">❝</span>Keynotes · 规范注释</a>
+<a class="" href="metadata.html"><span class="ic">◈</span>MetaData · 属性管理</a>
+<a class="" href="quantities.html"><span class="ic">∑</span>Quantities · 工程量算量</a>
+<a class="" href="cabinets.html"><span class="ic">▦</span>Cabinets · 橱柜木作</a>
+<a class="" href="doors.html"><span class="ic">⌸</span>Doors+Windows · 门窗</a>
+<a class="" href="coverings.html"><span class="ic">▨</span>Coverings · 覆面层</a>
+<a class="" href="electrical.html"><span class="ic">⚡</span>Electrical · 电气</a>
+<a class="" href="stairs.html"><span class="ic">⇱</span>Stairs · 楼梯</a>
+<a class=" on" href="structural.html"><span class="ic">⌗</span>Structural · 结构构件</a>
+<a class="" href="sites.html"><span class="ic">⛿</span>Sites · 场地景观</a>
+<a class="" href="fitout.html"><span class="ic">⌸</span>Fitout · 室内布置</a>
+<div class="nav-h">关于</div>
+<a href="about.html"><span class="ic">ⓘ</span>来源与说明</a>
+</aside>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html">总览</a> / Structural · 结构构件</div>
+<div class="hero">
+  <span class="kicker">工具分册</span>
+  <h1>Structural · 结构构件</h1>
+  <p>桁架、框架与连接件</p>
+  <div class="meta">
+    <span><b>16</b> 篇教程</span>
+    <span><b>1.2</b> 万字</span>
+    <span><b>26</b> 张图</span>
+  </div>
+</div>
+<article>
+
+<div class="art" id="a-206663513">
+  <div class="art-h"><span class="no">01</span><h3>How to Add Edges to a slab</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206663513-How-to-Add-Edges-to-a-slab" target="_blank" rel="noopener">MyCi 知识库 · How to Add Edges to a slab</a></div>
+  <p>The Objective Tool allows you to add special edges to Slabs created within ARCHICAD.</p>
+<p>To use the tool:</p>
+<ul>
+<li>Select the<strong>Slab Edge tool</strong>from your ARCHICAD Toolbox:</li>
+</ul>
+<p>TIP: The location of the tool may vary from the image below, depending on your Toolbox settings.</p>
+<p><img src="img/206663513_0.jpg" alt="How to Add Edges to a slab 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Configure the Edge Type</strong> you require</li>
+</ul>
+<ul>
+<li>Move your mouse over the edge of a Slab - <strong>your cursor should change</strong> as shown below:</li>
+</ul>
+<p><img src="img/206663513_1.jpg" alt="How to Add Edges to a slab 示意图" loading="lazy"></p>
+<ul>
+<li>Click anywhere on this edge whilst the new cursor is displayed - this will <strong>apply your new Slab Edge to that edge only</strong>.</li>
+</ul>
+<p>Alternatively, to <strong>apply your edge to the perimeter of your Slab</strong>:</p>
+<ul>
+<li>Hover your mouse over a corner point of the Slab</li>
+</ul>
+<ul>
+<li>You should see an ARCHICAD tick icon:</li>
+</ul>
+<p><img src="img/206663513_2.jpg" alt="How to Add Edges to a slab 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Click on the corner point while the Tick icon is visible</strong> to apply the Slab Edge to the perimeter of the Slab.</li>
+</ul>
+</div>
+<div class="art" id="a-206663953">
+  <div class="art-h"><span class="no">02</span><h3>How to Rotate an object using Objective</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206663953-How-to-Rotate-an-object-using-Objective" target="_blank" rel="noopener">MyCi 知识库 · How to Rotate an object using Objective</a></div>
+  <p>To use the Rotate functionality within Objective, you need:</p>
+<ul>
+<li>An Object or Lamp in ARCHICAD</li>
+</ul>
+<ul>
+<li>To be in Elevation, Plan or Section view.</li>
+</ul>
+<p>To Rotate an Object in Plan view</p>
+<p>1.<strong>Select the Object/s</strong> you wish to Rotate</p>
+<ul>
+<li>Go to <strong>Cadimage></strong> <strong>Objective > Tools > Rotate</strong></li>
+</ul>
+<ul>
+<li>Then:</li>
+</ul>
+<ul>
+<li>Click on the first point of the Rotation Axis (Item #1 in the image below)</li>
+</ul>
+<ul>
+<li>Click on the second point of the Rotation Axis (Item #2 in the image below)</li>
+</ul>
+<ul>
+<li>Click to set the Rotation Angle (or enter the angle in the Tracker)</li>
+</ul>
+<p>Below you can see the Rotation preview between the second and third click (the red line is the Rotation axis):</p>
+<p><img src="img/206663953_0.jpg" alt="How to Rotate an object using Objective 示意图" loading="lazy"></p>
+<p>As you can see, the <strong>Angle</strong> field is highlighted in bold so you can simply type a new angle to set the Rotation precisely.</p>
+<p>The following screenshot shows four views of the same chair before and after the Rotation has been completed:</p>
+<p><img src="img/206663953_1.jpg" alt="How to Rotate an object using Objective 示意图" loading="lazy"></p>
+<p>To Rotate an Object in Section or Elevation view</p>
+<ul>
+<li>Click to define the rotation point</li>
+</ul>
+<ul>
+<li>Click to define the reference angle</li>
+</ul>
+<ul>
+<li>The third click can be anywhere to freehand position the Object, or maybe on other geometry to align elements:</li>
+</ul>
+<p><img src="img/206663953_2.jpg" alt="How to Rotate an object using Objective 示意图" loading="lazy"></p>
+<p>NOTE: When you Rotate an Object or Lamp, a new version is created in the Embedded Library with the additional parameters required for the Objective transformation. The name will be the original Object or Lamp name with a ‘+’ tagged to the end.</p>
+</div>
+<div class="art" id="a-206316446">
+  <div class="art-h"><span class="no">03</span><h3>How to Split an Object using Objective</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206316446-How-to-Split-an-Object-using-Objective" target="_blank" rel="noopener">MyCi 知识库 · How to Split an Object using Objective</a></div>
+  <p>When using the Split command in Objective, you need to remember:</p>
+<ul>
+<li>Splitting can only be applied to an Object placed in the model</li>
+</ul>
+<ul>
+<li>Splitting can be done in Plan; Elevation or Section views.</li>
+</ul>
+<p>In the article below, we demonstrate how to split an Object using the ARCHICAD Designer Chair 09 Object.</p>
+<p>Splitting an Object in Plan View</p>
+<p>To do this:</p>
+<ul>
+<li><strong>Select the Object</strong> you wish to Split</li>
+</ul>
+<ul>
+<li>From the ARCHICAD menu, choose <strong>Cadimage Tools > Objective > Tools > Split</strong></li>
+</ul>
+<ul>
+<li><strong>Click a point to define the start point</strong> of the Split axis (Item 1 in the image below)</li>
+</ul>
+<ul>
+<li><strong>Click a second point to define the end point</strong> of the Split axis (Item 2 in the image below)</li>
+</ul>
+<ul>
+<li><strong>Click on one side of the resulting axis</strong> to select the side so that you can delete or move it if desired (Item 3 in the image below):</li>
+</ul>
+<p><img src="img/206316446_0.jpg" alt="How to Split an Object using Objective 示意图" loading="lazy"></p>
+<p>Splitting an Object in Section/Elevation View</p>
+<p>Splitting an Object in Section or Elevation view is much the same as splitting in Plan view.</p>
+<ul>
+<li>Click a point to define the start of the Split axis</li>
+</ul>
+<ul>
+<li>Click a second point to define the end of the Split axis</li>
+</ul>
+<ul>
+<li>Click the side to remain selected</li>
+</ul>
+<p><img src="img/206316446_1.jpg" alt="How to Split an Object using Objective 示意图" loading="lazy"></p>
+<p>This operation can be repeated as often as required to complete the final Object.</p>
+</div>
+<div class="art" id="a-206035796">
+  <div class="art-h"><span class="no">04</span><h3>How to access the Objective Libraries</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206035796-How-to-access-the-Objective-Libraries" target="_blank" rel="noopener">MyCi 知识库 · How to access the Objective Libraries</a></div>
+  <p>The Cadimage Objective Tool comes with a Library of parametric Objects that can be used when creating architectural models. The Library is split in to two sections: one for <strong>Steel Elements</strong> and one for <strong>Timber Elements</strong>.</p>
+<p>To view the <strong>Objective Library</strong>:</p>
+<ul>
+<li>Double click on the <strong>Object</strong> <strong>Tool</strong> in the Toolbox to open the settings dialog:</li>
+</ul>
+<p><img src="img/206035796_0.jpg" alt="How to access the Objective Libraries 示意图" loading="lazy"></p>
+<ul>
+<li>You Will find the <strong>Objective Library</strong> under <strong>ARCHICAD Library 20>Cadimage Library 20</strong> (as shown below):</li>
+</ul>
+<p><img src="img/206035796_1.jpg" alt="How to access the Objective Libraries 示意图" loading="lazy"></p>
+<p>Steel Library Components</p>
+<p>These can be seen by clicking on the Steel Library (see image below):</p>
+<p><img src="img/206035796_2.jpg" alt="How to access the Objective Libraries 示意图" loading="lazy"></p>
+<p>Timber Library Objects</p>
+<p>These can be seen by clicking on the <strong>Timber</strong> folder below:</p>
+<p><img src="img/206035796_3.jpg" alt="How to access the Objective Libraries 示意图" loading="lazy"></p>
+<p>If you look at the Timber Library you will see it contains many more traditional timber framing elements than the standard ARCHICAD Library.</p>
+<p>It is important to note that these objects are standard GDL and do not require the add-on to be present for 2D or 3D visualisation. They can also be edited without the add-on, but some of the smart features like automatic hotspot generation will not be available. This means you can safely archive or distribute your projects without fear of data loss.</p>
+<p>The Framing Settings dialog works in exactly the same way as the standard Object Settings dialog, with the exception that only Objective objects are displayed.</p>
+</div>
+<div class="art" id="a-206316466">
+  <div class="art-h"><span class="no">05</span><h3>How to use the Split to create mitered corners</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206316466-How-to-use-the-Split-to-create-mitered-corners" target="_blank" rel="noopener">MyCi 知识库 · How to use the Split to create mitered corners</a></div>
+  <p>Another, more practical, example of when to use Objective's Split functionality is when working with structural elements such as Steel Beams or Joinery elements that need to be mitred.</p>
+<p>In the example below, four steel beams have been placed but the intersections at A and B need to be mitred to match those at C and D.</p>
+<p><img src="img/206316466_0.jpg" alt="How to use the Split to create mitered corners 示意图" loading="lazy"></p>
+<p>The coloured image below shows the issue more clearly:</p>
+<p><img src="img/206316466_1.jpg" alt="How to use the Split to create mitered corners 示意图" loading="lazy"></p>
+<p>To create the correct mitred junction at <strong>Point A:</strong></p>
+<ul>
+<li><strong>Select the two beams</strong> to be intersected</li>
+</ul>
+<ul>
+<li>Choose <strong>Cadimage> Objective> Tools> Split</strong></li>
+</ul>
+<ul>
+<li><strong>Click on the internal intersection</strong> of the two beams to define the start of the Split axis (Item #1 below)</li>
+</ul>
+<ul>
+<li><strong>Click on the external intersection</strong> of the two beams (or use the guidelines to define a 135° angle) to define the end of the Split axis (Item #2 below)</li>
+</ul>
+<ul>
+<li><strong>Click the side that you want to remain selected</strong> (Item #3 below)</li>
+</ul>
+<p><img src="img/206316466_2.jpg" alt="How to use the Split to create mitered corners 示意图" loading="lazy"></p>
+<p>NOTE: At this point we cannot simply delete the selected elements as the horizontal beams will be removed. Deselect everything then select only the two small ‘cut off’ segments of beam as shown below:</p>
+<p><img src="img/206316466_3.jpg" alt="How to use the Split to create mitered corners 示意图" loading="lazy"></p>
+<p>The result is shown below:</p>
+<p><img src="img/206316466_4.jpg" alt="How to use the Split to create mitered corners 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-11404990776335">
+  <div class="art-h"><span class="no">06</span><h3>Introducing the Ci Structural Tool</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/11404990776335-Introducing-the-Ci-Structural-Tool" target="_blank" rel="noopener">MyCi 知识库 · Introducing the Ci Structural Tool</a></div>
+  <p>From Archicad 28, the Objective tool has ceased to exist, however many of the functions and Library parts that were previously part of the Objective Tool have moved to the Structural Tool.</p>
+<p>The standard functionality of Rotate, Split, Bend, Offset and Remove Cuts, have been retained in the Structural Tool, and function just as they did in the Objective Tool.</p>
+<p><img src="img/11404990776335_0.jpg" alt="Introducing the Ci Structural Tool 示意图" loading="lazy"></p>
+<p>With advancements since the release of Archicad 26, the Complex Profile functions can now be performed natively within Archicad, so we recommend using those to Create and Extrude profiles.</p>
+<p>A whole range of library parts that previously resided in the CI Select library has also been moved to the Structural Library.</p>
+<p>The list below includes all the Library parts that have been moved to Structural Library, these are all the parts previously found in the  <em>CI Select 27 Library/Structural/</em>folder (See image below list of the Archicad 27 location of these Library parts)</p>
+<ul>
+<li>Cross Brace #1620</li>
+</ul>
+<ul>
+<li>Engineers Bolt 3D #1396</li>
+</ul>
+<ul>
+<li>Screw #1593</li>
+</ul>
+<ul>
+<li>Screw #1596</li>
+</ul>
+<ul>
+<li>Screw #1597</li>
+</ul>
+<ul>
+<li>Gib Handibrac #1602</li>
+</ul>
+<ul>
+<li>Joist Hanger 95x165 #1606</li>
+</ul>
+<ul>
+<li>Nail #1607</li>
+</ul>
+<ul>
+<li>Joist Hanger 70x180 #1608</li>
+</ul>
+<ul>
+<li>Joist Hanger 47x190 #1609</li>
+</ul>
+<ul>
+<li>Joist Hanger 47x120 #1610</li>
+</ul>
+<ul>
+<li>Joist Hanger 47x90 #1612</li>
+</ul>
+<ul>
+<li>Anchor Bolt 3D #1625</li>
+</ul>
+<ul>
+<li>Multi Grip #1630</li>
+</ul>
+<ul>
+<li>Mitek Bowmac Post Bracket #1993</li>
+</ul>
+<ul>
+<li>Mitek Tylok Nail Plate #1998</li>
+</ul>
+<ul>
+<li>Mitek Bowmac Strap #1999</li>
+</ul>
+<ul>
+<li>Floor Framing #1623</li>
+</ul>
+<ul>
+<li>Floor Framing #1943</li>
+</ul>
+<ul>
+<li>Scissor Truss #1992</li>
+</ul>
+<ul>
+<li>End Truss # 1652</li>
+</ul>
+<ul>
+<li>Rafters # 1653</li>
+</ul>
+<ul>
+<li>Rafter Truss #1654</li>
+</ul>
+<ul>
+<li>Purlin #1655</li>
+</ul>
+<ul>
+<li>Girder Truss # 1656</li>
+</ul>
+<ul>
+<li>Jack Truss # 1657</li>
+</ul>
+<ul>
+<li>Truncated Girder Truss # 1658</li>
+</ul>
+<ul>
+<li>Truncated Truss # 1659</li>
+</ul>
+<ul>
+<li>Attic Truss # 2012</li>
+</ul>
+<ul>
+<li>Creeper Truss #2066</li>
+</ul>
+<ul>
+<li>Rafter Truss #2067</li>
+</ul>
+<ul>
+<li>Girder Truss #2068</li>
+</ul>
+<ul>
+<li>Truncated Girder Truss #2069</li>
+</ul>
+<ul>
+<li>Monopitch Truss #2070</li>
+</ul>
+<ul>
+<li>End Truss #2071</li>
+</ul>
+<ul>
+<li>Truncated Rafter Truss #2072</li>
+</ul>
+<ul>
+<li>Valley Saddle Truss #2073</li>
+</ul>
+<ul>
+<li>Flying Rafters #2074</li>
+</ul>
+<ul>
+<li>Hip Truss #2075</li>
+</ul>
+<ul>
+<li>Plain Channels #1739</li>
+</ul>
+<ul>
+<li>Cees and Zeds #1741</li>
+</ul>
+<ul>
+<li>Equal Angles #1745</li>
+</ul>
+<ul>
+<li>Lipped Channels #1746</li>
+</ul>
+<ul>
+<li>PFC Horizontal #1747</li>
+</ul>
+<ul>
+<li>PFC Vertical #1748</li>
+</ul>
+<ul>
+<li>Solid Beam or Column #1750</li>
+</ul>
+<ul>
+<li>Tee Section Beam or Column #1751</li>
+</ul>
+<ul>
+<li>Tube Rafter #1752</li>
+</ul>
+<ul>
+<li>Unequal Angle #1753</li>
+</ul>
+<ul>
+<li>Portal Frame #1754</li>
+</ul>
+<ul>
+<li>Speedfloor Beam #1756</li>
+</ul>
+<ul>
+<li>Steel Portal Frame #1941</li>
+</ul>
+<ul>
+<li>Delta Truss #1973</li>
+</ul>
+<ul>
+<li>Portal Frame #2024</li>
+</ul>
+<ul>
+<li>House Pile #1929</li>
+</ul>
+<ul>
+<li>Plywood I-Beam #1757</li>
+</ul>
+<ul>
+<li>Posi Strut #1758</li>
+</ul>
+<ul>
+<li>Timber Member #1934</li>
+</ul>
+<ul>
+<li>Glulam Beam #1949</li>
+</ul>
+<ul>
+<li>Plywood Box Beam #1950</li>
+</ul>
+<ul>
+<li>Timber Lintel NZS3604 #1982</li>
+</ul>
+<ul>
+<li>Lintel #1991</li>
+</ul>
+<ul>
+<li>Wall Frame #2013</li>
+</ul>
+<p>These are now located in the following folder in Archicad 28.</p>
+<p><img src="img/11404990776335_1.jpg" alt="Introducing the Ci Structural Tool 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205298210">
+  <div class="art-h"><span class="no">07</span><h3>Overview</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205298210-Overview" target="_blank" rel="noopener">MyCi 知识库 · Overview</a></div>
+  <p>The Objective tool is a multifunctional tool that will extend your ability to model in 3D in ARCHICAD.</p>
+<p>With Objective you have access to:</p>
+<ul>
+<li>Objective Library – containing highly editable timber framing and steel construction elements</li>
+</ul>
+<ul>
+<li>Object editing – includes:</li>
+</ul>
+<ul>
+<li>Rotating : Tilt or free-rotate Objects in sections or elevations <a href="https://youtu.be/e3CHzROExDw" target="_blank" rel="noopener">Watch a short video</a></li>
+</ul>
+<ul>
+<li>Splitting : Split 3D Objects the same way you would split 2D elements in plan, section or elevation <a href="https://youtu.be/iogRDM9-t_A" target="_blank" rel="noopener">Watch a short video</a></li>
+</ul>
+<ul>
+<li>Bending : Take Objective Framing Objects with a constant cross section profile and bend to a curve in 2D or 3D <a href="https://youtu.be/sb0_ilO1neY" target="_blank" rel="noopener">Watch a short video</a></li>
+</ul>
+<ul>
+<li>Offsetting : take Objective Framing Objects with a constant cross section profile and offset it horizontally or vertically</li>
+</ul>
+<ul>
+<li>Extrusions – standard or custom profiles which can be extruded along 2D polylines or placed manually in 2D or 3D</li>
+</ul>
+<ul>
+<li>Slab Edges – five customisable profiles including counter edges, counter upstands, footings, rebated edges or steps which link to slab edges.</li>
+</ul>
+<p>When using Objective to edit an Object, the original parameters of the Object are maintained. This means that even if you cut the Object into several small pieces, you can repair it at any time, taking it back to its original state (unlike when you convert an Object to a Morph).</p>
+</div>
+<div class="art" id="a-17919869075471">
+  <div class="art-h"><span class="no">08</span><h3>ProKit Structural – Start here</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/17919869075471-ProKit-Structural-Start-here" target="_blank" rel="noopener">MyCi 知识库 · ProKit Structural – Start here</a></div>
+  <p>The Structural Tool allows for very quick placement 3D parametric components. This Tool contains Library Objects that relate to various structural components in a project.</p>
+<p>It contains an extensive sophisticated library of parametric 2D and 3D Objects with the following Categories:</p>
+<p>Bracing</p>
+<p>Documentation</p>
+<p>Fastenings</p>
+<p>Steel Frames</p>
+<p>﻿﻿Subfloor</p>
+<p>﻿﻿Timber Framing</p>
+<p>These are accessible through the ARCHICAD Object Tool.</p>
+<p><strong>Libpack loading (since ARCHICAD 2</strong><strong>9</strong><strong>)</strong></p>
+<p>It is important to note that the ProKit Structural Tool requires the Structural Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier ARCHICAD versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17919869075471_0.jpg" alt="ProKit Structural – Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Structures Libpack.</p>
+<p><img src="img/17919869075471_1.jpg" alt="ProKit Structural – Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17919869075471_2.jpg" alt="ProKit Structural – Start here 示意图" loading="lazy"></p>
+<p>This will load the Structural Libpack and associated Macros.</p>
+<p>The Structural Objects will now be available in the ARCHICAD Object Tool.</p>
+<p><strong>Placing a Structural Object</strong></p>
+<p>The Structural Library Objects are placed with the Object Tool in ARCHCAD.</p>
+<p><img src="img/17919869075471_3.jpg" alt="ProKit Structural – Start here 示意图" loading="lazy"></p>
+<p>Once the Library object is selected, it can be placed.</p>
+<p><img src="img/17919869075471_4.jpg" alt="ProKit Structural – Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on the other Structural Tool features please see the other articles on the Knowledge Base.</p>
+</div>
+<div class="art" id="a-213785143">
+  <div class="art-h"><span class="no">09</span><h3>Watch: Get started in 8 minutes!</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/213785143-Watch-Get-started-in-8-minutes" target="_blank" rel="noopener">MyCi 知识库 · Watch: Get started in 8 minutes!</a></div>
+  <p>In this video, Thomas provides an overview of the Objective Tool:</p>
+</div>
+<div class="art" id="a-205030814">
+  <div class="art-h"><span class="no">10</span><h3>Watch: How to Bend shapes in ARCHICAD </h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030814-Watch-How-to-Bend-shapes-in-ARCHICAD" target="_blank" rel="noopener">MyCi 知识库 · Watch: How to Bend shapes in ARCHICAD </a></div>
+  <p><em>Demonstrated in ARCHICAD 18</em></p>
+</div>
+<div class="art" id="a-205298260">
+  <div class="art-h"><span class="no">11</span><h3>Watch: How to align objects and shapes using the Objective Tool</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205298260-Watch-How-to-align-objects-and-shapes-using-the-Objective-Tool" target="_blank" rel="noopener">MyCi 知识库 · Watch: How to align objects and shapes using the Objective Tool</a></div>
+  <p><em>Demonstrated using ARCHICAD 18</em></p>
+</div>
+<div class="art" id="a-205030784">
+  <div class="art-h"><span class="no">12</span><h3>Watch: How to create Extrusions in under 5 minutes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030784-Watch-How-to-create-Extrusions-in-under-5-minutes" target="_blank" rel="noopener">MyCi 知识库 · Watch: How to create Extrusions in under 5 minutes</a></div>
+  <p><em>Demonstrated in ARCHICAD 18</em></p>
+</div>
+<div class="art" id="a-205298250">
+  <div class="art-h"><span class="no">13</span><h3>Watch: How to rotate objects using the Objective tool</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205298250-Watch-How-to-rotate-objects-using-the-Objective-tool" target="_blank" rel="noopener">MyCi 知识库 · Watch: How to rotate objects using the Objective tool</a></div>
+  <p><em>Demonstrated in ARCHICAD 18</em></p>
+</div>
+<div class="art" id="a-205030824">
+  <div class="art-h"><span class="no">14</span><h3>Watch: How to use the Split function of the Objective Tool</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030824-Watch-How-to-use-the-Split-function-of-the-Objective-Tool" target="_blank" rel="noopener">MyCi 知识库 · Watch: How to use the Split function of the Objective Tool</a></div>
+  <p><em>Demonstrated in ARCHICAD 18</em></p>
+</div>
+<div class="art" id="a-205298230">
+  <div class="art-h"><span class="no">15</span><h3>Watch: Overview webinar recording (27 mins)</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205298230-Watch-Overview-webinar-recording-27-mins" target="_blank" rel="noopener">MyCi 知识库 · Watch: Overview webinar recording (27 mins)</a></div>
+  
+</div>
+<div class="art" id="a-206315976">
+  <div class="art-h"><span class="no">16</span><h3>What can be edited with the Objective Tool</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206315976-What-can-be-edited-with-the-Objective-Tool" target="_blank" rel="noopener">MyCi 知识库 · What can be edited with the Objective Tool</a></div>
+  <p>Component editing with Objective primarily works with ARCHICAD <strong>Objects</strong> or <strong>Lamps</strong> – however, depending on the editing operation required, there are some limitations:</p>
+<p>Rotate or Split</p>
+<p>These transformations can only be applied to Objects or Lamps:</p>
+<p><img src="img/206315976_0.jpg" alt="What can be edited with the Objective Tool 示意图" loading="lazy"></p>
+<p>NOTE: When you Rotate or Split an Object or Lamp, a new version is created in the Embedded Library with the additional parameters required for the Objective transformation. The name will be the original Object or Lamp name with a ‘+’ tagged to the end.</p>
+<p>Bend or Offset</p>
+<p>These transformations only work on Objects with a constant cross-sectional profile from the <strong>Objective Steel Library:</strong></p>
+<p><img src="img/206315976_1.jpg" alt="What can be edited with the Objective Tool 示意图" loading="lazy"></p>
+</div>
+</article>
+
+<footer class="foot">
+CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

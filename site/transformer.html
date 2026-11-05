@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Transformer（项目镜像）完整中文教程：一键镜像整个项目，含 2D 标注">
+<title>Transformer · 项目镜像 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t">CI Tools 完全指南</div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h">开始</div>
+<a href="index.html"><span class="ic">◈</span>总览与快速开始</a>
+<a href="all.html"><span class="ic">☰</span>全量文章索引</a>
+<a href="guide.html"><span class="ic">★</span>中文主线速查</a>
+<div class="nav-h">16 个工具</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span>Annotate · 文字格式</a>
+<a class=" on" href="transformer.html"><span class="ic">⇄</span>Transformer · 项目镜像</a>
+<a class="" href="timetracker.html"><span class="ic">◷</span>Time Tracker · 工时统计</a>
+<a class="" href="detail.html"><span class="ic">▤</span>Detail Elements · 二维详图</a>
+<a class="" href="keynotes.html"><span class="ic">❝</span>Keynotes · 规范注释</a>
+<a class="" href="metadata.html"><span class="ic">◈</span>MetaData · 属性管理</a>
+<a class="" href="quantities.html"><span class="ic">∑</span>Quantities · 工程量算量</a>
+<a class="" href="cabinets.html"><span class="ic">▦</span>Cabinets · 橱柜木作</a>
+<a class="" href="doors.html"><span class="ic">⌸</span>Doors+Windows · 门窗</a>
+<a class="" href="coverings.html"><span class="ic">▨</span>Coverings · 覆面层</a>
+<a class="" href="electrical.html"><span class="ic">⚡</span>Electrical · 电气</a>
+<a class="" href="stairs.html"><span class="ic">⇱</span>Stairs · 楼梯</a>
+<a class="" href="structural.html"><span class="ic">⌗</span>Structural · 结构构件</a>
+<a class="" href="sites.html"><span class="ic">⛿</span>Sites · 场地景观</a>
+<a class="" href="fitout.html"><span class="ic">⌸</span>Fitout · 室内布置</a>
+<div class="nav-h">关于</div>
+<a href="about.html"><span class="ic">ⓘ</span>来源与说明</a>
+</aside>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html">总览</a> / Transformer · 项目镜像</div>
+<div class="hero">
+  <span class="kicker">工具分册</span>
+  <h1>Transformer · 项目镜像</h1>
+  <p>一键镜像整个项目，含 2D 标注</p>
+  <div class="meta">
+    <span><b>5</b> 篇教程</span>
+    <span><b>0.2</b> 万字</span>
+    <span><b>1</b> 张图</span>
+  </div>
+</div>
+<article>
+
+<div class="art" id="a-360001695256">
+  <div class="art-h"><span class="no">01</span><h3>1.1 Why?</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695256-1-1-Why" target="_blank" rel="noopener">MyCi 知识库 · 1.1 Why?</a></div>
+  <p>This tool mirrors an entire project in one step. But why not use Archicad’s existing Mirror tool? Although the whole project model can already be mirrored in one step, there are some major clean-up issues to address:</p>
+<ul>
+<li>All annotation in section and elevation views will end up in the wrong place and the wrong way around. The difference can be extreme and difficult to fix.</li>
+</ul>
+<ul>
+<li>All cropped project views embedded in layouts will show the wrong part of the drawing and may be entirely blank. This will necessitate viewing the whole drawing, re-cropping and repositioning.</li>
+</ul>
+<p>Anyone working routinely with template projects will find this a huge chore, to the point where it can be easier to store multiple versions of the project rather than repeat the mirroring exercise multiple time, but this can lead to problems synchronising changes.</p>
+<p>The Transformer tool takes care of the whole mirroring process (including sections, elevations and layouts) in one, easy step.</p>
+</div>
+<div class="art" id="a-360001695276">
+  <div class="art-h"><span class="no">02</span><h3>1.2 Mirroring a Project</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695276-1-2-Mirroring-a-Project" target="_blank" rel="noopener">MyCi 知识库 · 1.2 Mirroring a Project</a></div>
+  <p>To start the mirroring process:</p>
+<p>Click the menu item CI Tools > Transformer > Mirror Project…</p>
+<p>Click the start point for the mirror axis line.</p>
+<p>The tool will display a guide to the mirror action on the project, which can only be across a horizontal or vertical line (other angles are not currently supported, but let us know if that’s important to you). The image will dynamically switch between the horizontal and vertical axis depending on which is closer to your mouse</p>
+<p><img src="img/360001695276_0.jpg" alt="1.2 Mirroring a Project 示意图" loading="lazy"></p>
+<p>Click when the axis is in the desired direction and the mirroring will be actioned. Alternatively, press escape to cancel the mirror process.</p>
+</div>
+<div class="art" id="a-360001695296">
+  <div class="art-h"><span class="no">03</span><h3>1.3 Mirroring Notes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001695296-1-3-Mirroring-Notes" target="_blank" rel="noopener">MyCi 知识库 · 1.3 Mirroring Notes</a></div>
+  <p>There is an issue in Archicad that often causes angular dimensions and level dimensions to fail to mirror in section and elevation views. We hope GS will address this issue in AC25.</p>
+<p>Also, although the Mirror action is undoable, Archicad does not support undo for the cropping changes in layouts – these will remain mirrored if you select Edit > Undo</p>
+</div>
+<div class="art" id="a-9245907340175">
+  <div class="art-h"><span class="no">04</span><h3>Getting Started</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/9245907340175-Getting-Started" target="_blank" rel="noopener">MyCi 知识库 · Getting Started</a></div>
+  
+</div>
+<div class="art" id="a-8620665767311">
+  <div class="art-h"><span class="no">05</span><h3>Release Notes - Transformer</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/8620665767311-Release-Notes-Transformer" target="_blank" rel="noopener">MyCi 知识库 · Release Notes - Transformer</a></div>
+  <h1>Release notes - Transformer - 1.03</h1>
+<h3>Bug</h3>
+<p>TRAN-2 Problem mirroring Roof coverings, problem mirroring a project</p>
+<p>TRAN-4 associated labels not mirrored</p>
+<p>TRAN-11 Elevations Markers shift location after Mirroring</p>
+<p>TRAN-14 Additional 2D elements drawn in Interior Elevation views are not mirrored</p>
+</div>
+</article>
+
+<footer class="foot">
+CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

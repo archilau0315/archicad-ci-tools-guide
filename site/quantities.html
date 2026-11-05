@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Quantities（工程量算量）完整中文教程：从模型出清单，Recipe 自动分配">
+<title>Quantities · 工程量算量 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t">CI Tools 完全指南</div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h">开始</div>
+<a href="index.html"><span class="ic">◈</span>总览与快速开始</a>
+<a href="all.html"><span class="ic">☰</span>全量文章索引</a>
+<a href="guide.html"><span class="ic">★</span>中文主线速查</a>
+<div class="nav-h">16 个工具</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span>Annotate · 文字格式</a>
+<a class="" href="transformer.html"><span class="ic">⇄</span>Transformer · 项目镜像</a>
+<a class="" href="timetracker.html"><span class="ic">◷</span>Time Tracker · 工时统计</a>
+<a class="" href="detail.html"><span class="ic">▤</span>Detail Elements · 二维详图</a>
+<a class="" href="keynotes.html"><span class="ic">❝</span>Keynotes · 规范注释</a>
+<a class="" href="metadata.html"><span class="ic">◈</span>MetaData · 属性管理</a>
+<a class=" on" href="quantities.html"><span class="ic">∑</span>Quantities · 工程量算量</a>
+<a class="" href="cabinets.html"><span class="ic">▦</span>Cabinets · 橱柜木作</a>
+<a class="" href="doors.html"><span class="ic">⌸</span>Doors+Windows · 门窗</a>
+<a class="" href="coverings.html"><span class="ic">▨</span>Coverings · 覆面层</a>
+<a class="" href="electrical.html"><span class="ic">⚡</span>Electrical · 电气</a>
+<a class="" href="stairs.html"><span class="ic">⇱</span>Stairs · 楼梯</a>
+<a class="" href="structural.html"><span class="ic">⌗</span>Structural · 结构构件</a>
+<a class="" href="sites.html"><span class="ic">⛿</span>Sites · 场地景观</a>
+<a class="" href="fitout.html"><span class="ic">⌸</span>Fitout · 室内布置</a>
+<div class="nav-h">关于</div>
+<a href="about.html"><span class="ic">ⓘ</span>来源与说明</a>
+</aside>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html">总览</a> / Quantities · 工程量算量</div>
+<div class="hero">
+  <span class="kicker">工具分册</span>
+  <h1>Quantities · 工程量算量</h1>
+  <p>从模型出清单，Recipe 自动分配</p>
+  <div class="meta">
+    <span><b>100</b> 篇教程</span>
+    <span><b>9.8</b> 万字</span>
+    <span><b>28</b> 张图</span>
+  </div>
+</div>
+<article>
+
+<div class="art" id="a-360001393635">
+  <div class="art-h"><span class="no">01</span><h3>2.4.7 How to filter an element selection for those matching specific property values</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393635-2-4-7-How-to-filter-an-element-selection-for-those-matching-specific-property-values" target="_blank" rel="noopener">MyCi 知识库 · 2.4.7 How to filter an element selection for those matching specific property values</a></div>
+  <p>The trait filter button (</p>
+<p><img src="img/360001393635_0.jpg" alt="2.4.7 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
+<p>) works with properties in the same way as other traits, but also filters the selection to elements with the same property and a matching value. If multiple values are selected in the palette, elements with a property and value matching any one of those items will pass the filter.</p>
+</div>
+<div class="art" id="a-360001393655">
+  <div class="art-h"><span class="no">02</span><h3>2.4.8 How to inject a property with a specific value into selected elements</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393655-2-4-8-How-to-inject-a-property-with-a-specific-value-into-selected-elements" target="_blank" rel="noopener">MyCi 知识库 · 2.4.8 How to inject a property with a specific value into selected elements</a></div>
+  <p>When Live Edit is on, a property can be added in the same way as any other trait (with the add trait button</p>
+<p><img src="img/360001393655_0.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p>). The value can be set by selecting all values of that property and editing it the required value.</p>
+<p>Alternatively, when Live Edit is off, the required property can be added to the list, set to the required value and set in the selected elements by clicking the inject button (</p>
+<p><img src="img/360001393655_1.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p>).</p>
+<p>There is a subtle difference in these two approaches – the former will modify the element classification if necessary to ensure the property is attached before setting the correct value, whereas the latter will only set the property value in elements that already have that property.</p>
+</div>
+<div class="art" id="a-360001393675">
+  <div class="art-h"><span class="no">03</span><h3>3.1 Background</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393675-3-1-Background" target="_blank" rel="noopener">MyCi 知识库 · 3.1 Background</a></div>
+  <p>Building projects are typically priced in a bill of quantities, breaking the construction down into discrete, well-understood items of a known cost. The list of items can be very large, so is typically arranged in a hierarchy with broad categories at the top and increasing detailed descriptions at the lower levels. Building elements are measured and quantities entered against applicable bill items. A single wall could potentially contribute to many different costs, e.g. bricks/blocks/framing, insulation and finishes.</p>
+<p>The bill structure may be developed in-house, customised project-by-project or imported from an external source, e.g. database or cloud-based. The software is designed to provide for all of these scenarios, and additional connectivity is planned for direct links to 3rd-party bills of quantity in future.</p>
+<p>This section discusses different types of bill structures, with methods for creating, importing, editing and exporting.</p>
+</div>
+<div class="art" id="a-360001393695">
+  <div class="art-h"><span class="no">04</span><h3>3.2 Bill structure</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393695-3-2-Bill-structure" target="_blank" rel="noopener">MyCi 知识库 · 3.2 Bill structure</a></div>
+  <p>The bill can be structured in 2 ways to reflect the requirements of the project and workflow:</p>
+<ul>
+<li>Simple</li>
+</ul>
+<p> The bill is simply a flat list of items, i.e. no categories. This may suit smaller projects or workflows that only price a subset of possible items or trades. Items are displayed with a standard icon under the Project Bill:</p>
+<p><img src="img/360001393695_0.jpg" alt="3.2 Bill structure 示意图" loading="lazy"></p>
+<ul>
+<li>Hierarchical</li>
+</ul>
+<p> Items in a large BoQ are easier to manage when grouped into categories in a tree structure, potentially multiple levels deep. In addition to making it easier to find a specific item, categories group similar items together and provide sub-totals when scheduled. Categories are displayed with a folder icon and arranged in a tree structure similar to standard file systems:</p>
+<p><img src="img/360001393695_1.jpg" alt="3.2 Bill structure 示意图" loading="lazy"></p>
+<p>The content of a category can be revealed or hidden with the adjacent arrow. Note that Quantities provides an option to omit the categories in some views, displaying just the items in a flat list.</p>
+<p> The full key of any item in a hierarchy is automatically prefixed with the keys of any parent categories, e.g.:</p>
+<p><img src="img/360001393695_2.jpg" alt="3.2 Bill structure 示意图" loading="lazy"></p>
+<p>The bill structure has no effect on other software functionality and can be changed at any time. Note that although bill item keys include the keys of parent categories, it is possible to omit any part of the hierarchy by manually adding category keys, e.g. an item in a flat list could be directly assigned the key ‘10.24.73’. These different approaches can be mixed, e.g. creating a partial hierarchy and manually prefixing the keys of any omitted categories to the child items.</p>
+<p>Also note that bill items are exported to CSV with calculated quantities in a flat list irrespective of the structure, suitable for import to a spreadsheet and conforming to standard headings of item number, description, unit, quantity, rate and total amount (see section 5.2.5 for more detail).</p>
+</div>
+<div class="art" id="a-360001401136">
+  <div class="art-h"><span class="no">05</span><h3>3.3 Creating and managing a Bill structure</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401136-3-3-Creating-and-managing-a-Bill-structure" target="_blank" rel="noopener">MyCi 知识库 · 3.3 Creating and managing a Bill structure</a></div>
+  <p>The BoQ can be viewed and edited in the Quantity Take-off Manager, which can be opened by clicking the menu item CI Tools > Quantities > Quantity Take-off Manager and selecting the Bill Structure tab. All Quantities palettes also display an icon to quickly open the manager dialog.</p>
+<p><img src="img/360001401136_0.jpg" alt="3.3 Creating and managing a Bill structure 示意图" loading="lazy"></p>
+<p>The key features of the manager are:</p>
+<ul>
+<li>An option to manage either the bill structure or measurement recipes. Click Bill Structure for the purpose of this section.</li>
+</ul>
+<ul>
+<li>An overview of the bill structure with buttons for creating, deleting, importing and exporting bill items. Details of the selected item are shown in the panel below (see 3 below). The bill structure is headed up with the name of the open project. The next item under the project is headed up Project Bill. Any items created in the manager are displayed under this heading; they are saved in the project file and can only be applied to the current project. If a bill structure is linked to this project from an eternal source, e.g. an external file or database, it will be displayed under a separate heading and cannot be edited (see sections 3.3.7 and 3.3.8 for more details). Multiple items can be selected for quick editing or deletion.</li>
+</ul>
+<ul>
+<li>Details of the selected bill item. If multiple items are selected, only the details of the first are displayed. The following fields can be edited for multiple items simultaneously apart from the key and name (where only the first item will be changed). a. The item key. It can be any combination or letters and numbers, but should not duplicate any other item at the same level (for clarity, because calculated project quantities will be set against the key in the schedule). The keys often reflect established construction classification systems, e.g. Uniclass. The full item key is displayed beside this field. When the item is arranged in a hierarchy under a category, the full key is prefixes the ancestor category keys to the item key, e.g. ‘10.24.73’. If the bill is a flat list, i.e. no categories, the key and full key are the same. b. The item title. Anything can be entered. c. An optional external reference, e.g. a manufacturer or external database code, for informational purposes only. This information is included in exported schedules. d. Rate, i.e. cost per unit. Can be zero if the costing is calculated externally based on exported quantities. e. Unit of measurement, e.g. ‘metre’, ‘mm’, ‘each’, displayed in a popup menu. These items are user-defined – refer to section 3.3.5 for more information. f. An optional description, usually to clarify what should be measured (or how). This information is not included in the schedule.</li>
+</ul>
+<p>Note that changes to the bill structure only become permanent the OK button is clicked. If Cancel is clicked, all changes will be discarded.</p>
+</div>
+<div class="art" id="a-360001393755">
+  <div class="art-h"><span class="no">06</span><h3>3.3.1 How to create a bill item</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393755-3-3-1-How-to-create-a-bill-item" target="_blank" rel="noopener">MyCi 知识库 · 3.3.1 How to create a bill item</a></div>
+  <p>Click the New button (item 2b in the illustration). A new bill item will be displayed and selected in panel 2, with its details shown in panel 3. A key with the next highest number in the bill is automatically assigned, but this can be freely edited.</p>
+<p>If an existing bill item is selected when New is clicked, the new bill item will be an exact duplicate of the selected item (apart from the key). If the bill is arranged in a hierarchy, the new item will be at the same level as the selected item and will be assigned the next highest number at that level. If a category is selected, the new item will fall under that category and receive the next highest number under that category.</p>
+</div>
+<div class="art" id="a-360001393775">
+  <div class="art-h"><span class="no">07</span><h3>3.3.2 How to organise bill items into a heirarchy of categories</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393775-3-3-2-How-to-organise-bill-items-into-a-heirarchy-of-categories" target="_blank" rel="noopener">MyCi 知识库 · 3.3.2 How to organise bill items into a heirarchy of categories</a></div>
+  <p>If a bill item is dragged and dropped onto another item, the target becomes a parent category for the dragged item:</p>
+<p><img src="img/360001393775_0.jpg" alt="3.3.2 How to organise bill items into a heirarchy of categories 示意图" loading="lazy"></p>
+<p>Note that the category item displays a folder icon and an adjacent disclosure triangle to expand or collapse the child content. Therefore, categories are created in the same way as bill items – but they become categories at the moment child items are dropped into them. Categories can be nested under categories to any depth, and selections containing any combination of categories and items can be dragged and dropped to rearrange the bill hierarchy.</p>
+<p>The only constraint on drag and drop is that items cannot be dragged from one bill to another, e.g. from a bill in an external file the project bill.</p>
+</div>
+<div class="art" id="a-360001393795">
+  <div class="art-h"><span class="no">08</span><h3>3.3.3 How to delete bill items</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393795-3-3-3-How-to-delete-bill-items" target="_blank" rel="noopener">MyCi 知识库 · 3.3.3 How to delete bill items</a></div>
+  <p>Select one or more items to be deleted and click the Delete button (item 2c in the illustration). Deleted items can be subsequently recovered (see section 2.3.3).</p>
+</div>
+<div class="art" id="a-360001401156">
+  <div class="art-h"><span class="no">09</span><h3>3.3.4 How to view and restore deleted bill items</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401156-3-3-4-How-to-view-and-restore-deleted-bill-items" target="_blank" rel="noopener">MyCi 知识库 · 3.3.4 How to view and restore deleted bill items</a></div>
+  <p>Because accidental or mistaken bill item deletion could have serious implications for the calculated BoQ, the add-on has some features that simplify the process of identifying and correcting this problem. For example, a recipe linked to a deleted bill item will be highlighted in red in the manager dialog.</p>
+<p>The software also maintains a history of deleted bill items to facilitate recovery. Select either of the following in the Status menu (see 2h in the illustration) to allow previously deleted items to be visible:</p>
+<p>• All: Both active and deleted items are shown (deleted items are displayed in italics)</p>
+<p> • Deleted: Only deleted items are shown</p>
+<p>When a deleted item is selected, the Delete button changes to Restore, and clicking it restores the bill item(s) to normal use.</p>
+<p>Set the Status menu to Current to resume viewing active items only.</p>
+</div>
+<div class="art" id="a-360001401176">
+  <div class="art-h"><span class="no">10</span><h3>3.3.5 How to edit the units of measurement</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401176-3-3-5-How-to-edit-the-units-of-measurement" target="_blank" rel="noopener">MyCi 知识库 · 3.3.5 How to edit the units of measurement</a></div>
+  <p>The details of the selected bill item (panel 3) includes a pop-up menu for selecting a unit of measurement. In addition to listing defined units, the menu displays Edit Units… and No Unit:</p>
+<p><img src="img/360001401176_0.jpg" alt="3.3.5 How to edit the units of measurement 示意图" loading="lazy"></p>
+<p>Click Edit Units… to display the Quantity Units dialog:</p>
+<p><img src="img/360001401176_1.jpg" alt="3.3.5 How to edit the units of measurement 示意图" loading="lazy"></p>
+<p>The buttons for managing the units are:</p>
+<div class="table-wrap"><table><thead><tr><th>*New*</th><th>Click to add a new unit to the list</th></tr></thead><tbody><tr><td>*Delete*</td><td>Click to the delete the selected unit(s). Deleted units can be subsequently restored.</td></tr><tr><td>*Restore*</td><td>Click to restore a selected, previously-deleted unit (when the Status menu is set to All or Deleted.</td></tr><tr><td>*Import*</td><td>Displays a standard file navigation dialog to select a units file to import. Imported units will be merged with current units</td></tr><tr><td>*Export*</td><td>Displays a standard file navigation dialog to select the name and location of a file to export the current units to</td></tr><tr><td>*Status*</td><td>A menu to select which unit records to view: All = current and deleted unit; Current = current units only; Deleted = deleted units only. Useful when units have been deleted and need to be restored.</td></tr></tbody></table></div>
+<p>Changes are only saved if OK is clicked. All changes are discarded if Cancel is clicked.</p>
+</div>
+<div class="art" id="a-360001393855">
+  <div class="art-h"><span class="no">11</span><h3>3.3.6 How to import an external bill</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393855-3-3-6-How-to-import-an-external-bill" target="_blank" rel="noopener">MyCi 知识库 · 3.3.6 How to import an external bill</a></div>
+  <p>A bill can be imported by Quantities with the following file types:</p>
+<p><strong>Quants</strong></p>
+<p>The native BoQ file format for the Quantities add-on. This format is the most comprehensive and reliable, and is therefore strongly recommended in most circumstances. The content is XML, and a schema is available on request to anyone wishing to read/write to this format.</p>
+<p><strong>CSV</strong></p>
+<p>Standard CSV, well-suited for interoperability with spreadsheets and some databases, but lacks the defined structure of XML. This is straight-forward for a simple list of items, but is becomes harder to manage for larger, hierarchical bill structures. An additional dialog is displayed for CSV import to define the purpose of each column.</p>
+<p>Click the Import button (item 2e in the illustration). A standard file navigation dialog will be displayed to select a BoQ file to import.</p>
+<p>When a CSV file is selected, the following dialog is displayed to define the data standards and columns:</p>
+<p><img src="img/360001393855_0.jpg" alt="3.3.6 How to import an external bill 示意图" loading="lazy"></p>
+<p> The dialog is divided into 3 panels:</p>
+<ul>
+<li>Determines how keys will be interpreted in hierarchical bill structures. If Key contains parent category is checked, the keys of any parent categories will be stripped off the child items (because Quantities dynamically prefixes category keys for display purposes). A field to specify the key separator will also be displayed. As an example, if an item with the key “10.7.241” is imported and has parent categories of 10 and 7, the key of the imported item will be simply “241”.</li>
+</ul>
+<ul>
+<li>Standard CSV options. The separator menu includes comma, tab, colon, semi-colon, space. Text is quoted should be checked if text data is always enclosed in quotes. First row [is] headings should be checked if the first row is the column names.</li>
+</ul>
+<ul>
+<li>A table defining defining how the CSV columns should be linked to the key fields of a bill item. The table is headed up with a Configuration menu that allows the table content to be saved and reused. Each configuration is named and can be selected from the menu. Additional menu items allow configurations to be created, renamed or deleted (but there must always be at least one configuration remaining). The table is headed up with three columns: a) Column Name If The first row contains column headings option is checked, this column displays the names imported from the first row. Otherwise it displays the column number, e.g. Column 1, Column 2, etc. b) Sample data An example of the data to be imported – this is helpful if the columns are not named and also serves to confirm that the CSV options are correctly specified and the imported data is valid. c) Data Application Which bill item data field this column is linked to:</li>
+</ul>
+<p><img src="img/360001393855_1.jpg" alt="3.3.6 How to import an external bill 示意图" loading="lazy"></p>
+<p> Unwanted columns should be set to Unused. Unique ID is optional, but very useful. Ideally every bill item (and category) should have some kind of unique ID (a guid) that ensures bill items are reliably tracked no matter what changes are made to its name, key or parent category. Category Key and Category ID are also optional and specify the parent category of an item or category. When used, the values can be empty for top-level items. Flat bill structures don’t need these fields.</p>
+<p>All imported bill items will be merged with any existing bill structure rather than wholly replacing it, facilitating round-trip data exchanges with external data sources without disrupting established recipes and calculations. The changes resulting from the import are displayed first and can be cancelled if necessary (without changing existing data):</p>
+<p><img src="img/360001393855_2.jpg" alt="3.3.6 How to import an external bill 示意图" loading="lazy"></p>
+<p>The dialog contains 2 adjacent panels, new data to the left and original to the right. If the “Display changes only” checkbox is clicked, the tree will show only changes to the data.</p>
+<p>The type of change is illustrated with the following colours:</p>
+<p>• Black: An existing item that is unchanged by the import;</p>
+<p> • Green: A new item to be added;</p>
+<p> • Orange: A change to an existing item (details of the new and existing data can be compared by selecting the changed item);</p>
+<p> • Red: An existing item to be deleted (it can be restored later if required);</p>
+<p> • Blue: An existing item that has been deleted, but will be restored by the import.</p>
+<p>The update will only be applied to the project if the user clicks OK.</p>
+</div>
+<div class="art" id="a-360001393875">
+  <div class="art-h"><span class="no">12</span><h3>3.3.7 How to link to an external bill</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393875-3-3-7-How-to-link-to-an-external-bill" target="_blank" rel="noopener">MyCi 知识库 · 3.3.7 How to link to an external bill</a></div>
+  <p>The bill should be linked to an external source when the bill content is managed or edited outside of ARCHICAD, particularly when costs and reporting is also facilitated externally. Quantities will update to the latest version of the external source on demand and prevent any editing within ARCHICAD to support that workflow, but otherwise the bill items can be used in exactly the same way as those embedded in the Project Bill.</p>
+<p>To link to external source, click the Link button (item 2d in the illustration) and select the type:</p>
+<p><img src="img/360001393875_0.jpg" alt="3.3.7 How to link to an external bill 示意图" loading="lazy"></p>
+<p>The default installation has just one option, External file. Additional sources can be added in future for linking to specific solutions (also refer to section 3.3.8, How to use a 3rd party bill structure). The remainder of the process for selecting a file, possible types and configurations are the same as simply importing a file (refer to section 3.3.6, How to import an external bill).</p>
+<p>A linked BoQ is differentiated from the bill stored and managed in the project by a different heading in the bill hierarchy:</p>
+<p><img src="img/360001393875_1.jpg" alt="3.3.7 How to link to an external bill 示意图" loading="lazy"></p>
+<p>In this illustration, Manual example is a bill linked to an external file whereas the bill managed in the ARCHICAD project is headed up by Project Bill.</p>
+<p>The content of a bill from an external source displayed by Quantities does not automatically refresh when the source changes, but rather is updated on demand to ensure the integrity of the project is not changed unintentionally. Click on the Update button (item 2g in the illustration) to start an update. The Bill Structure Review palette shown during a bill import will be displayed to allow the changes to be audited first. The update will only be completed when OK is clicked.</p>
+</div>
+<div class="art" id="a-360001401236">
+  <div class="art-h"><span class="no">13</span><h3>3.3.8 How to use a 3rd party bill structure</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401236-3-3-8-How-to-use-a-3rd-party-bill-structure" target="_blank" rel="noopener">MyCi 知识库 · 3.3.8 How to use a 3rd party bill structure</a></div>
+  <p>Connections to a 3rd party BoQ will be provided by separate add-ons that communicate with Quantities. Each will have specific instructions, but in general the process will be the same as linking to any external source (see section 3.3.7, How to link to an external bill) with the exception that the 3rd party target should be selected when prompted for the bill source (rather than External File).</p>
+<p>Contact Central Innovation if a link between Quantities and a 3rd party is required and not yet available, or if you wish to develop one.</p>
+</div>
+<div class="art" id="a-360001393895">
+  <div class="art-h"><span class="no">14</span><h3>3.3.9 How to export the bill structure</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393895-3-3-9-How-to-export-the-bill-structure" target="_blank" rel="noopener">MyCi 知识库 · 3.3.9 How to export the bill structure</a></div>
+  <p>Click the Export button (item 2f in the illustration). A standard file navigation dialog will be displayed to specify the type, name and location of the exported file. Possible file types include:</p>
+<p><strong>Quants</strong></p>
+<p>The native BoQ file format for the Quantities add-on. This format is the most comprehensive and reliable, and is therefore strongly recommended in most circumstances. The content is XML, and a schema is available on request to anyone wishing to read/write to this format, but the content is reasonably self-evident.</p>
+<p><strong>CSV</strong></p>
+<p>Standard CSV, well-suited for interoperability with spreadsheets and some databases, but lacks the defined structure of XML. This is straight-forward for a simple list of items, but is becomes harder to manage for larger, hierarchical bill structures.</p>
+<p>CSV content is exported as comma-delimited, all data is enclosed in speech marks and the first row contains the following column names:</p>
+<div class="table-wrap"><table><thead><tr><th>Unique ID</th><th>A unique ID for the bill item/category record in the form of a guid, e.g. “46030856-EA64-BA45-BE02-D1C63FC9B8E3”</th></tr></thead><tbody><tr><td>Key</td><td>The item/category key (excluding keys of ancestor categories)</td></tr><tr><td>Reference</td><td>An optional external reference ID</td></tr><tr><td>Title</td><td>The item/category name</td></tr><tr><td>Description</td><td>The item/category description</td></tr><tr><td>Rate</td><td>The item unit rate</td></tr><tr><td>Unit</td><td>The unit name</td></tr><tr><td>Last Edit Time</td><td>The last time the record was edited conforming to ISO 8601</td></tr><tr><td>Category ID</td><td>The unique ID of the parent category in the form of a guid</td></tr><tr><td>Category Key</td><td>The key of the parent category</td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360001401256">
+  <div class="art-h"><span class="no">15</span><h3>4.1 Overview</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401256-4-1-Overview" target="_blank" rel="noopener">MyCi 知识库 · 4.1 Overview</a></div>
+  <p>Standardised measurement methods are at the heart of Quantities, defining how and when a quantity should be calculated from an ARCHICAD model element.</p>
+<p>Elements rarely have a simple connection to a single bill item, apart from a basic count of fixtures and fittings. A single wall could contribute to external cladding, multiple construction materials(including insulation), reinforcing, any combination of internal/external finishes and much more. And beyond that, an element could represent construction not suggested by the tool it was drawn with, e.g. a wall representing a services trench that could be measured for excavation, retaining, foundation/bedding, labour, service runs length (pipe/cable etc), equipment hire and any number of other components.</p>
+</div>
+<div class="art" id="a-360001393915">
+  <div class="art-h"><span class="no">16</span><h3>4.2 Measurement Recipes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393915-4-2-Measurement-Recipes" target="_blank" rel="noopener">MyCi 知识库 · 4.2 Measurement Recipes</a></div>
+  <p>Measurements in Quantities are defined in recipes to conform to the concept that calculation of cost is usually a combination of many ingredients rather than simply counting or totalling some property of elements. A recipe can bind together any number of measurements, each of which can reference any combination of element properties and geometry, and couple them with rules governing which bill item they contribute to and when each measurement should be taken.</p>
+<p>The following sections will start with basic counting recipes and work up gradually to implementing calculations, optional/automatic measurements and finishing with some common examples and questions.</p>
+<p>Measurement recipes are viewed in the Quantity Take-off Manager, which can be opened by clicking the menu item CI Tools > Quantities > Quantity Take-off Manager and selecting the Recipes tab. All Quantities palettes also display an icon to quickly open the manager dialog (</p>
+<p><img src="img/360001393915_0.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
+<p>).</p>
+<p><img src="img/360001393915_1.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
+<p>The key features of the manager are:</p>
+<ul>
+<li>An option to manage either the bill structure or measurement recipes. The UI structure reflects the close bond between the bill structure and recipes. Click Recipes for the purpose of this section.</li>
+</ul>
+<ul>
+<li>An uneditable view of the bill structure, primarily for the purpose of defining connections between bill items and measurements (more details in panel 4). Its features include: a. A bill filter – enter any part of a name to show matching items only. b. The bill structure. Categories can be expanded or collapsed, and both the project and linked bills are included. c. Additional bill filters. The View As menu is primarily for hierarchical bill structures and either display the Full BoQ Structure (as shown above) or a Flat Bill Item List (omitting all the categories and just listing bill items). Show unused items only filters the bill to display only items that haven’t been linked to a recipe, useful for ensuring project costs have not been overlooked (see section 6, Auditing for more QA features).</li>
+</ul>
+<ul>
+<li>The list of recipes with buttons for creating, deleting, importing and exporting bill items. Each recipe is preceded by a checkbox that toggles it on or off (turning it off prevents the recipe from calculating quantities). Measurements taken by the recipe are listed in the panel below (see 4 below). Multiple items can be selected for quick editing or deletion, but only the measurements for the foremost selected recipe can be edited in the following panels.</li>
+</ul>
+<ul>
+<li>The properties of the selected recipe, including: a. An expression that can automatically attach the recipe to target elements. The recipe attaches to any element for which the expression is true. For example, if a recipe is applicable to any wall containing a brick material the linking expression could be:</li>
+</ul>
+<p> wall.material contains “brick”</p>
+<p>More information can be found in section 4.5 and expression examples in 4.5.6. b. The list of measurements taken by this recipe, summarising the linked bill item key/name and the quantity calculation. The details of the selected measurement are displayed (and can be edited) in the panel below (see panel 5 below). Multiple measurements can be selected, but only the details of the foremost selected row can be viewed or edited. c. This button is enabled when at least one bill item is selected in panel 2. When clicked, the selected bill items are added to the list of recipe measurements. Each bill item can only be added to a recipe once – any additional attempts will be ignored. d. This button is enabled when an item is selected in panel 2 and an item selected in the list of measurements. When clicked, the selected bill item replaces whatever bill item was linked to the selected measurement. This is a much quicker than removing the old item, adding the replacement and recreating the calculations. e. This button is enabled when an item is selected in the list of measurement. When clicked, the item is removed from the list of measurements.</p>
+<ul>
+<li>The properties of the selected measurement (in panel 4). These expressions determine when the measurement is taken and how it is calculated: a. An optional expression to determine when the measurement should be taken. If nothing is entered, the quantity calculation will be applied to every element the recipe is attached to. This option can help reduce the complexity of the expression in 4a, help to avoid creating many recipes for very narrow purposes and allow recipes to take many measurements targeting a common theme. For example, a recipe may be created for calculating quantities related to brick walls which includes a calculation for the number of brick ties – but only for relevant walls. Target walls could be found on the basis of the geometry, construction and/or properties. Another use is measuring a product that has to be priced against a wide range of sizes, e.g. waste pipes. The recipe could have a general condition that automatically attaches to relevant drainage objects, but the range of bill items associated with waste pipe products could each have an expression ensuring it only counts the relevant size. Quantities will immediately check a newly entered expression and provide feedback if it can’t be understood. The text of an invalid expression will persist as long as the measurement remains selected in the list, but will be discarded when another measurement or recipe is selected (and the previous text will be restored). b. The quantity calculation. This is covered in more depth in section 4.4, and detailed documentation for expressions can be found in section 7, Element Calculation Expressions. The breadth of calculations is very broad, ranging from a fixed, numeric value through to complex expressions involving properties, parameters, geometry, attributes and much more. A basic example that simply counts each item is shown in section 4.3.1. Anything with a name, e.g. attributes, properties and parameters, can be isolated by name, e.g. the volume of the insulation skin in a wall could be measured with:</li>
+</ul>
+<p> wall.material("Insulation").volume</p>
+<p>Quantities will always ensure the result is zero if any part of the calculation is can’t be applied to a measured element, for example if the above expression is used on an element that is not a wall or does not have a material called “Insulation”. Expressions can also reference names of materials, properties etc. that do not exist in the current project. The intention is to allow calculations to be written generically for broad applicability without fear of a stream of error messages or bogus results, supporting the concept of template recipes that can be shared across many projects. Quantities will immediately check a newly entered expression and provide feedback if it can’t be understood. The text of an invalid expression will persist as long as the measurement remains selected in the list, but will be discarded when another measurement or recipe is selected (and the previous text will be restored).</p>
+</div>
+<div class="art" id="a-360001393935">
+  <div class="art-h"><span class="no">17</span><h3>4.2.1 How to create a recipe</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393935-4-2-1-How-to-create-a-recipe" target="_blank" rel="noopener">MyCi 知识库 · 4.2.1 How to create a recipe</a></div>
+  <p>Click the New button (item 3b in the illustration). A new recipe will be displayed and selected in panel 3, with its measurements shown in panel 4. The new recipe will be active, but can be disabled (see section 4.2.4).</p>
+<p>If an existing recipe is selected when New is clicked, the new recipe will be an exact duplicate of the selected recipe (a number may be appended to ensure the name is unique).</p>
+<p>Add a bill item to the list of measurements and define a quantity calculation to complete the recipe.</p>
+</div>
+<div class="art" id="a-360001393955">
+  <div class="art-h"><span class="no">18</span><h3>4.2.2 How to delete a recipe</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393955-4-2-2-How-to-delete-a-recipe" target="_blank" rel="noopener">MyCi 知识库 · 4.2.2 How to delete a recipe</a></div>
+  <p>Select one or more items to be deleted and click the Delete button (item 3c in the illustration). Deleted items can be subsequently recovered (see section 2.3.3).</p>
+</div>
+<div class="art" id="a-360001393975">
+  <div class="art-h"><span class="no">19</span><h3>4.2.3 How to view and restore deleted recipes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393975-4-2-3-How-to-view-and-restore-deleted-recipes" target="_blank" rel="noopener">MyCi 知识库 · 4.2.3 How to view and restore deleted recipes</a></div>
+  <p>Because accidental or mistaken bill item deletion could have serious implications for the calculated BoQ, the add-on has some features that simplify the process of identifying and correcting this problem. For example, a deleted recipe manually linked to an element will be highlighted in red in the Settings dialog or Quantities Info palette.</p>
+<p>The software also maintains a history of deleted recipes to facilitate recovery. Select either of the following in the Status menu (item 3f in the illustration) to allow previously deleted recipes to be visible:</p>
+<ul>
+<li>All : Both active and deleted recipes are shown (deleted recipes are displayed in italics)</li>
+</ul>
+<ul>
+<li>Deleted : Only deleted recipes are shown</li>
+</ul>
+<p>When a deleted recipe is selected, the Delete button changes to Restore, and clicking it restores the recipe(s) to normal use.</p>
+<p>Set the Status menu to Current to resume viewing active recipes only.</p>
+</div>
+<div class="art" id="a-360001393995">
+  <div class="art-h"><span class="no">20</span><h3>4.2.4 How to prevent a recipe from being used in the project</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393995-4-2-4-How-to-prevent-a-recipe-from-being-used-in-the-project" target="_blank" rel="noopener">MyCi 知识库 · 4.2.4 How to prevent a recipe from being used in the project</a></div>
+  <p>Quantities is designed to support the concept of a master or template recipe list that can be shared across many projects, but some recipes may not be appropriate in every case. The status of every recipe is determined by the adjacent checkbox in the Recipe Manager list. Simply uncheck this box to disable the recipe in the open project.</p>
+<p><img src="img/360001393995_0.jpg" alt="4.2.4 How to prevent a recipe from being used in the project 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-360001394015">
+  <div class="art-h"><span class="no">21</span><h3>4.2.5 How to import recipes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001394015-4-2-5-How-to-import-recipes" target="_blank" rel="noopener">MyCi 知识库 · 4.2.5 How to import recipes</a></div>
+  <p>Click the Import button (item 2d in the illustration). A standard file navigation dialog will be displayed to select a recipe file to import (.quants extension). All imported recipes will be merged with any existing recipes to ensure links to existing project elements are not broken.</p>
+</div>
+<div class="art" id="a-360001394035">
+  <div class="art-h"><span class="no">22</span><h3>4.2.6 How to export recipes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001394035-4-2-6-How-to-export-recipes" target="_blank" rel="noopener">MyCi 知识库 · 4.2.6 How to export recipes</a></div>
+  <p>Click the Export button (item 2e in the illustration). A standard file navigation dialog will be displayed to specify the name and location of the exported file (.quants).</p>
+<p>Note that the exported recipes will include the linked bill of quantities because they cannot function independently.</p>
+</div>
+<div class="art" id="a-360001394055">
+  <div class="art-h"><span class="no">23</span><h3>4.3 Recipe Basics</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001394055-4-3-Recipe-Basics" target="_blank" rel="noopener">MyCi 知识库 · 4.3 Recipe Basics</a></div>
+  <p>This section walks through the process of using recipes using a very simple example – counting elements the recipe is attached to.</p>
+<p>While this isn’t remotely challenging, it demonstrates the processes that are fundamental to even the most complex measurements.</p>
+<p>It is assumed that at least one bill item has been defined for the purpose of this exercise. If not:</p>
+<ul>
+<li>Open the Quantity Take-off Manager by clicking the menu item CI Tools > Quantities > Manage Quantity Take-off and click the Bill Structure tab.</li>
+</ul>
+<ul>
+<li>Click the New button to create a bill item. Feel free to fill in a name, unit and rate for the bill item if desired.</li>
+</ul>
+</div>
+<div class="art" id="a-360001394075">
+  <div class="art-h"><span class="no">24</span><h3>4.3.1 How to create a simple 'counting' recipe</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001394075-4-3-1-How-to-create-a-simple-counting-recipe" target="_blank" rel="noopener">MyCi 知识库 · 4.3.1 How to create a simple 'counting' recipe</a></div>
+  <p>The steps are numbered in the following illustration:</p>
+<p><img src="img/360001394075_0.jpg" alt="4.3.1 How to create a simple 'counting' recipe 示意图" loading="lazy"></p>
+<ul>
+<li>Open the Quantity Take-off Manager by clicking the menu item CI Tools > Quantities > Manage Quantity Take-off and click the Recipes tab.</li>
+</ul>
+<ul>
+<li>Click New to create a new recipe and enter a name, e.g. Example recipe</li>
+</ul>
+<ul>
+<li>Select a bill item from the list to the left</li>
+</ul>
+<ul>
+<li>Click the Attach button to add this bill item to be measured by the recipe</li>
+</ul>
+<ul>
+<li>Enter just the number 1 in the Quantity= field. This simply means that 1 is added to the total for every element this recipe is attached to.</li>
+</ul>
+<ul>
+<li>Click OK to accept the recipe addition.</li>
+</ul>
+</div>
+<div class="art" id="a-360001394095">
+  <div class="art-h"><span class="no">25</span><h3>4.3.2 How to manually attach a recipe to an element</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001394095-4-3-2-How-to-manually-attach-a-recipe-to-an-element" target="_blank" rel="noopener">MyCi 知识库 · 4.3.2 How to manually attach a recipe to an element</a></div>
+  <p>Continue from the steps in section 4.3.1. The steps are numbered in the following illustration:</p>
+<p><img src="img/360001394095_0.jpg" alt="4.3.2 How to manually attach a recipe to an element 示意图" loading="lazy"></p>
+<ul>
+<li>Place and select some chairs in the floor plan.</li>
+</ul>
+<ul>
+<li>If the Quantity Info palette is not already visible, show it by clicking the menu CI Tools > Quantities > Quantities Take-off Palette… Click the Live edit checkbox if it isn’t already ticked.</li>
+</ul>
+<ul>
+<li>Click the add button () at the base of the recipes panel</li>
+</ul>
+<ul>
+<li>Select your new recipe from the list and click OK</li>
+</ul>
+<p>The recipe is now attached to the selected elements and will display in the palette whenever one of them is selected. Refer to section 2.3, Managing Quantity Traits for more detailed information about attaching recipes to elements.</p>
+</div>
+<div class="art" id="a-360001401696">
+  <div class="art-h"><span class="no">26</span><h3>4.3.3 How to view the scheduled result</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401696-4-3-3-How-to-view-the-scheduled-result" target="_blank" rel="noopener">MyCi 知识库 · 4.3.3 How to view the scheduled result</a></div>
+  <p>Continue from the steps in sections 4.3.1 and 4.3.2. The steps are numbered in the following illustration:</p>
+<p><img src="img/360001401696_0.jpg" alt="4.3.3 How to view the scheduled result 示意图" loading="lazy"></p>
+<ul>
+<li>If the Bill of Quantities palette is not already visible, show it by clicking the menu CI Tools > Quantities > Bill of Quantities Palette… Set the Scope menu to Entire Project so that all elements will be measured.</li>
+</ul>
+<ul>
+<li>Click the Calculate button to start the measurement process.</li>
+</ul>
+<ul>
+<li>The bill items will be listed below – look for the measurement from the example recipe counting the number of elements linked to that recipe (3 in the image above). Refer to section 5, Generating Quantities for more detailed information about scheduling quantities.</li>
+</ul>
+</div>
+<div class="art" id="a-360001401716">
+  <div class="art-h"><span class="no">27</span><h3>4.34 How to automatically attach a recipe to elements</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401716-4-34-How-to-automatically-attach-a-recipe-to-elements" target="_blank" rel="noopener">MyCi 知识库 · 4.34 How to automatically attach a recipe to elements</a></div>
+  <p>Continue from the steps in sections 4.3.1 to 4.3.3. The steps are numbered in the following illustration:</p>
+<p><img src="img/360001401716_0.jpg" alt="4.34 How to automatically attach a recipe to elements 示意图" loading="lazy"></p>
+<ul>
+<li>Add some walls over 2m high in the floor plan</li>
+</ul>
+<ul>
+<li>Open the Quantity Take-off Manager by clicking the menu item CI Tools > Quantities > Manage Quantity Take-off and click the Recipes tab. Select the example recipe created earlier and click in the Add When field. We want this recipe to attach to the walls we just added, so the rule should be “any element that is a wall type and higher than 2m”. We could write,</li>
+</ul>
+<p> element.type = “Wall” and element.height > 2</p>
+<p>…but we can simplify this by directly targeting walls:</p>
+<p> wall.height > 2</p>
+<p>By prefixing height with wall instead of element, anything that isn’t a wall is eliminated. Enter this in the field as shown and click OK.</p>
+<ul>
+<li>Click Calculate again in the Bill of Quantities palette to recalculate the project quantities. The total should now include the both the manually and automatically linked elements:</li>
+</ul>
+<p><img src="img/360001401716_1.jpg" alt="4.34 How to automatically attach a recipe to elements 示意图" loading="lazy"></p>
+<p>The result is a total of 3 chairs with the recipe manually attached and 2 walls automatically attached for a total of 5. Note that the automatic attachment rule is ignored when the recipe is manually attached to an element, but it is still possible to attach further rules in this case (refer to section 4.6, Optional Measurements).</p>
+</div>
+<div class="art" id="a-360001401736">
+  <div class="art-h"><span class="no">28</span><h3>4.4 Calculated Measurements</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401736-4-4-Calculated-Measurements" target="_blank" rel="noopener">MyCi 知识库 · 4.4 Calculated Measurements</a></div>
+  <p>Section 4.3 provides a basic overview for using recipes, but the measurement (counting the elements) is easy to achieve by other means. The real power of Quantities lies in richer expressions for determining how and when elements are measured. This section delves into resources of a BIM project that can be used for measurement.</p>
+<p>Note that a complete reference of the available expressions is provided in section 7. This section provides some explanation or insight into the way BIM projects can be measured through calculations.</p>
+</div>
+<div class="art" id="a-360001401756">
+  <div class="art-h"><span class="no">29</span><h3>4.4.1 What happens if a calculation relies on data that doesn't exist in the project?</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401756-4-4-1-What-happens-if-a-calculation-relies-on-data-that-doesn-t-exist-in-the-project" target="_blank" rel="noopener">MyCi 知识库 · 4.4.1 What happens if a calculation relies on data that doesn't exist in the project?</a></div>
+  <p>When a calculation references data that doesn’t exist – for whatever reason – it does not cause an error or interrupt the measurement process. The value for that property is treated as void or empty, and the result of any calculation using that value will also become void, ultimately yielding a zero/false result. This means that the tests for attaching a recipe or actioning a measurement can include a property name – if the property doesn’t exist, the result is false and the action is not taken.</p>
+<p>This makes it far easier to create and maintain template recipes that are applicable across a wide range of projects, even when the currently open project is completely empty.</p>
+</div>
+<div class="art" id="a-360004150515">
+  <div class="art-h"><span class="no">30</span><h3>4.4.10 How to use object parameters</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150515-4-4-10-How-to-use-object-parameters" target="_blank" rel="noopener">MyCi 知识库 · 4.4.10 How to use object parameters</a></div>
+  <p>All parameters can be accessed with the expression <em>element.parameter</em>followed by the name of the required parameter, e.g.:</p>
+<p><em>element.parameter.gs_list_manufacturer</em></p>
+<p>Note that it not necessary to enclose the parameter name in quote marks or parentheses. The resulting value is void if the element either doesn’t have parameters or doesn’t have a parameter with the requested name – this does not cause errors and any calculations using that value will yield a result of zero.</p>
+<p>If the parameter is an array, only the first value of the array is returned. <em>Quantities</em>is highly tolerant of parameter value type differences as noted in section 4.4.2, <em>Does the data type matter?</em>.</p>
+</div>
+<div class="art" id="a-360004150535">
+  <div class="art-h"><span class="no">31</span><h3>4.4.11 How to use IFC properties and attributes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150535-4-4-11-How-to-use-IFC-properties-and-attributes" target="_blank" rel="noopener">MyCi 知识库 · 4.4.11 How to use IFC properties and attributes</a></div>
+  <p>IFC properties and attributes can be used in exactly the same way as ARCHICAD properties (see section 4.4.7, <em>How to use properties</em>). IFC property sets are referenced just like ARCHICAD property groups, and prefixing the set name to the IFC property name is also optional (if you are confident the property name is unique). IFC attributes are not arranged in sets and should be referenced by name alone. Examples follow below:</p>
+<div class="table-wrap"><table><thead><tr><th>IFC property with set</th><th>*element.ifcProperty("Pset_QuantityTakeOff::Reference")*</th></tr></thead><tbody><tr><td>IFC property</td><td>*element.ifcProperty("Reference")*</td></tr><tr><td>IFC attribute</td><td>*element.ifc**A**ttribute**("Description")*</td></tr></tbody></table></div>
+<p>The resulting value is void if the element doesn’t have an IFC property/attribute with the requested name – this does not cause errors and any calculations using that value will yield a result of zero. <em>Quantities</em>is highly tolerant of property value type differences, as noted in section 4.4.2, <em>Does the data type matter?</em>. Units are defined by the IFC documentation and calculations using them may need to incorporate a conversion factor.</p>
+</div>
+<div class="art" id="a-360001401776">
+  <div class="art-h"><span class="no">32</span><h3>4.4.2 Does the data type matter?</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401776-4-4-2-Does-the-data-type-matter" target="_blank" rel="noopener">MyCi 知识库 · 4.4.2 Does the data type matter?</a></div>
+  <p>Quantities is very tolerant with mixed data types. If it finds a number where text is expected, it converts the number to text (and vice-versa). Where text is found when a number is expected, a conversion from the text to a number will be attempted – the result will be zero if no numeric characters are found. So the following statements are functionally identical:</p>
+<pre><code>element.height > 2</code></pre>
+<pre><code>element.height > “2”</code></pre>
+<p>The same is true for different unit types, e.g. you can mix any type of property even if they mix volume, length etc., e.g.:</p>
+<pre><code>element.area > element.perimeter</code></pre>
+<p>The unit type of the bill item is also irrelevant to the units of any values used in the calculation. A bill can measure quantities in non-standard ways, e.g. bags, so the software assumes the user knows what is required.</p>
+</div>
+<div class="art" id="a-360001394355">
+  <div class="art-h"><span class="no">33</span><h3>4.4.3 What units are used for numeric values?</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001394355-4-4-3-What-units-are-used-for-numeric-values" target="_blank" rel="noopener">MyCi 知识库 · 4.4.3 What units are used for numeric values?</a></div>
+  <p>All geometric element measurements, e.g. height, area, volume, are metric and based on metres, i.e. any measurement of length is in metres, area in metres squared and volume in metres cubed. So if a wall is drawn 3 feet high (using imperial units), the expression wall.height will yield 0.9144. Any numbers in a calculation are not assumed to be any unit and are read at face value, i.e. no conversion is applied.</p>
+<p>Explicit unit conversions can be used if required, so a wall height compared to a figure in imperial units could be written as:</p>
+<pre><code>wall.height > 3ft</code></pre>
+<p>…or…</p>
+<pre><code>wall.height > 3’</code></pre>
+<p>Available units include mm, cm, in (“), ft (‘), mm2, cm2, in2, ft2, mm3, cm3, in3, ft3.</p>
+<p>Note that Quantities does not make any assumptions about the units of the calculated result based on the data extracted from elements or any numeric values with a unit suffix, and will not apply any conversions based on the unit selected for the target bill item. For example, you would need to multiply a calculated result by 1000 if you wanted to extract a length from ARCHICAD (which is in metres) and attach it to a bill item measured in millimetres.</p>
+</div>
+<div class="art" id="a-360004150435">
+  <div class="art-h"><span class="no">34</span><h3>4.4.4 How to measure basic element geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150435-4-4-4-How-to-measure-basic-element-geometry" target="_blank" rel="noopener">MyCi 知识库 · 4.4.4 How to measure basic element geometry</a></div>
+  <p>The majority of geometry expressions are fairly generic and apply to all elements, e.g. <em>height</em>, <em>width</em>, <em>depth</em>, <em>perimeter</em>,<em>area</em>and <em>volume</em>. Application to measurements is straightforward, e.g. calculating the volume of a box bounding an element:</p>
+<p><em>element.height </em> element.width <em> element.depth</em></p>
+<p>The precise element simply <em>element.volume</em>. Some information about the element’s home storey is also available including:</p>
+<div class="table-wrap"><table><thead><tr><th>Storey base level:Storey height:</th><th>*element.storey.level****element.storey.height*</th></tr></thead><tbody></tbody></table></div>
+<p> A full list of geometry measurements can be found in section 7.2.</p>
+</div>
+<div class="art" id="a-360004150455">
+  <div class="art-h"><span class="no">35</span><h3>4.4.5 How to measure the geometry of specific elements</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150455-4-4-5-How-to-measure-the-geometry-of-specific-elements" target="_blank" rel="noopener">MyCi 知识库 · 4.4.5 How to measure the geometry of specific elements</a></div>
+  <p>Some element types have unique geometric characteristics including:</p>
+<ul>
+<li>Zones (section 7.9 )</li>
+</ul>
+<ul>
+<li>Openings (section Error: Reference source not found )</li>
+</ul>
+<ul>
+<li>Walls (section 7.11 )</li>
+</ul>
+<ul>
+<li>Columns (section 7.14 )</li>
+</ul>
+<ul>
+<li>Beams (section 7.17 )</li>
+</ul>
+<ul>
+<li>Slabs (section 7.22 )</li>
+</ul>
+<ul>
+<li>Roofs (section 7.24 )</li>
+</ul>
+<p>For example, <em>Opening</em> elements (doors, windows etc) provide the size of the reveals. In every case, prefix the required measurement with the relevant element type, e.g. for opening reveals:</p>
+<div class="table-wrap"><table><thead><tr><th>Reveal width:Reveal depth:Reveal surface:</th><th>*opening.widthReveal****opening.depthRevealopening.surfaceReveal*</th></tr></thead><tbody></tbody></table></div>
+<p>Note that setout measurements of a roof, e.g. ridge/hip/valley length, rely on appropriate roof edge tagging in ARCHICAD.</p>
+</div>
+<div class="art" id="a-360004150475">
+  <div class="art-h"><span class="no">36</span><h3>4.4.6 How to use a list of values</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150475-4-4-6-How-to-use-a-list-of-values" target="_blank" rel="noopener">MyCi 知识库 · 4.4.6 How to use a list of values</a></div>
+  <p>Some expressions might provide more than one value, e.g. the materials in a multi-skin wall (retrieved with <em>material</em>). Any expression that can potentially reply with more than one value always responds with a list, so cannot be treated as if it were a single value. Instead, <em>Quantities</em> provides expressions that searches for values in a list:</p>
+<div class="table-wrap"><table><thead><tr><th>**includes**</th><th>*element.material includes “Brick”*</th><th>Searches for an item in the list exactly matching the text. The sample expression would only find “Brick”, not “Red Brickwork” or “Brick – Engineered” etc.</th></tr></thead><tbody><tr><td>**contains**</td><td>*element.material contains “Brick”*</td><td>Searches for an item in the list containing the text. The sample expression would find “Brick”, “Red Brickwork” or “Brick – Engineered” etc.</td></tr></tbody></table></div>
+<p>The items in some lists, including <em>materials</em>, <em>properties</em>, <em>parameters</em> etc, have associated values, e.g. a <em>material</em> has an <em>area</em>and <em>volume</em>. To reference a single item in a list, add the name of the item in parenthesis, e.g.:</p>
+<p><em>element.material(“Red Brick”)</em></p>
+<p>Note that no errors or problems arise if the name can’t be found in the list – it simply means that any calculations using that item are void, i.e. the result will always be zero. If the item has multiple values, it can be followed with the expression for the required value, e.g. the volume of a specific material would be:</p>
+<p><em>element.material(“Red Brick”).volume</em></p>
+<p>Some list items are also arranged in groups, including ARCHICAD properties (section 4.4.7) and IFC properties (section 4.4.11). The item name might only be unique within its own group, in which case it can be prefixed with the group name as follows:</p>
+<p><em>element.property(“Common::Description”)</em></p>
+<p>This example would retrieve a property called “Description” from a group called “Common”. Properties with the same name in other groups will be ignored. In this case, the result is a single value and can be used like this:</p>
+<p><em>element.property(“Common::Description”) startsWith “Fixtures”</em></p>
+<p>This example will only calculate as <em>true</em> if the element has a property called “Description” in a group called “Common” and its value starts with “Fixtures”, e.g. “Fixtures::Sanitary”. If the element doesn’t have that property or the value doesn’t match, the result is <em>false</em>. An expression like this can be used as the basis for automatically attached recipes (section 4.5) or taking optional measurements (section 4.6).</p>
+<p>It is also possible to enter a list of values to be compared to data from ARCHICAD in order to avoid long, repetitive statements like:</p>
+<p><em>(element.type = “Wall”) or (element.type = “Column”) or (element.type = “Beam”)</em></p>
+<p>Statements like this can be much longer, rapidly becoming tedious to write and difficult to read. <em>Quantities</em>provides two expressions to condense these statements:</p>
+<div class="table-wrap"><table><thead><tr><th>**in**</th><th>*element.type in (“Wall, “Column”, “Beam”)*</th><th>Searches the list of values for an exact match to the data value. In the example, only an element type of “wall”, “column” or “beam” is a match.</th></tr></thead><tbody><tr><td>**has**</td><td>*element.material h**as* *(**“Brick”, “**Concrete”)*</td><td>Searches the list of values for a partial match to the data value. In the example, any material name containing the word “brick” or “concrete” is a match including “**Brick**work”, “Structural **Concrete**”, “Masonry – Engineered **Brick**-2”</td></tr></tbody></table></div>
+<p>Note that both these expressions can be used to find a match to a single data value (<em>element.type</em>) or a list of values (<em>element.material</em>).</p>
+</div>
+<div class="art" id="a-360004057096">
+  <div class="art-h"><span class="no">37</span><h3>4.4.7 How to use properties</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057096-4-4-7-How-to-use-properties" target="_blank" rel="noopener">MyCi 知识库 · 4.4.7 How to use properties</a></div>
+  <p>ARCHICAD properties provide a rich calculation engine in their own right and should be exploited as fully as possible for quantity calculations. Even if no calculations outside properties are required, <em>Quantities</em> will ensure the results are allocated to the correct bill items. But there is much more you can do with <em>Quantities –</em> accessing parameters, IFC properties and lists of finishes/materials etc. – and properties often simply contain raw values essential for complex measurements.</p>
+<p>Note that a calculation can include any property name you like – <em>Quantities</em> does not require the property to exist in order to accept the expression (refer to section 4.4.1 above). This makes it far easier to create template recipes that are applicable across a wide range of projects.</p>
+<p>Element properties are retrieved in the following way:</p>
+<p><em>element.property</em></p>
+<p>Elements may have many properties, so the result is in a list (see section 4.4.6 for more detail). We can work with the value of a specific value by specifying its name and group:</p>
+<p><em>element.property(“<property group name>::<property name>”)</em></p>
+<p>A property group name is optional, but if there are multiple properties with the same name (which ARCHICAD permits in separate groups) <em>Quantities</em> will take the first one it finds. For example, to get the ‘volume per brick’ from a property called <em>Brick volume</em> in a group called <em>Masonry</em> we could write:</p>
+<div class="table-wrap"><table><thead><tr><th>With group:Without group:</th><th>*element.property(“Masonry::Brick volume”)element.property(“Brick volume”)*</th></tr></thead><tbody></tbody></table></div>
+<p>To ensure the property was only extracted for walls, the expression could be:</p>
+<p><em>wall.property(“Brick volume”)</em></p>
+<p>If the number of bricks was to be calculated based on a specific material called <em>Masonry – Brick</em> (assuming the brick volume accounts for mortar), the total volume of skins of that material in a wall is required (see section 4.4.8):</p>
+<p><em>wall.material(“Masonry – Brick”).volume</em></p>
+<p>The calculation for the total number of bricks would divide that volume by the single brick volume like so:</p>
+<p><em>wall.material(“Masonry – Brick”).volume / wall.property(“Brick volume”)</em></p>
+<p>When an element doesn’t fit any of the necessary criterion (not a wall, doesn’t have a skin of <em>Masonry – Brick</em>, doesn’t have a property called <em>Brick Volume</em>) the result is zero (no errors will occur, mathematical or otherwise).</p>
+</div>
+<div class="art" id="a-360004057116">
+  <div class="art-h"><span class="no">38</span><h3>4.4.8 How to use materials</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057116-4-4-8-How-to-use-materials" target="_blank" rel="noopener">MyCi 知识库 · 4.4.8 How to use materials</a></div>
+  <p>A single element may contain any number of materials, so the expression <em>element.material</em> provides a list (see section 4.4.6 for more detail). The list could be empty (e.g. for a <em>fill</em> element) or have a single item, but should always be treated as a list in calculations. It has two possible uses:</p>
+<ul>
+<li>Searching for materials based on the name</li>
+</ul>
+<p> This is often useful for attaching recipes automatically based on its materials (see section 4.5) or determining which measurements the recipe should make (see section 4.6). Consider a recipe intended to take measurement of all types of brick – it might automatically attach to any wall with a material containing the word “brick”:</p>
+<p> wall.material contains “brick”</p>
+<p> This would attach to walls with materials like “ Brick ”, “Red Brick work”, “ Brick – Engineered”, “Reclaimed Brick ” etc.</p>
+<p> The recipe might have a long list of measurements, each targeting a specific type of brick by a suitable expression, e.g.:</p>
+<p> wall.m aterial includes “Brick – Furness Handbridge Blend 215”</p>
+<p> The associated quantity calculation will only be made when the wall includes a material exactly matching the name “Brick – Furness Handbridge Blend 215”.</p>
+<ul>
+<li>Calculating geometric material quantities</li>
+</ul>
+<p> Every material in a list has an area and volume that can be used in quantity calculations. A specific material can be referenced in a list by appending its name, e.g. for a material called “Red Brick”:</p>
+<p> element.material(“Red Brick”)</p>
+<p> The name must be an exact match, e.g. the above would not find “Red Brick 1”. The material quantities include:</p>
+<p> area</p>
+<p> element.material(“Red Brick”). area</p>
+<p> T he floor plan area</p>
+<p> volume</p>
+<p> element.material(“Red Brick”). volume</p>
+<p> T he total volume</p>
+<p> I f an element contains multiple skins matching the specified material, area and volume will total up the quantities from them all.</p>
+</div>
+<div class="art" id="a-360004150495">
+  <div class="art-h"><span class="no">39</span><h3>4.4.9 How to use finishes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150495-4-4-9-How-to-use-finishes" target="_blank" rel="noopener">MyCi 知识库 · 4.4.9 How to use finishes</a></div>
+  <p>ARCHICAD ‘Surfaces’ are named ‘Finishes’ for measurement purposes to avoid confusion with measurement of surface area and to clarify the intended meaning. Like materials, there can be any number of finishes applied to the same element, so a request for the element <em>finishes</em> delivers a list of items (see section 4.4.6). This can be used in exactly the same way as materials (see section 4.4.8) with the exception that referencing a specific finish, e.g. <em>wall.finishes(“Paint-White”)</em>, directly provides the total area the finish has been applied to, i.e. it is not necessary to write <em>wall.finishes(“Paint-White”).area</em>.</p>
+</div>
+<div class="art" id="a-360004150555">
+  <div class="art-h"><span class="no">40</span><h3>4.5 Automatic Measurements</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150555-4-5-Automatic-Measurements" target="_blank" rel="noopener">MyCi 知识库 · 4.5 Automatic Measurements</a></div>
+  <p>While it is sometimes necessary to manually select a recipe for measuring a BIM project element, the real power of <em>Quantities</em> is harnessed through rules that automatically take the required measurements. By defining rules based on templated attributes, properties and classifications, any project modelled from those templates can be costed at any time without any additional effort.</p>
+</div>
+<div class="art" id="a-360004150575">
+  <div class="art-h"><span class="no">41</span><h3>4.5.1 How to automatically link a recipe to an element</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150575-4-5-1-How-to-automatically-link-a-recipe-to-an-element" target="_blank" rel="noopener">MyCi 知识库 · 4.5.1 How to automatically link a recipe to an element</a></div>
+  <p>All recipes can define a rule to automatically bind it to target elements – refer to item 4a in the illustration of section 4.2 for <em>Measurement Recipes</em>. The rule is an expression which is true for the target elements. If the target is <em>any element of a wall type</em>, the expression would be:</p>
+<p><em>element.type = “Wall”</em></p>
+<p>Conversely, if we wanted everything that was <em>not</em> a wall type:</p>
+<p><em>not(element.type = “Wall”)</em></p>
+<p>There can be multiple conditions in the rule joined with “and” or “or”. If, for example, drainage services are represented by elements that are:</p>
+<ul>
+<li>of a wall type wall or a beam type</li>
+</ul>
+<ul>
+<li>… and its ID contains the text “pipe”</li>
+</ul>
+<p>…we could write this as:</p>
+<p><em>(element.type = “Wall” <strong>or</strong> element.type = “Beam”) <strong>and</strong> element.id contains “pipe”</em></p>
+<p>Note that the check for a wall or beam are enclosed in parentheses – this means it will be checked first, i.e. before looking at anything outside the parentheses. The rule would still be accepted without them, but the meaning is ambiguous – another possible meaning is the elements are:</p>
+<ul>
+<li>o f a wall type</li>
+</ul>
+<ul>
+<li>… or of a beam type and its ID contains “pipe”</li>
+</ul>
+<p>…which would target all walls and any beam with any ID containing “pipe”. A useful guideline is that you only need parentheses if the expression combines both “and” and “or”, and put them around any conditions containing “and”.</p>
+</div>
+<div class="art" id="a-360004057136">
+  <div class="art-h"><span class="no">42</span><h3>4.5.2 How to identify an element (type, name, ID)</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057136-4-5-2-How-to-identify-an-element-type-name-ID" target="_blank" rel="noopener">MyCi 知识库 · 4.5.2 How to identify an element (type, name, ID)</a></div>
+  <p>There are two ways to identify a specific element type:</p>
+<ul>
+<li>If the purpose is only to confirm that an element is a specific type, e.g. in the rule to attach a recipe to an element, the easiest method is to request the type for comparison, e.g.:</li>
+</ul>
+<p> element.type = “Wall”</p>
+<p> element.type = “Slab”</p>
+<ul>
+<li>For both confirming the element type and making calculations, the type can be asserted in the expression. For example, when checking that an element is a wall with a height greater than 2m, the most obvious expression would be:</li>
+</ul>
+<p> element.type = “Wall” and element.height > 2</p>
+<p> … but the expression for height could also assert that the type is a wall:</p>
+<p> wall.height > 2</p>
+<p> The effect is the same as checking that the element is wall, and asking for the height of a non-wall in this way yields a zero result.</p>
+<p>The full list of supported element types (and their names) can be found in section 7.3, <em>Element Identification</em>.</p>
+<p>A <em>name</em> value is available for all object-based (parametric) elements, e.g. Object, Door, Window, Zone etc. and provides the name of the library part. For example, the rule to attached a recipe to every object provided by a manufacturer called “Fixtures4U” could be:</p>
+<p><em>element.name c<strong>ontains</strong>“Fixtures4U”</em></p>
+<p>…assuming the library part names all contain the manufacturer name. Or the condition to take a measurement for every zone represented by a stamp starting with the words “Space Planning”:</p>
+<p><em>zone.name startsWith “Space Planning”</em></p>
+<p>The <em>id</em> simply provides whatever text is entered for the element ID. The is most likely to be useful as a rule for attaching recipes or taking measurements rather than calculating quantities, but this depends greatly on office standards, i.e. what information the ID is supposed to contain.</p>
+</div>
+<div class="art" id="a-360004150595">
+  <div class="art-h"><span class="no">43</span><h3>4.5.3 How to reference recipes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150595-4-5-3-How-to-reference-recipes" target="_blank" rel="noopener">MyCi 知识库 · 4.5.3 How to reference recipes</a></div>
+  <p>Only the recipes manually attached to an element can be referenced, but it can be used as a means of automatically attaching other recipes. The result is always a list – for more detail refer to section 4.4.6, <em>How to use a list of values</em>. This is most likely to be applicable to one-off cases that are decided on an as-need basis rather than a general rule.</p>
+<p><em>element.recipe contains “Provisional Sitework”</em></p>
+</div>
+<div class="art" id="a-360004057156">
+  <div class="art-h"><span class="no">44</span><h3>4.5.4 How to use other element attributes (layer, storey, renovation status)</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057156-4-5-4-How-to-use-other-element-attributes-layer-storey-renovation-status" target="_blank" rel="noopener">MyCi 知识库 · 4.5.4 How to use other element attributes (layer, storey, renovation status)</a></div>
+  <p>A <em>layer</em> comprises two pieces of information:</p>
+<ul>
+<li>Name, e.g. to exclude anything on the ARCHICAD layer:</li>
+</ul>
+<p> element.layer.name <> “ ARCHICAD Layer”</p>
+<ul>
+<li>Visibility, e.g. to take a measurement only when the layer is visible:</li>
+</ul>
+<p> element.layer.isVisible</p>
+<p>Using <em>element.layer</em> in an expression without specifying <em>name</em> or <em>isVisible</em> is not meaningful.</p>
+<p>Only the home storey of an element can be used in an expression, yielding three pieces of information:</p>
+<ul>
+<li>N ame, e.g. measuring only items on the Ground floor:</li>
+</ul>
+<p> element.storey.name startsWith “Ground”</p>
+<ul>
+<li>Level, i.e. the base level of the element’s home storey. This could be used for a rule or a calculation, e.g. measuring the difference between the element top level and its home storey base level:</li>
+</ul>
+<p> element.level + element.height – element.storey.level</p>
+<ul>
+<li>Height, i.e. the height of this storey (as specified in ARCHICAD’s storey settings). A rule that excludes elements that protrude above their home storey (into the next storey) could be:</li>
+</ul>
+<p> element.level + element.height < storey.level + storey.height</p>
+<p>Using just <em>element.storey</em> in an expression without <em>name</em> etc. is not meaningful.</p>
+<p>An element’s renovation status can be used in an expression with <em>renovationStatus</em> or <em>phase</em>, responding with one of the following values:</p>
+<ul>
+<li>“ Existing”</li>
+</ul>
+<ul>
+<li>“ Demolished”</li>
+</ul>
+<ul>
+<li>“ New”</li>
+</ul>
+<p>For example, a rule to measure only new building elements could be:</p>
+<p><em>element.phase = “New”</em></p>
+</div>
+<div class="art" id="a-360004057176">
+  <div class="art-h"><span class="no">45</span><h3>4.5.5 How to use classifications</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057176-4-5-5-How-to-use-classifications" target="_blank" rel="noopener">MyCi 知识库 · 4.5.5 How to use classifications</a></div>
+  <p>Elements may be classified according to multiple systems, so the result of <em>element.classification</em>is always a list – for more detail refer to section 4.4.6, <em>How to use a list of values</em>.</p>
+<p>There are two ways to use element classifications in expressions:</p>
+<ul>
+<li>Searching the list of attached classifications for a name, e.g. one exactly matching “Column” is included:</li>
+</ul>
+<p> element.classification includes “Column”</p>
+<p> … or that at least one classification name contains the word “Wall”:</p>
+<p> element.classification contains “Wall”</p>
+<ul>
+<li>Using the details of the element classification from a specific s ystem in an expression. The system is named in the same way as other list items, e.g. materials etc:</li>
+</ul>
+<p> element.classification("Uniclass 2015")</p>
+<p> O nce a specific system has been named, there are two pieces of information that can be referenced from the element’s classification:</p>
+<p> Code</p>
+<p> element.classification("Uniclass 2015").code = "EF_40_30"</p>
+<ul>
+<li>Name</li>
+</ul>
+<p> element.classification("Uniclass 2015").name = "Furnishings"</p>
+</div>
+<div class="art" id="a-360004150615">
+  <div class="art-h"><span class="no">46</span><h3>4.5.6 Example expressions for automatic linking</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150615-4-5-6-Example-expressions-for-automatic-linking" target="_blank" rel="noopener">MyCi 知识库 · 4.5.6 Example expressions for automatic linking</a></div>
+  <p>There is a practically unlimited number of possible expressions for automating recipes. The following table is intended to provide a limited number of examples to stimulate ideas for possible ingredients. Individual expressions can also be combined in most cases.</p>
+<div class="table-wrap"><table><thead><tr><th>**The target elements**</th><th>**A suitable expression**</th></tr></thead><tbody><tr><td>All wall</td><td>*element.type = “Wall”*</td></tr><tr><td>Any element with an ID containing “pipe”</td><td>*element.id contains “pipe”*</td></tr><tr><td>Only walls where any material name from the list of all skins contains the word “brick”</td><td>*wall.material contains “brick”*</td></tr><tr><td>Any element falling under the Uniclass 2015 *Waste disposal functions* category</td><td>*element.classification("Uniclass 2015").code startsWith “EF_50”*</td></tr><tr><td>Any element with a parameter called *gs_list_manufacturer*set to “Armitage Shanks”</td><td>*element.parameter.gs_list_manufacturer = “Armitage Shanks”*</td></tr><tr><td>Only objects (placed with the *Object* tool) with a property called “Under Ground Power” set to “Single Phase”</td><td>*Object.property(“Under Ground Power”) = “Single Phase”*</td></tr></tbody></table></div>
+<p>This list will be expanded over time to include examples thought to be broadly useful.</p>
+<p>The following section (4.6, <em>Optional Measurements</em>) should also be read to fully harness conditional measurements.</p>
+</div>
+<div class="art" id="a-360004150635">
+  <div class="art-h"><span class="no">47</span><h3>4.6 Optional Measurements</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150635-4-6-Optional-Measurements" target="_blank" rel="noopener">MyCi 知识库 · 4.6 Optional Measurements</a></div>
+  <p>If the rule for attaching a recipe was the only mechanism for automated measurement, it could easily necessitate a huge list of recipes with slight variations to account for every situation. In practice, many recipes broadly share the same conditions but differ slightly in either the quantity calculation or target bill item.</p>
+<p>This leads to the core of the ‘recipe’ concept, where many different ingredients can be combined in a single solution. Consider, for example, a recipe broadly accounting for the cost of brick masonry. With appropriately named materials, it would be easy to attach a recipe on the basis that the material name contains the word “brick”. Even if the cost or brick type is identified by properties, there are 2 potential problems:</p>
+<ul>
+<li>The unit rate (cost) for each brick type may depend on data in the bill or an external database, in which case the quantity for each brick type will be allocated to a different item</li>
+</ul>
+<ul>
+<li>There may be multiple brick skins, potentially of different types or thicknesses, in a single wall.</li>
+</ul>
+<p>Once a ‘brick’ recipe has been created with a rule to attach to all relevant walls, all bill items can be attached with a rule and calculation for each governing when and how a quantity is measured. Referring to the illustration in section 4.2, note the following features of the <em>Recipe</em> <em>Manager</em>:</p>
+<ul>
+<li>The list of bill items added to the recipe in <a href="#4.2.Measurement%20Recipes|outline" target="_blank" rel="noopener">panel 4</a>;</li>
+</ul>
+<ul>
+<li>The rule for taking a measurement against the selected bill item in <a href="#4.2.Measurement%20Recipes|outline" target="_blank" rel="noopener">panel 5, field a</a>;</li>
+</ul>
+<ul>
+<li>The quantity calculation for the selected bill item in <a href="#4.2.Measurement%20Recipes|outline" target="_blank" rel="noopener">panel 5, field b</a>;</li>
+</ul>
+<p>For brick types, the material names would ideally define the brick type (by supplier code or product name). If, for example, a specific brick material is named “Brick – Furness Handbridge Blend 215”, the rule could be:</p>
+<p><em>wall.material includes “Brick – Furness Handbridge Blend 215”</em></p>
+<p>…ensuring the quantity calculation take a measurement against the bill item when the wall includes that exact brick type. The quantity calculation could then also reference the volume of that specific material, dividing it by the unit volume of a single brick (mortar could be included in this case, but there are many alternatives):</p>
+<p><em>wall.material(“Brick – Furness Handbridge Blend 215”).volume / 0.00125</em></p>
+<p>If the quantity should be rounded up to to the nearest whole number, it could be:</p>
+<p><em>roundUp(wall.material(“Brick – Furness Handbridge Blend 215”).volume / 0.00125, 1)</em></p>
+<p>There is no rule for deciding when a new recipe is preferable to an optional measurement in an existing recipe. It’s technically possible to make just one recipe that is attached to all elements and allow optional measurements to allocate quantities, but that recipe and the rules for optional measurements would likely be complex and bloated. Conversely it’s also possible to have a different recipe for every quantity measurement, but the list would likely be impracticably long and the attachment rules would be complicated.</p>
+<p>The best strategy is to target recipes to groups of bill items or elements that are broadly similar, and allow the optional measurements to take care of the detail.</p>
+</div>
+<div class="art" id="a-360004057236">
+  <div class="art-h"><span class="no">48</span><h3>4.7 Measurement Questions</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057236-4-7-Measurement-Questions" target="_blank" rel="noopener">MyCi 知识库 · 4.7 Measurement Questions</a></div>
+  <p>The following list of commonly asked questions will be expanded over time in response to support inquiries.</p>
+</div>
+<div class="art" id="a-360004057256">
+  <div class="art-h"><span class="no">49</span><h3>4.7.1 How can quantities be aligned to modular/incremental value?</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057256-4-7-1-How-can-quantities-be-aligned-to-modular-incremental-value" target="_blank" rel="noopener">MyCi 知识库 · 4.7.1 How can quantities be aligned to modular/incremental value?</a></div>
+  <p>Use the rounding functionality described in section 8.2, <em>Not</em>. Each of the following allows the module or increment size to be specified:</p>
+<ul>
+<li>round(<value>, <moduleSize>) Rounds specified value to the nearest increment of modulSize , e.g. round(2.1, 0.25) results in 2.0</li>
+</ul>
+<ul>
+<li>roundUp(<value>, <moduleSize>) Rounds specified value up to the next increment of modulSize , e.g. roundUp(2.1, 0.25) results in 2.25</li>
+</ul>
+<ul>
+<li>roundDown(<value>, <moduleSize>) Rounds specified value down to the nearest increment of modulSize , e.g. roundDown(2.1, 0.25) results in 2.0 .</li>
+</ul>
+<p>In all cases, if the original value matches a module size, that same value is the result, so <em>roundUp(2.0, 0.25)</em> results in <em>2.0</em>. If a module size is not specified, the value is rounded to the nearest whole number.</p>
+</div>
+<div class="art" id="a-360004150655">
+  <div class="art-h"><span class="no">50</span><h3>4.7.2 What happens when a calculation uses data an element doesn’t have?</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150655-4-7-2-What-happens-when-a-calculation-uses-data-an-element-doesn-t-have" target="_blank" rel="noopener">MyCi 知识库 · 4.7.2 What happens when a calculation uses data an element doesn’t have?</a></div>
+  <p>Nothing. The result of any calculation involving non-existent data is always voided, to the result will be <em>zero</em> for quantity calculations or <em>false</em> for recipe rules.</p>
+<p>This is a deliberate design decision to allow expressions to be created and added in template form to serve a wide variety of projects, even when some of the data, parameters, attributes, properties or classifications don’t currently exist.</p>
+<p>Calculations or rules that could never work are immediately flagged up as an error when they are entered. Naming errors, e.g. for materials or parameters, that cause rules or calculations to have no effect should be picked up when the auditing processes are used (see section 6).</p>
+<p>This list will be extended to include all future common support questions.</p>
+</div>
+<div class="art" id="a-360004150675">
+  <div class="art-h"><span class="no">51</span><h3>5.1 Overview</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150675-5-1-Overview" target="_blank" rel="noopener">MyCi 知识库 · 5.1 Overview</a></div>
+  <p>Quantity calculation populates the bill of quantity (section 3) by applying the recipes (section 4) to project elements. The scheduled results are displayed in a palette for review, audit or export.</p>
+</div>
+<div class="art" id="a-360004057296">
+  <div class="art-h"><span class="no">52</span><h3>5.2 Scheduling Quantities</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057296-5-2-Scheduling-Quantities" target="_blank" rel="noopener">MyCi 知识库 · 5.2 Scheduling Quantities</a></div>
+  <p>Scheduled quantities are viewed in the *B**ill of Quantities<em> palette, which can be opened by clicking the menu item </em>CI Tools > Quantities > B**ill of Quantities Palette<em>. The </em>Quantities Info*palette also displays an icon to quickly open palette and automatically schedule the current selection (</p>
+<p><img src="img/360004057296_0.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
+<p>).</p>
+<p><img src="img/360004057296_1.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
+<p>The key features of the palette are:</p>
+<ul>
+<li>A view of the entire bill structure.</li>
+</ul>
+<p> The bill structure is filtered to display only item names containing text in this field.</p>
+<ul>
+<li>A list of the entire bill structure.</li>
+</ul>
+<ul>
+<li>C ontrols for the scope of the schedule calculation and interact ion with the bill content. Item 2e opens the Quantity Take-off Manager at the Bill Structure tab.</li>
+</ul>
+<ul>
+<li>T he scheduled bill.</li>
+</ul>
+<ul>
+<li>Filtering c ontrols for the scheduled bill. Item 4c displays the total cost. Item 4b allows the scheduled quantities to be manually edited – this functionality has been requested for some narrow purposes but is not a generally recommended option .</li>
+</ul>
+</div>
+<div class="art" id="a-360004057316">
+  <div class="art-h"><span class="no">53</span><h3>5.2.1 How to schedule the bill of quantities</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057316-5-2-1-How-to-schedule-the-bill-of-quantities" target="_blank" rel="noopener">MyCi 知识库 · 5.2.1 How to schedule the bill of quantities</a></div>
+  <p>Click the <em>Calculate</em>button (item 2b in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>) to action the schedule process. Note that this is automatically invoked for the current selection when the palette is activated from the <a href="#2.2.Reviewing%20Element%20Data|outline" target="_blank" rel="noopener">Quantity Info</a> palette (by clicking</p>
+<p><img src="img/360004057316_0.jpg" alt="5.2.1 How to schedule the bill of quantities 示意图" loading="lazy"></p>
+<p>).</p>
+</div>
+<div class="art" id="a-360004057336">
+  <div class="art-h"><span class="no">54</span><h3>5.2.2 How to limit the bill calculation to selected elements</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057336-5-2-2-How-to-limit-the-bill-calculation-to-selected-elements" target="_blank" rel="noopener">MyCi 知识库 · 5.2.2 How to limit the bill calculation to selected elements</a></div>
+  <p>The<em>Scope</em> menu (item 2a in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>) determines the scope of the elements contributing to the schedule when the <em>Calculate</em> button is clicked:</p>
+<ul>
+<li>Entire Project : All elements in the entire project</li>
+</ul>
+<ul>
+<li>Current Selection : Only currently selected elements (from any view into the project model)</li>
+</ul>
+<p>Note that this has no effect after the schedule has been calculated. To effect a change, click *Calculat**e<em>. This is automatically set to </em>Current Selection*when the palette is activated from the <a href="#2.2.Reviewing%20Element%20Data|outline" target="_blank" rel="noopener">Quantity Info</a> palette (by clicking</p>
+<p><img src="img/360004057336_0.jpg" alt="5.2.2 How to limit the bill calculation to selected elements 示意图" loading="lazy"></p>
+<p>).</p>
+</div>
+<div class="art" id="a-360004150695">
+  <div class="art-h"><span class="no">55</span><h3>5.2.3 How to filter the scheduled quantities to specific bill items or categories</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150695-5-2-3-How-to-filter-the-scheduled-quantities-to-specific-bill-items-or-categories" target="_blank" rel="noopener">MyCi 知识库 · 5.2.3 How to filter the scheduled quantities to specific bill items or categories</a></div>
+  <p>The quantities scheduled in panel 3 (in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>) usually displays all bill items, but it can be filtered by selecting items or categories from the bill structure in panel 1. The scheduled quantities will be filtered for selected bill items or items within selected bill categories. Note that this in only operational after the bill has been calculated – selecting bill items <em>before</em> clicking <em>Calculate</em> has no effect.</p>
+<p>The total cost (panel 4, item c) automatically updates to sum just the displayed items only. This can be useful for reviewing the costs associated with specific categories.</p>
+</div>
+<div class="art" id="a-360004057356">
+  <div class="art-h"><span class="no">56</span><h3>5.2.4 How to filter the bill for specific items</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057356-5-2-4-How-to-filter-the-bill-for-specific-items" target="_blank" rel="noopener">MyCi 知识库 · 5.2.4 How to filter the bill for specific items</a></div>
+  <p>It can be difficult to locate items in a large, hierarchical bill structure. Any text entered in item 1a (in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>) will filter the bill structure to show only items or categories with a name containing that text. Only a partial match is required, e.g. enter <em>conc</em> to find any bill item with *<strong>conc</strong>**rete*in the name.</p>
+</div>
+<div class="art" id="a-360004150715">
+  <div class="art-h"><span class="no">57</span><h3>5.2.5 How to export the bill with calculated quantities</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150715-5-2-5-How-to-export-the-bill-with-calculated-quantities" target="_blank" rel="noopener">MyCi 知识库 · 5.2.5 How to export the bill with calculated quantities</a></div>
+  <p>Click the <em>Export</em>button (item 2c in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>). A standard file navigation dialog will be displayed prompting for the name, type and location of the export schedule. Two file types are supported:</p>
+<p>*Q**uants* The native BoQ file format for the Quantities add-on. This format is the most comprehensive and reliable, and is therefore strongly recommended in most circumstances. The content is XML, and a schema is available on request to anyone wishing to read this format, but the content is reasonably self-evident.</p>
+<p><em>CSV</em> Standard CSV, well-suited for interoperability with spreadsheets and some databases. Exported as comma-delimited, all data is enclosed in speech marks and the first row contains the following column names:</p>
+<div class="table-wrap"><table><thead><tr><th>Key</th><th>The item/category key (excluding keys of ancestor categories)</th></tr></thead><tbody><tr><td>Reference</td><td>An optional external reference ID</td></tr><tr><td>Title</td><td>The item/category name</td></tr><tr><td>Description</td><td>The item/category description</td></tr><tr><td>Quantity</td><td>The scheduled item quantity</td></tr><tr><td>Rate</td><td>The item unit rate</td></tr><tr><td>Unit</td><td>The unit name</td></tr><tr><td>Cost</td><td>The scheduled item cost (quantity x rate)</td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004057376">
+  <div class="art-h"><span class="no">58</span><h3>5.2.6 How to discover where calculated quantities came from</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057376-5-2-6-How-to-discover-where-calculated-quantities-came-from" target="_blank" rel="noopener">MyCi 知识库 · 5.2.6 How to discover where calculated quantities came from</a></div>
+  <p>This is a powerful feature of <em>Quantities</em> that sets it apart from external scheduling tools. While the schedule is displayed in ARCHICAD, all the quantities are connected to the contributing elements.</p>
+<ul>
+<li>T he elements contributing the cost can be interactively inspected live in the model, including their assigned properties, classifications and recipes in the Quantities Info palette (section 2.2). This can quickly explain the reasons for unusual cost patterns (unexpectedly low or high) and highlight inconsistencies in the model or element properties.</li>
+</ul>
+<ul>
+<li>It is possible for Quantities to differentiate between bill items that weren’t used at all vs those that were targeted by a calculation and still yielded a zero result. Both situations suggest an error, but for different reasons. See section 5.2.7 for additional information.</li>
+</ul>
+<p>To use this feature, select any number of scheduled items in panel 3 and click <em>Select</em>(item 2d in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>). <em>Quantities</em>will select and zoom to all elements that contributed to the cost of the selected bill items in the current view. If some items are currently hidden, their layer(s) will be made visible.</p>
+<p>Note that it may not be possible to see all items in the current view, e.g. when the floor plan is active and the items range across multiple storeys. The best option is usually the 3D window, where all but fill patterns are visible. The view the schedule was originally calculated from has no bearing on this process, i.e. you can calculate from one view and click <em>Select</em> in any other view.</p>
+</div>
+<div class="art" id="a-360004150795">
+  <div class="art-h"><span class="no">59</span><h3>5.2.7 How to audit correct bill item usage</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150795-5-2-7-How-to-audit-correct-bill-item-usage" target="_blank" rel="noopener">MyCi 知识库 · 5.2.7 How to audit correct bill item usage</a></div>
+  <p><em>Quantities</em>provides several methods for auditing scheduled quantities. The<em>Show</em> menu(item 4a in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>) plays a key role in tracking bill item use:</p>
+<p><img src="img/360004150795_0.jpg" alt="5.2.7 How to audit correct bill item usage 示意图" loading="lazy"></p>
+<p>The menu options are used to filter the displayed items as follows:</p>
+<ul>
+<li>Ca lculated items Only bill items with a calculated non-zero total are shown.</li>
+</ul>
+<ul>
+<li>All bill items All bill items are shown</li>
+</ul>
+<ul>
+<li>Zero quantities Only bill items that processed a measurement calculation during the scheduling process but still have a zero total are shown</li>
+</ul>
+<ul>
+<li>Unused items Only bill items not used at all for the schedule are shown</li>
+</ul>
+<p>Using this menu and other <em>Quantities</em> features, the palette auditing processes include:</p>
+<ul>
+<li>Checking element consistency</li>
+</ul>
+<p> Section 5.2.6 describes a method for tracking costs to the source elements. This selection technique is very powerful in conjunction with other auditing processes, e.g. checking for property inconsistencies using the Quantities Info palette (section 2.2) and checking the model for missing elements. Look for unexpected variations in recipe attachments or property values – the Info palette will highlight different values in blue so they stand out. Use its filtering to isolate elements with unusual settings, or searching to expand to similar elements that should be measured alike.</p>
+<p> For example, selecting elements linked to exterior cladding may reveal that some model walls have been omitted and other incorrectly included. If the recipe rules or measurement relate to property values, the Info palette may quickly highlight these inconsistencies and can be immediately updated through the same palette.</p>
+<ul>
+<li>Checking bill item usage</li>
+</ul>
+<p> A bill item that isn’t referenced in any recipes suggests a possible oversight. While it’s possible that some items are irrelevant for a given project, it should be checked. Setting the Show menu to Unused items enables a quick review. These items can be further filtered by selecting items or categories in the bill structure to the left (item 1b in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>).</p>
+<ul>
+<li>Checking calculation results</li>
+</ul>
+<p> A bill item may have a zero total in the schedule despite recipe representation and actively running associated rules or quantity calculations on project elements. While it’s possible that none of these elements contribute to cost, checking is advisable.</p>
+<p> Set the Show menu to Z e ro quantities to view affected item and apply the techniques described in Checking element consistency above. If either the elements seem fine or the wrong elements are associated with the recipe, use the Recipe tab of the Quantity Take-off Manager (refer to section 4.2) to review the rules and/or calculations of recipes associated with the affected bill items.</p>
+<p>A summary of all auditing methods can be found in chapter 6.</p>
+</div>
+<div class="art" id="a-360004057516">
+  <div class="art-h"><span class="no">60</span><h3>6.1 Overview</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057516-6-1-Overview" target="_blank" rel="noopener">MyCi 知识库 · 6.1 Overview</a></div>
+  <p>The ability to audit scheduling quantities and metadata interactively within the BIM project is a key feature of Quantities. Auditing features are designed to be used at every stage of the project development, not just at latter stages as final cost estimates are produced, and are therefore woven into all the tools and processes already described in the previous chapters. The purpose of this chapter is to review the overall auditing process through the project lifecycle with links to detailed information elsewhere in this document.</p>
+</div>
+<div class="art" id="a-360004057536">
+  <div class="art-h"><span class="no">61</span><h3>6.2 Auditing Element Data</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057536-6-2-Auditing-Element-Data" target="_blank" rel="noopener">MyCi 知识库 · 6.2 Auditing Element Data</a></div>
+  <p>The Quantities Info palette described in section 2.2 is an important tool for managing and reviewing element traits (recipes, classifications and properties) as the BIM project is developed. The colours and styles applied to element traits – and property values in particular – help to expose inconsistencies or omissions.</p>
+</div>
+<div class="art" id="a-360004057556">
+  <div class="art-h"><span class="no">62</span><h3>6.3 Auditing Recipe Completion</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057556-6-3-Auditing-Recipe-Completion" target="_blank" rel="noopener">MyCi 知识库 · 6.3 Auditing Recipe Completion</a></div>
+  <p>The bill structure displayed in the Recipe tab of the Quantity Take-offs Manager (section 4.2) can be filtered to display only bill items that have not been linked to any recipes, ensuring that essential cost items are not omitted from measurement calculations.</p>
+</div>
+<div class="art" id="a-360004150815">
+  <div class="art-h"><span class="no">63</span><h3>6.4 Auditing Unmeasured Elements</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150815-6-4-Auditing-Unmeasured-Elements" target="_blank" rel="noopener">MyCi 知识库 · 6.4 Auditing Unmeasured Elements</a></div>
+  <p>If project is to be fully costed, it can be assumed that the majority of building elements in the model will contribute to the total. Therefore, Quantities provides a tool to highlight these elements for checking.</p>
+<p>Pick a suitable view for reviewing the BIM project. The 3D window is typically the most suitable because all elements can be selected (most other views only display a sub-selection, e.g. one storey in the floor plan). Click the menu item CI Tools > Quantities > Select Unquantified Elements…</p>
+<p>All elements that will not be measured by a recipe (manual or automatic) will be selected in the current view.</p>
+</div>
+<div class="art" id="a-360004150835">
+  <div class="art-h"><span class="no">64</span><h3>6.5 Auditing the Bill of Quantities</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150835-6-5-Auditing-the-Bill-of-Quantities" target="_blank" rel="noopener">MyCi 知识库 · 6.5 Auditing the Bill of Quantities</a></div>
+  <p>A series of checks can be applied at the final point of scheduling the quantities.</p>
+<p>Section 5.2.6 describes how the connection between calculated quantities and the source elements can be used to review how the final figures were obtained. The auditing processes for BIM elements (section 6.2) is again applicable for reviewing which recipes were invoked and what data they acted on, potentially highlighting errors or omissions.</p>
+<p>Section 5.2.7 lists a series of bill item checks and recipe measurement checks that ensure:</p>
+<p>• BIM element traits are consistent;</p>
+<p>• Bill items are used appropriately;</p>
+<p>• Quantity calculations have successfully taken measurements.</p>
+</div>
+<div class="art" id="a-360004151015">
+  <div class="art-h"><span class="no">65</span><h3>7.1 Overview</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004151015-7-1-Overview" target="_blank" rel="noopener">MyCi 知识库 · 7.1 Overview</a></div>
+  <p>This chapter provides a reference for every Quantities expression that provides access to data from ARCHICAD elements, describing common usage, provisos, illustrations and links back to other documentation as appropriate.</p>
+<p>Sections 4.4, Calculated Measurements, and 4.7, Measurement Questions provide useful background information, context and examples that should ideally be read first. Following sections 8, Calculation Functions, and 9, Calculation Operators show how these data can be manipulated and combined in calculations.</p>
+</div>
+<div class="art" id="a-360004151295">
+  <div class="art-h"><span class="no">66</span><h3>7.10 Zone Attributes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004151295-7-10-Zone-Attributes" target="_blank" rel="noopener">MyCi 知识库 · 7.10 Zone Attributes</a></div>
+  <p>Expressions that extract attributes from a zone element. These must be prefixed with *z**one<em>, e.g. </em>z<strong>one</strong>.c**ategory*</p>
+<div class="table-wrap"><table><thead><tr><th>category</th><th>The name of the zone category</th><th></th></tr></thead><tbody><tr><td>name</td><td>The zone name</td><td></td></tr><tr><td>number</td><td>The zone number</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058056">
+  <div class="art-h"><span class="no">67</span><h3>7.11 Wall Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058056-7-11-Wall-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.11 Wall Geometry</a></div>
+  <p>Expressions that extract geometry unique to walls. These must be prefixed with <em>wall</em>, e.g. *w**all.thickness*</p>
+<div class="table-wrap"><table><thead><tr><th>thickness</th><th>The total wall thickness</th><th></th></tr></thead><tbody><tr><td>surfaceOutside</td><td>The wall net exterior surface area</td><td></td></tr><tr><td>surfaceInside</td><td>The wall net interior surface area</td><td></td></tr><tr><td>surfaceEdge</td><td>The total wall edges surface area</td><td></td></tr><tr><td>surfaceOutsideGross</td><td>The wall gross exterior surface area</td><td></td></tr><tr><td>surfaceInsideGross</td><td>The wall gross interior surface area</td><td></td></tr><tr><td>lengthOutside</td><td>The length along the wall exterior</td><td></td></tr><tr><td>lengthInside</td><td>The length along the wall interior</td><td></td></tr><tr><td>lengthCentre</td><td>The length along the wall centreline</td><td></td></tr><tr><td>doorCount</td><td>The number of doors in the wall</td><td></td></tr><tr><td>doorSurface</td><td>The total surface area of doors in the wall</td><td></td></tr><tr><td>doorWidth</td><td>The total width of doors in the wall</td><td></td></tr><tr><td>windowCount</td><td>The number of windows in the wall</td><td></td></tr><tr><td>windowSurface</td><td>The total surface area of windows in the wall</td><td></td></tr><tr><td>windowWidth</td><td>The total width of windows in the wall</td><td></td></tr><tr><td>sweep</td><td>The sweep angle a curved wall turns through – zero for straight walls</td><td></td></tr><tr><td>radius</td><td>The radius of a curved wall – zero for straight walls</td><td></td></tr><tr><td>slantInside</td><td>The interior slant angle of the wall (0 for vertical)</td><td></td></tr><tr><td>slantOutside</td><td>The exterior slant angle of the wall (0 for vertical)</td><td></td></tr><tr><td>slantAngle</td><td>Either the interior or exterior slant angle of the wall (whichever is non-vertical, in that order). Zero if both sides are vertical</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058076">
+  <div class="art-h"><span class="no">68</span><h3>7.12 Wall Attributes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058076-7-12-Wall-Attributes" target="_blank" rel="noopener">MyCi 知识库 · 7.12 Wall Attributes</a></div>
+  <p>Expressions that extract attributes unique to walls. These must be prefixed with <em>wall</em>, e.g. *w**all.shape*</p>
+<div class="table-wrap"><table><thead><tr><th>shape</th><th>The wall shape type (in plan): Regular (parallel sides): “Regular” Trapezoid: “Trapezoid” Polygon: “Polygon”</th><th></th></tr></thead><tbody><tr><td>finishOutside</td><td>The name of the exterior wall finish</td><td></td></tr><tr><td>finishInside</td><td>The name of the interior wall finish</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058096">
+  <div class="art-h"><span class="no">69</span><h3>7.13 Opening Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058096-7-13-Opening-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.13 Opening Geometry</a></div>
+  <p>Expressions that extract geometry unique to any opening element, e.g. <em>door</em>, <em>window</em>, <em>skylight</em>, <em>opening</em>. These must be prefixed with the name of one of these types, e.g. *d<strong>oor</strong>.**surfaceReveal*</p>
+<div class="table-wrap"><table><thead><tr><th>surfaceReveal</th><th>The total reveal surface area</th><th></th></tr></thead><tbody><tr><td>widthReveal</td><td>The opening reveal width</td><td></td></tr><tr><td>depthReveal</td><td>The opening reveal depth</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058116">
+  <div class="art-h"><span class="no">70</span><h3>7.14 Column Segment Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058116-7-14-Column-Segment-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.14 Column Segment Geometry</a></div>
+  <p>Expressions that extract geometry unique to column segments. These must be prefixed with *c**olumn<em>, e.g. </em>c<strong>olumn</strong>.s**urfaceTop*</p>
+<div class="table-wrap"><table><thead><tr><th>surfaceCore</th><th>The column net core surface area</th><th></th></tr></thead><tbody><tr><td>surfaceGross</td><td>The column gross surface area</td><td></td></tr><tr><td>surfaceVen</td><td>The column net veneer surface area</td><td></td></tr><tr><td>surfaceVenGross</td><td>The column gross veneer surface area</td><td></td></tr><tr><td>surfaceTop</td><td>The column top surface area</td><td></td></tr><tr><td>surfaceBase</td><td>The column base surface area</td><td></td></tr><tr><td>volumeCore</td><td>The column core volume</td><td></td></tr><tr><td>volumeVen</td><td>The column veneer volume</td><td></td></tr><tr><td>diameter</td><td>The column diameter (for round columns, zero for all others)</td><td></td></tr><tr><td>thickness</td><td>The column veneer thickness</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058136">
+  <div class="art-h"><span class="no">71</span><h3>7.15 Column Segment Attributes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058136-7-15-Column-Segment-Attributes" target="_blank" rel="noopener">MyCi 知识库 · 7.15 Column Segment Attributes</a></div>
+  <p>Expressions that extract attributes unique to column segments. These must be prefixed with *c**olumn<em>, e.g. </em>c<strong>olumn</strong>.m**aterialVen*</p>
+<div class="table-wrap"><table><thead><tr><th>finishEnd</th><th>The finish to the beam segment ends Note: The finish to the column segment sides can be retrieved with *element.finish*</th><th></th></tr></thead><tbody><tr><td>materialVen</td><td>The column segment veneer materialNote: The column segment core material can be retrieved with *element.material*</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004151355">
+  <div class="art-h"><span class="no">72</span><h3>7.16 Column Assembly Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004151355-7-16-Column-Assembly-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.16 Column Assembly Geometry</a></div>
+  <p>Expressions that extract geometry unique to column assemblies. These must be prefixed with <em>c<strong>olumn</strong>Assembly</em>, e.g. <em>c<strong>olumn</strong>Assembly<strong>.s</strong>urfaceGross</em></p>
+<div class="table-wrap"><table><thead><tr><th>surfaceCore</th><th>The column net core surface area</th><th></th></tr></thead><tbody><tr><td>surfaceGross</td><td>The column gross surface area</td><td></td></tr><tr><td>surfaceVen</td><td>The column net veneer surface area</td><td></td></tr><tr><td>surfaceVenGross</td><td>The column gross veneer surface area</td><td></td></tr><tr><td>surfaceTop</td><td>The column top surface area</td><td></td></tr><tr><td>surfaceBase</td><td>The column base surface area</td><td></td></tr><tr><td>volumeCore</td><td>The column core volume</td><td></td></tr><tr><td>volumeVen</td><td>The column veneer volume</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058156">
+  <div class="art-h"><span class="no">73</span><h3>7.17 Beam Segment Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058156-7-17-Beam-Segment-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.17 Beam Segment Geometry</a></div>
+  <p>Expressions that extract geometry unique to beam segments. These must be prefixed with *b**eam<em>, e.g. </em>b<strong>eam</strong>.s**urfaceTop*</p>
+<div class="table-wrap"><table><thead><tr><th>lengthLeft</th><th>The beam length on the left side</th><th></th></tr></thead><tbody><tr><td>lengthRight</td><td>The beam length on the right side</td><td></td></tr><tr><td>surfaceLeft</td><td>The surface area on the beam left</td><td></td></tr><tr><td>surfaceRight</td><td>The surface area on the beam right</td><td></td></tr><tr><td>surfaceBase</td><td>The surface area on the beam base</td><td></td></tr><tr><td>surfaceTop</td><td>The surface area on the beam top</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004151395">
+  <div class="art-h"><span class="no">74</span><h3>7.18 Beam Segment Attributes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004151395-7-18-Beam-Segment-Attributes" target="_blank" rel="noopener">MyCi 知识库 · 7.18 Beam Segment Attributes</a></div>
+  <p>Expressions that extract attributes unique to beam segments. These must be prefixed with <em>beam</em>, e.g. <em>beam.finishTop</em></p>
+<div class="table-wrap"><table><thead><tr><th>finishTop</th><th>The finish to the beam segment top</th><th></th></tr></thead><tbody><tr><td>finishBase</td><td>The finish to the beam segment top</td><td></td></tr><tr><td>finishLeft</td><td>The finish to the beam segment top</td><td></td></tr><tr><td>finishRight</td><td>The finish to the beam segment top</td><td></td></tr><tr><td>finishEnd</td><td>The finish to the beam segment ends</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058176">
+  <div class="art-h"><span class="no">75</span><h3>7.19 Beam Assembly Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058176-7-19-Beam-Assembly-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.19 Beam Assembly Geometry</a></div>
+  <p>Expressions that extract geometry unique to beam assemblies. These must be prefixed with <em>b<strong>eam</strong>Assembly</em>, e.g. <em>b<strong>eam</strong>Assembly<strong>.s</strong>urfaceTop</em></p>
+<div class="table-wrap"><table><thead><tr><th>lengthLeft</th><th>The beam length on the left side</th><th></th></tr></thead><tbody><tr><td>lengthRight</td><td>The beam length on the right side</td><td></td></tr><tr><td>surfaceLeft</td><td>The surface area on the beam left</td><td></td></tr><tr><td>surfaceRight</td><td>The surface area on the beam right</td><td></td></tr><tr><td>surfaceBase</td><td>The surface area on the beam base</td><td></td></tr><tr><td>surfaceTop</td><td>The surface area on the beam top</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004057876">
+  <div class="art-h"><span class="no">76</span><h3>7.2 Element Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057876-7-2-Element-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.2 Element Geometry</a></div>
+  <p>Expressions that can be applied to any BIM element to retrieve generic measurements like bounding size.</p>
+<p>These will typically be prefixed with element, e.g. element.length, in order to make the measurement applicable to any element type, but any specific element type can be used, e.g. wall.length, if the measurement is only required for that type. Restricting the measurement to a single element type does not cause an error – the result of the calculation is simply voided for any other types.</p>
+<p>Also refer to section 4.4.4 for more detail about using element geometry in calculations.</p>
+<div class="table-wrap"><table><thead><tr><th>level</th><th>The base level of the element (from project zero)</th><th></th></tr></thead><tbody><tr><td>width</td><td>The element width, typically of the bounding box. Beams and columns return their profile width</td><td></td></tr><tr><td>depth</td><td>The element depth, typically of the bounding box. Beams and columns return their profile width</td><td></td></tr><tr><td>height</td><td>The element height, typically of the bounding box</td><td></td></tr><tr><td>heightMin</td><td>Generally the same as height. The exceptions are walls and columns, which will respond with the least height differential when they have a sloped base/top</td><td></td></tr><tr><td>heightMax</td><td>Generally the same as height. The exceptions are walls and columns, which will respond with the greatest height differential when they have a sloped base/top</td><td></td></tr><tr><td>length</td><td>The element length, interpreted differently according to type. The generic response is the same as *width*. For linear elements like beams and walls, it returns literally the length along the element path. Columns return height, and slabs return the perimeter length.</td><td></td></tr><tr><td>volume</td><td>The net volume of the element</td><td></td></tr><tr><td>volumeGross</td><td>The gross volume of the element, i.e. ignoring penetrations or other volume subtractions</td><td></td></tr><tr><td>area</td><td>The net area of the element’s bounding polygon</td><td></td></tr><tr><td>perimeter</td><td>The perimeter of the element’s bounding polygon</td><td></td></tr><tr><td>holeCount</td><td>The number of holes in the element’s body</td><td></td></tr><tr><td>holeSurface</td><td>The total surface area of holes in the element’s body</td><td></td></tr><tr><td>holeVolume</td><td>The total volume of holes in the element’s body</td><td></td></tr><tr><td>surface</td><td>The total surface area of the element</td><td></td></tr><tr><td>surfaceA</td><td>Surface area of the element following GRAPHISOFT’s conventions for scheduling</td><td></td></tr><tr><td>surfaceB</td><td>Surface area of the element following GRAPHISOFT’s conventions for scheduling</td><td></td></tr><tr><td>surfaceC</td><td>Surface area of the element following GRAPHISOFT’s conventions for scheduling</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058196">
+  <div class="art-h"><span class="no">77</span><h3>7.20 Mesh Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058196-7-20-Mesh-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.20 Mesh Geometry</a></div>
+  <p>Expressions that extract geometry unique to mesh elements. These must be prefixed with *m**esh<em>, e.g. </em>m<strong>esh</strong>.s**urfaceTop*</p>
+<div class="table-wrap"><table><thead><tr><th>surfaceEdge</th><th>The total surface area on the mesh edges</th><th></th></tr></thead><tbody><tr><td>surfaceBase</td><td>The surface area on the mesh base</td><td></td></tr><tr><td>surfaceTop</td><td>The surface area on the mesh top</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004151415">
+  <div class="art-h"><span class="no">78</span><h3>7.21 Mesh Attributes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004151415-7-21-Mesh-Attributes" target="_blank" rel="noopener">MyCi 知识库 · 7.21 Mesh Attributes</a></div>
+  <p>Expressions that extract attributes unique to mesh elements. These must be prefixed with *m**esh<em>, e.g. </em>m<strong>esh</strong>.**finishTop*</p>
+<div class="table-wrap"><table><thead><tr><th>finishEdge</th><th>The finish to the mesh edges</th><th></th></tr></thead><tbody><tr><td>finishBase</td><td>The finish to the mesh base</td><td></td></tr><tr><td>finishTop</td><td>The finish to the mesh top</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058216">
+  <div class="art-h"><span class="no">79</span><h3>7.22 Slab Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058216-7-22-Slab-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.22 Slab Geometry</a></div>
+  <p>Expressions that extract geometry unique to slab elements. These must be prefixed with *s**lab<em>, e.g. </em>s<strong>lab</strong>.**thickness*</p>
+<div class="table-wrap"><table><thead><tr><th>thickness</th><th>The slab thickness</th><th></th></tr></thead><tbody><tr><td>surfaceEdge</td><td>The total surface area on the slab edges</td><td></td></tr><tr><td>surfaceBase</td><td>The surface area on the slab base</td><td></td></tr><tr><td>surfaceTop</td><td>The surface area on the slab top</td><td></td></tr><tr><td>surfaceEdgeGross</td><td>The gross surface area on the slab edges</td><td></td></tr><tr><td>surfaceBaseGross</td><td>The gross surface area on the slab base</td><td></td></tr><tr><td>surfaceTopGross</td><td>The gross surface area on the slab top</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058236">
+  <div class="art-h"><span class="no">80</span><h3>7.23 Slab Attributes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058236-7-23-Slab-Attributes" target="_blank" rel="noopener">MyCi 知识库 · 7.23 Slab Attributes</a></div>
+  <p>Expressions that extract attributes unique to slab elements. These must be prefixed with <em>slab</em>, e.g. <em>slab<strong>.</strong>finishTop</em></p>
+<div class="table-wrap"><table><thead><tr><th>finishEdge</th><th>The finish to the slab edges</th><th></th></tr></thead><tbody><tr><td>finishBase</td><td>The finish to the slab base</td><td></td></tr><tr><td>finishTop</td><td>The finish to the slab top</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058296">
+  <div class="art-h"><span class="no">81</span><h3>7.24 Roof Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058296-7-24-Roof-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.24 Roof Geometry</a></div>
+  <p>Expressions that extract geometry unique to roof elements. These must be prefixed with <em>roof</em>, e.g. <em>roof<strong>.</strong>thickness</em></p>
+<p>Note that measurements of ridges, valleys etc rely on standard ARCHICAD practice for setting the roof edge types.</p>
+<div class="table-wrap"><table><thead><tr><th>thickness</th><th>The roof thickness</th><th></th></tr></thead><tbody><tr><td>pitch</td><td>The roof pitch</td><td></td></tr><tr><td>surfaceEdge</td><td>The total surface area on the roof edges</td><td></td></tr><tr><td>surfaceBase</td><td>The surface area on the roof base</td><td></td></tr><tr><td>surfaceTop</td><td>The surface area on the roof top</td><td></td></tr><tr><td>surfaceEdgeGross</td><td>The gross surface area on the roof edges</td><td></td></tr><tr><td>surfaceBaseGross</td><td>The gross surface area on the roof base</td><td></td></tr><tr><td>surfaceTopGross</td><td>The gross surface area on the roof top</td><td></td></tr><tr><td>thicknessInsu</td><td>The roof insulation thickness</td><td></td></tr><tr><td>lengthRidge</td><td>The total length of roof ridges</td><td></td></tr><tr><td>lengthValley</td><td>The total length of roof valleys</td><td></td></tr><tr><td>lengthGable</td><td>The total length of roof gables</td><td></td></tr><tr><td>lengthHip</td><td>The total length of roof hips</td><td></td></tr><tr><td>lengthEaves</td><td>The total length of roof eaves</td><td></td></tr><tr><td>lengthPeak</td><td>The total length of roof peaks</td><td></td></tr><tr><td>lengthSidewall</td><td>The total length of roof side walls</td><td></td></tr><tr><td>lengthEndwall</td><td>The total length of roof end walls</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004151435">
+  <div class="art-h"><span class="no">82</span><h3>7.25 Roof Attributes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004151435-7-25-Roof-Attributes" target="_blank" rel="noopener">MyCi 知识库 · 7.25 Roof Attributes</a></div>
+  <p>Expressions that extract attributes unique to roof elements. These must be prefixed with *r**oof<em>, e.g. </em>r<strong>oof</strong>.**finishTop*</p>
+<div class="table-wrap"><table><thead><tr><th>finishEdge</th><th>The finish to the roof edges</th><th></th></tr></thead><tbody><tr><td>finishBase</td><td>The finish to the roof base</td><td></td></tr><tr><td>finishTop</td><td>The finish to the roof top</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004151255">
+  <div class="art-h"><span class="no">83</span><h3>7.3 Element Identification</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004151255-7-3-Element-Identification" target="_blank" rel="noopener">MyCi 知识库 · 7.3 Element Identification</a></div>
+  <p>Expressions that identify an element, e.g. name or type. These will typically be prefixed with <em>element</em>, e.g. *element.i**d<em>, but any specific element type can be used, e.g.</em>wall.i**d*, if data is only required for that type. Section 4.5.2 discusses element identification in measurement rules.</p>
+<div class="table-wrap"><table><thead><tr><th>type</th><th>The name of the element type: Beam segment: "Beam" Beam assembly: "BeamAssembly" Column segment: "Column" Column assembly: "ColumnAssembly" Curtain wall: "CurtainWall" Curtain wall accessory: "CurtainWallAccessory" Curtain wall frame: "CurtainWallFrame" Curtain wall junction: “CurtainWallJunction” Curtain wall panel: "CurtainWallPanel" Curtain wall segment: "CurtainWallSegment" Door: "Door" Fill pattern: "Fill" Lamp: "Lamp" Mesh: "Mesh" Morph: "Morph" Object (any library part): "Object" Opening: "Opening" Roof: "Roof" Shell: "Shell" Skylight: "Skylight" Slab: "Slab" Wall: "Wall" Window: "Window" Zone: "Zone"</th><th></th></tr></thead><tbody><tr><td>id</td><td>The element ID, as seen in the ARCHICAD element *Settings*dialog under the *Classification and Properties* panel</td><td></td></tr><tr><td>name</td><td>The name of the library part responsible for rendering the element. Only relevant to elements based on library parts, e.g. objects, doors, windows, zones etc. See section</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004057896">
+  <div class="art-h"><span class="no">84</span><h3>7.4 Element Attributes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057896-7-4-Element-Attributes" target="_blank" rel="noopener">MyCi 知识库 · 7.4 Element Attributes</a></div>
+  <p>Expressions to reference element attributes, e.g. materials and finishes (ARCHICAD <em>surfaces</em>). These will typically be prefixed with <em>element</em>, e.g. *element.m**aterial<em>, but any specific element type can be used, e.g.</em>wall.<strong>m</strong>aterial*, if attributes are only required for that type.</p>
+<p>Elements often have multiple materials or finishes, so these expressions provide a list instead of a single value. The list can be searched with <em>contains</em> (for a partial match) or <em>includes</em>(for an exact match). The materials can also be compared to another list of names using <em>has</em>(partial match) or <em>in</em> (exact match). A single item can be referenced by name in parentheses, e.g. <em>material(“Brick”)</em>.</p>
+<p>Refer to section 4.4.6, <em>How to use a list of values</em> for more detail.</p>
+<div class="table-wrap"><table><thead><tr><th>material</th><th>The list of materials assigned to the element. This is generally a single item, but multi-skin construction elements like walls include every material defined in composites. For a fill, the list will be empty. Referencing a specific material , e.g. *material(“Brick”)*, provides access to additional information about the material application: area: The area of the specified material, e.g. *material(“Brick”).area* volume: The total volume of the specified material, e.g. *material(“Brick”).volume* thickness: The total thickness of skins using the specified material, e.g. *material(“Brick”).t**hickness* skins: The total number of skins using the specified material, e.g. *material(“Brick”).s**kins* See section 4.4.8 for a detailed discussion of materials in expressions.</th><th></th></tr></thead><tbody><tr><td>finishes</td><td>The list of finishes assigned to the element (ARCHICAD *surfaces*). The list is extracted from the 3D body of the element, so any finish seen in the model will appear in this list. For a fill, the list will be empty. Referencing a specific finish , e.g. *material(“P**aint**”)*, provides access to the total area with that finish applied. See section 4.4.9 for a detailed discussion of finishes in expressions.</td><td></td></tr><tr><td>fill</td><td>The name of the fill applied to the element. Can be a composite or simple fill name.</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004151275">
+  <div class="art-h"><span class="no">85</span><h3>7.5 Element Properties</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004151275-7-5-Element-Properties" target="_blank" rel="noopener">MyCi 知识库 · 7.5 Element Properties</a></div>
+  <p>Expressions to reference element properties. These will typically be prefixed with <em>element</em>, e.g. *element.p**roperty<em>, but any specific element type can be used, e.g.</em>wall.<strong>p</strong>roperty*, if attributes are only required for that type.</p>
+<p>Elements usually have multiple properties, but a rule or calculation will be focussed on the value of just one – therefore the name of the target property in enclosed in parentheses should be appended, e.g. *element.<strong>p</strong>roperty<strong>(“M</strong>anufacturer**”)*.</p>
+<p>Property names are only guaranteed to be unique within a single group. If only a name is specified, <em>Quantities</em>will take the first matching property it finds. If there is any doubt about the uniqueness of the name, it can be prefixed with the group name and a double colon, e.g. *element.<strong>p</strong>roperty<strong>(“</strong>General::<strong>M</strong>anufacturer**”).*</p>
+<p>Refer to section 4.4.7, <em>How to use properties</em> for more detail.</p>
+<div class="table-wrap"><table><thead><tr><th>property</th><th>An element property value – the property name must be specified, e.g. *element.**p**roperty**(“M**anufacturer**”)* The property name can optionally be prefixed with the group name to guarantee uniqueness, e.g. *element.**p**roperty**(“**General::**M**anufacturer**”)*</th><th></th></tr></thead><tbody></tbody></table></div>
+</div>
+<div class="art" id="a-360004057916">
+  <div class="art-h"><span class="no">86</span><h3>7.6 Element Parameters</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057916-7-6-Element-Parameters" target="_blank" rel="noopener">MyCi 知识库 · 7.6 Element Parameters</a></div>
+  <p>Expressions to reference element parameters. These will typically be prefixed with <em>element</em>, e.g. *element.p**arameter<em>, but any specific element type can be used, e.g.</em>d<strong>oor</strong>.<strong>p</strong>arameter*, if attributes are only required for that type.</p>
+<p>Library parts usually have multiple parameter, but a rule or calculation will be focussed on the value of just one – therefore the name of the target parameter should be appended, e.g. <em>element.parameter.gs_list_manufacturer</em></p>
+<p>Parameters cannot contain spaces or other breaking characters, so parentheses and quotes are not required. Refer to section 4.4.10,<em>How to use object parameters</em> for more detail.</p>
+<div class="table-wrap"><table><thead><tr><th>parameter</th><th>An element property value – the property name must be specified, e.g. *element.**p**roperty**(“M**anufacturer**”)* The property name can optionally be prefixed with the group name to guarantee uniqueness, e.g. *element.**p**roperty**(“**General::**M**anufacturer**”)*</th><th></th></tr></thead><tbody></tbody></table></div>
+</div>
+<div class="art" id="a-360004057936">
+  <div class="art-h"><span class="no">87</span><h3>7.7 Element Organisation</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057936-7-7-Element-Organisation" target="_blank" rel="noopener">MyCi 知识库 · 7.7 Element Organisation</a></div>
+  <p>Expressions that access the organisation characteristics of an element within a project, e.g. layer or home storey. These will typically be prefixed with <em>element</em>, e.g. *element.l**ayer.name<em>, but any specific element type can be used, e.g. </em>w<strong>all</strong>.l**ayer.name* if data is only required for that type.</p>
+<p>See section 4.5.4, <em>How to use other element attributes (layer, storey, renovation status)</em> for more detailed information.</p>
+<div class="table-wrap"><table><thead><tr><th>layer</th><th>The layer assigned to the element. Layer information includes: name: The layer name, e.g. *element.layer.name* isVisible: The layer visibility, e.g. *element.layer.name* – the result is *true* when the layer is visible.</th><th></th></tr></thead><tbody><tr><td>storey</td><td>The storey assigned to the element. Storey information includes: name: The storey name, e.g. *element.s**torey**.name* level: The element’s home storey base level, i.e. from project zero. Use is *element.storey.level* height: The element’s home storey height. Use is *element.storey.height*</td><td></td></tr><tr><td>renovationStatus phase</td><td>The renovation status (or phase) assigned to the element, e.g. *element.r**enovationStatus* or *element.p**hase*</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004057956">
+  <div class="art-h"><span class="no">88</span><h3>7.8 Zone Identification</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057956-7-8-Zone-Identification" target="_blank" rel="noopener">MyCi 知识库 · 7.8 Zone Identification</a></div>
+  <p>Expressions that identify the zone an opening is associated with, e.g. <em>door</em>, <em>window</em>, <em>skylight</em>, <em>opening</em>. These must be prefixed with the name of one of these types, e.g. <em>d<strong>oor</strong>.<strong>t</strong>oSpace</em></p>
+<p>It is not sufficient to simply write <em>toSpace</em> or <em>fromSpace –</em>they should be followed by the an expression requesting some specific attribute or property of the space, e.g. <em>d<strong>oor</strong>.space.category</em></p>
+<p>Refer to sections 7.9 and 7.10 for details of geometry and attributes specifically related to zones.</p>
+<div class="table-wrap"><table><thead><tr><th>toSpace</th><th>The space a door/window opens into, e.g. *element.t**oSpace**.name*</th><th></th></tr></thead><tbody><tr><td>FromSpace</td><td>The space a door/window opens out from, e.g. *element.f**romSpace**.name*</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004058016">
+  <div class="art-h"><span class="no">89</span><h3>7.9 Zone Geometry</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058016-7-9-Zone-Geometry" target="_blank" rel="noopener">MyCi 知识库 · 7.9 Zone Geometry</a></div>
+  <p>Expressions that extract measurements from a zone element. These must be prefixed with *z**one<em>, e.g. </em>z<strong>one</strong>.w**allLength.<em>Note that zones also have parameters, so expressions like </em>element.parameter.design_area* are also applicable.</p>
+<div class="table-wrap"><table><thead><tr><th>areaCalculated</th><th>The zone calculated area</th><th></th></tr></thead><tbody><tr><td>areaRemaining</td><td>The zone remaining area</td><td></td></tr><tr><td>areaRemoved</td><td>The zone removed area</td><td></td></tr><tr><td>columnArea</td><td>The zone column area</td><td></td></tr><tr><td>concaveCount</td><td>The number of concavities in the zone polygon</td><td></td></tr><tr><td>cornerCount</td><td>The number of corners in the zone polygon</td><td></td></tr><tr><td>doorLength</td><td>The total length of door widths adjoining the zone</td><td></td></tr><tr><td>doorSurface</td><td>The total door area adjoining the zone</td><td></td></tr><tr><td>fillArea</td><td>The zone fill area</td><td></td></tr><tr><td>insetBack</td><td>The zone back inset</td><td></td></tr><tr><td>insetSide</td><td>The zone side inset</td><td></td></tr><tr><td>insetTop</td><td>The zone top inset</td><td></td></tr><tr><td>lowArea</td><td>The zone low area</td><td></td></tr><tr><td>perimeterNet</td><td>The net perimeter of the zone</td><td></td></tr><tr><td>subfloorThickness</td><td>The zone subfloor thickness</td><td></td></tr><tr><td>wallArea</td><td>The zone wall area</td><td></td></tr><tr><td>wallLength</td><td>The total length of walls bounding the zone</td><td></td></tr><tr><td>wallSurface</td><td>The total wall surface bounding the zone</td><td></td></tr><tr><td>windowLength</td><td>The total length of window widths adjoining the zone</td><td></td></tr><tr><td>windowSurface</td><td>The total window area adjoining the zone</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004151455">
+  <div class="art-h"><span class="no">90</span><h3>8.1 Overview</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004151455-8-1-Overview" target="_blank" rel="noopener">MyCi 知识库 · 8.1 Overview</a></div>
+  <p>This section covers function expressions, which take data and modifies it some way. For example, <em>not</em> turns a <em>true</em> value into <em>false</em> (and vice versa)</p>
+</div>
+<div class="art" id="a-360004058316">
+  <div class="art-h"><span class="no">91</span><h3>8.2 Not</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004058316-8-2-Not" target="_blank" rel="noopener">MyCi 知识库 · 8.2 Not</a></div>
+  <p>Inverts a <em>true</em> value into <em>false</em> (and vice versa). This can be very useful when it’s easier to express the opposite of what you want.</p>
+<p>Consider a rule should find elements that don’t have a “Paint” finish. It’s very easy to find elements that <em>do</em>have a paint finish by writing:</p>
+<p><em>element.finish contains “Paint”</em></p>
+<p>…but we want to know when that’s <em>not</em>true. So we can simply write:</p>
+<p><em>not(element.finish contains “Paint”)</em></p>
+<p>This function is intended to work on true/false values. If it receives a numeric value, <em>zero</em> is interpreted as <em>false</em> and anything else as <em>true</em>. Text will generally be interpreted as <em>false</em>, unless the text is “true” or “false” or can be interpreted as a number, e.g. “3.0”.</p>
+</div>
+<div class="art" id="a-360004155435">
+  <div class="art-h"><span class="no">92</span><h3>8.3 Rounding Quantities</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004155435-8-3-Rounding-Quantities" target="_blank" rel="noopener">MyCi 知识库 · 8.3 Rounding Quantities</a></div>
+  <p>Rounds a number to a specified increment or module size. There are three different versions:</p>
+<ul>
+<li>round(<value>, <module size>) : Rounds to the nearest module, e.g.   round(1.275, 0.100)   = 1.300</li>
+</ul>
+<ul>
+<li>roundUp(<value>, <module size>) : If the value isn’t exactly on a module size, it rounds up to the next, e.g.   round(1.210,   0. 100)   = 1.300</li>
+</ul>
+<ul>
+<li>roundDown(<value>, <module size>) : If the value isn’t exactly on a module size, it rounds down to the previous, e.g.   round(1.275,   0. 100)   = 1.200</li>
+</ul>
+<p>If a module size isn’t specified, it’s assumed to be 1, e.g. <em>round(3.75)</em>= 4.00.</p>
+</div>
+<div class="art" id="a-360004061676">
+  <div class="art-h"><span class="no">93</span><h3>8.4 Max/Min Quantity</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004061676-8-4-Max-Min-Quantity" target="_blank" rel="noopener">MyCi 知识库 · 8.4 Max/Min Quantity</a></div>
+  <p>Given a list of 2 or more numbers:</p>
+<ul>
+<li>max   finds the maximum value, e.g.   max(45, 2, 30)   = 45</li>
+</ul>
+<ul>
+<li>min   finds the minimum value, e.g.   min(45, 2, 30)   = 2</li>
+</ul>
+</div>
+<div class="art" id="a-360004155475">
+  <div class="art-h"><span class="no">94</span><h3>9.1 Overview</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004155475-9-1-Overview" target="_blank" rel="noopener">MyCi 知识库 · 9.1 Overview</a></div>
+  <p>This section covers expression operators, which produce a new value based on 2 or more other values. For example, the addition operator “+” produces the sum of 2 numbers – so the top level of an element could be obtained using the + operator to add the element height to its base level:</p>
+<p><em>element.height + element.level</em></p>
+<p>Some operators are words, like <em>contains</em> which determine if one text value contains another, e.g.:</p>
+<p><em>zone.name contains “Office”</em></p>
+<p>The result would be <em>true</em> for a zone called “Supervisor Office” and <em>false</em>for “Utility”.</p>
+<p>Any number of operators, values and functions can be combined in an expression.</p>
+</div>
+<div class="art" id="a-360004155495">
+  <div class="art-h"><span class="no">95</span><h3>9.2 Mathematical Operators</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004155495-9-2-Mathematical-Operators" target="_blank" rel="noopener">MyCi 知识库 · 9.2 Mathematical Operators</a></div>
+  <p>Common mathematical operators:</p>
+<div class="table-wrap"><table><thead><tr><th>+</th><th>Add two values, e.g. the top level of an element could be obtained by adding the element height to the base level: *element.height + element.level*</th><th></th></tr></thead><tbody><tr><td>-</td><td>Subtract two values, e.g. the offset from an element’s home storey level to its base level: *element.**level –**element.**storey.level*</td><td></td></tr><tr><td>*</td><td>Multiply two values, e.g. the bounding area of an element in plan could be obtained by multiplying its bounding width and depth: *element.width * element.depth*</td><td></td></tr><tr><td>/</td><td>Divide one value by another, e.g. the average skin thickness of “Red Brick” in a wall could be obtained by dividing the total thickness of the material in the wall by the number of skins of the material:*wall.material(“Red Brick”).thickness / wall.material(“Red Brick”).skins*</td><td></td></tr><tr><td>^</td><td>Raise one value to the exponent of another, e.g. the length across the diagonal of the element’s bounding box can be calculated using : *(element.width ^ 2 + element.depth ^ 2) ^ 0.5*</td><td></td></tr><tr><td>%</td><td>Calculates the remainder when one number is divided by the other, e.g. 13 % 5 = 3 For example, we could calculate the height of a wall that doesn’t fit within the selected brick module (from a wall property):*wall.height % wall.property(“Brick height”)*</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004155515">
+  <div class="art-h"><span class="no">96</span><h3>9.3 Relational Operators</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004155515-9-3-Relational-Operators" target="_blank" rel="noopener">MyCi 知识库 · 9.3 Relational Operators</a></div>
+  <p>Operators that make comparisons between two values, e.g. equality between values with “=”. The result from all of these operators is either <em>true</em> or <em>false.</em></p>
+<div class="table-wrap"><table><thead><tr><th>=</th><th>Determines if two values are equal. Applies to all value types, e.g. numbers, text, true/false. A rule that checks that the element type is a wall is:*element.type = “Wall”* Or a rule that checks for a wall thickness of 200mm is:*wall.thickness = 200mm*</th><th></th></tr></thead><tbody><tr><td><></td><td>Determines if two values are not equal. Applies to all value types, e.g. numbers, text, true/false. A rule that checks that the element type is *not* a wall is:*element.type**<>**“Wall”* Or a rule that omits any wall thickness of 200mm is:*wall.thickness**<>**200mm*</td><td></td></tr><tr><td>></td><td>Determines if one value is greater than the other. A rule for attaching walls higher than 2m is: *wall.height > 2*</td><td></td></tr><tr><td><</td><td>Determines if one value is less than the other. A rule for attached slabs less than 250mm thick is:*slab.thickness < 250mm*</td><td></td></tr><tr><td>>=</td><td>Determines if one value is greater than or equal to the other. A rule for attaching walls at least 2m high is: *wall.height >= 2*</td><td></td></tr><tr><td><=</td><td>Determines if one value is less than or equal to the other. A rule for attached slabs no thicker than 250mm is:*slab.thickness <**=**250mm*</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004155555">
+  <div class="art-h"><span class="no">97</span><h3>9.4 Logical Operators</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004155555-9-4-Logical-Operators" target="_blank" rel="noopener">MyCi 知识库 · 9.4 Logical Operators</a></div>
+  <p>Operators that join logical statements, e.g. where a rule for joining a recipe says that *“this must be true”**<strong>and</strong>**“that must be true”.<em>Some examples of these operators can be found in section 4.5.1 (</em>How to automatically link a recipe to an element*).</p>
+<div class="table-wrap"><table><thead><tr><th>and</th><th>The result is true only when both sides are true. For example, if a slab thickness must be at least 250mm thick and have an area of at least 10m2:*slab.thickness >= 250mm and slab.area >= 10*</th><th></th></tr></thead><tbody><tr><td>or</td><td>The result is true if at least one side is true. For example, if a room name is either “Utility” or “Storage”:*zone.name = “Utility” or zone.name = “Storage”*</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004061716">
+  <div class="art-h"><span class="no">98</span><h3>9.5 Text Operators</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004061716-9-5-Text-Operators" target="_blank" rel="noopener">MyCi 知识库 · 9.5 Text Operators</a></div>
+  <p>In addition to the relation operators in section 9.3, text can also be used with the following operators. Note that all text comparisons are not case sensitive, so “WORD” and “Word” will be seen as identical.</p>
+<div class="table-wrap"><table><thead><tr><th>startsWith</th><th>The result will be true if one text item starts with the other. For example, a rule to find elements with an ID starting with “Pipe”:*element.id startsWith “Pipe”*</th><th></th></tr></thead><tbody><tr><td>endsWith</td><td>The result will be true if one text item ends with the other. For example, a rule to find zones with a category name ending with “Area”:*z**one.category**e**nds**With “A**rea**”*</td><td></td></tr><tr><td>contains</td><td>The result will be true if one text item contains the other. For example, a rule to find zones names containing the word “Office”:*z**one.name**c**ontains**“O**ffice**”*</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-360004155575">
+  <div class="art-h"><span class="no">99</span><h3>9.6 List Operators</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360004155575-9-6-List-Operators" target="_blank" rel="noopener">MyCi 知识库 · 9.6 List Operators</a></div>
+  <p>All expression operators that work on list, primarily to determine if they contain certain items. Refer to section 4.4.6 for examples and more detail.</p>
+<div class="table-wrap"><table><thead><tr><th>contains</th><th>The result true if the list contains a partial match to the specified value. For example, a rule to attached to any wall with a material containing the word “brick”:*wall.material contains “brick”*</th><th></th></tr></thead><tbody><tr><td>includes</td><td>The result true if the list contains an exact match to the specified value. For example, a rule to attached to any slab with a material called “Structural concrete”:*slab.material includes “Structural concrete”*</td><td></td></tr><tr><td>has</td><td>The result is true if the value contains a partial match to any item in a specified list. For example, a rule to attach to any element with a material containing either the word “brick” or “concrete”:*element.material has (“**b**rick”, “**c**oncrete”)* Note that this can be used on a single value too, for example a test for a room name containing either “office” or “admin”:*zone.name has (“office”, “admin”)*</td><td></td></tr><tr><td>in</td><td>The result is true if the value contains an exact match to any item in a specified list. For example, a rule to attach to any wall with a material called “Red brick” or “Structural concrete”:*w**all**.material i**n**(“Red brick”, “Structural concrete”)* Note that this can be used on a single value too, for example a test for any element type of “door” or “window”:*e**lement.type* *in**(“d**oor**”, “w**indow**”)*</td><td></td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-8620654984719">
+  <div class="art-h"><span class="no">100</span><h3>Release Notes - Quantities</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/8620654984719-Release-Notes-Quantities" target="_blank" rel="noopener">MyCi 知识库 · Release Notes - Quantities</a></div>
+  <h1>Release notes - Quantities - 1.14</h1>
+<h3>Bug</h3>
+<p>QNT-11 Opening The Properties Tab of the Shell tool crashes Archicad</p>
+</div>
+</article>
+
+<footer class="foot">
+CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

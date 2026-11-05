@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Doors+Windows（门窗）完整中文教程：异形门窗样式与尺寸捕捉">
+<title>Doors+Windows · 门窗 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t">CI Tools 完全指南</div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h">开始</div>
+<a href="index.html"><span class="ic">◈</span>总览与快速开始</a>
+<a href="all.html"><span class="ic">☰</span>全量文章索引</a>
+<a href="guide.html"><span class="ic">★</span>中文主线速查</a>
+<div class="nav-h">16 个工具</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span>Annotate · 文字格式</a>
+<a class="" href="transformer.html"><span class="ic">⇄</span>Transformer · 项目镜像</a>
+<a class="" href="timetracker.html"><span class="ic">◷</span>Time Tracker · 工时统计</a>
+<a class="" href="detail.html"><span class="ic">▤</span>Detail Elements · 二维详图</a>
+<a class="" href="keynotes.html"><span class="ic">❝</span>Keynotes · 规范注释</a>
+<a class="" href="metadata.html"><span class="ic">◈</span>MetaData · 属性管理</a>
+<a class="" href="quantities.html"><span class="ic">∑</span>Quantities · 工程量算量</a>
+<a class="" href="cabinets.html"><span class="ic">▦</span>Cabinets · 橱柜木作</a>
+<a class=" on" href="doors.html"><span class="ic">⌸</span>Doors+Windows · 门窗</a>
+<a class="" href="coverings.html"><span class="ic">▨</span>Coverings · 覆面层</a>
+<a class="" href="electrical.html"><span class="ic">⚡</span>Electrical · 电气</a>
+<a class="" href="stairs.html"><span class="ic">⇱</span>Stairs · 楼梯</a>
+<a class="" href="structural.html"><span class="ic">⌗</span>Structural · 结构构件</a>
+<a class="" href="sites.html"><span class="ic">⛿</span>Sites · 场地景观</a>
+<a class="" href="fitout.html"><span class="ic">⌸</span>Fitout · 室内布置</a>
+<div class="nav-h">关于</div>
+<a href="about.html"><span class="ic">ⓘ</span>来源与说明</a>
+</aside>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html">总览</a> / Doors+Windows · 门窗</div>
+<div class="hero">
+  <span class="kicker">工具分册</span>
+  <h1>Doors+Windows · 门窗</h1>
+  <p>异形门窗样式与尺寸捕捉</p>
+  <div class="meta">
+    <span><b>48</b> 篇教程</span>
+    <span><b>7.1</b> 万字</span>
+    <span><b>243</b> 张图</span>
+  </div>
+</div>
+<article>
+
+<div class="art" id="a-206169140">
+  <div class="art-h"><span class="no">01</span><h3> How to configure composite wall returns for Doors</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206169140--How-to-configure-composite-wall-returns-for-Doors" target="_blank" rel="noopener">MyCi 知识库 ·  How to configure composite wall returns for Doors</a></div>
+  <p>Quick Start</p>
+<p>Once a Door is placed in a composite wall, it is necessary to configure the returns in order to close the cavity. You can do this via the settings under <strong>Door > Wall Opening</strong>.</p>
+<p>Exercise</p>
+<p>In this exercise, we will use a standard Cavity Wall construction (100mm brick, 100mm cavity including insulation, 100mm block and plaster finish) and we will return the inner two skins.</p>
+<p><img src="img/206169140_0.jpg" alt=" How to configure composite wall returns for Doors 示意图" loading="lazy"></p>
+<p><strong>Note:</strong> For the skins to return, the<strong>Interior Reveal</strong> must be <strong>set to 0</strong> as highlighted below:</p>
+<p><img src="img/206169140_1.jpg" alt=" How to configure composite wall returns for Doors 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Select your door</strong> (one which has already been placed in composite wall)</li>
+</ul>
+<ul>
+<li>Go to <strong>Door > Display options> Wall Opening Symbol</strong> View twirl-down:</li>
+</ul>
+<p><img src="img/206169140_2.jpg" alt=" How to configure composite wall returns for Doors 示意图" loading="lazy"></p>
+<ul>
+<li>Leave the Exterior settings as they are</li>
+</ul>
+<ul>
+<li>Modify the Interior settings to be as follows:</li>
+</ul>
+<ul>
+<li>Wrap = 2</li>
+</ul>
+<ul>
+<li>Extend to Opening = 12</li>
+</ul>
+<ul>
+<li>Offset = this will depend on the wall structure the door is placed in. In this example, the -100 has been set automatically.</li>
+</ul>
+<p><img src="img/206169140_3.jpg" alt=" How to configure composite wall returns for Doors 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Click OK</strong> to save your settings and exit the dialogue</li>
+</ul>
+<ul>
+<li>You will now notice four '<strong>intelligent hotspots</strong>' on the edge of your window (diamond shaped magenta spots, rather than circular black ones):</li>
+</ul>
+<p><img src="img/206169140_4.jpg" alt=" How to configure composite wall returns for Doors 示意图" loading="lazy"></p>
+<ul>
+<li>Close the cavity by clicking on the hotspot [A] and dragging to point [B]:</li>
+</ul>
+<p><img src="img/206169140_5.jpg" alt=" How to configure composite wall returns for Doors 示意图" loading="lazy"></p>
+<p><strong>NOTE:</strong> In other construction techniques, this cavity is left open and filled with a prefabricated closure – usually placed as a 2D Object.</p>
+</div>
+<div class="art" id="a-360001469116">
+  <div class="art-h"><span class="no">02</span><h3>'Autotext' schedule notes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001469116--Autotext-schedule-notes" target="_blank" rel="noopener">MyCi 知识库 · 'Autotext' schedule notes</a></div>
+  <p>In your Window+Door Schedule Notes Manager, you can create Autotext in your notes to pull through that data.</p>
+<p>For Example:</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>​</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>​</p>
+<p>You do this simply by typing in the Autotext as below:</p>
+<p>You can include this data as 'autotext' tags in the schedule notes of the <strong>Ci Tools > Doors+Windows schedule</strong></p>
+<p>The following 'autotexts' are available:</p>
+<ul>
+<li>Location</li>
+</ul>
+<p> Zone number: <ZONE></p>
+<ul>
+<li>Zone name: <ZONENAME></li>
+</ul>
+<ul>
+<li>Schedule</li>
+</ul>
+<p> Total Area: <TOTALAREA></p>
+<ul>
+<li>Daylight Area: <DAYLIGHTAREA></li>
+</ul>
+<ul>
+<li>Clear Glazed Area: <CLEARGLASSAREA></li>
+</ul>
+<ul>
+<li>Vented Area: <VENTEDAREA></li>
+</ul>
+<ul>
+<li>Thermal U Value: <UVAL></li>
+</ul>
+<ul>
+<li>Thermal UA Value: <UAVAL></li>
+</ul>
+<ul>
+<li>Parameters for Listing</li>
+</ul>
+<p> General</p>
+<p> Operation Type: <LIST_OPERATION></p>
+<ul>
+<li>Glazing: <LIST_GLAZING></li>
+</ul>
+<ul>
+<li>Finish: <LIST_FINISH></li>
+</ul>
+<ul>
+<li>Note/Remarks: <LIST_NOTE></li>
+</ul>
+<ul>
+<li>Source</li>
+</ul>
+<p> Manufacturer: <LIST_MANU></p>
+<ul>
+<li>Unit Cost: <LIST_COST></li>
+</ul>
+<ul>
+<li>Location</li>
+</ul>
+<p> Location: <LIST_LOCATION></p>
+<ul>
+<li>Elevation: <LIST_ELEV></li>
+</ul>
+<ul>
+<li>Fittings</li>
+</ul>
+<p> Hardware Set: <LIST_HARDWARE></p>
+<ul>
+<li>Lockset: <LIST_LOCKSET></li>
+</ul>
+<ul>
+<li>Hinges: <LIST_HINGES></li>
+</ul>
+<ul>
+<li>Accessories: <LIST_ACCESS></li>
+</ul>
+<ul>
+<li>Details</li>
+</ul>
+<p> Header Detail: <LIST_HEADDET></p>
+<ul>
+<li>Jamb Detail: <LIST_JAMBDET></li>
+</ul>
+<ul>
+<li>Sill Detail: <LIST_SILLDET></li>
+</ul>
+<ul>
+<li>Performance</li>
+</ul>
+<p> Fire Rating: <LIST_FIRERATING></p>
+<ul>
+<li>Acoustic Rating: <LIST_ACOUSTICRATING></li>
+</ul>
+<ul>
+<li>Heat Transfer: <LIST_HEATTRANS></li>
+</ul>
+<ul>
+<li>Total Glass Area: <LIST_GLASSAREA></li>
+</ul>
+<ul>
+<li>Total Glass Perimeter: <LIST_GLASSEDGE></li>
+</ul>
+<ul>
+<li>Surfaces</li>
+</ul>
+<p> All glass surfaces: <GLASS_MATERIAL></p>
+<ul>
+<li>All frame surfaces: <FRAME_MATERIAL></li>
+</ul>
+<ul>
+<li>Timber reveal surface: <REVEAL_MATERIAL></li>
+</ul>
+<ul>
+<li>All trim surfaces: <TRIM_MATERIAL></li>
+</ul>
+<ul>
+<li>Exterior trim surface: <EXTERIOR_TRIM_MATERIAL></li>
+</ul>
+<ul>
+<li>Interior trim surface: <INTERIOR_TRIM_MATERIAL></li>
+</ul>
+</div>
+<div class="art" id="a-204861534">
+  <div class="art-h"><span class="no">03</span><h3>Convert a Sketch door to a full parametric door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/204861534-Convert-a-Sketch-door-to-a-full-parametric-door" target="_blank" rel="noopener">MyCi 知识库 · Convert a Sketch door to a full parametric door</a></div>
+  <p>Cadimage Door, Cadimage Window and Cadimage Garage Door can be used to model doors and/or windows.</p>
+<ul>
+<li>Cadimage Window provides the greatest flexibility. It can be used to model the vast majority of windows and many doors.</li>
+</ul>
+<ul>
+<li>Cadimage Door is intended to model doors only, although some glazing can be included around the doors.</li>
+</ul>
+<ul>
+<li>Cadimage Garage Door can only be used to model doors that lift up from the base, with no peripheral glazing.</li>
+</ul>
+<p>The following articles describe how you can use one or other of these three library parts to model a door or a window.</p>
+<p>In summary though, the process is always the same:</p>
+<ul>
+<li>Decide which library part to use.</li>
+</ul>
+<ul>
+<li>Open the Door or Window Settings dialog.</li>
+</ul>
+<ul>
+<li>Choose a design start point.</li>
+</ul>
+<ul>
+<li>Edit the settings.</li>
+</ul>
+<h3>1. Decide which Library Part to Use</h3>
+<p>To decide which of the three library parts you should use, follow these simple guidelines:</p>
+<ul>
+<li>To model a window, use Cadimage Window.</li>
+</ul>
+<ul>
+<li>To model a simple door, even if it includes simple glazing, use Cadimage Door.</li>
+</ul>
+<ul>
+<li>To model a door with multiple glazed panels to either side or above it, use Cadimage Window.</li>
+</ul>
+<ul>
+<li>To model a garage door with no peripheral glazing, use Cadimage Garage Door.</li>
+</ul>
+<h3>2. Open the Door or Window Settings Dialog</h3>
+<p>Cadimage Window is an ArchiCAD <strong>Window</strong>element. To open its Window Settings dialog, double-click on the <strong>Window</strong>tool in the ArchiCAD toolbox, then browse to select the Cadimage Window library part from the Cadimage Library.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>Cadimage Door and Cadimage Garage Door are ArchiCAD <strong>Door</strong>elements. To open their Door Settings dialogs, double-click on the <strong>Door</strong>tool in the ArchiCAD toolbox, then browse to select the Cadimage Door or the Cadimage Garage Door library part from the Cadimage Library.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<h3>3. Choose a Design Start Point</h3>
+<p>On opening the <strong>Settings</strong>dialog, you will be presented with a choice of two ways to work with the <strong>Cadimage Door</strong> or<strong>Cadimage Window</strong> tool.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>Choose <strong>Sketch a Window</strong> (or <strong>Sketch a Door</strong>) if you want to start the design process by 'sketching' a door or window. This approach is useful at the very earliest stage of a design, when you simply want to place rectangular doors or windows into a project in order to present a concept. For windows, it is also a handy starting point for modelling windows with large numbers of mullions (e.g. shop fronts/ commercial work). The <strong>Sketch Design</strong> mode of working will be selected at the top of the left menu.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>If you choose to <strong>Parametrically Design a New Window</strong> (or <strong>Parametrically Design a New Door</strong>) from scratch, you will be taken immediately to a page of the <strong>Settings</strong>dialog where you can define the window setout. The <strong>Detailed Design</strong>mode of working will be selected.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>Note that you can toggle freely between the working modes at any time.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<h3>4. Edit the Settings</h3>
+<p>Use the left menu to navigate to each page of the <strong>Settings</strong> dialog.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>For many of the components, the settings are grouped as <strong>Model</strong>, <strong>Surfaces</strong>and <strong>Appearance</strong>. Use the buttons at the top, right of the Settings dialog to toggle between these three groups of settings.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+</div>
+<div class="art" id="a-213650106">
+  <div class="art-h"><span class="no">04</span><h3>Designing a Window Layout</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/213650106-Designing-a-Window-Layout" target="_blank" rel="noopener">MyCi 知识库 · Designing a Window Layout</a></div>
+  <p>To design the layout of panels, mullions and transoms, go to the <strong>Glazing Panels</strong> page.</p>
+<p>This page provides controls to:</p>
+<ul>
+<li>Select panels to edit.</li>
+</ul>
+<ul>
+<li>Add and remove panels.</li>
+</ul>
+<ul>
+<li>Change panel types (e.g. change a casement panel to an awning).</li>
+</ul>
+<ul>
+<li>Set panel widths.</li>
+</ul>
+<ul>
+<li>Set opening angles.</li>
+</ul>
+<ul>
+<li>Insert a custom panel (i.e. one that you modelled in ARCHICAD and saved as a custom Window Sash).</li>
+</ul>
+<p>Note that some controls for the panels are located elsewhere:</p>
+<ul>
+<li>Panel heights are set on the Shape page.</li>
+</ul>
+<ul>
+<li>Glazing bars (muntins) can be added to glazed panels on the Glazing Panels > Glazing Bars page.</li>
+</ul>
+<p><strong>Available Settings</strong></p>
+<p><img src="img/213650106_0.jpg" alt="Designing a Window Layout 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the image to select or de-select panels within the window.</li>
+</ul>
+<ul>
+<li>This list controls what will happen when you click on a window panel in the image (see <a href="#PanelSelectionControls" target="_blank" rel="noopener">Panel Selection Controls</a> below).</li>
+</ul>
+<ul>
+<li>Set the panel width (see <a href="#PanelWidth" target="_blank" rel="noopener">Panel Width</a> below) and opening angle.</li>
+</ul>
+<ul>
+<li>Set the panel type and glass surface. Edit extra settings for the panel including its opening direction (see <a href="#PanelOpeningDirection" target="_blank" rel="noopener">Panel Opening Direction</a> below), number of opening panels left and right (see <a href="#LeftRightOpeningPanels" target="_blank" rel="noopener">Left/Right Opening Panels</a> below), a repeating grid (see <a href="#FormAGrid" target="_blank" rel="noopener">Form a Grid</a> below), and a custom panel type.</li>
+</ul>
+<ul>
+<li>Remove selected panels, or duplicate selected panels with a vertical mullion separating the new panels. Move a selected panel left or right (see <a href="#AddDeleteMovePanels" target="_blank" rel="noopener">Add, Delete and Move Panels</a> below).</li>
+</ul>
+<ul>
+<li>Add panels separated by horizontal transoms (see <a href="#EditThePanelLayout" target="_blank" rel="noopener">Edit the Panel Layout</a> below).</li>
+</ul>
+<p><strong>Panel Selection Controls</strong></p>
+<p><img src="img/213650106_1.jpg" alt="Designing a Window Layout 示意图" loading="lazy"></p>
+<p>Panel selection options include:</p>
+<ul>
+<li>Click to Select a Single Panel - the panel you click on will become selected, all other panels de-selected.</li>
+</ul>
+<ul>
+<li>Click to Select - click on any number of panels to select them.</li>
+</ul>
+<ul>
+<li>Click to De-Select - click on selected panels to de-select them.</li>
+</ul>
+<ul>
+<li>Select All - all panels will become selected.</li>
+</ul>
+<ul>
+<li>De-select All - all panels will become de-selected.</li>
+</ul>
+<ul>
+<li>Click to Zoom In - click in the image to zoom in. The point you click on will move to the center of the image, and the image will be drawn at a larger scale. This can help with selection of small panels.</li>
+</ul>
+<ul>
+<li>Click to Pan - click in the zoomed image to pan to a different area of the window. The point you click on will move to the center of the image.</li>
+</ul>
+<ul>
+<li>Fit in Window - the image will re-size to fit in the available space.</li>
+</ul>
+<p><strong>Add, Delete and Move Panels</strong></p>
+<p><img src="img/213650106_2.jpg" alt="Designing a Window Layout 示意图" loading="lazy"></p>
+<p>The four buttons beside the selection image operate on the panels that are currently selected and allow you to:</p>
+<ul>
+<li>Add a Panel (+) - Currently selected panels will be duplicated, with a vertical mullion separating the original and duplicate panels.</li>
+</ul>
+<ul>
+<li>Delete a Panel (-) - Currently selected panels will be removed.</li>
+</ul>
+<ul>
+<li>Move a Panel Left (<) - Currently selected panels will be moved one mullion to the left.</li>
+</ul>
+<ul>
+<li>Move a Panel Right (>) - Currently selected panels will be moved one mullion to the right.</li>
+</ul>
+<p> <strong>Edit the Panel Layout</strong></p>
+<p><img src="img/213650106_3.jpg" alt="Designing a Window Layout 示意图" loading="lazy"></p>
+<p>To add panels that are separated by a horizontal mullion, use the menu located above the selection image. This menu provides controls to:</p>
+<ul>
+<li>Insert a Top Row - inserts an extra row of panels at the top of the window. The mullion spacing for this top row is independent of the main (middle) row, and independent of the bottom row. Note that only one top row can be included in a window layout.</li>
+</ul>
+<ul>
+<li>Insert a Bottom Row - inserts an extra row of panels at the bottom of the window. The mullion spacing for this bottom row is independent of the main (middle) row, and independent of the top row. Note that only one bottom row can be included in a window layout.</li>
+</ul>
+<ul>
+<li>Insert a Panel Above/Below - adds an extra panel above or below any selected panel in the main (middle) row of the window. Note that only one extra upper and one extra lower panel may be included for each of the main (middle) panels.</li>
+</ul>
+<p> <strong>Panel Width</strong></p>
+<p><img src="img/213650106_4.jpg" alt="Designing a Window Layout 示意图" loading="lazy"></p>
+<p> The width of selected panels can be set in the Panel Width field below the selection image.</p>
+<ul>
+<li>To set a fixed panel width , enter a non-zero value (e.g. 300mm for a 300mm wide panel).</li>
+</ul>
+<ul>
+<li>If you want the selected panel to fill the available space within the window frame, enter zero for the panel width.</li>
+</ul>
+<ul>
+<li>If all panel widths are set to non-zero sizes, the ratio of the panel widths will remain constant. The actual widths will adjust depending on the total width of the window.</li>
+</ul>
+<p><strong>Form a Grid</strong></p>
+<p><img src="img/213650106_5.jpg" alt="Designing a Window Layout 示意图" loading="lazy"></p>
+<p>A selected panel may be split with mullions and transoms to form a rectangular grid. This control is useful if you want a panel to be exactly replicated. There is no individual control over the panels within the grid.</p>
+<p><strong>Panel Opening Direction</strong></p>
+<p><img src="img/213650106_6.jpg" alt="Designing a Window Layout 示意图" loading="lazy"></p>
+<p>By default, all panels open in the direction indicated when placing the window into the wall. If panels are opening the wrong way (i.e. opening to the exterior side of the wall when they should be opening to the interior side), use the <strong>Flip</strong> button to reverse the opening direction.</p>
+<p><img src="img/213650106_7.jpg" alt="Designing a Window Layout 示意图" loading="lazy"></p>
+<p>However if you want some panels to open to the exterior side, and some to the interior side of the wall, click the <strong>Open Towards</strong> checkbox <strong>On</strong>, and set the opening direction for each panel individually.</p>
+<p><strong>Left/Right Opening Panels</strong></p>
+<p><img src="img/213650106_8.jpg" alt="Designing a Window Layout 示意图" loading="lazy"></p>
+<p>Some panels (e.g. bifolding or sliding panels) are made up of a number of smaller panels. For these panels, set the number of panels on the left or right using the controls provided.</p>
+</div>
+<div class="art" id="a-213652226">
+  <div class="art-h"><span class="no">05</span><h3>Door Leaves</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/213652226-Door-Leaves" target="_blank" rel="noopener">MyCi 知识库 · Door Leaves</a></div>
+  <p>Both the <strong>Cadimage Door</strong> and <strong>Cadimage Window</strong> can include opening doors. Options for door leaf style are outlined in this article.</p>
+<p>Note that the <strong>Cadimage Door</strong> has more options than the <strong>Cadimage Window</strong> for door leaf style. For instance, the <strong>Cadimage Door</strong> has an option to set the leaf style independently for either side of a 2-leaf door.</p>
+<p>This article deals with the <strong>Cadimage Door</strong> settings. The settings for <strong>Cadimage Window</strong> are the same or simpler.</p>
+<p>To define the door leaf style, go to the <strong>Door Leaf</strong> page.</p>
+<p><img src="img/213652226_0.jpg" alt="Door Leaves 示意图" loading="lazy"></p>
+<p>This page includes sub-pages - <strong>Door Leaf Panels</strong> and <strong>Door Leaf Glazing Bars</strong>. Together this group of pages provides controls to:</p>
+<ul>
+<li>Select a door leaf style.</li>
+</ul>
+<ul>
+<li>Set attributes (surface and pens).</li>
+</ul>
+<ul>
+<li>Adjust the dimension of the rails and panels.</li>
+</ul>
+<ul>
+<li>Choose infill panel type.</li>
+</ul>
+<ul>
+<li>Apply a glazing bar (i.e. muntin) pattern to glazed panels within the door leaf.</li>
+</ul>
+<p>Note that some controls for the door leaf are located elsewhere:</p>
+<ul>
+<li>Leaf width and height are set on the Door Type page.</li>
+</ul>
+<ul>
+<li>Door furniture (handles and kick plates) can be added on the Hardware pages.</li>
+</ul>
+<ul>
+<li>Plan view symbol options are set on the Display Options pages.</li>
+</ul>
+<p><strong>Available Settings</strong></p>
+<p><img src="img/213652226_1.jpg" alt="Door Leaves 示意图" loading="lazy"></p>
+<p>Settings on the <strong>Door Leaf</strong> page include:</p>
+<ul>
+<li>A selection of door leaf styles to choose from. Panels within the doors may be either fixed glass, or a panel type of your selection. The light blue rectangles indicate a glass panel, the mid-blue rectangles indicate a selected infill panel. Note that these styles may be further adjusted on the Door Leaf Panels and Door Leaf Glazing Bars pages (see <a href="#DoorLeafStyle" target="_blank" rel="noopener">Door Leaf Style</a> below). The ' ... ' button will take you to the Door Leaf Panels page.</li>
+</ul>
+<ul>
+<li>For the Cadimage Door , you can choose a different style for either side of a 2-leaf door (see <a href="#DifferentLeftAndRight" target="_blank" rel="noopener">Different Left and Right</a> below).</li>
+</ul>
+<ul>
+<li>Set surface and view pen attributes for the door leaf (see <a href="#DoorLeafSurfaces" target="_blank" rel="noopener">Door Leaf Surfaces</a> below). To edit a comprehensive list of all attributes for the door, click on the All Attributes... button.</li>
+</ul>
+<p><img src="img/213652226_2.jpg" alt="Door Leaves 示意图" loading="lazy"></p>
+<p>Settings on the <strong>Door Leaf Panels</strong> page include:</p>
+<ul>
+<li>A selection of basic door leaf styles.</li>
+</ul>
+<ul>
+<li>A field to set the leaf thickness.</li>
+</ul>
+<ul>
+<li>A selection of infill panel types.</li>
+</ul>
+<ul>
+<li>Fields to set the dimension of rail widths and heights.</li>
+</ul>
+<p><img src="img/213652226_3.jpg" alt="Door Leaves 示意图" loading="lazy"></p>
+<p>Settings on the <strong>Door Leaf Glazing Bars</strong> page include:</p>
+<ul>
+<li>A selection of glazing bar patterns, and dimensions for the glazing bars.</li>
+</ul>
+<ul>
+<li>Attribute (surface and pen) settings for the glazing bars.</li>
+</ul>
+<p><strong>Door Leaf Style</strong></p>
+<p>The first step in defining the door leaf style, is to select a basic style from the menu. You can do this on the <strong>Door Leaf</strong> page. However, if you click on the '<strong>...</strong>' button, you can choose the preferred infill panels, and set the leaf thickness and rail dimensions too.</p>
+<p><img src="img/213652226_4.jpg" alt="Door Leaves 示意图" loading="lazy"></p>
+<p>For example, to define a simple door leaf that includes a glazed security panel, you would:</p>
+<ul>
+<li>Select basic Leaf Type as 1-A .</li>
+</ul>
+<ul>
+<li>Choose the Panel Insert to be Glass .</li>
+</ul>
+<ul>
+<li>Set the hinged stile width A to push the glass panel across to the handle side of the door.</li>
+</ul>
+<ul>
+<li>Set the bottom rail width D to push the glass panel up to the height of the glazed panel.</li>
+</ul>
+<p><strong>Different Left and Right</strong></p>
+<p>For the <strong>Cadimage Door</strong>, it's possible to choose a different door leaf for left and right hung doors in a double door. Set the <strong>Different Left and Right</strong> checkbox to <strong>On</strong> to do this.</p>
+<p><img src="img/213652226_5.jpg" alt="Door Leaves 示意图" loading="lazy"></p>
+<p>The dialog will change:</p>
+<ul>
+<li>Extra pages will appear in the menu to allow individual editing of the two door leaf styles.</li>
+</ul>
+<ul>
+<li>A second selection field will appear to allow selection of a different basic leaf type for left and right door leaves.</li>
+</ul>
+<p>If both door leaves should be the same, set the the <strong>Different Left and Right</strong> checkbox to <strong>Off</strong>, and edit the settings for both door leaves simultaneously.</p>
+<p><strong>Door Leaf Surfaces</strong></p>
+<p>Door leaves may be set to have a uniform surface (set <strong>Uniform Door Leaf Surfaces</strong> to <strong>On</strong>), or else individual surfaces may be selected for the interior and exterior of the door leaf, and for the rails, panels and beading.</p>
+<p>A surface for glazing bars (i.e. muntins) can be set on the <strong>Door Leaf Glazing Bars</strong> page. However, you can not set separate interior and exterior surfaces for glazing bars.</p>
+</div>
+<div class="art" id="a-213858026">
+  <div class="art-h"><span class="no">06</span><h3>Door Sidelights and Overlights</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/213858026-Door-Sidelights-and-Overlights" target="_blank" rel="noopener">MyCi 知识库 · Door Sidelights and Overlights</a></div>
+  <p>To choose panel layout and settings for glazing around a <strong>Cadimage Door</strong>, go to the <a href="#GlazingPanels" target="_blank" rel="noopener">Glazing Panels</a> page. This page contains basic settings for glazing panel:</p>
+<ul>
+<li>Layout.</li>
+</ul>
+<ul>
+<li>Dimensions.</li>
+</ul>
+<ul>
+<li>Surfaces.</li>
+</ul>
+<p>Sub-pages provide extra controls:</p>
+<ul>
+<li><a href="#GlazingPanelsSidelightPanels" target="_blank" rel="noopener">Glazing Panels > Sidelight Panels</a> - choose individual panel types for sidelights.</li>
+</ul>
+<ul>
+<li><a href="#GlazingPanelsOverlightPanels" target="_blank" rel="noopener">Glazing Panels > Overlight Panels</a> - choose individual panel types for overlights.</li>
+</ul>
+<ul>
+<li><a href="#GlazingPanelsGlazingBars" target="_blank" rel="noopener">Glazing Panels > Glazing Bars</a> - add glazing bars (i.e. muntins) to the sidelights and overlights.</li>
+</ul>
+<p>Note that some controls for sidelights and overlights are located elsewhere:</p>
+<ul>
+<li>Sidelight widths and overlight height are set on the Shape page.</li>
+</ul>
+<ul>
+<li>Glass surface is set on the Glass page.</li>
+</ul>
+<p><strong>Available Settings</strong></p>
+<p><strong>Glazing Panels</strong></p>
+<p><img src="img/213858026_0.jpg" alt="Door Sidelights and Overlights 示意图" loading="lazy"></p>
+<ul>
+<li>Choose a basic sidelights/overlight layout from the menu (see <a href="#PanelLayout" target="_blank" rel="noopener">Panel Layout</a> below).</li>
+</ul>
+<ul>
+<li>Set the heights and widths of dividing rails (see <a href="#RailDimensions" target="_blank" rel="noopener">Rail Dimensions</a> below).</li>
+</ul>
+<ul>
+<li>Set attributes (surfaces and view pen) for the panels.</li>
+</ul>
+<p><strong>Glazing Panels > Sidelight Panels</strong></p>
+<p><img src="img/213858026_1.jpg" alt="Door Sidelights and Overlights 示意图" loading="lazy"></p>
+<ul>
+<li>Choose an internal layout option for the left sidelight. Depending on which panel layout option you chose (see <a href="#PanelLayout" target="_blank" rel="noopener">Panel Layout</a> below), there will be more or fewer options in this list.</li>
+</ul>
+<ul>
+<li>For each panel of the internal layout, select a panel type and glazing bars (muntins) placement (see <a href="#GlazingBarsPlacement" target="_blank" rel="noopener">Glazing Bars Placement</a> below).</li>
+</ul>
+<ul>
+<li>Choose an internal layout option, and select panel types and glazing bars placement, for the right sidelight.</li>
+</ul>
+<ul>
+<li>For more glazing bar settings, click the ' ... ' button.</li>
+</ul>
+<p><strong>Glazing Panels > Overlight Panels</strong></p>
+<p><img src="img/213858026_2.jpg" alt="Door Sidelights and Overlights 示意图" loading="lazy"></p>
+<ul>
+<li>Choose an internal layout option for the overlight. Depending on which panel layout option you chose (see <a href="#PanelLayout" target="_blank" rel="noopener">Panel Layout</a> below), there will be more or fewer options in this list.</li>
+</ul>
+<ul>
+<li>For each panel of the internal layout, select a panel type and glazing bars (muntins) placement (see <a href="#GlazingBarsPlacement" target="_blank" rel="noopener">Glazing Bars Placement</a> below).</li>
+</ul>
+<ul>
+<li>For more glazing bar settings, click the ' ... ' button.</li>
+</ul>
+<p><strong>Glazing Panels > Glazing Bars</strong></p>
+<p><img src="img/213858026_3.jpg" alt="Door Sidelights and Overlights 示意图" loading="lazy"></p>
+<ul>
+<li>Choose a pattern for the sidelights, and set the bar spacing dimensions.</li>
+</ul>
+<ul>
+<li>Choose a pattern for the overlights, and set the bar spacing dimensions.</li>
+</ul>
+<ul>
+<li>Set the bar width and thickness.</li>
+</ul>
+<ul>
+<li>Select a surface and view pen for the glazing bars.</li>
+</ul>
+<p><strong>Panel Layout</strong></p>
+<p><img src="img/213858026_4.jpg" alt="Door Sidelights and Overlights 示意图" loading="lazy"></p>
+<p>This control allows you to choose how the main frame is constructed around glazed panels. Options include:</p>
+<ul>
+<li>No Transom - the glazed panels are separated from the door leaves by a vertical mullion. No horizontal transoms are included.</li>
+</ul>
+<ul>
+<li>Transom with Full Height Jambs - vertical mullions separate the glazing from the door leaves. A horizontal transom extends across the top of the door leaves, between the vertical mullions.</li>
+</ul>
+<ul>
+<li>Full Width Transom - a horizontal transom extends across the full width of the door, separating the overlight from door leaves and sidelights. Vertical mullions extend up to the transom. This forms a full-width overlight.</li>
+</ul>
+<ul>
+<li>Corner Lights - full height vertical mullions intersect with a full width horizontal transom. This forms separate spaces for the overlight, the sidelights, and two corner lights.</li>
+</ul>
+<ul>
+<li>No Jambs - a full-width horizontal transom separates the overlight from the door leaves and sidelights. No vertical mullions are included. Door leaves are hinged directly to the sidelights.</li>
+</ul>
+<ul>
+<li>Corner Lights with No Jambs - a full-width horizontal transom separates the overlight from the door leaves and sidelights. The overlight is split by a small vertical transom at either end, forming corner lights. Door leaves are hinged directly to the sidelights.</li>
+</ul>
+<p><strong>Rail Dimensions</strong></p>
+<p><img src="img/213858026_5.jpg" alt="Door Sidelights and Overlights 示意图" loading="lazy"></p>
+<p>Set the heights and widths of rails that divide and frame the sidelight and overlight panels.</p>
+<p>Note that, depending on the internal layout of the sidelights and overlights, not all of these rails will be inserted.</p>
+<p> <strong>Glazing Bars Placement</strong></p>
+<p><img src="img/213858026_6.jpg" alt="Door Sidelights and Overlights 示意图" loading="lazy"></p>
+<p>For each panel of a sidelight or overlight, you can choose how the glazing bars are applied.</p>
+<ul>
+<li>For simple patterns (e.g. Regular Grid ), choose whether to apply the glazing bars to each panel.</li>
+</ul>
+<ul>
+<li>For Edge Grid or Edge Bars , choose to include bars on any combination of head, sill, left jamb and right jamb.</li>
+</ul>
+</div>
+<div class="art" id="a-12045881656463">
+  <div class="art-h"><span class="no">07</span><h3>Door and Window Visibility Strips</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/12045881656463-Door-and-Window-Visibility-Strips" target="_blank" rel="noopener">MyCi 知识库 · Door and Window Visibility Strips</a></div>
+  <p>The Doors+Windows tool allows for the addition of visibility strips as is required by law in certain countries, and overall good practice to implement.</p>
+<p>The Visibility strip can be added through the standard Window and Exterior Door interface as shown below.</p>
+<p><img src="img/12045881656463_0.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>By selecting the glazing panel in the left hand pane, a selection can be made as to what type of strip is to be added. It is possible to select several glazing panels at once and apply the Visibility strips. It is also possible to merge and un-merge these panels for the purposes of spreading a pattern consistently over the panels without continuity problems.</p>
+<p><img src="img/12045881656463_1.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>By selecting the Door panel in this instance, we can now select what type of Visibility strip we want to apply. We have a choice between a Generic Strip or to use a complex profile that we can create.</p>
+<p><img src="img/12045881656463_2.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>Let us look at the Generic Visibility strip first. We can assign a height to the horizontal centre of the Strip, as well as the actual height of the strip. We can also assign the Archicad Surface that will be displayed, in this case it is ‘Glass-Blue’.</p>
+<p>Please note: the height is calculated from the Sill-height.</p>
+<p><img src="img/12045881656463_3.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>Next we will look at using a Complex profile.</p>
+<p>By electing the Complex Profile option, you can select any of Archicad’s standard Complex Profiles or a created one. It is therefore possible to draw any logo or text as a Complex Profile.</p>
+<p>We will create a Complex Profile for the purposes of this explanation that States ‘Visibility’ in text.</p>
+<p><img src="img/12045881656463_4.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>We can now select this in our Visibility strip settings.</p>
+<p><img src="img/12045881656463_5.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>This will be applied with the Surfaces as assigned in the Complex Profile</p>
+<p><img src="img/12045881656463_6.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>We can also assign a different Surface by unchecking the ‘Profiles use own surfaces’ checkbox and selecting the colour of our choosing with the desired outcome shown below.</p>
+<p><img src="img/12045881656463_7.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p><img src="img/12045881656463_8.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>Other Available Settings deal with mirroring, Anchor points, Repetition and adjusting the height above the Sill.</p>
+<p><img src="img/12045881656463_9.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>Mirror status allows for mirroring of the Profile.</p>
+<p><img src="img/12045881656463_10.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>The Anchor point can be adjusted.</p>
+<p><img src="img/12045881656463_11.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>The Repetition can be switched on or off and the distance between repeating profiles adjusted.</p>
+<p><img src="img/12045881656463_12.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+<p>And finally, the Height above Sill is adjustable.</p>
+<p><img src="img/12045881656463_13.jpg" alt="Door and Window Visibility Strips 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-360001792036">
+  <div class="art-h"><span class="no">08</span><h3>Door and Window showing uniform surfaces</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001792036-Door-and-Window-showing-uniform-surfaces" target="_blank" rel="noopener">MyCi 知识库 · Door and Window showing uniform surfaces</a></div>
+  <p>If you have a door or window showing a uniform surface and you've set all the correct attributes you may have the model override on.</p>
+<p>Follow the steps below to turn on the Model options in your Door Selection Settings.</p>
+<p>In Archicad go to Options > Work Environment > Tool Settings Dialog Boxes</p>
+<p><img src="img/360001792036_0.jpg" alt="Door and Window showing uniform surfaces 示意图" loading="lazy"></p>
+<p>In the Work Environment window select Tool Settings Dialog Boxes on the left Column, Door Tool in the middle column and then turn on Model in the right column</p>
+<p><img src="img/360001792036_1.jpg" alt="Door and Window showing uniform surfaces 示意图" loading="lazy"></p>
+<p>(Repeat for the Window Tool if needed</p>
+<p>In the Door / Window tool you will now see the Model options to override surfaces for the Door or window tool</p>
+<p><img src="img/360001792036_2.jpg" alt="Door and Window showing uniform surfaces 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-6531849730319">
+  <div class="art-h"><span class="no">09</span><h3>How to Create a Bifold Door using the Ci Tools Doors+Windows add-on</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/6531849730319-How-to-Create-a-Bifold-Door-using-the-Ci-Tools-Doors-Windows-add-on" target="_blank" rel="noopener">MyCi 知识库 · How to Create a Bifold Door using the Ci Tools Doors+Windows add-on</a></div>
+  <p>In this video, Natalie shows us how to create a symmetrical Bi-Fold Door.</p>
+</div>
+<div class="art" id="a-360000559415">
+  <div class="art-h"><span class="no">10</span><h3>How to Create a Custom Door Leaf</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360000559415-How-to-Create-a-Custom-Door-Leaf" target="_blank" rel="noopener">MyCi 知识库 · How to Create a Custom Door Leaf</a></div>
+  <p>The <em>Cadimage Doors+Windows</em> tool includes a number of inbuilt door panel styles. However, if you want to design something a little more interesting, you can create a <em>Custom Door Leaf</em>.</p>
+<p>First, use slabs to draw the door leaf in plan view. Remember to set pens, materials and section attributes as you want them to appear when converted to a door leaf.</p>
+<p><a href="http://blog.cadimageworld.com/2011/12/custom-door-leaf/custom-door-leaf-1/" target="_blank" rel="noopener"><img src="img/il_228618baa9.jpg" alt="" loading="lazy"></a></p>
+<p>Select the fills, and from the <em>File</em>menu choose <em>Libraries and Objects > Save Custom Component</em>.</p>
+<p>A dialog will come up listing all the component types you can create. Choose <em>Cusom Door Leaf</em>. In the next dialog choose a name and save the component into the Embedded Library.</p>
+<p><a href="http://blog.cadimageworld.com/2011/12/custom-door-leaf/custom-door-leaf-2/" target="_blank" rel="noopener"><img src="img/il_86445d3a3e.jpg" alt="" loading="lazy"></a></p>
+<p>In the <em>Cadimage Door Settings</em>dialog, set the <em>Leaf Type</em> to <em>Custom.</em></p>
+<p><em><a href="http://blog.cadimageworld.com/2011/12/custom-door-leaf/custom-door-leaf-3/" target="_blank" rel="noopener"><img src="img/il_8890b7b361.jpg" alt="" loading="lazy"></a></em></p>
+<p>Choose the new <em>Custom Door Leaf</em>from the list.</p>
+<p><a href="http://blog.cadimageworld.com/2011/12/custom-door-leaf/custom-door-leaf-5/" target="_blank" rel="noopener"><img src="img/il_88dfcba1ac.jpg" alt="" loading="lazy"></a></p>
+<p>The new leaf will be inserted into the frame.</p>
+</div>
+<div class="art" id="a-7433027969807">
+  <div class="art-h"><span class="no">11</span><h3>How to Create a Sliding Corner Door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/7433027969807-How-to-Create-a-Sliding-Corner-Door" target="_blank" rel="noopener">MyCi 知识库 · How to Create a Sliding Corner Door</a></div>
+  <p>To create a sliding corner door we recommend using the CI Tools Exterior Door.</p>
+<p>Select the Door tool then select the CI Tools Library > Ci Tools Door Exterior</p>
+<p>Match the following settings.</p>
+<p><img src="img/7433027969807_0.jpg" alt="How to Create a Sliding Corner Door 示意图" loading="lazy"></p>
+<p>Select the Shape tag > Change the joint to Glass Joint then mitre the angle.</p>
+<p><img src="img/7433027969807_1.jpg" alt="How to Create a Sliding Corner Door 示意图" loading="lazy"></p>
+<p>Design the shape and opening of the door under Glazing Panel Layout</p>
+<p><img src="img/7433027969807_2.jpg" alt="How to Create a Sliding Corner Door 示意图" loading="lazy"></p>
+<p>Determine , Frame Shap and Sill types in the settings. Place the door twice to the corner of both walls at 90 degrees.</p>
+</div>
+<div class="art" id="a-206169320">
+  <div class="art-h"><span class="no">12</span><h3>How to add Handles to a Door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206169320-How-to-add-Handles-to-a-Door" target="_blank" rel="noopener">MyCi 知识库 · How to add Handles to a Door</a></div>
+  <ul>
+<li><strong>Select an existing door</strong> or open the Door Tool from the toolbox to <strong>create a new door.</strong></li>
+</ul>
+<p>If creating a new door, select the <strong>Cadimage Door</strong> inside <strong>Cadimage Library 20 folder</strong></p>
+<p><img src="img/206169320_0.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<ul>
+<li>Go to <strong>Hardware</strong>to select the handle and plate types for Exterior and Interior sides of the door.</li>
+</ul>
+<p><img src="img/206169320_1.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<ul>
+<li>You can define which door Leaves should have handles added to by ticking the appropriate boxes under <strong>Placement.</strong></li>
+</ul>
+<p><img src="img/206169320_2.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the <strong>...</strong> button to <strong>edit</strong>Interior and Exterior<strong>Handle and Plate dimensions.</strong></li>
+</ul>
+<p><img src="img/206169320_3.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<ul>
+<li>This is the <strong>Exterior Handles</strong> page.</li>
+</ul>
+<p><img src="img/206169320_4.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the <strong>Handle</strong> fly-out button</li>
+</ul>
+<p><img src="img/206169320_5.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<ul>
+<li>You can <strong>choose a Handle</strong> from the <strong>Handle Type drop-down</strong>:</li>
+</ul>
+<p><img src="img/206169320_6.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Modify the dimensions</strong> of the handle if desired</li>
+</ul>
+<ul>
+<li>Click on the <strong>Plate Type drop-down</strong> button to choose a plate type:</li>
+</ul>
+<p><img src="img/206169320_7.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<p>Adjust dimension if necessary</p>
+<ul>
+<li>Click on '<strong>Handle Location' drop-down</strong>to choose between Middle, Top or Bottom<strong>:</strong></li>
+</ul>
+<p><img src="img/206169320_8.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<p>The <strong>Interior Handles</strong> options work in exactly the same way as Exterior Handles with options to choose the Handle, the Plate and then set the Location.</p>
+<p>The option to <strong>Place Handles on Right-hand Leaves</strong> is important when working with Double Doors. By default, whenever we design a Cadimage Door, we work with the Left-hand leaf. When working with Double Doors, the handles can be placed on only the Left-leaf or Left- and Right-leaf (by ticking this option).</p>
+<p>When working with multi-leaf Doors, you also have the option to tick the box<strong>Handles on Extra Leaves</strong>.</p>
+<p>The final option we can look at is the <strong>Kick Plates</strong>. In <strong>Dimensions</strong> you can set the height, offset from edges and thickness of the Plate:</p>
+<p><img src="img/206169320_9.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<p>On this page you can set the <strong>Kick Plates</strong> to be placed on <strong>Exterior Face, Interior Face</strong> or both:</p>
+<p><img src="img/206169320_10.jpg" alt="How to add Handles to a Door 示意图" loading="lazy"></p>
+<ul>
+<li>Click <strong>OK</strong> to apply the settings to an existing door or place a anew door.</li>
+</ul>
+</div>
+<div class="art" id="a-205611614">
+  <div class="art-h"><span class="no">13</span><h3>How to add Trims to the exterior of a Door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205611614-How-to-add-Trims-to-the-exterior-of-a-Door" target="_blank" rel="noopener">MyCi 知识库 · How to add Trims to the exterior of a Door</a></div>
+  <p>To add trims to the exterior of your door, go to the <strong>Exterior Trims</strong> area of your Settings dialogue.</p>
+<p><img src="img/205611614_0.jpg" alt="How to add Trims to the exterior of a Door 示意图" loading="lazy"></p>
+<p>You can see the following sub-menu items where you can modify specific parts of your design:</p>
+<ul>
+<li>Head Moulding – refers to the trim across the top of the opening</li>
+</ul>
+<ul>
+<li>Jamb Moulding – refers to the trims to either side of the opening</li>
+</ul>
+<ul>
+<li>Exterior Trim – refers to the external trim around the entire opening</li>
+</ul>
+<ul>
+<li>Sill – refers to the trim across the bottom of the opening</li>
+</ul>
+<p>To Apply an exterior Trim</p>
+<ul>
+<li><strong>Select</strong> an existing door,<strong>or create</strong> a new door by clicking on the <strong>Door Tool</strong> in the Toolbox</li>
+</ul>
+<ul>
+<li>Go to <strong>Exterior Trims.</strong>You can change the <strong>Head Moulding, Jamb Moulding, Exterior Trim and Sill</strong> types from this page:****</li>
+</ul>
+<p><img src="img/205611614_1.jpg" alt="How to add Trims to the exterior of a Door 示意图" loading="lazy"></p>
+<ul>
+<li>Click on <strong>...</strong> to navigate to each page. This will give you access to more settings.</li>
+</ul>
+<p><img src="img/205611614_2.jpg" alt="How to add Trims to the exterior of a Door 示意图" loading="lazy"></p>
+<ul>
+<li>Of the three options available, choose '<strong>Surface Mounted - Returned Ends</strong>'</li>
+</ul>
+<p><strong>TIP:</strong>*Remember, you can click OK to**exit the dialogue and place / update the door at any time.*</p>
+<ul>
+<li>Click<strong>OK</strong> to close the dialogue</li>
+</ul>
+<ul>
+<li>View the results in the 3D Window.</li>
+</ul>
+<p>The example below has had the surfaces altered and rendered using the Cinerender Engine:</p>
+<p><img src="img/205611614_3.jpg" alt="How to add Trims to the exterior of a Door 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205611584">
+  <div class="art-h"><span class="no">14</span><h3>How to add Trims to the interior of a Door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205611584-How-to-add-Trims-to-the-interior-of-a-Door" target="_blank" rel="noopener">MyCi 知识库 · How to add Trims to the interior of a Door</a></div>
+  <p>To add trims to the interior of your door opening, you'll need to modify the settings under '<strong>Interior Trims</strong>'.</p>
+<p>In the exercise below we step you through editing these options.</p>
+<ul>
+<li>Select an <strong>Existing Door</strong>or<strong>Create a new Door</strong>by opening the <strong>Door Tool</strong>from the Toolbox.</li>
+</ul>
+<ul>
+<li>Open Door Settings and choose <strong>Interior Trims</strong></li>
+</ul>
+<p><img src="img/205611584_0.jpg" alt="How to add Trims to the interior of a Door 示意图" loading="lazy"></p>
+<ul>
+<li>Choose an interior <strong>Trim Profile</strong>from the left hand side drop-down menu.</li>
+</ul>
+<p><img src="img/205611584_1.jpg" alt="How to add Trims to the interior of a Door 示意图" loading="lazy"></p>
+<ul>
+<li>Each Profile will bring a different image with different settings:</li>
+</ul>
+<p><img src="img/205611584_2.jpg" alt="How to add Trims to the interior of a Door 示意图" loading="lazy"></p>
+<ul>
+<li>The <strong>Trim Location</strong> can be set from the right hand side drop-down:</li>
+</ul>
+<p><img src="img/205611584_3.jpg" alt="How to add Trims to the interior of a Door 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Click OK</strong> to close the dialogue and apply the settings.</li>
+</ul>
+<p>You can see the resulting door below (with surfaces applied and rendered in using the CineRender Engine):</p>
+<p><img src="img/205611584_4.jpg" alt="How to add Trims to the interior of a Door 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205610204">
+  <div class="art-h"><span class="no">15</span><h3>How to change a Garage Door opening type</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205610204-How-to-change-a-Garage-Door-opening-type" target="_blank" rel="noopener">MyCi 知识库 · How to change a Garage Door opening type</a></div>
+  <p>Garage Doors made using the Cadimage Door+Window Tool have three possible opening types: Roller, Tilt Panel and Sectional Lift.</p>
+<p>You can change the opening type via the <strong>Shape</strong> settings.</p>
+<ul>
+<li>Select an existing Garage Door (or create a new one)</li>
+<li>Go to Shape:</li>
+</ul>
+<p><img src="img/205610204_0.jpg" alt="How to change a Garage Door opening type 示意图" loading="lazy"></p>
+<ul>
+<li>Click the <strong>Door Type</strong> drop-down button (highlighted below) to choose between the different options available:</li>
+</ul>
+<p><img src="img/205610204_1.jpg" alt="How to change a Garage Door opening type 示意图" loading="lazy"></p>
+<ul>
+<li>Choose the desired opening type from the flyout</li>
+</ul>
+<p><img src="img/205610204_2.jpg" alt="How to change a Garage Door opening type 示意图" loading="lazy"></p>
+<ul>
+<li>Choose the option you require</li>
+</ul>
+<ul>
+<li>Once you have finished editing any other require settings, click<strong>OK</strong>to exit the dialog</li>
+</ul>
+</div>
+<div class="art" id="a-205350034">
+  <div class="art-h"><span class="no">16</span><h3>How to change the Attributes of a Door or Window</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205350034-How-to-change-the-Attributes-of-a-Door-or-Window" target="_blank" rel="noopener">MyCi 知识库 · How to change the Attributes of a Door or Window</a></div>
+  <p><strong>Door and Windows Attributes</strong> can be controlled in two ways. You can change the Surface and Pen settings on each page of the Tool or via Attributes Page.</p>
+<ul>
+<li>Changing the <strong>Surfaces</strong> and <strong>Pens</strong> on each page for different components of a Door or Window:</li>
+</ul>
+<p><img src="img/205350034_0.jpg" alt="How to change the Attributes of a Door or Window 示意图" loading="lazy"></p>
+<p>2: From the all <strong>Attributes</strong> Page:</p>
+<p><img src="img/205350034_1.jpg" alt="How to change the Attributes of a Door or Window 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205610224">
+  <div class="art-h"><span class="no">17</span><h3>How to change the Panel Layout of a Tilt Panel Door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205610224-How-to-change-the-Panel-Layout-of-a-Tilt-Panel-Door" target="_blank" rel="noopener">MyCi 知识库 · How to change the Panel Layout of a Tilt Panel Door</a></div>
+  <p>You can adjust the 'Panel Layouts' for Garage Doors created with the Cadimage Door+Window Tool via the <strong>Door Leaf</strong> menu option.</p>
+<p>In the example below we take you through the steps of changing the Panel Layout of a door with a Tilt panel type.</p>
+<p>To modify the Panel Layout:</p>
+<ul>
+<li>Select an <strong>existing Garage Door</strong> or <strong>create a new one</strong></li>
+</ul>
+<ul>
+<li>Choose <strong>Door Leaf</strong> from the options on the left (shown below):</li>
+</ul>
+<p><img src="img/205610224_0.jpg" alt="How to change the Panel Layout of a Tilt Panel Door 示意图" loading="lazy"></p>
+<p><em>You may notice the option to <strong>Use a Custom Door Leaf</strong>, which is saved in the loaded ARCHICAD Libraries.</em></p>
+<ul>
+<li>You can choose the <strong>Glazing Panel Type</strong>from the<strong>Glazing Panels</strong>drop down on the right hand side:</li>
+</ul>
+<p><em>This is where we determine the vertical position and number of the Glazing Panels.</em></p>
+<p><img src="img/205610224_1.jpg" alt="How to change the Panel Layout of a Tilt Panel Door 示意图" loading="lazy"></p>
+<ul>
+<li>Go to the <strong>Panel Inserts</strong> sub menu:</li>
+</ul>
+<p><img src="img/205610224_2.jpg" alt="How to change the Panel Layout of a Tilt Panel Door 示意图" loading="lazy"></p>
+<p><em>TIP:</em> <em>Further options to control the <strong>Frame, Glass, Exterior Trims</strong>and<strong>Attributes</strong>are also available and controlled in the same way as with regular Cadimage Doors.</em></p>
+<ul>
+<li>Click <strong>OK</strong> to exit the dialogue</li>
+</ul>
+<p>A rendered example of the Garage Door is shown below:</p>
+<p><img src="img/205610224_3.jpg" alt="How to change the Panel Layout of a Tilt Panel Door 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205611504">
+  <div class="art-h"><span class="no">18</span><h3>How to change the Symbolic view of a door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205611504-How-to-change-the-Symbolic-view-of-a-door" target="_blank" rel="noopener">MyCi 知识库 · How to change the Symbolic view of a door</a></div>
+  <p>You can control the way a door symbol is displayed by modifying the settings under:</p>
+<ul>
+<li>Door > Wall Opening</li>
+</ul>
+<ul>
+<li>Display Options > Plan View</li>
+</ul>
+<ul>
+<li>Display Options > Model View</li>
+</ul>
+<p><img src="img/205611504_0.jpg" alt="How to change the Symbolic view of a door 示意图" loading="lazy"></p>
+<p>In the following exercise we show take you through the process step-by-step.</p>
+<p>Exercise: Modify Door > Wall Opening Settings</p>
+<ul>
+<li>Go to <strong>Door > Wall Opening</strong></li>
+</ul>
+<ul>
+<li>Choose the '<strong>Contours in Plan View'</strong> twirl down to view options:</li>
+</ul>
+<p><img src="img/205611504_1.jpg" alt="How to change the Symbolic view of a door 示意图" loading="lazy"></p>
+<ul>
+<li>Item 1: Contours – none, inside, outside or both</li>
+</ul>
+<ul>
+<li>Item 2: Contour Pen</li>
+</ul>
+<ul>
+<li>Item 3: Contour Line Type – inside and outside independently</li>
+</ul>
+<ul>
+<li>Under the '<strong>Background Fill in Plan View</strong>' twirl-down, you can set the Fill Type and its <strong>Foreground</strong> and <strong>Background</strong> pens.</li>
+</ul>
+<p>Exercise: Modify Plan View Settings</p>
+<ul>
+<li>Go to <strong>Display Options > Plan View</strong>:</li>
+</ul>
+<p><img src="img/205611504_2.jpg" alt="How to change the Symbolic view of a door 示意图" loading="lazy"></p>
+<p>Here you will find options for:</p>
+<ul>
+<li>Items to Show in Plan View – sets the visibility of components in the Window using tick boxes</li>
+</ul>
+<ul>
+<li>Symbol Detail – choose to have a fixed scale symbol or set by drawing scale</li>
+</ul>
+<ul>
+<li>Open Lines – choose to display opening lines as arcs or lines as well as set the colour and linetype. In addition, this can be controlled individually in the window settings or across the project using Model View Options</li>
+</ul>
+<ul>
+<li>Arrow Style for Sliders – choose a style of arrow and then set the size and offsets</li>
+</ul>
+<ul>
+<li>Opening Doors – set the opening angle of the door on plan</li>
+</ul>
+<ul>
+<li>Label Leaf Sizes – choose what to label (none, Width, Width x Height or Height x Width)</li>
+</ul>
+<p>Exercise: Modify Model Settings</p>
+<ul>
+<li>Go to <strong>Display Options > Model</strong>:</li>
+</ul>
+<p><img src="img/205611504_3.jpg" alt="How to change the Symbolic view of a door 示意图" loading="lazy"></p>
+<p>Here you will find options for:</p>
+<ul>
+<li>Pivot Lines – choose the style and set if visible in 3D and / or Section / Elevation. In addition, this can be controlled individually in the window settings or across the project using Model View Options</li>
+</ul>
+<ul>
+<li>Arrow Style for Sliders – choose a style of arrow and then set the size and offsets</li>
+</ul>
+<ul>
+<li>Opening Angles – the opening angles are actually set in the Setout> Glazing page, but here you can choose if the panels are shown open in Section / Elevation</li>
+</ul>
+<ul>
+<li>Animation – set the parameters for Doors opening and closing in animations</li>
+</ul>
+</div>
+<div class="art" id="a-205920790">
+  <div class="art-h"><span class="no">19</span><h3>How to create a 2x double hung window with independent panels</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205920790-How-to-create-a-2x-double-hung-window-with-independent-panels" target="_blank" rel="noopener">MyCi 知识库 · How to create a 2x double hung window with independent panels</a></div>
+  <p>If you are creating a new window (rather than editing one already in place):</p>
+<ul>
+<li>Open the <strong>Window Tool</strong> from the toolbox and</li>
+</ul>
+<ul>
+<li>Navigate to the <strong>Glazing Panels</strong> page, select the Window on the left hand side of this page and click on the <strong>+</strong> button to add a mullion:</li>
+</ul>
+<p><img src="img/205920790_0.jpg" alt="How to create a 2x double hung window with independent panels 示意图" loading="lazy"></p>
+<ul>
+<li>Select one of the panels and choose the <strong>Panel Type</strong> to be <strong>Double Hung</strong>, then do the same to the other panel:</li>
+</ul>
+<p><img src="img/205920790_1.jpg" alt="How to create a 2x double hung window with independent panels 示意图" loading="lazy"></p>
+<ul>
+<li>You can determine which of the two panels is fixed or slides.</li>
+</ul>
+<p><img src="img/205920790_2.jpg" alt="How to create a 2x double hung window with independent panels 示意图" loading="lazy"></p>
+<ul>
+<li>You can choose the <strong>Split Ratio</strong> to determine what percentage of the overall hight of the window you would like the bottom hung part to take.</li>
+</ul>
+<p><img src="img/205920790_3.jpg" alt="How to create a 2x double hung window with independent panels 示意图" loading="lazy"></p>
+<p>Alternate method: To create a 2x Double Hung window with identical panels</p>
+<p>An alternative way to create this style of window with matching Double Hung units is to leave the panel as one (<strong>do not use</strong> the <strong>+</strong> button) and then simply set number of vertical panels to <strong>2</strong> using the option highlighted below:</p>
+<p><img src="img/205920790_4.jpg" alt="How to create a 2x double hung window with independent panels 示意图" loading="lazy"></p>
+<p>Both methods will result in a window that looks like the image below. However by following the first method, you will have greater control if you wish to customise the units within the window individually.</p>
+<p><img src="img/205920790_5.jpg" alt="How to create a 2x double hung window with independent panels 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-206167740">
+  <div class="art-h"><span class="no">20</span><h3>How to create a Garage Door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206167740-How-to-create-a-Garage-Door" target="_blank" rel="noopener">MyCi 知识库 · How to create a Garage Door</a></div>
+  <p>Garage Doors have a slightly different workflow to regular Cadimage Doors and Windows. Due to the complexity of Garage Doors, we normally work in Detailed Design mode rather than Sketch. As such, when you first click on a Cadimage Garage Door, you will automatically be presented with the Detailed Design options.</p>
+<p>In this exercise we show you how to create a simple Roller Door. To do this:</p>
+<ul>
+<li>Double click on the <strong>Door Tool</strong> in the <strong>Toolbox</strong></li>
+</ul>
+<ul>
+<li>Navigate to <strong>Linked Libraries> Cadimage Library 20</strong>and choose<strong>Cadimage Garage Door:</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/206167740_0.jpg" alt="How to create a Garage Door 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Go to the <strong>Preview and Positioning</strong>panel to modify the size and position of the door</li>
+</ul>
+<ul>
+<li>Set the following parameters:</li>
+</ul>
+<ul>
+<li>Width: 3000</li>
+</ul>
+<ul>
+<li>Height: 2400</li>
+</ul>
+<ul>
+<li>Sill height: 0</li>
+</ul>
+<p><img src="img/206167740_1.jpg" alt="How to create a Garage Door 示意图" loading="lazy"></p>
+<p>TIP: <em>The Anchor reference and Reveal of the window can also be controlled in this panel.</em></p>
+<ul>
+<li>Go to the <strong>Shape</strong>option shown below:</li>
+</ul>
+<p><img src="img/206167740_2.jpg" alt="How to create a Garage Door 示意图" loading="lazy"></p>
+<ul>
+<li>Click the <strong>drop-down button</strong> highlighted above</li>
+</ul>
+<ul>
+<li>Choose the '<strong>Roller</strong>' type:</li>
+</ul>
+<p>TIP: <em>You will see that you can also control the <strong>Roll Height above Door Head</strong> and the <strong>Roll Diameter</strong> from this dialogue box.</em></p>
+<ul>
+<li>Click<strong>OK</strong> to exit the dialogue</li>
+</ul>
+<ul>
+<li>Click to place the Garage Door in a Wall.</li>
+</ul>
+<p> Once you insert the Door you should see the following in Plan View:</p>
+<p><img src="img/206167740_3.jpg" alt="How to create a Garage Door 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205920710">
+  <div class="art-h"><span class="no">21</span><h3>How to create a Window with two panels</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205920710-How-to-create-a-Window-with-two-panels" target="_blank" rel="noopener">MyCi 知识库 · How to create a Window with two panels</a></div>
+  <ul>
+<li>Double click on the <strong>Window Tool</strong> in the <strong>Toolbox</strong></li>
+</ul>
+<ul>
+<li>Choose the <strong>Cadimage Window</strong>from <strong>Linked Libraries> Cadimage Library 20:</strong></li>
+</ul>
+<p><img src="img/205920710_0.jpg" alt="How to create a Window with two panels 示意图" loading="lazy"></p>
+<ul>
+<li>Go to the <strong>Glazing Panels,</strong>select the Window and click on<strong>+</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205920710_1.jpg" alt="How to create a Window with two panels 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>You can set each panel side width by selecting the panel and typing the dimension under Panel Width.</li>
+</ul>
+<p><img src="img/205920710_2.jpg" alt="How to create a Window with two panels 示意图" loading="lazy"></p>
+<ul>
+<li>You can change the panel type by clicking on the left hand side drop down with a panel selected.</li>
+</ul>
+<p><img src="img/205920710_3.jpg" alt="How to create a Window with two panels 示意图" loading="lazy"></p>
+<ul>
+<li>Click<strong>OK</strong> to exit the dialog</li>
+</ul>
+<p><strong>TIP:</strong></p>
+<ul>
+<li>To place the Window as in the settings: Click to the left of the centreline of the window when as if looking at the window from the outside.</li>
+</ul>
+<ul>
+<li>For a mirrored window: Click to the right of the centreline.</li>
+</ul>
+<p>Once you have inserted the window, you should now see it in your Plan View:</p>
+<p><img src="img/205920710_4.jpg" alt="How to create a Window with two panels 示意图" loading="lazy"></p>
+<p>Your 3D window will look something like this:</p>
+<p><img src="img/205920710_5.jpg" alt="How to create a Window with two panels 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205931760">
+  <div class="art-h"><span class="no">22</span><h3>How to customise Window Frame settings</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205931760-How-to-customise-Window-Frame-settings" target="_blank" rel="noopener">MyCi 知识库 · How to customise Window Frame settings</a></div>
+  <ul>
+<li><strong>Select</strong> an existing window and open the Settings or open the <strong>Window Tool</strong> from the toolbox.</li>
+</ul>
+<ul>
+<li>Navigate to <strong>Frame</strong>:</li>
+</ul>
+<p><img src="img/205931760_0.jpg" alt="How to customise Window Frame settings 示意图" loading="lazy"></p>
+<p>The options available in this page of the dialogue are:</p>
+<ul>
+<li>Main Frame –modify the main frame width and depth</li>
+</ul>
+<ul>
+<li>Sill Frame Profile  – add a sill profile to the window</li>
+</ul>
+<ul>
+<li>Inner Frame – modify the inner frame width and depth</li>
+</ul>
+<ul>
+<li>Main and Inner Frame Attributes - Change the surfaces and pens</li>
+</ul>
+<ul>
+<li>Click on the ... button to access more settings for either Main Frame or Inner Frame:</li>
+</ul>
+<p><img src="img/205931760_1.jpg" alt="How to customise Window Frame settings 示意图" loading="lazy"></p>
+<p><strong>TIP:</strong> If you have adjusted the setting for the Inner Frame, you can set the surfaces independently to the Main Frame.</p>
+<p><img src="img/205931760_2.jpg" alt="How to customise Window Frame settings 示意图" loading="lazy"></p>
+<ul>
+<li>Click <strong>OK</strong> to apply the settings.</li>
+</ul>
+</div>
+<div class="art" id="a-5779508625167">
+  <div class="art-h"><span class="no">23</span><h3>How to include Autotexts in the Ci Tools Schedule Notes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/5779508625167-How-to-include-Autotexts-in-the-Ci-Tools-Schedule-Notes" target="_blank" rel="noopener">MyCi 知识库 · How to include Autotexts in the Ci Tools Schedule Notes</a></div>
+  <p>When you create a Ci Tools door/window schedule, you can attach notes below each elevation on the schedule. These notes might include information about the type of glazing, frame, reveal, hardware, etc. used on the door or window.</p>
+<p>You can also include autotexts to display data from the model. Just include the autotext as part of a schedule note, and attach that note to the elevated door/window in the schedule.</p>
+<p><img src="img/5779508625167_0.jpg" alt="How to include Autotexts in the Ci Tools Schedule Notes 示意图" loading="lazy"></p>
+<p>For example, if you want to display the clear glazed area, include the keyword <CLEARGLASSAREA> in a schedule note. The keyword will be replaced with the area text for any door or window to which the note is attached.</p>
+<p><img src="img/5779508625167_1.jpg" alt="How to include Autotexts in the Ci Tools Schedule Notes 示意图" loading="lazy"></p>
+<h2>Available Autotexts</h2>
+<h3>Environment</h3>
+<div class="table-wrap"><table><thead><tr><th>**Autotext**</th><th>**Is Replaced With**</th></tr></thead><tbody><tr><td><DIRECTION></td><td>Direction relative to project North</td></tr><tr><td><ZONE></td><td>The number of the zone associated with the door/window</td></tr><tr><td><ZONENAME></td><td>The name of the zone associated with the door/window</td></tr></tbody></table></div>
+<p>###</p>
+<h3>Calculated Areas</h3>
+<p><img src="img/5779508625167_2.jpg" alt="How to include Autotexts in the Ci Tools Schedule Notes 示意图" loading="lazy"></p>
+<div class="table-wrap"><table><thead><tr><th>**Autotext**</th><th>**Is Replaced With**</th></tr></thead><tbody><tr><td><UVAL></td><td>Thermal U value</td></tr><tr><td><UAVAL></td><td>Thermal UA value</td></tr><tr><td><TOTALAREA></td><td>Total area (including frame and panels)</td></tr><tr><td><DAYLIGHTAREA></td><td>Daylight area (i.e. the area of glazing that transmits light - not necessarily clear glazing)</td></tr><tr><td><CLEARGLASSAREA></td><td>Clear glazed area</td></tr><tr><td><VENTEDAREA></td><td>Vented area</td></tr></tbody></table></div>
+<h3>Parameters for Listing</h3>
+<p><img src="img/5779508625167_3.jpg" alt="How to include Autotexts in the Ci Tools Schedule Notes 示意图" loading="lazy"></p>
+<div class="table-wrap"><table><thead><tr><th>**Autotext**</th><th>**Is Replaced With**</th></tr></thead><tbody><tr><td><LIST_OPERATION></td><td>General - Operation type</td></tr><tr><td><LEAFWIDTHS></td><td>General - Leaf widths</td></tr><tr><td><LIST_GLAZING></td><td>General - Glazing</td></tr><tr><td><LIST_FINISH></td><td>General - Finish</td></tr><tr><td><LIST_NOTE></td><td>General - Note/remarks</td></tr><tr><td><LIST_MANU></td><td>Source - Manufacturer</td></tr><tr><td><LIST_COST></td><td>Source - Unit cost</td></tr><tr><td><LIST_LOCATION></td><td>Location - Location</td></tr><tr><td><LIST_ELEV></td><td>Location - Elevation</td></tr><tr><td><ZONE></td><td>Location - Zone number</td></tr><tr><td><ZONENAME></td><td>Location - Zone name</td></tr><tr><td><LIST_HARDWARE></td><td>Fittings - Hardware set</td></tr><tr><td><LIST_LOCKSET></td><td>Fittings - Lockset</td></tr><tr><td><LIST_HINGES></td><td>Fittings - Hinges</td></tr><tr><td><LIST_ACCESS></td><td>Fittings - Accessories</td></tr><tr><td><LIST_HEADDET></td><td>Details - Header detail</td></tr><tr><td><LIST_JAMBDET></td><td>Details - Jamb detail</td></tr><tr><td><LIST_SILLDET></td><td>Details - Sill detail</td></tr><tr><td><LIST_FIRERATING></td><td>Performance - Fire rating</td></tr><tr><td><LIST_ACOUSTICRATING></td><td>Performance - Acoustic rating</td></tr><tr><td><LIST_HEATTRANS></td><td>Performance - Heat transfer</td></tr><tr><td><LIST_GLASSAREA></td><td>Performance - Total glass area</td></tr><tr><td><LIST_GLASSEDGE></td><td>Performance - Total glas perimeter</td></tr></tbody></table></div>
+<h3>Dimensions</h3>
+<p>Some basic dimensions of the door/window are available as autotexts.</p>
+<div class="table-wrap"><table><thead><tr><th>**Autotext**</th><th>**Is Replaced With**</th></tr></thead><tbody><tr><td><UNITWIDTH></td><td>Unit width</td></tr><tr><td><UNITHEIGHT></td><td>Unit height</td></tr><tr><td><WALLHOLEWIDTH></td><td>Wall hole width</td></tr><tr><td><WALLHOLEHEIGHT></td><td>Wall hole height</td></tr><tr><td><REVEALWIDTH></td><td>Reveal width</td></tr><tr><td><REVEALHEIGHT></td><td>Reveal height</td></tr><tr><td><EGRESSWIDTH></td><td>Egress width</td></tr><tr><td><EGRESSHEIGHT></td><td>Egress height</td></tr><tr><td><WALLTHICK></td><td>Thickness of the containing wall</td></tr><tr><td><SILLHEIGHT></td><td>Sill height</td></tr><tr><td><FRAMEWIDTH></td><td>Frame width</td></tr><tr><td><FRAMEDEPTH></td><td>Frame depth</td></tr></tbody></table></div>
+<h3>Surfaces</h3>
+<p>Surfaces used in the model may be listed using autotexts.</p>
+<div class="table-wrap"><table><thead><tr><th>**Autotext**</th><th>**Is Replaced With**</th></tr></thead><tbody><tr><td><FRAME_MATERIAL></td><td>All surfaces used by frame elements of the door/window.</td></tr><tr><td><REVEAL_MATERIAL></td><td>The surface of the jamb liner (interior reveal).</td></tr><tr><td><TRIM_MATERIAL></td><td>The surfaces of the exterior trim and the interior trim (architrave).</td></tr><tr><td><EXTERIOR_TRIM_MATERIAL></td><td>The surface of the exterior trim.</td></tr><tr><td><INTERIOR_TRIM_MATERIAL></td><td>The surface of the interior trim.</td></tr></tbody></table></div>
+</div>
+<div class="art" id="a-218314143">
+  <div class="art-h"><span class="no">24</span><h3>How to make a Pivot Door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/218314143-How-to-make-a-Pivot-Door" target="_blank" rel="noopener">MyCi 知识库 · How to make a Pivot Door</a></div>
+  <p>In ARCHICAD 20 & onwards, please open the Door Settings dialog box and navigate to the 'Door Leaf' page and change 'A' to set the pivoting point distance from the wall.</p>
+<p><img src="img/218314143_0.jpg" alt="How to make a Pivot Door 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-360000572296">
+  <div class="art-h"><span class="no">25</span><h3>How to model a Corner Door/ Window</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360000572296-How-to-model-a-Corner-Door-Window" target="_blank" rel="noopener">MyCi 知识库 · How to model a Corner Door/ Window</a></div>
+  <p><img src="img/360000572296_0.jpg" alt="How to model a Corner Door/ Window 示意图" loading="lazy"></p>
+<ul>
+<li>Double-click on the <strong>Door tool</strong> in the <strong>Toolbox</strong>, then from <strong>Linked Libraries > Ci Tools Library</strong>choose the <strong>Exterior Door</strong></li>
+</ul>
+<p><img src="img/360000572296_1.jpg" alt="How to model a Corner Door/ Window 示意图" loading="lazy"></p>
+<ul>
+<li>Configure the door following the steps below and place one in each of the walls</li>
+</ul>
+<p><img src="img/360000572296_2.jpg" alt="How to model a Corner Door/ Window 示意图" loading="lazy"></p>
+<p><img src="img/360000572296_3.jpg" alt="How to model a Corner Door/ Window 示意图" loading="lazy"></p>
+<p><img src="img/360000572296_4.jpg" alt="How to model a Corner Door/ Window 示意图" loading="lazy"></p>
+<p><img src="img/360000572296_5.jpg" alt="How to model a Corner Door/ Window 示意图" loading="lazy"></p>
+<ul>
+<li>Move the doors in the wall on floor plan so they meet in the corner.</li>
+</ul>
+<p><img src="img/360000572296_6.jpg" alt="How to model a Corner Door/ Window 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-205081810">
+  <div class="art-h"><span class="no">26</span><h3>How to model a Pocket Slider Door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205081810-How-to-model-a-Pocket-Slider-Door" target="_blank" rel="noopener">MyCi 知识库 · How to model a Pocket Slider Door</a></div>
+  <ul>
+<li>Double-click on the <strong>Door</strong> tool in the <strong>Toolbox</strong>, then from <strong>Linked Libraries > Cadimage Library 20</strong> choose the <strong>Cadimage Door</strong></li>
+</ul>
+<p><img src="img/205081810_0.jpg" alt="How to model a Pocket Slider Door 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the main drop-down and select <strong>Door Type...</strong></li>
+</ul>
+<p><img src="img/205081810_1.jpg" alt="How to model a Pocket Slider Door 示意图" loading="lazy"></p>
+<ul>
+<li>Once in the <strong>Door Type</strong> page, chick on the main drop dow and choose <strong>Pocket Slider</strong>:</li>
+</ul>
+<p><img src="img/205081810_2.jpg" alt="How to model a Pocket Slider Door 示意图" loading="lazy"></p>
+<ul>
+<li>Adjust the settings to suit your requirements</li>
+</ul>
+<ul>
+<li>Click <strong>OK</strong>, then place the door.</li>
+</ul>
+</div>
+<div class="art" id="a-205356174">
+  <div class="art-h"><span class="no">27</span><h3>How to modify the Glass Dimensions on Windows</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205356174-How-to-modify-the-Glass-Dimensions-on-Windows" target="_blank" rel="noopener">MyCi 知识库 · How to modify the Glass Dimensions on Windows</a></div>
+  <p>To convert the unit from <em>single-glazed</em> to <em>double-glazed</em>:</p>
+<ul>
+<li>Go to the <strong>Glass:</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205356174_0.jpg" alt="How to modify the Glass Dimensions on Windows 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Click on the <strong>right hand</strong>side drop-down and change it to<strong>Double Glazing:</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205356174_1.jpg" alt="How to modify the Glass Dimensions on Windows 示意图" loading="lazy"></p>
+<p>**</p>
+<p>When you view your window in 3D, you may notice that there is an <strong>Interior Reveal</strong> that is likely to have different surfaces to the <strong>Main Frame</strong>.</p>
+<p>To change the colour of the Interior Reveal:</p>
+<ul>
+<li>Go to <strong>Interior Trims:</strong></li>
+</ul>
+<p><img src="img/205356174_2.jpg" alt="How to modify the Glass Dimensions on Windows 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-206169120">
+  <div class="art-h"><span class="no">28</span><h3>How to modify the Head Shape of a Door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206169120-How-to-modify-the-Head-Shape-of-a-Door" target="_blank" rel="noopener">MyCi 知识库 · How to modify the Head Shape of a Door</a></div>
+  <p>You can change the design of the top (or 'head') of your <strong>Cadimage Door</strong> by navigating to <strong>Shape</strong>on the main drop-down menu.</p>
+<p>There are 10 different designs to choose from, each with a range of customisable parameters:</p>
+<p><img src="img/206169120_0.jpg" alt="How to modify the Head Shape of a Door 示意图" loading="lazy"></p>
+<p> To change the <strong>Head Shape</strong> of a door:</p>
+<ul>
+<li><strong>Select an existing door</strong> or open the<strong>Door Tool</strong>from the<strong>Toolbox</strong></li>
+</ul>
+<ul>
+<li>Go to <strong>Shape</strong> by clicking on the main drop-down:</li>
+</ul>
+<p><img src="img/206169120_1.jpg" alt="How to modify the Head Shape of a Door 示意图" loading="lazy"></p>
+<ul>
+<li>Select a Head Shape option from the Head Shape drop-down:</li>
+</ul>
+<p><img src="img/206169120_2.jpg" alt="How to modify the Head Shape of a Door 示意图" loading="lazy"></p>
+<p><strong>TIP:</strong> Only after you choose your preferred Head Shape will you be able to enter dimension parameters.</p>
+<ul>
+<li>Once you make a selection, you will be able to change the <strong>Shape Dimensions</strong>:</li>
+</ul>
+<p><img src="img/206169120_3.jpg" alt="How to modify the Head Shape of a Door 示意图" loading="lazy"></p>
+<p>5.<strong>Click OK</strong>to close the dialogue and apply the settings.</p>
+</div>
+<div class="art" id="a-205920830">
+  <div class="art-h"><span class="no">29</span><h3>How to modify the Shape of a Window</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205920830-How-to-modify-the-Shape-of-a-Window" target="_blank" rel="noopener">MyCi 知识库 · How to modify the Shape of a Window</a></div>
+  <p>Here are just some examples of window shapes possible with the Cadimage Window Tool:</p>
+<p><img src="img/205920830_0.jpg" alt="How to modify the Shape of a Window 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Select</strong> an existing window and open the Settings or open the <strong>Window Tool</strong> from the toolbox.</li>
+</ul>
+<ul>
+<li>Navigate to the <strong>Shape</strong> page:</li>
+</ul>
+<p><img src="img/205920830_1.jpg" alt="How to modify the Shape of a Window 示意图" loading="lazy"></p>
+<p><strong>NOTE</strong>: The <strong>Head Shape</strong>[A] and the <strong>Sill Shape</strong> [B] can be controlled independently.</p>
+<ul>
+<li>Click on the <strong>Head</strong> (or <strong>Sill</strong>)<strong>Shape drop-down</strong> button to see a list of available shapes:</li>
+</ul>
+<p><img src="img/205920830_2.jpg" alt="How to modify the Shape of a Window 示意图" loading="lazy"></p>
+<ul>
+<li>Depending on the shape you choose, you will be presented with different parameters to modify it:</li>
+</ul>
+<p><img src="img/205920830_3.jpg" alt="How to modify the Shape of a Window 示意图" loading="lazy"></p>
+<p><strong>TIP</strong>: Use the <strong>Preview</strong> <strong>and Positioning</strong> area at the top of the dialog to see how the design is developing:</p>
+<p><img src="img/205920830_4.jpg" alt="How to modify the Shape of a Window 示意图" loading="lazy"></p>
+<ul>
+<li>Click <strong>OK</strong> to apply the settings or to place a Window.</li>
+</ul>
+</div>
+<div class="art" id="a-206168880">
+  <div class="art-h"><span class="no">30</span><h3>How to modify the appearance of a Door or Window in 2D views</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/206168880-How-to-modify-the-appearance-of-a-Door-or-Window-in-2D-views" target="_blank" rel="noopener">MyCi 知识库 · How to modify the appearance of a Door or Window in 2D views</a></div>
+  <p>You can change the way a door and it's components appear in Plan and Section views by accessing the Appearance settings via the <strong>Floor Plan and Section</strong> page:</p>
+<p><img src="img/206168880_0.jpg" alt="How to modify the appearance of a Door or Window in 2D views 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-218367803">
+  <div class="art-h"><span class="no">31</span><h3>How to use Schedule Notes in ARCHICAD 20</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/218367803-How-to-use-Schedule-Notes-in-ARCHICAD-20" target="_blank" rel="noopener">MyCi 知识库 · How to use Schedule Notes in ARCHICAD 20</a></div>
+  <p><strong>Method 1</strong></p>
+<p><strong>SCHEDULE CUSTOM NOTES</strong></p>
+<p>In this case if you want to keep a simple set of notes for joinery without a category, you can just open the Note palette in the location</p>
+<p>Cadimage>Doors and windows>Schedule Notes Palette</p>
+<p><img src="img/218367803_0.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>This is the palette</p>
+<p><img src="img/218367803_1.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Select the Doors or Windows in plan, one at a time and type under the Custom Notes field the description.</p>
+<p><img src="img/218367803_2.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>In this case you have to be aware the selection only applies to one element, so this method is only recommended for general description of individual elements. It’s not possible to apply the note to multiple selections, in that case we would use Method 2.</p>
+<p>Once you finish adding your notes to the selection create door and window schedule</p>
+<p>Cadimage>Door and windows> Schedule Manager</p>
+<p><img src="img/218367803_3.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>After setting up your schedule settings, make sure to activate the Additional Notes  and Include Categories option.</p>
+<p><img src="img/218367803_4.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>The notes will appear like this</p>
+<p><img src="img/218367803_5.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Notes:</p>
+<p>The schedule notes are editable in the Schedule Worksheet as well. If you select the door/window item, and if the Live Edit option is checked, you can edit those notes here as well</p>
+<p><img src="img/218367803_6.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>However, you have to make sure to click the Send the Object Notes to the Model Joinery button, this way the notes changed in the worksheet will be pushed to the actual door/window element in your BIM model, this way if the schedule is updated, the notes will remain as changed, but if you don’t click the button after editing the notes, if the schedule is updated, the edits will be lost.</p>
+<p>****</p>
+<p><strong>Method 2</strong></p>
+<p><strong>Create a Notes database</strong></p>
+<p>Open the Door and Window Schedule Notes palette</p>
+<p><img src="img/218367803_7.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Click to open the Schedule Notes Manager</p>
+<p><img src="img/218367803_8.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Start creating your Categories, type in the bottom field to give a name to the new Category</p>
+<p><img src="img/218367803_9.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Create a new note and add a description.</p>
+<p><img src="img/218367803_10.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Add a few notes to the Category</p>
+<p><img src="img/218367803_11.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Create a new Category</p>
+<p>If you want to add more notes to other categories, just click in the category you want to add the new note and then click the New Note button</p>
+<p><img src="img/218367803_12.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>So we finish  a list of notes and categories like this:</p>
+<p><img src="img/218367803_13.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>If you have to move a note to another category just click and hold, drag and drop the note</p>
+<p><img src="img/218367803_14.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Click OK to close the palette or you can even create Sets.</p>
+<p>Sets of notes can be very practical if you know you will be adding specific notes to specific joinery elements, so you don’t have to assign one note at a time.</p>
+<p>So click the New set button, enter the name of the set and select one note at a time from the list of the left side and click Insert.</p>
+<p><img src="img/218367803_15.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Once you finished creating your notes click OK</p>
+<p>Now you can add your notes in plan by having the Live Edit button, selecting the joinery item and double click the note you want to add.</p>
+<p><img src="img/218367803_16.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>You can also add the notes to the selection in the schedule worksheet, the example below, the Notes Sets will show at the top of the list and you just have to double click the Set to add all the notes that belong to the set to the selection.</p>
+<p><img src="img/218367803_17.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>In this case you see the notes are added to the schedule item automatically when you double click the Set but it’s important to remember to click after that the Send Notes to Model button</p>
+<p><img src="img/218367803_18.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>****</p>
+<p><strong>Editing the display of notes in Schedule</strong></p>
+<p>If you want to edit the notes display of text in the schedule you have to make sure to select the item at the top left corner of the schedule</p>
+<p><img src="img/218367803_19.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Select it and open the settings.</p>
+<p><img src="img/218367803_20.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Now you can edit the notes text and distance.</p>
+<p><img src="img/218367803_21.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Click OK and update the Schedule</p>
+<p><img src="img/218367803_22.jpg" alt="How to use Schedule Notes in ARCHICAD 20 示意图" loading="lazy"></p>
+<p>Then all the schedule items should follow the same settings from the same item.</p>
+<p>If you have collated items you can change the display of text to describe those items.</p>
+<p>%%IMG23%%</p>
+</div>
+<div class="art" id="a-205820370">
+  <div class="art-h"><span class="no">32</span><h3>Migrating to ARCHICAD 19</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205820370-Migrating-to-ARCHICAD-19" target="_blank" rel="noopener">MyCi 知识库 · Migrating to ARCHICAD 19</a></div>
+  <p>When you open an ARCHICAD 18 (or earlier) project, we recommend you import your legacy Presets before updating any schedules. Here’s how to complete the migration process:</p>
+<ul>
+<li>Open the project in your ‘old’ version of ARCHICAD</li>
+</ul>
+<ul>
+<li>Export your presets</li>
+</ul>
+<ul>
+<li>Make a back-up copy of your project</li>
+</ul>
+<ul>
+<li>Open the backed-up copy of your project in ARCHICAD 19</li>
+</ul>
+<ul>
+<li>Open the Schedule Notes dialogue (Cadimage > Doors and Windows > Schedule Notes)</li>
+</ul>
+<ul>
+<li>Click the Import button</li>
+</ul>
+<ul>
+<li>Select ‘ Legacy Preset File’ from the file type list</li>
+</ul>
+<ul>
+<li>Locate the presets you exported from your ‘old’ version of ARCHICAD</li>
+</ul>
+<ul>
+<li>Click Open :</li>
+</ul>
+<p><img src="img/205820370_0.jpg" alt="Migrating to ARCHICAD 19 示意图" loading="lazy"></p>
+<ul>
+<li>Back in the Doors+Windows Schedule Notes dialogue, you can:</li>
+</ul>
+<p> Add a  New  note</p>
+<ul>
+<li>Delete  a selected note</li>
+</ul>
+<ul>
+<li>Import  and  Export   notes so as to share notes between projects</li>
+</ul>
+<ul>
+<li>Edit a selected note by changing its  Category   or  Content</li>
+</ul>
+<p>You will see a dialogue letting you know if your import was successful:</p>
+<p><img src="img/205820370_1.jpg" alt="Migrating to ARCHICAD 19 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-6576268083727">
+  <div class="art-h"><span class="no">33</span><h3>Missing Panels in Ci Tools Door or Window</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/6576268083727-Missing-Panels-in-Ci-Tools-Door-or-Window" target="_blank" rel="noopener">MyCi 知识库 · Missing Panels in Ci Tools Door or Window</a></div>
+  <p><strong>Issue Description</strong></p>
+<p>Panels are missing in a window created using the CI Tools Door and Window tool.</p>
+<p><img src="img/6576268083727_0.jpg" alt="Missing Panels in Ci Tools Door or Window 示意图" loading="lazy"></p>
+<p><img src="img/6576268083727_1.jpg" alt="Missing Panels in Ci Tools Door or Window 示意图" loading="lazy"></p>
+<p><strong>Steps to reproduce</strong></p>
+<p>In a window, select a panel, apply a fixed pane then set a custom window sash but mis type or enter a value like "0" into the field.</p>
+<p><img src="img/6576268083727_2.jpg" alt="Missing Panels in Ci Tools Door or Window 示意图" loading="lazy"></p>
+<p>Then change the panel type to another setting.</p>
+<h2>DEF- XXXX</h2>
+<p>Workflow Error.</p>
+<p><strong>Workaround</strong></p>
+<p>Clear the custom value from the Custom Window Sash field.</p>
+<p><img src="img/6576268083727_3.jpg" alt="Missing Panels in Ci Tools Door or Window 示意图" loading="lazy"></p>
+<p><strong>See video below for full steps</strong></p>
+</div>
+<div class="art" id="a-12045960172815">
+  <div class="art-h"><span class="no">34</span><h3>Model View Options relating to Visibility strips.</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/12045960172815-Model-View-Options-relating-to-Visibility-strips" target="_blank" rel="noopener">MyCi 知识库 · Model View Options relating to Visibility strips.</a></div>
+  <p>There are also overarching Settings that control Visibility Strips. There are located under the <strong>Document > Model View Options > CI Tools Doors + Windows > Visibility Strips</strong>. Please see image below.</p>
+<p><img src="img/12045960172815_0.jpg" alt="Model View Options relating to Visibility strips. 示意图" loading="lazy"></p>
+<p>The user has the option to select either:</p>
+<ul>
+<li>Hide Visibility strips None Shown</li>
+</ul>
+<ul>
+<li>Show Bounding box Only a bounding bx shown</li>
+</ul>
+<ul>
+<li>Show wireframe Wireframe of Strip is shown</li>
+</ul>
+<ul>
+<li>Show full detail All detail is shown</li>
+</ul>
+<p><img src="img/12045960172815_1.jpg" alt="Model View Options relating to Visibility strips. 示意图" loading="lazy"></p>
+<p>Secondly, there are three options available that determine on which side of the glazing panel the Visibility strip is shown.</p>
+<p><img src="img/12045960172815_2.jpg" alt="Model View Options relating to Visibility strips. 示意图" loading="lazy"></p>
+<p>The options are as follows:</p>
+<ul>
+<li>Exterior only The Visibility strip is only shown on the side designated as outside</li>
+</ul>
+<ul>
+<li>Interior only The Visibility strip is only shown on the side designated as inside</li>
+</ul>
+<ul>
+<li>Exterior and Interior The Visibility strip is shown on both sides</li>
+</ul>
+<p>Please note that these settings will also apply to any Schedules that are created of these Doors.</p>
+</div>
+<div class="art" id="a-12074438498703">
+  <div class="art-h"><span class="no">35</span><h3>New Door and Window Model View Options</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/12074438498703-New-Door-and-Window-Model-View-Options" target="_blank" rel="noopener">MyCi 知识库 · New Door and Window Model View Options</a></div>
+  <p><strong>Model View Options</strong></p>
+<p>The Model View options allow for a choice between Legacy mode and the New advanced CI Doors and Windows Model View Options. (Referred to as MVO in this article).</p>
+<p>If you have a Legacy file from a previous version of Archicad and you are happy with the display settings, you can keep the file in ‘Legacy’ mode. These can be set under:</p>
+<p><strong>Document>Model View >Model View Options</strong></p>
+<p>If you would like to have more control of the MVOs you can switch to ‘New’ mode, as seen below.</p>
+<p><img src="img/12074438498703_0.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>Model View</p>
+<p>Once the ‘New’ Settings has been selected, the Greyed out Settings become available.</p>
+<p><img src="img/12074438498703_1.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>The Settings are split across four menus to the left:</p>
+<ul>
+<li>Model</li>
+</ul>
+<ul>
+<li>Plan View</li>
+</ul>
+<ul>
+<li>Minimal Space</li>
+</ul>
+<ul>
+<li>Visibility Strips</li>
+</ul>
+<p>With <strong>Model</strong> View menu selected, the following can be set:</p>
+<p>On the Left side, you have the ability to set the Opening Lines options and line types, and Arrows to Sliding Doors. Please note also that all doors can be set to Shut at the bottom of that pane, and gaps between door panels can be masked.</p>
+<p><img src="img/12074438498703_2.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>*NOTE: The door needs to be set to Use Model View Options in the Model Display Settings of the individual door’s CI Tools Door and Window Settings</p>
+<p><img src="img/12074438498703_3.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>On the Right hand pane, the Window Settings can be adjusted to reflect your personal preference.</p>
+<p>The Windows can be shut in the Model and the Detail level of the Windows can be adjusted.</p>
+<p><img src="img/12074438498703_4.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>*NOTE: The Window needs to be set to Use Model View Options in the Model Display Settings of the individual window’s CI Tools Door and Window Settings</p>
+<p><img src="img/12074438498703_5.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>Let's view Some of the options available in the Drop-Down menus:</p>
+<p>In the Door Leaf opening Line Drop down, the following options are available.</p>
+<p><img src="img/12074438498703_6.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>In the same way, there are four options available for the Arrows to Sliding Doors.</p>
+<p><img src="img/12074438498703_7.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>With the Windows, the following display options are available:</p>
+<p><img src="img/12074438498703_8.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>In the same way as doors, the arrows to Windows can be set:</p>
+<p><img src="img/12074438498703_9.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p><strong>Plan View</strong></p>
+<p>Under the Plan View Settings, the left pane allows for Settings to the Plan View Display of Doors while the right pane allows for Settings to the Windows.</p>
+<p>On the Door side we can choose which Items are displayed in Plan View, such as:</p>
+<ul>
+<li>Reveal</li>
+</ul>
+<ul>
+<li>Jamb Liner</li>
+</ul>
+<ul>
+<li>Trims</li>
+</ul>
+<ul>
+<li>Exterior Sill</li>
+</ul>
+<ul>
+<li>Sill Bricks</li>
+</ul>
+<p>and the frame can be selected from the options</p>
+<p>The Door swing can be set to an arc or a line, the line-type and pen can also be set.</p>
+<p>Arrows to sliding doors in Plan View can also be adjusted.</p>
+<p>On the Window side, the opening angle or percentage can be set for:</p>
+<ul>
+<li>Hinged</li>
+</ul>
+<ul>
+<li>Pivot</li>
+</ul>
+<ul>
+<li>Bifold</li>
+</ul>
+<ul>
+<li>Sliders</li>
+</ul>
+<p>and the Window panels can be set from the options, with the choice of an arc or a line for hinged windows, the line-type and pen can also be set.</p>
+<p>Arrows to sliding windows in Plan View can also be adjusted.</p>
+<p><img src="img/12074438498703_10.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>Let’s view the options that are available to us.</p>
+<p><strong>Main Frame</strong></p>
+<p><img src="img/12074438498703_11.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p><strong>Door Leaves</strong></p>
+<p><img src="img/12074438498703_12.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p><strong>Arrows to Sliders</strong></p>
+<p><img src="img/12074438498703_13.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p><strong>Window Panels</strong></p>
+<p><img src="img/12074438498703_14.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p><strong>Arrows to Sliding Windows</strong></p>
+<p><img src="img/12074438498703_15.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p><strong>Minimal Space</strong></p>
+<p>The Minimal Space Settings allows for the adjustment of Minimal Space display, in terms of:</p>
+<ul>
+<li>Line-type</li>
+</ul>
+<ul>
+<li>Pen</li>
+</ul>
+<ul>
+<li>Fill</li>
+</ul>
+<ul>
+<li>Fill Foreground Pen</li>
+</ul>
+<ul>
+<li>Fill Background Pen</li>
+</ul>
+<p><img src="img/12074438498703_16.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p><strong>Visibility Strips</strong></p>
+<p>There are also overarching Settings that control Visibility Strips. They are located under the <strong>Document>Model View Options>CI Tools Doors + Windows>Visibility Strips.</strong> Please see image below.</p>
+<p><img src="img/12074438498703_17.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>You have the option to select either:</p>
+<ul>
+<li>Hide Visibility strips - None Shown</li>
+</ul>
+<ul>
+<li>Show Bounding box - Only a bounding box shown</li>
+</ul>
+<ul>
+<li>Show wireframe - Wireframe of Strip is shown</li>
+</ul>
+<ul>
+<li>Show full detail - All detail is shown</li>
+</ul>
+<p><img src="img/12074438498703_18.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>Secondly, there are three options available that determine on which side of the glazing panel the Visibility strip is shown.</p>
+<p><img src="img/12074438498703_19.jpg" alt="New Door and Window Model View Options 示意图" loading="lazy"></p>
+<p>The options are:</p>
+<ul>
+<li>Exterior only - The Visibility strip is only shown on the side designated as outside</li>
+</ul>
+<ul>
+<li>Interior only  - The Visibility strip is only shown on the side designated as inside</li>
+</ul>
+<ul>
+<li>Exterior and Interior - The Visibility strip is shown on both sides</li>
+</ul>
+<p>Please note that these settings will also apply to any Schedules that are created of these Doors.</p>
+</div>
+<div class="art" id="a-205297630">
+  <div class="art-h"><span class="no">36</span><h3>Overview</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205297630-Overview" target="_blank" rel="noopener">MyCi 知识库 · Overview</a></div>
+  <p>Using Cadimage Doors+Windows, you can easily model doors and windows in ARCHICAD, plus you can create detailed schedules that identify all the doors and windows in your project.</p>
+<p>The tool consists of one standard window type and two standard door types (regular door and garage door), all of which can be configured to suit your needs. Both are visible in the standard ARCHICAD Door or Window tool palette.</p>
+<p>You’ll find that the Cadimage Doors+Windows Tool has been designed to give you greater freedom in the configuration of doors and windows with a wide variety of panels, opening types, trims and sills.</p>
+<p>Below we’ve created a single ‘window’ unit containing a (double) door, top hung window, fixed panel window, tilt-turn window and even some louvres. In addition, trims have been added to the opening as well as sills and a header detail.</p>
+<p><img src="img/205297630_0.jpg" alt="Overview 示意图" loading="lazy"></p>
+<p><strong>Scheduling</strong></p>
+<p>As well as having the design aspect of the Tool, there is also a built in scheduling feature allowing Cadimage Doors+Windows <strong>and any other</strong> Doors and Windows to be listed graphically showing dimensions and notes based on the schedule criteria.</p>
+</div>
+<div class="art" id="a-17773638083215">
+  <div class="art-h"><span class="no">37</span><h3>ProKit Doors and Windows - Start here</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/17773638083215-ProKit-Doors-and-Windows-Start-here" target="_blank" rel="noopener">MyCi 知识库 · ProKit Doors and Windows - Start here</a></div>
+  <p><strong>Getting Started</strong></p>
+<p>Using ProKit Doors+Windows, you can easily model an immense variety of doors and windows in ARCHICAD, plus you can create detailed schedules that identify all the doors and windows in your project.</p>
+<p>The tool consists of one standard window type and three standard door types (Door, Exterior Door and Garage Door), all of which can be configured to suit your needs. Both are visible in the standard ARCHICAD Door or Window tool palette.</p>
+<p>You’ll find that the ProKit Doors+Windows Tool has been designed to give you almost unlimited freedom in the configuration of doors and windows with a wide variety of panels, opening types, trims and sills.</p>
+<p>Below we’ve created a single ‘window’ unit containing a (double) door, top hung window, fixed panel window, tilt-turn window and even some louvres. In addition, trims have been added to the opening as well as sills and a header detail.</p>
+<p><img src="img/17773638083215_0.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p><strong>Scheduling</strong></p>
+<p>As well as having the design freedom of the Tool, there is also a built in scheduling feature allowing ProKit Doors+Windows <strong>and any other</strong> Doors and Windows to be listed graphically showing dimensions and notes based on the schedule criteria. The ProKit Doors and Windows can also be scheduled in the ARCHICAD Interactive schedule.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Doors and Windows Tool requires the Doors and Windows Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier Archicad versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17773638083215_1.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Doors and Windows Libpack.</p>
+<p><img src="img/17773638083215_2.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17773638083215_3.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p>This will load the Doors and Windows Libpack and associated Macros.</p>
+<p>The three Door types and Window object will now be available in the Archicad Door and Window Tools respectively.</p>
+<p><img src="img/17773638083215_4.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p><img src="img/17773638083215_5.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p>Once the ProKit Subfolder is selected the Doors and Window objects will appear for selection and configuration.</p>
+<p><img src="img/17773638083215_6.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p><img src="img/17773638083215_7.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p>From this point the Door and Window Settings are available for customisation, varying on the specific object selected.</p>
+<p><img src="img/17773638083215_8.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p><img src="img/17773638083215_9.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p><img src="img/17773638083215_10.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p><img src="img/17773638083215_11.jpg" alt="ProKit Doors and Windows - Start here 示意图" loading="lazy"></p>
+<p>For in-depth explanation of the Door and Window Objects and scheduling,  please see the articles on the Knowledge-base.</p>
+</div>
+<div class="art" id="a-8620559991439">
+  <div class="art-h"><span class="no">38</span><h3>Release Notes - Doors + Windows</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/8620559991439-Release-Notes-Doors-Windows" target="_blank" rel="noopener">MyCi 知识库 · Release Notes - Doors + Windows</a></div>
+  <h1>Release notes - Doors+Windows - 6.45</h1>
+<h3>Bug</h3>
+<p>DAW-998 doors windows schedule auto-rebuild not working</p>
+<p>DAW-1131 Custom Notes in Schedule are limited to 128 characters</p>
+<p>DAW-1166 Adjusting Editable Grid manually in AC-standard Windows reverts to default if CI DAW addon loaded</p>
+<p>DAW-1174 Window Trim pushes out into Interior in Floor Plan View at Full Detail</p>
+<p>DAW-1175 Schedule crashes on update (BIG Sur)</p>
+<p>DAW-1191 Door Bead Surface setting applies to wrong side of door</p>
+<h3>Improvement</h3>
+<p>DAW-1207 Ci tools d&w's glazing types should shown in the schedules (AC and CI as well)</p>
+<h3>Story</h3>
+<p>DAW-1198 Request to see if we can backport DW Properties fix to v24</p>
+</div>
+<div class="art" id="a-205081820">
+  <div class="art-h"><span class="no">39</span><h3>Schedule Doors + Windows</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205081820-Schedule-Doors-Windows" target="_blank" rel="noopener">MyCi 知识库 · Schedule Doors + Windows</a></div>
+  <p>In this tutorial we are going to look at how to create a simple Door and Window schedule.</p>
+<ul>
+<li>Open an ARCHICAD project, and place some doors and windows into some walls.</li>
+</ul>
+<ul>
+<li>From the <strong>Cadimage</strong> menu, choose <strong>Doors+Windows > Schedule Manager..</strong>.</li>
+</ul>
+<p><img src="img/205081820_0.jpg" alt="Schedule Doors + Windows 示意图" loading="lazy"></p>
+<ul>
+<li>At the top, right of the dialog, click the <strong>New</strong> button. A new schedule will appear at the top of the list.</li>
+</ul>
+<p><img src="img/205081820_1.jpg" alt="Schedule Doors + Windows 示意图" loading="lazy"></p>
+<ul>
+<li>Enter a name for the new schedule.</li>
+</ul>
+<p><img src="img/205081820_2.jpg" alt="Schedule Doors + Windows 示意图" loading="lazy"></p>
+<ul>
+<li>Under criteria you can determine which doors and windows are to be listed in the schedule.</li>
+</ul>
+<p><img src="img/205081820_3.jpg" alt="Schedule Doors + Windows 示意图" loading="lazy"></p>
+<ul>
+<li>The next section of the dialog deals with how the scheduled items are presented on the layout. Choose a <strong>Master Layout Page Size</strong> and set the <strong>Scale</strong>, the page <strong>Margins</strong> and the <strong>Gap Between Items</strong>.</li>
+</ul>
+<p><img src="img/205081820_4.jpg" alt="Schedule Doors + Windows 示意图" loading="lazy"></p>
+<ul>
+<li>Expand the <strong>Dimensions</strong> settings to define which dimension strings to show on the doors and windows, and set the spacing between dimension strings.</li>
+</ul>
+<p><img src="img/205081820_5.jpg" alt="Schedule Doors + Windows 示意图" loading="lazy"></p>
+<ul>
+<li>The <strong>Dimension Settings...</strong> button opens the <strong>Dimensions Default Settings</strong> dialog so you can set the dimension style.</li>
+</ul>
+<p><img src="img/205081820_6.jpg" alt="Schedule Doors + Windows 示意图" loading="lazy"></p>
+<ul>
+<li>Expand the <strong>Labels</strong>settings to choose how the elevated doors and windows should appear on schedule. In this case we'll leave the settings as default.</li>
+</ul>
+<p><img src="img/205081820_7.jpg" alt="Schedule Doors + Windows 示意图" loading="lazy"></p>
+<ul>
+<li>Finally click the <strong>OK</strong> button.</li>
+</ul>
+<p>ArchiCAD will generate a <strong>Worksheet</strong> with the name you set in the first step. You can access it from the <strong>Project Map</strong>, under Worksheet.</p>
+<p><img src="img/205081820_8.jpg" alt="Schedule Doors + Windows 示意图" loading="lazy"></p>
+<ul>
+<li>Open the Schedule. All the doors and windows in your project will be listed and dimensioned.</li>
+</ul>
+<p><img src="img/205081820_9.jpg" alt="Schedule Doors + Windows 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-360003648656">
+  <div class="art-h"><span class="no">40</span><h3>Schedule notes' box sizes</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360003648656-Schedule-notes-box-sizes" target="_blank" rel="noopener">MyCi 知识库 · Schedule notes' box sizes</a></div>
+  <p>You can change the Schedule notes’ box sizes.</p>
+<p>Create a CI tools door and window Schedule and select the first item (that is important because the others will follow the first item settings after you update the schedule), then go to the settings.</p>
+<p>Here you can change the Schedule note’s box size:</p>
+<p><img src="img/360003648656_0.jpg" alt="Schedule notes' box sizes 示意图" loading="lazy"></p>
+<p>​</p>
+<p>Then all you need to do is update the schedule at menu CI Tools > Door +Windows > Update Schedule:</p>
+<p><img src="img/360003648656_1.jpg" alt="Schedule notes' box sizes 示意图" loading="lazy"></p>
+<p>​</p>
+<p>Then all of the Schedule notes’ box sizes will change:</p>
+<p><img src="img/360003648656_2.jpg" alt="Schedule notes' box sizes 示意图" loading="lazy"></p>
+</div>
+<div class="art" id="a-204861524">
+  <div class="art-h"><span class="no">41</span><h3>Sketch a 900x2100 single swing door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/204861524-Sketch-a-900x2100-single-swing-door" target="_blank" rel="noopener">MyCi 知识库 · Sketch a 900x2100 single swing door</a></div>
+  <p>Cadimage Door, Cadimage Window and Cadimage Garage Door can be used to model doors and/or windows.</p>
+<ul>
+<li>Cadimage Window provides the greatest flexibility. It can be used to model the vast majority of windows and many doors.</li>
+</ul>
+<ul>
+<li>Cadimage Door is intended to model doors only, although some glazing can be included around the doors.</li>
+</ul>
+<ul>
+<li>Cadimage Garage Door can only be used to model doors that lift up from the base, with no peripheral glazing.</li>
+</ul>
+<p>The following articles describe how you can use one or other of these three library parts to model a door or a window.</p>
+<p>In summary though, the process is always the same:</p>
+<ul>
+<li>Decide which library part to use.</li>
+</ul>
+<ul>
+<li>Open the Door or Window Settings dialog.</li>
+</ul>
+<ul>
+<li>Choose a design start point.</li>
+</ul>
+<ul>
+<li>Edit the settings.</li>
+</ul>
+<h3>1. Decide which Library Part to Use</h3>
+<p>To decide which of the three library parts you should use, follow these simple guidelines:</p>
+<ul>
+<li>To model a window, use Cadimage Window.</li>
+</ul>
+<ul>
+<li>To model a simple door, even if it includes simple glazing, use Cadimage Door.</li>
+</ul>
+<ul>
+<li>To model a door with multiple glazed panels to either side or above it, use Cadimage Window.</li>
+</ul>
+<ul>
+<li>To model a garage door with no peripheral glazing, use Cadimage Garage Door.</li>
+</ul>
+<h3>2. Open the Door or Window Settings Dialog</h3>
+<p>Cadimage Window is an ArchiCAD <strong>Window</strong>element. To open its Window Settings dialog, double-click on the <strong>Window</strong>tool in the ArchiCAD toolbox, then browse to select the Cadimage Window library part from the Cadimage Library.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>Cadimage Door and Cadimage Garage Door are ArchiCAD <strong>Door</strong>elements. To open their Door Settings dialogs, double-click on the <strong>Door</strong>tool in the ArchiCAD toolbox, then browse to select the Cadimage Door or the Cadimage Garage Door library part from the Cadimage Library.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<h3>3. Choose a Design Start Point</h3>
+<p>On opening the <strong>Settings</strong>dialog, you will be presented with a choice of two ways to work with the <strong>Cadimage Door</strong> or<strong>Cadimage Window</strong> tool.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>Choose <strong>Sketch a Window</strong> (or <strong>Sketch a Door</strong>) if you want to start the design process by 'sketching' a door or window. This approach is useful at the very earliest stage of a design, when you simply want to place rectangular doors or windows into a project in order to present a concept. For windows, it is also a handy starting point for modelling windows with large numbers of mullions (e.g. shop fronts/ commercial work). The <strong>Sketch Design</strong> mode of working will be selected at the top of the left menu.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>If you choose to <strong>Parametrically Design a New Window</strong> (or <strong>Parametrically Design a New Door</strong>) from scratch, you will be taken immediately to a page of the <strong>Settings</strong>dialog where you can define the window setout. The <strong>Detailed Design</strong>mode of working will be selected.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>Note that you can toggle freely between the working modes at any time.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<h3>4. Edit the Settings</h3>
+<p>Use the left menu to navigate to each page of the <strong>Settings</strong> dialog.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>For many of the components, the settings are grouped as <strong>Model</strong>, <strong>Surfaces</strong>and <strong>Appearance</strong>. Use the buttons at the top, right of the Settings dialog to toggle between these three groups of settings.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+</div>
+<div class="art" id="a-360001317075">
+  <div class="art-h"><span class="no">42</span><h3>Styles and Snap Sizes features in the CI Tools Doors+Windows tool for AC23</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/360001317075-Styles-and-Snap-Sizes-features-in-the-CI-Tools-Doors-Windows-tool-for-AC23" target="_blank" rel="noopener">MyCi 知识库 · Styles and Snap Sizes features in the CI Tools Doors+Windows tool for AC23</a></div>
+  <p>A quick run-through on the new Styles and Snap Sizes features in the CI Tools Doors+Windows tool.</p>
+</div>
+<div class="art" id="a-13505952418703">
+  <div class="art-h"><span class="no">43</span><h3>Using preset "Snap Sizes" in Windows and Doors</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/13505952418703-Using-preset-Snap-Sizes-in-Windows-and-Doors" target="_blank" rel="noopener">MyCi 知识库 · Using preset "Snap Sizes" in Windows and Doors</a></div>
+  <p>The Ci Tools Doors+Windows tool allow you to create preset sizings for your windows and doors, so you can easily resize your joinery and have it "snap" to the nearest allowed sizing that you setup.</p>
+<p>This is great for when you're using a specific model of window/door, as you can just setup the sizes that are available for it in advance, and then anytime you modify the dimensions of the joinery item, they will automatically lock to the nearest preset size.</p>
+<p>It can also be useful if you dimension things by brick coursing, or by any other units that aren't just the dimensions you use in Archicad.</p>
+<h2>Turning on and using Snap Sizes</h2>
+<p>Get started with them by going to Configuration in either the Window or Door object</p>
+<p><img src="img/13505952418703_0.jpg" alt="Using preset "Snap Sizes" in Windows and Doors 示意图" loading="lazy"></p>
+<p>Our Snap Sizes are found here in the "Size" setting. Opening that out via the flout menu to the right of it will show us the snap sizings available</p>
+<p><img src="img/13505952418703_1.jpg" alt="Using preset "Snap Sizes" in Windows and Doors 示意图" loading="lazy"></p>
+<p>The Top level items are the Height snaps, and the second level items are the Width. So in the screenshot above, we have hilighted the snap interval of 13 height units and 6.5c width units</p>
+<p>From this menu, choose the sizing you want, and now this item will be in Snapping mode for sizes. This means that whenever you Resize the window or door, it will only ever go to the nearest available snap size interval.</p>
+<p><img src="img/13505952418703_2.jpg" alt="Using preset "Snap Sizes" in Windows and Doors 示意图" loading="lazy"></p>
+<p>In this example, the minimum width is 6c (1450mm) and each subsequent snap point is 0.5c or 120mm above that. So as you can see, if I resize the window to 1833, it snaps to 1810, if I resize to 1693 it snaps to 1690 etc...</p>
+<p>Obviously you may not want to use the snaps that are setup by default, so you can also create your own</p>
+<h2>Setting up Snap Sizes</h2>
+<p>To setup your own Snap Sizes, go to <strong>Configuration</strong> - <strong>Snap Sizes</strong></p>
+<p><img src="img/13505952418703_3.jpg" alt="Using preset "Snap Sizes" in Windows and Doors 示意图" loading="lazy"></p>
+<p><em>(note: what you see here depends on the snap sizes saved in your Style, so may not look exactly like the above)</em></p>
+<p>Here we can see the snap size setup for Widths. The panel on the left allows you to autogenerate snap sizes, and the panel on the right shows the currently setup snap sizes</p>
+<p>Focusing on the right panel, you can see there are 3 Columns: Code, Unit Width, and Default Panel Width</p>
+<ul>
+<li>Code lets us set the Code or identifier for that Snap width field. This could match a sizing available in a specific range or, as in the screenshot above, reflect the Brick Coursing interval</li>
+</ul>
+<ul>
+<li>Unit width defines the width of the snap point in whatever your currently set Archicad Units are (millimetres, in the case of the screenshot)</li>
+</ul>
+<ul>
+<li>Default Panel Width lets you also define the default width for Panels that would be added at this Snap sizing point</li>
+</ul>
+<p>Using the series of radio buttons on the left, you can select the snap interval you want to change, and then adjust the Code, Unit Width, or Default Panel size</p>
+<p>Using the 4 buttons below the selection will let you (1) move a snap Up, (2) move a snap Down, (3) Delete a snap point, and (4) Add a new snap</p>
+<p><img src="img/13505952418703_4.jpg" alt="Using preset "Snap Sizes" in Windows and Doors 示意图" loading="lazy"></p>
+<p>You can also use the autogenerate controls on the left to have the tool automatically create snap points at a specific interval. Just set (1) what you want the interval to be, (2) how many divisions inside each interval you want (if you don't want any, choose 1), (3) an offset from the minimum size if you want one, and (4) what the top and bottom sizes are for the range of snap points that will be created</p>
+<p>When you have those set the way you want, hit the Generate button (5) to create your array of snap points (note, doing this will clear the list first, so you will lose any currently setup snap points)</p>
+<p><img src="img/13505952418703_5.jpg" alt="Using preset "Snap Sizes" in Windows and Doors 示意图" loading="lazy"></p>
+<p>Once you have generated your snap sizing array, you can further adjust each snap point manually as needed</p>
+</div>
+<div class="art" id="a-205030474">
+  <div class="art-h"><span class="no">44</span><h3>Watch: Add a simple window</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205030474-Watch-Add-a-simple-window" target="_blank" rel="noopener">MyCi 知识库 · Watch: Add a simple window</a></div>
+  <p><em>Demonstrated in ARCHICAD 19</em></p>
+</div>
+<div class="art" id="a-213785063">
+  <div class="art-h"><span class="no">45</span><h3>Watch: Get started in 6 minutes!</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/213785063-Watch-Get-started-in-6-minutes" target="_blank" rel="noopener">MyCi 知识库 · Watch: Get started in 6 minutes!</a></div>
+  <p>In this short video, Ralph shows you how to get started with the Doors+Windows Tool in under 6 minutes:</p>
+</div>
+<div class="art" id="a-205761370">
+  <div class="art-h"><span class="no">46</span><h3>Watch: How to add a complex door and window unit</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205761370-Watch-How-to-add-a-complex-door-and-window-unit" target="_blank" rel="noopener">MyCi 知识库 · Watch: How to add a complex door and window unit</a></div>
+  <p><em>Demonstrated in ARCHICAD 19</em></p>
+</div>
+<div class="art" id="a-205761680">
+  <div class="art-h"><span class="no">47</span><h3>Watch: How to design a Door</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205761680-Watch-How-to-design-a-Door" target="_blank" rel="noopener">MyCi 知识库 · Watch: How to design a Door</a></div>
+  <p>In this video Ken shows us how to design a double door using the Cadimage Door+Window tool.</p>
+<p><em>Demonstrated in ARCHICAD 19</em></p>
+</div>
+<div class="art" id="a-205081830">
+  <div class="art-h"><span class="no">48</span><h3>Work Environment Setup</h3></div>
+  <div class="art-src">原文来源：<a href="https://cadimage.zendesk.com/hc/en-us/articles/205081830-Work-Environment-Setup" target="_blank" rel="noopener">MyCi 知识库 · Work Environment Setup</a></div>
+  <p>Once Cadimage Doors + Windows is installed successfully it will do most of the setup for you. However you should carry out the following steps to complete the process.</p>
+<h2>1. Check the Cadimage Menu</h2>
+<p>To ensure that the install has worked, check that the tool appears in the Cadimage pull-down menu.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<h2>Check the Cadimage Menu ...</h2>
+<p>You'll see a new Doors+Windows sub-menu in the Cadimage menu. This sub-menu contains items for scheduling as illustrated below, plus a help link which directs you back to the Knowledge Base where you can get detailed information on all of the functions and features of <strong>Cadimage Doors + Windows</strong>.</p>
+<p>If this sub-menu does not appear it could for one of two reasons:</p>
+<ul>
+<li>The installation may not have been sucessful.</li>
+</ul>
+<ul>
+<li>You may be running a custom Work Environment</li>
+</ul>
+<p>If you are not running a custom Work Environment, but still can not see the menu items, please consult the<a href="http://www.cadimage.com/support/knowledgebase/general/getting-started-troubleshooting-0607" target="_blank" rel="noopener">Troubleshooting Guide</a> to check whether or not the tool has been installed by completing the 3 simple tests.</p>
+<p>If you are running a custom Work Environment you can add the menu items as described below:</p>
+<h2>Add Menu items ...</h2>
+<p>If some commands don't appear as illustrated above, use the <strong>Work Environment</strong> to add them to the menu:</p>
+<p>From the <strong>Options</strong> menu, choose <strong>Work Environment > Menus ...</strong> to open the <strong>Work Environment</strong> dialog.</p>
+<p>Choose to list <strong>All commands by theme</strong>, then scroll down to <strong>17 Add-Ons</strong>.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>You'll see the <strong>Cadimage Doors + Windows</strong> tool listed here in the list of Add-Ons. Open it's folder so you can see the individual commands, and on the right double-click on the <strong>Cadimage</strong> menu to show the current contents.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>If necessary, add a new sub-menu to the <em>Cadimage</em>menu.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>Select all the missing commands and click on the <em>Add selected</em> button to add them to the <em>Cadimage</em>menu.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<h2>2. Model View Options</h2>
+<p>Set up the <em>Model View Options</em> for project views.</p>
+<p><em>Cadimage Doors+Windows</em> does not install its own <em>Model View Options</em> palette, but it does use the settings of Standard ArchiCAD ones. Use the extra settings to control how Doors and Windows should appear in plan view and 3D.</p>
+<p>You can set different swing styles, turn the Markers on or off and turn the handles on and off.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+</div>
+</article>
+
+<footer class="foot">
+CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
