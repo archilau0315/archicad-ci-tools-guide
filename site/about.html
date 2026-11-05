@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="CI Tools 教程站来源说明、翻译原则与已知局限">
+<title>来源与说明 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<div class="nav-h zh-only block">16 个工具</div><div class="nav-h en-only block">16 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
+</aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">来源与说明</span><span class="en-only">Sources</span></div>
+<div class="hero">
+  <span class="kicker"><span class="zh-only">来源与说明</span><span class="en-only">Sources &amp; Notes</span></span>
+  <h1><span class="zh-only">这份手册从哪来</span><span class="en-only">Where This Manual Comes From</span></h1>
+  <p class="zh-only">本站内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库，
+  共 357 篇官方文档、1208 张界面截图，全部译为中文并本地化存储。</p>
+  <p class="en-only">This site is compiled from the official Central Innovation / Graphisoft MyCi
+  knowledge base — 357 articles and 1208 interface screenshots, translated into Chinese
+  and hosted locally.</p>
+</div>
+
+<article>
+<h2><span class="zh-only">内容来源</span><span class="en-only">Content Sources</span></h2>
+<table>
+<thead><tr>
+  <th><span class="zh-only">项目</span><span class="en-only">Item</span></th>
+  <th><span class="zh-only">说明</span><span class="en-only">Details</span></th>
+</tr></thead>
+<tbody>
+<tr>
+  <td><span class="zh-only">官方文档</span><span class="en-only">Official docs</span></td>
+  <td><span class="zh-only">Central Innovation / Graphisoft MyCi 知识库（cadimage.zendesk.com），
+  2026-10 更新版</span><span class="en-only">Central Innovation / Graphisoft MyCi knowledge base
+  (cadimage.zendesk.com), revision 2026-10</span></td>
+</tr>
+<tr>
+  <td><span class="zh-only">界面截图</span><span class="en-only">Screenshots</span></td>
+  <td><span class="zh-only">1208 张，全部下载压缩后本地存储，不依赖任何外部图床</span>
+  <span class="en-only">1208 screenshots, all downloaded, compressed and stored locally — no external image hosting</span></td>
+</tr>
+<tr>
+  <td><span class="zh-only">中文译文</span><span class="en-only">Chinese translation</span></td>
+  <td><span class="zh-only">357 篇全文翻译，图片占位符逐篇数量与顺序校验</span>
+  <span class="en-only">All 357 articles translated; image placeholders verified article-by-article</span></td>
+</tr>
+<tr>
+  <td><span class="zh-only">整理时间</span><span class="en-only">Compiled</span></td>
+  <td>2026-11-05</td>
+</tr>
+</tbody>
+</table>
+
+<h2><span class="zh-only">翻译处理原则</span><span class="en-only">Translation Principles</span></h2>
+<ul>
+<li><span class="zh-only"><b>菜单路径保留英文原形</b>，后面加中文括注 —— 因为那是你在 Archicad 里真正要点的字</span>
+<span class="en-only"><b>Menu paths keep their original English form</b> with a Chinese note, because that is the text you actually click in Archicad</span></li>
+<li><span class="zh-only"><b>计算表达式、属性名、枚举值</b>等纯技术标识符保留英文，只译说明文字 —— 改了就对不上官方</span>
+<span class="en-only"><b>Expressions, property names and enum values</b> stay in English; only the explanations are translated — changing them would break parity with the official docs</span></li>
+<li><span class="zh-only"><b>每篇文章下方可展开「英文原文对照」</b>，随时核对官方原文与原图</span>
+<span class="en-only"><b>Every article has an expandable "Official English Original" section</b> for side-by-side verification</span></li>
+<li><span class="zh-only"><b>统一术语</b>：库管理器、工作环境、工具箱、配方、工程量清单、属性、分类、特征标记</span>
+<span class="en-only"><b>Consistent terminology</b>: Library Manager, Work Environment, Toolbox, Recipe, Bill of Quantities, Property, Classification, Trait</span></li>
+</ul>
+
+<h2><span class="zh-only">已知局限</span><span class="en-only">Known Limitations</span></h2>
+<ul>
+<li><span class="zh-only">1208 张截图中有 33 张在官方源站已失效（多为老博客关站导致 404），页面以占位说明替代，不显示破图</span>
+<span class="en-only">33 of the screenshots are no longer available on the official server (the old blog was taken down); the pages show a placeholder instead of broken images</span></li>
+<li><span class="zh-only"><b>Electrical</b> 库含欧盟、印度、撒哈拉以南非洲、英国、美国，<b>无中国国标库</b></span>
+<span class="en-only">The <b>Electrical</b> library covers EU, India, sub-Saharan Africa, UK and US — <b>no Chinese national standard library</b></span></li>
+<li><span class="zh-only"><b>Sites</b> 为澳新专属，<b>Bracing</b> 为新西兰专属</span>
+<span class="en-only"><b>Sites</b> is for Australia/NZ, <b>Bracing</b> is New Zealand only</span></li>
+<li><span class="zh-only"><b>Archicad 30 起</b>工具包改名 <b>ProKit</b>，菜单名随之改变；<b>Archicad 29 起</b>库包必须手动加载</span>
+<span class="en-only">From <b>Archicad 30</b> the toolkit is renamed <b>ProKit</b> with different menu names; from <b>Archicad 29</b> library packs must be loaded manually</span></li>
+</ul>
+
+<h2><span class="zh-only">内容仅供学习参考</span><span class="en-only">For Learning Purposes Only</span></h2>
+<p class="zh-only">本站为内部学习资料整理，版权归 Central Innovation / Graphisoft 所有。
+翻译为非官方版本，如有歧义以官方英文原文为准。商业使用请遵循原厂许可条款。</p>
+<p class="en-only">This is an internal learning resource. Copyright remains with Central Innovation / Graphisoft.
+The Chinese translation is unofficial — refer to the original English in case of ambiguity.
+For commercial use, follow the vendor's licensing terms.</p>
+
+<h2><span class="zh-only">官方入口</span><span class="en-only">Official Links</span></h2>
+<ul>
+<li><span class="zh-only">MyCi 知识库</span><span class="en-only">MyCi knowledge base</span> — cadimage.zendesk.com/hc/en-us</li>
+<li><span class="zh-only">Graphisoft ProKit 下载（Archicad 30+）</span><span class="en-only">Graphisoft ProKit download (Archicad 30+)</span> — graphisoft.com/downloads/add-ons/prokit/</li>
+<li><span class="zh-only">Graphisoft 官方论坛</span><span class="en-only">Graphisoft official forum</span> — forum.graphisoft.com</li>
+</ul>
+</article>
+
+<footer class="foot">
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
+})();
+</script>
+</body>
+</html>
