@@ -496,3 +496,58 @@ tar czf - -C resources AC_Tutorial/ci_tools/site | \
 ### 关于 autrain 大小写
 
 核查后确认**不需要改名**：本地 Windows 不区分大小写（`AUtrain` 与 `autrain` inode 相同，实为同一目录），服务器上本来就是小写 `autrain`（含 nginx 认证规则全部小写）。之前的 404 纯粹是链接手写成了大写，现已修正。
+
+---
+
+## 2026-11-05 12:55 — 优化：子页顶栏统一，抽出共享样式文件
+
+| 项 | 内容 |
+|---|---|
+| 模块 | 新增 `public/sub-topbar.css`；`Portfolio/index.html`、`resources/index.html` |
+| 变更简述 | 作品集子页接入与资源页一致的顶栏；两页共用同一份样式文件，顶栏代码从两份变一份 |
+| 备注 | 已部署上线，两页线上浏览器实测通过 |
+
+### 做法
+
+把顶栏样式抽到 `public/sub-topbar.css`（3183 字节），两个子页各引一行 `<link>`：
+
+```html
+<link rel="stylesheet" href="../public/sub-topbar.css">
+```
+
+类名统一加 `sub-` 前缀（`.sub-topbar` / `.sub-lang-toggle` / `.sub-zh-only` / `.sub-en-only`），避免与页面自身样式冲突。
+
+中英切换由 `html[data-lang]` 属性驱动，两页的 `setLang()` 同步设置该属性：
+
+```js
+document.documentElement.setAttribute('data-lang', lang);
+```
+
+### 作品集页的适配
+
+| 项 | 处理 |
+|---|---|
+| 顶栏 | 原为页面右上角 fixed 语言切换 → 改为标准顶栏 |
+| logo | 原来在页头中间（`.brand`）→ 移到顶栏左侧，页头里的重复品牌区删除 |
+| 页头留白 | `padding-top` 48px → 108px，避开 fixed 顶栏 |
+| 详情页 | `.detail-header` 的 sticky `top:0` → `top:62px`，避免与顶栏重叠 |
+| logo 滤镜 | 补 `brightness(1.5) grayscale(0.3)`，与原品牌区一致 |
+
+### 验证
+
+| 项目 | 结果 |
+|---|---|
+| 共享 CSS | HTTP 200，3183 字节 |
+| 两页引用 | Portfolio ✓ / resources ✓ |
+| 顶栏视觉 | 两页完全一致（logo 位置、返回主站、CN/EN 位置与样式） |
+| Portfolio 中文 | 返回主站 / 建筑设计作品集 |
+| Portfolio 英文 | Back to Home / Architectural Portfolio（仅显示一个，不重叠） |
+| 移动端 390px | 顶栏无溢出；Back to Home 换行但完整 |
+| 资源页 | 4 张卡片、语言切换正常 |
+| 线上一致性 | Portfolio 73610 / 资源页 18581 字节，与本地一致 |
+
+### 维护收益
+
+- 顶栏样式只有一份，改一处两页同步生效
+- 以后新增子页（如新的 aitools 子页），引一行 CSS 即可获得同样的顶栏
+- 子页与主页导航彻底解耦，主页改导航不影响子页
