@@ -137,6 +137,14 @@ article{padding-bottom:40px}
 .art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
 .pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
   background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+.vb{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;
+  background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba;
+  font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle;
+  letter-spacing:.02em;white-space:nowrap}
+.vb-old{background:#f7e3e3;color:#9a3b3b;border-color:#e6c6c6}
+.vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
+  background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
+.vb-note b{color:#8a5a1e}
 
 /* 首页卡片 */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
@@ -324,6 +332,30 @@ def zh_title_of(aid, fallback):
     """取中文标题，缺失则回退英文"""
     t = _ZH.get(aid)
     return t.get("title", fallback) if t else fallback
+
+
+VB_RE = re.compile(r'ARCHICAD\s*(\d{2})|\bAC\s?(\d{2})\b', re.I)
+VB_MAX_OLD = 26          # 只标 AC26 及更早；AC27 与 AC28 界面基本一致
+VB_HISTORY = ("及更早版本", "迁移到", "更新概览", "网络研讨会录像")
+
+
+def ver_badge(text):
+    """标题里带旧版本号的，生成一个角标；AC27+ 不标。"""
+    m = VB_RE.search(text or "")
+    if not m:
+        return ""
+    ver = int(m.group(1) or m.group(2))
+    if ver > VB_MAX_OLD:
+        return ""
+    cls = "vb vb-old" if any(h in text for h in VB_HISTORY) else "vb"
+    tip = "该文基于旧版界面，操作路径可能已变" if cls.endswith("old") else "基于该版本的界面编写"
+    return f'<span class="{cls}" title="{tip}">AC{ver}</span>'
+
+
+VB_NOTE = """  <p class="vb-note">
+    <span class="zh-only">标 <b>AC19–AC23</b> 的文章基于旧版界面编写：功能思路仍通用，但按钮位置和菜单名可能与当前版本不同。</span>
+    <span class="en-only">Articles tagged <b>AC19–AC23</b> were written for older interfaces — the concepts still apply, but UI paths may differ from the current version.</span>
+  </p>"""
 
 
 def nav_item(href, ic, zh, en, cls=""):
@@ -527,8 +559,8 @@ def main():
             arts_html.append(f"""
 <div class="art" id="a-{aid}">
   <div class="art-h"><span class="no">{i:02d}</span>
-    <h3 class="zh-only block">{zh_title}</h3>
-    <h3 class="en-only block">{v['title']}</h3>
+    <h3 class="zh-only block">{zh_title}{ver_badge(zh_title)}</h3>
+    <h3 class="en-only block">{v['title']}{ver_badge(v['title'])}</h3>
   </div>
   <div class="art-src">{src}</div>
   <div class="zh-only">{main_html}</div>
@@ -558,6 +590,7 @@ def main():
     <span><b>{sum(clean[a]['len'] for a in aids)/10000:.1f}</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
     <span><b>{sum(len(local_imgs(a)) for a in aids)}</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
   </div>
+{VB_NOTE if any(ver_badge(zh_title_of(a, clean[a]['title'])) for a in aids) else ''}
 </div>
 <article>
 {"".join(arts_html)}
@@ -677,8 +710,8 @@ def build_all(out, base, g):
         en, zh, desc, ic = BOOKS[k]
         rows = "".join(
             f'<li><a href="{k}.html#a-{x["id"]}"><span class="tg">{i:02d}</span>'
-            f'<span class="zh-only">{zh_title_of(x["id"], x["title"])}</span>'
-            f'<span class="en-only">{x["title"]}</span></a></li>'
+            f'<span class="zh-only">{zh_title_of(x["id"], x["title"])}{ver_badge(zh_title_of(x["id"], x["title"]))}</span>'
+            f'<span class="en-only">{x["title"]}{ver_badge(x["title"])}</span></a></li>'
             for i, x in enumerate(g.get(k, []), 1))
         secs.append(f"""
 <h2>{en} · {zh} <span class="pill">{len(g.get(k,[]))} 篇</span></h2>

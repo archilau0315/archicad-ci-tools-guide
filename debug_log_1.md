@@ -851,3 +851,21 @@ python3 build_article.py "文章.md" --embed            # 单文件内嵌版（b
 **备注**：
 - 工具页已用无头 Chromium 实测：10 图位、顺序正确、内联样式 10/10、data-*/class/id 残留 0、表格保留
 - 上传顺序决定图位对应，工具页提供下拉框兜底
+
+---
+
+## 2026-11-05 17:0x 教程站旧版文章加版本角标
+
+**模块**：`site/*.html`、`source/build_site.py`、`tools/add_version_badges.py`
+
+**背景**：357 篇官方文章里有 23 篇标题自带版本号（AC19 3 篇、AC20 1 篇、AC22 17 篇、AC23 2 篇），18 篇集中在 Cabinets。这些文章的操作步骤基于旧版界面，读者照着点会迷路。
+
+**变更**：
+- 标题旁加 `AC22` 小角标；其中"及更早版本 / 迁移到 / 更新概览 / 网络研讨会录像"几篇标红（vb-old）
+- 分册页 hero 统计行下加一行米色提示条，说明 AC19–AC23 文章界面可能已变
+- 全量索引 all.html 的条目同步打标
+- 阈值 `MAX_OLD = 26`：AC27 与 AC28 界面基本一致，不标（避免把"Archicad 27 中使用 Coverings 的注意事项"误标成旧版）
+
+**实现说明**：构建输入 `clean.json` / `articles.json` 已不在，无法重跑 build_site.py，故先用 `tools/add_version_badges.py` 直接改产物 HTML（幂等），同时把同一套 `ver_badge()` / `VB_NOTE` / CSS 补进 build_site.py，以后重新生成不会丢。
+
+**备注**：已部署到线上 `site/*.html` 并验证 `class="vb"` 与提示条正常输出；本地 19 个 HTML 变更。
