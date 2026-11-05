@@ -551,3 +551,67 @@ document.documentElement.setAttribute('data-lang', lang);
 - 顶栏样式只有一份，改一处两页同步生效
 - 以后新增子页（如新的 aitools 子页），引一行 CSS 即可获得同样的顶栏
 - 子页与主页导航彻底解耦，主页改导航不影响子页
+
+---
+
+## 2026-11-05 13:03 — 优化：子页页脚统一，抽出共享样式文件
+
+| 项 | 内容 |
+|---|---|
+| 模块 | 新增 `public/sub-footer.css`；`Portfolio/index.html`、`resources/index.html` |
+| 变更简述 | 两页页脚统一为主页标准结构（标语 → 链接 → 联系方式 → 备案号 → 版权），共用同一份样式文件 |
+| 备注 | 已部署上线，两页线上浏览器实测通过 |
+
+### 改造前的差异
+
+| 页 | 原页脚 |
+|---|---|
+| 主页 | 标语 + 3 链接 + 备案号 + 版权（最完整） |
+| 资源页 | 标语 + 3 链接 + 备案号 + 版权（**缺联系方式**） |
+| 作品集页 | 仅「联系方式」标签 + TEL/E-mail + 版权（**缺标语、链接、备案号**，且在 480px 窄容器内） |
+
+### 统一后的结构（两页一致，与主页同款）
+
+```
+设计有形 科技无界
+FINITE FORM INFINITE TECH
+建筑设计作品集 · 首席图像架构师 · 服务协议
+TEL：13512848962 刘珂 · E-mail：kbit_ai@126.com
+津ICP备2026002055号-1 · 津公网安备12010402002460号
+© 2024 天津匡形无界智能科技有限公司（KBITAI）. All rights reserved.
+```
+
+### 实现
+
+共享文件 `public/sub-footer.css`（2392 字节），两页各引一行。类名加 `sub-` 前缀避免冲突：
+
+```html
+<link rel="stylesheet" href="../public/sub-footer.css">
+```
+
+| 位置 | 处理 |
+|---|---|
+| 作品集页 | 页脚从 480px 的 `.container` 内**移出**（否则宽度受限）；删除本地 `.footer` / `.contact-*` / `.copyright` CSS |
+| 资源页 | 补上联系方式一行；删除本地 `.footer-*` CSS |
+| 资源页链接 | `architect/` → `aitools/architect/`（与主页一致） |
+| 词条 | Portfolio 补 slogan / footer-link×3；资源页补 tel / email |
+
+**版权文案**按公司规范校正：
+- 中文：© 2024 天津匡形无界智能科技有限公司（KBITAI）
+- 英文：© 2024 Tianjin Kuanform Boundless Intelligent Technology Co., Ltd. (KBITAI)
+
+### 验证
+
+| 项目 | 结果 |
+|---|---|
+| 共享 CSS | HTTP 200，2392 字节 |
+| 两页引用 | Portfolio ✓ / resources ✓ |
+| 旧 footer 残留 | 两页均 0 处 |
+| 页脚视觉 | 两页完全一致，五段内容齐全 |
+| 作品集英文 | Architectural Portfolio / Chief Image Architect / Terms of Service，版权用规范英文名 |
+| 页脚链接 | Portfolio 200 / aitools/architect 200 / terms.html 200 / 备案图标 200 |
+| 线上一致性 | Portfolio 74416 / 资源页 17676 字节，与本地一致 |
+
+### 踩坑记录
+
+作品集页的滚动容器是 `.viewport`（`overflow-y:auto` + `position:fixed`），不是 window。测试时用 `window.scrollTo` 无效，需 `document.getElementById('viewport').scrollTop`，且因 `scroll-behavior:smooth` 需临时置 `auto` 才能立即生效。
