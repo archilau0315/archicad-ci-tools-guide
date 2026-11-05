@@ -694,3 +694,76 @@ TEL：13512848962 刘珂 · E-mail：kbit_ai@126.com
 | 移动端页脚 | 各占一行，无折行错乱 |
 | i18n 词条 | Portfolio 7/7、资源页 27/27，zh 与 en 均无缺失 |
 | 线上一致性 | 主页 80263 / Portfolio 74827 / 资源页 16624 字节 |
+
+---
+
+## 2026-11-05 15:20｜公众号文章配图方案（图文丢失修复）
+
+### 问题
+
+公众号文章 HTML 生成后，粘贴到公众号编辑器时**所有图片丢失**。
+
+**根因**：生成的 HTML 里图片用的是本地相对路径 `images/xxx.jpg`。公众号编辑器粘贴时只会去抓**公网绝对 URL**，相对路径指向本机磁盘，服务器抓不到 → 全部变成裂图。
+
+### 解决方案
+
+图片先同步到服务器，再用公网绝对 URL 引用。
+
+**新增目录**：`site/img/article/`（10 张图，已同步线上）
+
+| 文件 | 内容 | 体积 |
+|---|---|---|
+| 01_cover.jpg | 封面 | 110 KB |
+| 02_annotate.jpg | 文字统一对话框 | 32 KB |
+| 03_coverings_columns.jpg | 覆面柱效果 | 13 KB |
+| 04_prokit_menu.jpg | ProKit 菜单 | 72 KB |
+| 05_cabinet_types.jpg | 橱柜类型面板 | 118 KB |
+| 06_cabinets_result.jpg | 橱柜成品效果 | 51 KB |
+| 07_tools_menu.jpg | 16 个工具菜单 | 51 KB |
+| 08_guide_home.jpg | 教程站首页 | 170 KB |
+| 09_index.jpg | 全量文章索引 | 146 KB |
+| 10_quickref.jpg | 中文主线速查 | 174 KB |
+
+公网地址：`https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/img/article/`
+
+**图片处理**：原 PNG 封面 1524 KB → JPEG q88 后 110 KB；三张教程站截图同理压缩，总体积从 2864 KB 降到 1108 KB。公众号单图上限 2 MB，压缩后留足余量。
+
+### 服务器配置验证
+
+| 检查项 | 结果 |
+|---|---|
+| 无 Referer 访问 | 200 |
+| 带 `Referer: mp.weixin.qq.com` | 200 |
+| 微信客户端 UA（iOS/Android） | 200 |
+| Content-Type | image/jpeg |
+| 防盗链 / Referrer-Policy | 无限制 |
+
+结论：微信服务器抓图无任何障碍。
+
+### 构建脚本改造
+
+`build_article.py` 增加三种输出模式：
+
+```bash
+python3 build_article.py "文章.md"                    # 本地预览版（相对路径）
+python3 build_article.py "文章.md" --online           # 公网版（绝对 URL）
+python3 build_article.py "文章.md" --online --copy    # 公网版 + 一键复制按钮
+python3 build_article.py "文章.md" --embed            # 单文件内嵌版（base64，离线可用）
+```
+
+新增 `IMG_MAP` 映射表（本地文件名 → 服务器文件名），`to_online()` 做路径替换，`to_embedded()` 做 base64 内嵌。公网版生成时自动校验「无残留相对路径 + 映射齐全」。
+
+### 验证
+
+| 项目 | 结果 |
+|---|---|
+| 公网版图片加载 | 10/10 成功，0 破图 |
+| 内嵌版图片加载 | 10/10 成功，0 远程依赖 |
+| 文件体积 | 公网版 16 KB｜内嵌版 3.7 MB |
+| 破图检查 | 浏览器 DOM 检测 naturalWidth，全部 > 0 |
+
+### 备注
+
+- 发布公众号用 `--online` 版本；图片靠微信自动转存到 CDN
+- 其他自媒体平台（知乎/头条等）若不转存外链图，用 `--embed` 单文件版
+- 纯文本粘贴（记事本→公众号）必然丢图，这是所有平台通病，不是本项目问题
