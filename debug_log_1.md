@@ -293,3 +293,44 @@ tar czf - -C resources AC_Tutorial/ci_tools/site | \
 | CSS 括号平衡 | 19 页全部通过 |
 | about.html 双语 | zh 块 52 / en 块 52 |
 | 浏览器实测 | 中文模式表格清晰；英文模式零残留中文 |
+
+---
+
+## 2026-11-05 12:15 — 修订：主站导航下拉统一，AI 工具指向最新区块
+
+| 项 | 内容 |
+|---|---|
+| 模块 | 主站 `index.html`（导航栏 + Hero 区） |
+| 变更简述 | 「资源」下拉与「AI工具」样式完全统一；Hero 区 AI工具 按钮改指向首页最新 AI 区块 |
+| 备注 | 已部署上线并浏览器实测通过 |
+
+### 排查过程
+
+初次反馈是「资源键没有箭头」，但实测 `getComputedStyle` 显示两个按钮的 `::after` 都是 `▾` —— 箭头其实早已存在（上一次改动就加了）。真正的问题是**另两处**：
+
+1. Hero 区「AI工具」按钮 `href="./aitools/"` 指向 9 月的旧汇总页。该页只有两张卡片（首席图像架构师、筑元智览），缺 ArchiLinkAI，且无下拉菜单。
+2. 导航栏 AI 下拉第一项写死绝对域名 `https://www.kbitai.com.cn/architect/`，本地预览会跳外站。
+
+### 改动
+
+| 位置 | 原内容 | 改为 |
+|---|---|---|
+| Hero AI 工具 | `./aitools/`（旧汇总页） | `#ai`（首页 AI 工具区，展示最新三个工具） |
+| 导航 AI 下拉 1 | `https://www.kbitai.com.cn/architect/` | `./aitools/architect/`（相对路径） |
+| 导航 AI 下拉 2 | `https://www.kbitai.com.cn/aitools/archiken/` | `./aitools/archiken/` |
+| AI 区块「立即体验」 | `https://www.kbitai.com.cn/aitools/archiken/` | `./aitools/archiken/` |
+| 资源下拉 CSS | 独立定位 hack（`top:+12px` + `z-index:103`） | 移除，与 AI 下拉共用同一套机制 |
+| 触发按钮层级 | 只给资源加 | 通用化 `.nav-dropdown > .nav-dropdown-toggle` |
+| JS | `toggleAiDropdown` / `toggleResDropdown` 两份重复实现 | 合并为 `toggleNavDropdown(e, id)` + 通用关闭逻辑 |
+
+### 验证
+
+| 项目 | 结果 |
+|---|---|
+| 箭头渲染 | AIarrow=`▾`｜RESarrow=`▾`，实测一致 |
+| 悬停展开 | AI 下拉 `op=1 vis=visible`；资源下拉截图确认 |
+| 按钮遮挡 | 两个按钮均完整可见，未被菜单盖住 |
+| 移动端点击展开 | 700px 视口：`open=true disp=block` |
+| 点击外部关闭 | `ai=false ; res=false` |
+| Hero AI 工具跳转 | scrollY=3485，AI 区块进入视口，显示三个最新工具 |
+| 线上一致性 | 本地与线上同为 80039 字节 |
