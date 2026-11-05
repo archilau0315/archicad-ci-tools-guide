@@ -831,3 +831,23 @@ python3 build_article.py "文章.md" --embed            # 单文件内嵌版（b
 - 公众号上传图床需 AppID + AppSecret，未认证订阅号无权限，故不采用
 - 自有服务器那份图保留作备用（`site/img/article/`）
 - 本次尝试改 nginx 加 CORS 头时配置嵌套位置有误，已回滚，线上未受影响
+
+---
+
+## 2026-11-05 17:0x 公众号丢图问题定案：改走微信图床回填
+
+**模块**：公众号文章配图 / `build_mmbiz_tool.py`
+
+**变更**：新增回填工具页 `微信图片回填工具.html`，把「后台多选上传 → 取 mmbiz 地址 → 回填图位」压成一次上传 + 两次粘贴。旧的外链方案（自有域名、imgurl 图床）全部标记为已废弃。
+
+**排查结论（服务器侧已排除）**：
+- 图片在 `/www/wwwroot/kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/img/article/` 存在且大小正常
+- 空 UA / 微信 UA / Referer=mp.weixin.qq.com 请求全部 200 `image/jpeg`
+- 无 `valid_referers` 防盗链，证书链 3 级完整
+- 站点 access_log 走 `syslog:unix:/tmp/site_total.sock`（宝塔统计），普通日志文件为 0 字节，排查时不要看 `/www/wwwlogs/www.kbitai.com.cn.log`
+
+**根因**：公众号新增正文图片上传接口后，会屏蔽过滤外链图片；仅认 `mmbiz.qpic.cn`。未认证订阅号无素材 API，只能人工上传一次。
+
+**备注**：
+- 工具页已用无头 Chromium 实测：10 图位、顺序正确、内联样式 10/10、data-*/class/id 残留 0、表格保留
+- 上传顺序决定图位对应，工具页提供下拉框兜底
