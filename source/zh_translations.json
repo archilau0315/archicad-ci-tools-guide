@@ -1426,5 +1426,17 @@
  "8620665767311": {
   "title": "更新日志 —— Transformer",
   "md": "# 更新日志 —— Transformer —— 1.03\n\n### 问题修复\n\nTRAN-2 镜像屋面覆层时出错，镜像项目时出错\n\nTRAN-4 关联标签未被镜像\n\nTRAN-11 镜像后立面图的标记位置发生偏移\n\nTRAN-14 室内立面图中绘制的其他二维元素未被镜像"
+ },
+ "prokit-annotate-replace": {
+  "title": "ProKit Annotate 的 Replace：一个对话框管五类替换",
+  "md": "从 Archicad 30 起，ProKit 把 Annotate 的替换动作收进了一个对话框。以前要分三次做的事——改大小写、换字体、换填充画笔线型——现在在同一张表里勾选。\n\n打开方式：菜单 *ProKit > Annotate > Replace*。**AC28 及更早版本没有这个合并对话框**，菜单在 *CI Tools > Annotate* 下的 *Convert Case…* 和 *Replace Attributes…* 两个分项里。\n\n%%IMG0%%\n\n对话框分三段：改什么属性、改什么文本、作用到哪。\n\n## 属性替换：三个勾，加一个容易漏的库部件开关\n\n- *Replace Fills* / *Replace Pens* / *Replace Lines*：分别对应填充、画笔、线型，每个右侧都有 *Edit Rules…*\n- *Include Library Part Attributes*：勾上才会连图库部件内部引用的属性一起换\n\n最后一条最容易漏。不勾的话，墙、板、线这些元素自己的填充画笔换了，但门窗、家具、符号那些图库对象里用的填充和画笔还是老样子。接手境外模板时，这条基本都要勾。\n\n## 文本替换：字体、大小写、以及\"改到哪一层文字\"\n\n- *Replace fonts*：套用字体替换规则\n- *Change case to*：下拉选一个统一的大小写标准\n- *With exceptions*：保留单位缩写、专有名词的原样\n\n三个\"深度\"开关：*Include custom Property text*（自定义属性文本）、*Include placed library part text*（图库部件字符串参数）、*Only text displayed by library part*（只处理 2D 里真正显示的字，更安全）。\n\n官方提醒：字体替换对某些图库部件可能无效，取决于参数怎么定义。个别对象字没变，先怀疑这一点。\n\n## 作用范围\n\n- *Apply replacement to*：当前视图或全项目\n- 三个附加勾选：隐藏项目、锁定项目、锁定图层上的元素\n\n%%IMG1%%\n\n## 执行与复用\n\n点 *Replace* 才开始跑，**只执行勾了的那几类**。跑错直接 Undo。左下角两个图标导入导出整套规则，扩展名 *.conversion*。\n\n一句话：**规则在管理器里定义，Replace 对话框只决定用哪些规则、作用到哪**。"
+ },
+ "prokit-attr-mgr": {
+  "title": "替换画笔、填充与线型（Attribute Replacement Manager）",
+  "md": "上一篇的 Replace 对话框只负责\"用哪些规则\"，真正定义规则的是这张表。\n\n两种方式打开：菜单 *ProKit > Annotate > Manage Attribute Replacements*，或在 Replace 对话框点 *Edit Rules…*。\n\n%%IMG0%%\n\n## 三种类型，三套互不干扰的规则\n\n顶部三个图标切换画笔、填充、线型。切到哪个，看到的就是那个类型自己的规则清单。\n\n## 规则就是一对一\n\n每行一条映射：*Original* 列选\"要找的属性\"，*Replacement* 列选\"换成什么\"。例如 Pen 75 换成 Pen 20。行首带色块或图案预览。\n\n不想动的行，让两边保持一致即可，等于空转。别删——删了容易被兜底规则接管。\n\n%%IMG1%%\n\n## 建规则的两种方式\n\n- 底部 *+*：手工加一条空规则\n- *Create from…*：从项目里**已经在用**的属性自动生成整张清单（下一篇详讲）\n\n%%IMG2%%\n\n## 兜底规则：一把梭，慎用\n\n底部 *If no rules apply, replace with* —— 勾上并选一个属性，所有没被清单覆盖的同类属性全换成它。适合\"全部归一\"，也容易把特意保留的强调色一起吃掉。\n\n## 导入导出：三个扩展名\n\n- *.convertpen* 画笔\n- *.convertfill* 填充\n- *.convertline* 线型\n\n也可以从 Replace 对话框把全部规则存成一个 *.conversion*。导入是追加，不覆盖，重复导入会出现重复行。\n\n## 国内项目里最实用的三个场景\n\n1. **接境外模板**：澳洲、欧洲模板三四十套填充，压成国标常用的那几套\n2. **出图归一**：彩色画笔转灰阶，一条规则批量换，比逐视图改画笔集快，也不漏视图\n3. **清理线型**：外来图纸几十种自定义线型，只留实线、虚线、点划线\n\n定义规则不会改任何东西，必须回 Replace 对话框点 *Replace* 才执行。"
+ },
+ "prokit-create-from": {
+  "title": "Create from：从项目现有属性自动生成替换清单",
+  "md": "这是 Annotate 里最省时间、也最少被提到的一个功能。\n\n## 先看问题\n\n接手别人的项目：画笔两百多个、填充六七十套，一大半不知道用在哪。手工抄清单不现实，全量列出来又全是空画笔的噪音。\n\n*Create from…* 只列真正在用的那些。\n\n%%IMG0%%\n\n## 操作顺序\n\n1. 打开 Attribute Replacement Manager，切到要处理的类型\n2. 点底部 *Create from…* 下拉，选范围：当前视图或全项目\n3. 工具把范围内元素实际用到的属性全列成规则行：*Original* 填好，*Replacement* 默认一致，**先全部保持原样**\n4. 只改要动的那几行\n5. OK 回 Replace 对话框，确认勾了对应类型，点 *Replace*\n\n## 为什么这个顺序是对的\n\n- 清单只有真正在用的属性，几十行看完\n- 默认原样保留，先看清楚再动手，比一上来开兜底规则安全\n- 和兜底规则配合最顺：常用的几十个一一指定，零散的用 *If no rules apply* 收口\n\n## 跑完怎么验收\n\n- 跑错直接 Undo，一次 Replace 是一个可回退动作\n- 切平面图比线宽颜色，或建按属性统计的明细表核对（做法见 Quantities 分册）\n- 某些对象没变，先查 *Include Library Part Attributes* 有没有勾\n\n注意：*Create from* 只生成规则清单，**不执行替换**。"
  }
 }

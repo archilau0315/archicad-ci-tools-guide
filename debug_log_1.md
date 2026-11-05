@@ -869,3 +869,29 @@ python3 build_article.py "文章.md" --embed            # 单文件内嵌版（b
 **实现说明**：构建输入 `clean.json` / `articles.json` 已不在，无法重跑 build_site.py，故先用 `tools/add_version_badges.py` 直接改产物 HTML（幂等），同时把同一套 `ver_badge()` / `VB_NOTE` / CSS 补进 build_site.py，以后重新生成不会丢。
 
 **备注**：已部署到线上 `site/*.html` 并验证 `class="vb"` 与提示条正常输出；本地 19 个 HTML 变更。
+
+---
+
+## 2026-11-05 17:1x Annotate 分册补 3 篇（AC30 官方帮助）
+
+**模块**：`site/annotate.html`、`source/zh_translations.json`、`tools/add_annotate_articles.py`
+
+**背景**：官方 ProKit Core 承诺 Annotate 覆盖五类替换（Text case / Fonts / Pens / Fills / Linetypes），站上原有 4 篇来自旧版 Cadimage 文档，只讲到大小写与字体，画笔、填充、线型三类完全没有；也没有 AC30 合并后的 Replace 总入口。
+
+**新增（编号 05–07）**：
+- `a-prokit-annotate-replace` ProKit Annotate 的 Replace：一个对话框管五类替换
+- `a-prokit-attr-mgr` 替换画笔、填充与线型（Attribute Replacement Manager）
+- `a-prokit-create-from` Create from：从项目现有属性自动生成替换清单
+
+**来源**：`help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/`，原文 4 页（annotation_replacement / AnnotateReplaceAttributes / AnnotateReplacingFonts / AnnotateCaseExceptions）。cadimage.zendesk.com 已 403，旧源不可再用。
+
+**配套改动**：
+- 图片 6 张从官方 Graphics 目录下载，按站内规则命名为 `{article-id}_{n}.png`，放 `site/img/`
+- `zh_translations.json` 由 357 条增至 360 条（md 内用 `%%IMGx%%` 占位，与既有条目一致）
+- annotate hero：4 篇→7 篇、0.8→1.1 万字、23→29 图
+- index/all/about：总篇数 357→360，截图 1208→1214，字数 42.3→42.5 万字
+- about 页单列「补写内容」一行，明确这 3 篇不是官方译文
+
+**发现（未改动，待定）**：站上「16 个工具」的第 16 个是 **NZ Bracing**，官方明确其不属于 ProKit（属 Ci 遗留工具，与 Launch Pad、Framewright 同类），所以分册页只有 15 个。数字与 guide 内容自洽，但口径需说明。
+
+**备注**：`build_site.py` 仍缺 `clean.json` 无法重跑，故用 `tools/add_annotate_articles.py`（幂等）直接改产物；JSON 已同步，将来重建时文章正文不丢，图片按 `{id}_{n}` 规则也能被重新关联。
