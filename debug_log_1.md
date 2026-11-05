@@ -334,3 +334,50 @@ tar czf - -C resources AC_Tutorial/ci_tools/site | \
 | 点击外部关闭 | `ai=false ; res=false` |
 | Hero AI 工具跳转 | scrollY=3485，AI 区块进入视口，显示三个最新工具 |
 | 线上一致性 | 本地与线上同为 80039 字节 |
+
+---
+
+## 2026-11-05 12:27 — 修订：资源页 CI Tools 卡片补齐英文词条
+
+| 项 | 内容 |
+|---|---|
+| 模块 | `resources/index.html`（I18N 词典） |
+| 变更简述 | CI Tools 卡片的 5 个 `data-i18n` 键在中英词典里全缺失，补齐后英文模式可正常切换 |
+| 备注 | 已部署上线，线上浏览器实测通过 |
+
+### 问题
+
+卡片 HTML 里写了 `data-i18n="article-citools-tag/title/desc/date/read"`，但 **I18N 词典里这 5 个键一个都没有**。
+
+`setLang()` 的实现是 `if (I18N[lang][key]) { el.innerHTML = ... }` —— 键不存在时静默跳过，所以：
+
+- 中文模式：HTML 里的中文原文直接显示（看起来正常）
+- 英文模式：找不到英文词条，卡片保持中文不切换
+
+这就是「CI Tools 指南标题栏没英文」的原因，而其他两张卡片（用魔法创建魔法、Vibe Coding）词条齐全，所以只有这一张有问题。
+
+### 新增词条
+
+| 键 | 中文 | 英文 |
+|---|---|---|
+| `article-citools-tag` | 插件手册 | Plugin Manual |
+| `article-citools-title` | Archicad CI Tools 完全指南 | Archicad CI Tools Complete Handbook |
+| `article-citools-desc` | 16 个效率插件的官方教程全量中文版… | The complete bilingual edition of the official Archicad CI Tools documentation… |
+| `article-citools-date` | 2026 | 2026 |
+| `article-citools-read` | 阅读更多 → | Read More → |
+
+### 验证
+
+新增了词条完整性自检 —— 提取 HTML 中全部 `data-i18n` 键，与 zh / en 两段词典逐一对账：
+
+| 项目 | 结果 |
+|---|---|
+| HTML 使用的键 | 32 |
+| zh 词典覆盖 | 32 / 32，缺 0 |
+| en 词典覆盖 | 32 / 32，缺 0 |
+| 英文模式实测 | 标题 `Archicad CI Tools Complete Handbook`，描述、Read More → 均英文 |
+| 中文模式实测 | 未受影响，正常显示 |
+| 视觉对比 | 与下方 Vibe Coding、Magic to Magic 两张卡片样式一致 |
+| 线上一致性 | 本地与线上同为 21630 字节 |
+
+**教训**：加 `data-i18n` 属性时必须同步在两段词典里都加键，否则英文模式静默失效。这类问题不会报错，只能靠词条对账发现。
