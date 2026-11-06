@@ -46,6 +46,7 @@ th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-ali
 th{background:var(--paper);font-weight:600;color:var(--ink)}
 .table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
 .table-wrap table{margin:0;border:none}
+.art img.inl{display:inline-block;vertical-align:-0.35em;margin:0 3px;max-width:1.7em;max-height:1.7em;border-radius:3px;box-shadow:none}
 img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
   border:1px solid var(--line);background:var(--paper)}
 figure{margin:20px 0}
@@ -229,12 +230,1132 @@ html[data-lang="en"] .en-only.block { display:block; }
   <p class="zh-only">从模型出清单，Recipe 自动分配</p>
   <p class="en-only">Bill of quantities from a live model, recipes auto-assign values</p>
   <div class="meta">
-    <span><b>100</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
-    <span><b>9.8</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
-    <span><b>28</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
+    <span><b>122</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>13.7</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>41</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
   </div>
 </div>
 <article>
+<div class="art" id="a-360001245296">
+  <div class="art-h"><span class="no">1.1</span>
+    <h3 class="zh-only block">1.1 工具定位：为什么在模型上直接算量</h3>
+    <h3 class="en-only block">1.1 Purpose</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001245296" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p><em>提示：如果本手册中的术语不熟悉，请查阅 1.3 节「术语定义」的详细解释。</em></p>
+<p>建筑成本的确定，通常是把建筑设计拆分为一系列已知成本的独立条目，这份条目表就是通常所说的<strong>工程量清单（Bill of Quantity）</strong>。过去要对照清单条目手工度量图纸算量；即便现在，ARCHICAD 模型仍常被导出成 2D 格式或打印出来做这一步——既丢掉了宝贵的数据，也错失了 BIM 质量检查的机会。</p>
+<p><em>Quantities</em> 的设计目的，就是让标准的度量过程直接在 ARCHICAD 模型上进行，用工程量与成本填充工程量清单，最终得出项目实施的总成本估算。</p>
+<p>整体流程与工具如下图所示。</p>
+<p><img src="img/360001245296_0.png" alt="Quantities 整体流程示意" loading="lazy"></p>
+<p>上排——<em>我们要什么</em>——展示从建模到算量的成本核算过程：</p>
+<p>A. 建筑建模；</p>
+<p>BIM 项目远不止几何体——材料等属性，以及属性与分类等元数据，都是丰富的成本数据来源。随着行业向 BIM 深入，这些资源越来越有价值，对有效管理与审计的需求也随之增加。</p>
+<p>B. 建立清单结构与合适的度量流程；</p>
+<p>清单是包含单价与单位的建筑成本条目正式列表，来源可以是数据库、在线资源或内部经验。度量流程必须允许一个构件同时向多个不同的清单条目贡献工程量（和成本）。</p>
+<p>C. 计算、呈现并核对算出的工程量与成本。</p>
+<p>工程量提取可能涉及大量人工干预或度量，以至于成本核对往往拖到出图阶段很晚才做。</p>
+<p>下排——<em>怎么实现</em>——概括 <em>Quantities</em> 新增的三个工具：</p>
+<p>A. <em>Quantities Info</em>（算量信息）面板</p>
+<p>用于录入、管理和审计参与算量的属性、分类与配方（见第 2 章「项目数据管理」）。这保证影响成本的属性从项目一开始就被管理，并随项目推进得到有效审计。</p>
+<p>B. <em>Quantity Take-off Manager</em>（工程量提取管理器）对话框</p>
+<p>管理清单结构（见第 3 章「工程量清单」）以及定义度量流程的配方与规则（见第 4 章「定义度量」）。它提供了有效成本度量所需的管理工具。</p>
+<p>C. <em>Bill of Quantities</em>（工程量清单）面板</p>
+<p>显示计算出的清单，附带一系列成本审计工具（见第 5 章「生成工程量」）。在 ARCHICAD 里完成度量，意味着数据源头可以连同条目工程量一起核查、当场修正。</p></div>
+  <div class="en-only"><p><em>Please note: If some of the terms used in this manual are unfamiliar, refer to section 1.3, Definitions for a detailed explanation.</em></p>
+<p>Building cost is usually established by breaking a building design into discrete items of a known cost. That list of items is usually referred to as a <em>Bill of Quantity. </em>In the past, drawings have been physically measured to calculate quantities against bill items. Even now, ARCHICAD models are often exported in 2D formats or printed for this measurement process, losing valuable data and opportunities for BIM quality checks.</p>
+<p><em>Quantities</em> is designed to facilitate a standard measurement process directly on an ARCHICAD model to populate a Bill of Quantities with quantities and cost, resulting in a total cost estimate for project delivery.</p>
+<p>An overview of the process and tools is illustrated below.</p>
+<p><img src="img/360001245296_0.png" alt="mceclip0.png" loading="lazy"></p>
+<p>The upper row – w<em>hat we want – </em>shows the costing process from producing a model through to calculation of quantity:</p>
+<p> A. Modelling the building;</p>
+<p>BIM projects are far more than geometry – attributes such as materials and other metadata including properties and classifications are a rich source of costing data. These resources are becoming more valuable as the industry moves further to BIM, increasing the need for effective management and auditing.</p>
+<p> B. Establishing a bill structure and suitable measurement processes;</p>
+<p>The bill is a formal list of building cost items including a rate and unit. The source of the bill may be a database, online resource or internal expertise. The measurement processes must allow for a single element to contribute quantities (and cost) to many different bill items.</p>
+<p> C. Calculating, presenting and checking calculated quantities and cost.</p>
+<p>Quantity take-offs can involve a lot of manual intervention or measurement, to the point where cost checks are only carried out very late in the documentation process.</p>
+<p>The lower row – <em>how it’s achieved</em> – summarises three tools added by <em>Quantities</em>:</p>
+<p> A. <em>Quantities Info</em> palette</p>
+<p>For entering, managing and auditing attributes, properties and classifications that contribute to quantity measurement (see section 2, <em>Project Data Management</em>). This helps to ensure the properties impacting on cost are managed from the start and can be effectively audited as the project develops.</p>
+<p> B. <em>Quantity Take-off Manager</em> dialog</p>
+<p>Manages the bill structure <em> </em>(see sections 3, <em>Bill of Quantities</em>) and recipes/rules that define the measurement process (see 4, <em>Defining Measurements</em>). This provides the management tools required for effective cost measurement.</p>
+<p> C. <em>Bill of Quantities</em> palette</p>
+<p>Displays the calculated bill with a range of cost auditing tools (see section 5, <em>Generating Quantities</em>). Carrying out the measurement process in ARCHICAD ensures the source of the data can be checked in conjunction with the calculated item quantities and corrected in situ.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p><em>Please note: If some of the terms used in this manual are unfamiliar, refer to section 1.3, Definitions for a detailed explanation.</em></p>
+<p>Building cost is usually established by breaking a building design into discrete items of a known cost. That list of items is usually referred to as a <em>Bill of Quantity. </em>In the past, drawings have been physically measured to calculate quantities against bill items. Even now, ARCHICAD models are often exported in 2D formats or printed for this measurement process, losing valuable data and opportunities for BIM quality checks.</p>
+<p><em>Quantities</em> is designed to facilitate a standard measurement process directly on an ARCHICAD model to populate a Bill of Quantities with quantities and cost, resulting in a total cost estimate for project delivery.</p>
+<p>An overview of the process and tools is illustrated below.</p>
+<p><img src="img/360001245296_0.png" alt="mceclip0.png" loading="lazy"></p>
+<p>The upper row – w<em>hat we want – </em>shows the costing process from producing a model through to calculation of quantity:</p>
+<p> A. Modelling the building;</p>
+<p>BIM projects are far more than geometry – attributes such as materials and other metadata including properties and classifications are a rich source of costing data. These resources are becoming more valuable as the industry moves further to BIM, increasing the need for effective management and auditing.</p>
+<p> B. Establishing a bill structure and suitable measurement processes;</p>
+<p>The bill is a formal list of building cost items including a rate and unit. The source of the bill may be a database, online resource or internal expertise. The measurement processes must allow for a single element to contribute quantities (and cost) to many different bill items.</p>
+<p> C. Calculating, presenting and checking calculated quantities and cost.</p>
+<p>Quantity take-offs can involve a lot of manual intervention or measurement, to the point where cost checks are only carried out very late in the documentation process.</p>
+<p>The lower row – <em>how it’s achieved</em> – summarises three tools added by <em>Quantities</em>:</p>
+<p> A. <em>Quantities Info</em> palette</p>
+<p>For entering, managing and auditing attributes, properties and classifications that contribute to quantity measurement (see section 2, <em>Project Data Management</em>). This helps to ensure the properties impacting on cost are managed from the start and can be effectively audited as the project develops.</p>
+<p> B. <em>Quantity Take-off Manager</em> dialog</p>
+<p>Manages the bill structure <em> </em>(see sections 3, <em>Bill of Quantities</em>) and recipes/rules that define the measurement process (see 4, <em>Defining Measurements</em>). This provides the management tools required for effective cost measurement.</p>
+<p> C. <em>Bill of Quantities</em> palette</p>
+<p>Displays the calculated bill with a range of cost auditing tools (see section 5, <em>Generating Quantities</em>). Carrying out the measurement process in ARCHICAD ensures the source of the data can be checked in conjunction with the calculated item quantities and corrected in situ.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001292815">
+  <div class="art-h"><span class="no">1.2</span>
+    <h3 class="zh-only block">1.2 核心功能：与 ARCHICAD 原生明细表的七点差异</h3>
+    <h3 class="en-only block">1.2 Key Features</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001292815" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>ARCHICAD 本身已具备不少构件工程量（乃至成本）列表与明细表功能。本软件无意重复这些功能，尽管两者显然有重叠。</p>
+<p>关键差异在于：</p>
+<ul>
+<li><p><strong>交互式管理度量数据</strong><br>清单质量直接取决于建筑模型里的数据。新增的面板帮助管理与算量相关的构件属性、分类与配方，高亮显示构件选择集内的差异，并支持便捷的编辑与筛选。详见 2.4 节「管理被度量的属性」。</p></li>
+<li><p><strong>创建或导入工程量清单</strong><br><em>Quantities</em> 提供直接创建和管理工程量清单的工具。清单可以很粗——比如清点特定条目、按均值给整个结构估价；也可以很细——比如把墙体拆解为材料、饰面等构成要素。清单还可以包含人工、设备租赁等辅助成本。清单可内嵌在项目里、导入，或直接链接外部数据源。详见第 3 章「工程量清单」。</p></li>
+<li><p><strong>建立标准度量流程</strong><br>构件拆分到哪些清单条目、用哪种标准度量方法，都可以写进<em>配方</em>并按需自动套用。配方集合可在项目间共享，也可存进模板。详见 4 至 4.4 节「定义度量」。</p></li>
+<li><p><strong>构件自动关联清单条目</strong><br>判断哪些清单条目和计算适用于每个构件的规则，可以写进配方，实现自动、动态的度量。详见 4.6 节「可选度量」与 4.5 节「自动度量」。</p></li>
+<li><p><strong>计算并导出工程量清单</strong><br>可按需用模型任意部分的工程量填充清单，并以多种格式导出。详见第 5 章「生成工程量」。</p></li>
+<li><p><strong>审计度量数据与成本</strong><br>通过审计结果与源头数据，可以提高对计算清单的信心。软件提供一系列工具，用来追溯具体工程量（和成本）的来源，或检查常见错误——比如未被使用的清单条目、未被度量的建筑构件。详见第 6 章「审计」。</p></li>
+<li><p><strong>清单的往返管理与计算</strong></p>
+<p><em>Quantities</em> 支持这样一种工作流：清单结构在外部管理，甚至包括成本汇总与报表的最终编制——例如由维护清单结构和计价数据的第三方负责。外部清单可链接外部数据（实时更新），工程量也可以回传给源系统用于报表。</p></li>
+</ul></div>
+  <div class="en-only"><p>ARCHICAD already includes many features for listing and scheduling element quantities (and potentially cost). This software is not intended to replicate that functionality, although clearly there is some overlap.</p>
+<p>The key differences are:</p>
+<ul>
+<li>
+<p><strong>Managing measurement data interactively <br> </strong>The quality of the calculated bill is directly dependent on the data in the building model. A new palette assists with management of properties, classifications and recipes in elements relevant to the quantity calculation, highlighting differences in element selections and supporting easy editing and filtering. Refer to section 2.4, <em>Managing Measured Properties</em> for more information.</p>
+</li>
+<li>
+<p><strong>Creating </strong><strong>or importing </strong><strong>a Bill of Quantit</strong><strong>y</strong><br> <em>Quantities </em>provides tools to directly create and manage a Bill of Quantity. The bill can be very course, e.g. counting specific items and costing whole structures on an average basis, or it can be very detailed, e.g. breaking down walls into constituent ingredients such as materials and finishes. The bill may also include ancillary costs like labour or equipment hire. The bill can be embedded in the project, imported, or directly linked to an external source. Refer to section 3, <em>Bill of Quantities</em> for more information.</p>
+</li>
+<li>
+<p><strong>E</strong><strong>stablishing a standard measurement process</strong><br> The breakdown of an element into bill items and the standard methods of measurement can be captured in <em>recipes</em> and automatically applied on demand. The collection of recipes can be shared between projects and stored in templates. Refer to sections 4 to 4.4 (<em>Defining Measurements</em>) for more information.</p>
+</li>
+<li>
+<p><strong>L</strong><strong>inking</strong><strong> building elements </strong><strong>t</strong><strong>o</strong><strong> bill items </strong><strong>automatically</strong><br> The rules for determining which bill items and calculations are applicable to each element can be captured in recipes for automatic, dynamic measurement. Refer to sections 4.6 (<em>Optional Measurements</em>) and 4.5 (<em>Automatic Measurements</em>) for more information.</p>
+</li>
+<li>
+<p><strong>C</strong><strong>alculating and exporting a bill of quantities</strong><strong><br> </strong>A bill can be populated with quantities from any part of the model on demand and exported in a variety of formats. Refer to section 5, <em>Generating Quantities </em>for more information.</p>
+</li>
+<li>
+<p><strong>Auditing </strong><strong>measurement data and cost</strong><strong><br> </strong><strong>C</strong>onfidence in the calculated schedule can be improved by auditing the results and source data. The software provides a range of tools to determine where specific quantities (and cost) originated, or checking for common errors such as unused bill items or unmeasured building elements. Refer to section 6, <em>Auditing</em> for more information.</p>
+</li>
+<li>
+<p><strong>Round-trip bill management and calculation</strong></p>
+<p><em>Quantities </em>is designed to support a workflow where the bill structure is managed externally, potentially including the final preparation of cost total and reporting, e.g. a 3<sup>rd</sup> party that maintains a bill structure and costing data. The external schedule can be linked to external data (for live updates) and quantities can be fed back to the originating system for reporting.</p>
+</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>ARCHICAD already includes many features for listing and scheduling element quantities (and potentially cost). This software is not intended to replicate that functionality, although clearly there is some overlap.</p>
+<p>The key differences are:</p>
+<ul>
+<li>
+<p><strong>Managing measurement data interactively <br> </strong>The quality of the calculated bill is directly dependent on the data in the building model. A new palette assists with management of properties, classifications and recipes in elements relevant to the quantity calculation, highlighting differences in element selections and supporting easy editing and filtering. Refer to section 2.4, <em>Managing Measured Properties</em> for more information.</p>
+</li>
+<li>
+<p><strong>Creating </strong><strong>or importing </strong><strong>a Bill of Quantit</strong><strong>y</strong><br> <em>Quantities </em>provides tools to directly create and manage a Bill of Quantity. The bill can be very course, e.g. counting specific items and costing whole structures on an average basis, or it can be very detailed, e.g. breaking down walls into constituent ingredients such as materials and finishes. The bill may also include ancillary costs like labour or equipment hire. The bill can be embedded in the project, imported, or directly linked to an external source. Refer to section 3, <em>Bill of Quantities</em> for more information.</p>
+</li>
+<li>
+<p><strong>E</strong><strong>stablishing a standard measurement process</strong><br> The breakdown of an element into bill items and the standard methods of measurement can be captured in <em>recipes</em> and automatically applied on demand. The collection of recipes can be shared between projects and stored in templates. Refer to sections 4 to 4.4 (<em>Defining Measurements</em>) for more information.</p>
+</li>
+<li>
+<p><strong>L</strong><strong>inking</strong><strong> building elements </strong><strong>t</strong><strong>o</strong><strong> bill items </strong><strong>automatically</strong><br> The rules for determining which bill items and calculations are applicable to each element can be captured in recipes for automatic, dynamic measurement. Refer to sections 4.6 (<em>Optional Measurements</em>) and 4.5 (<em>Automatic Measurements</em>) for more information.</p>
+</li>
+<li>
+<p><strong>C</strong><strong>alculating and exporting a bill of quantities</strong><strong><br> </strong>A bill can be populated with quantities from any part of the model on demand and exported in a variety of formats. Refer to section 5, <em>Generating Quantities </em>for more information.</p>
+</li>
+<li>
+<p><strong>Auditing </strong><strong>measurement data and cost</strong><strong><br> </strong><strong>C</strong>onfidence in the calculated schedule can be improved by auditing the results and source data. The software provides a range of tools to determine where specific quantities (and cost) originated, or checking for common errors such as unused bill items or unmeasured building elements. Refer to section 6, <em>Auditing</em> for more information.</p>
+</li>
+<li>
+<p><strong>Round-trip bill management and calculation</strong></p>
+<p><em>Quantities </em>is designed to support a workflow where the bill structure is managed externally, potentially including the final preparation of cost total and reporting, e.g. a 3<sup>rd</sup> party that maintains a bill structure and costing data. The external schedule can be linked to external data (for live updates) and quantities can be fed back to the originating system for reporting.</p>
+</li>
+</ul>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001292835">
+  <div class="art-h"><span class="no">1.3</span>
+    <h3 class="zh-only block">1.3 术语定义（BoQ / 清单条目 / 类别 / 编号 / 特征标记）</h3>
+    <h3 class="en-only block">1.3 Definitions</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001292835" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>本手册使用以下术语：</p>
+<ul>
+<li><p><strong>BoQ（工程量清单）</strong>：Bill of Quantity 或 Bill of Materials，由可计价条目（见下文「清单条目」）组成的列表，常按层级组织。见第 3 章「工程量清单」。</p></li>
+<li><p><strong>清单条目（Bill Item）</strong>：BoQ 中的一个条目，代表施工过程中一个精确定义的成本项，涵盖材料、洁具五金、人工或设备租赁，通常由编号（见下文「编号」）、名称、计量单位、单价和说明构成。见第 3 章。</p></li>
+<li><p><strong>类别（Category）</strong>：BoQ 按层级组织时的分组标题。一个类别下至少要有一个清单条目；清单条目永远位于层级最底层。</p></li>
+<li><p><strong>编号（Key）</strong>：清单中类别或条目的唯一标识（通常是数字）。编号会带上所有上级类别的编号作前缀，一般以点分隔，例如 100.21.173。</p></li>
+<li><p><strong>特征标记（Traits）</strong>：挂在建筑构件上、对计价往往必不可少的各类数据，包括属性、分类与配方。为避免反复罗列，统称「特征标记」。</p></li>
+</ul></div>
+  <div class="en-only"><p>The following terms will be used in the manual:</p>
+<ul>
+<li>
+<p>BoQ: A <em>Bill of Quantity</em> or <em>Bill of Materials,</em> comprising a list of priceable items (see <em>bill item</em> below), often arranged in a hierarchy. Refer to section 3, <em>Bill of Quantities.</em></p>
+</li>
+<li>
+<p>Bill Item: An item in a BoQ that represents a precisely identified cost item in the construction process, including materials, fittings/fixtures, labour or equipment hire, and usually consisting of a key (see <em>key</em> below), name, unit of measurement, rate and description. Refer to section 3, <em>Bill of Quantities</em></p>
+</li>
+<li>
+<p>Category: The headings when the BoQ is arranged in a hierarchy. A category must have at least on bill item nested under it. Bill items are always at the bottom level of the hierarchy.</p>
+</li>
+<li>
+<p>Key: A unique identifier (often a number) for a category or item in the bill. The key will be prefixed with the key of any category above it and typically separated by a dot, e.g. 100.21.173</p>
+</li>
+<li>
+<p>Traits Data attached to construction elements that are often essential for costing, including properties, classifications and recipes. These are generally summarised as <em>traits</em> to avoid repetition.</p>
+</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The following terms will be used in the manual:</p>
+<ul>
+<li>
+<p>BoQ: A <em>Bill of Quantity</em> or <em>Bill of Materials,</em> comprising a list of priceable items (see <em>bill item</em> below), often arranged in a hierarchy. Refer to section 3, <em>Bill of Quantities.</em></p>
+</li>
+<li>
+<p>Bill Item: An item in a BoQ that represents a precisely identified cost item in the construction process, including materials, fittings/fixtures, labour or equipment hire, and usually consisting of a key (see <em>key</em> below), name, unit of measurement, rate and description. Refer to section 3, <em>Bill of Quantities</em></p>
+</li>
+<li>
+<p>Category: The headings when the BoQ is arranged in a hierarchy. A category must have at least on bill item nested under it. Bill items are always at the bottom level of the hierarchy.</p>
+</li>
+<li>
+<p>Key: A unique identifier (often a number) for a category or item in the bill. The key will be prefixed with the key of any category above it and typically separated by a dot, e.g. 100.21.173</p>
+</li>
+<li>
+<p>Traits Data attached to construction elements that are often essential for costing, including properties, classifications and recipes. These are generally summarised as <em>traits</em> to avoid repetition.</p>
+</li>
+</ul>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001292876">
+  <div class="art-h"><span class="no">2.1</span>
+    <h3 class="zh-only block">2.1 总览：属性、分类与配方的管理背景</h3>
+    <h3 class="en-only block">2.1 Overview</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001292876" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当 BIM 项目超越简单的几何模型、走向数据建模时，它对设计、出图、施工和设施管理的价值会大幅提升。以属性和分类为例，它们让相对简单的对象毫无歧义地扮演各种各样的角色——对成本核算尤其如此。即便成本可以完全由构件几何确定，所需的工作量也会大到不切实际。</p>
+<p>举个例子：一把椅子对象可以代表不同饰面、来自不同厂家的多种产品，关键就在于把信息放进对象的属性、分类，以及（对 <em>Quantities</em> 而言）配方里。</p>
+<p>但这给 BIM 建模和质量检查带来了更重的负担。错误或遗漏会导致成本被错误计入、漏算、算错，或挂到清单里错误的条目上——这些对估算和报价都可能造成严重影响。</p>
+<p><em>Quantities</em> 在建模过程的每个阶段都提供了避免这些问题的工具，其中首要的就是 <em>Quantities Info</em>（算量信息）面板：它为管理构件属性、分类与配方提供交互式的查看和编辑设施（配方详见第 4 章「定义度量」，尤其 4.2 节「度量配方」）。</p>
+<p>ARCHICAD 标准的 <em>Settings</em>（设置）对话框和 <em>Info</em>（信息）面板在这件事上要么有风险——它不显示多个构件之间的差异；要么低效——无法跨构件类型套用或编辑数据。<em>Quantities Info</em> 面板正是针对这些问题设计的：即使选中的多个构件类型不同，也能同时查看和编辑，并能把不希望的差异快速定位、精细修正。</p>
+<p>注意，该面板目前聚焦于配方、属性和分类三类数据（统称构件<strong>特征标记</strong>，例外情况会单独说明）。只有包含这些特征标记的构件才能被插件管理和度量，主要是具有 3D 形体的构件。唯一的例外是填充图案——它有时用来标示建筑材料数量（进而影响成本）的区域。</p></div>
+  <div class="en-only"><p>BIM projects become more valuable to to the processes of design, documentation, construction and facilities management when they expand beyond simple geometric models and embrace data modelling. Properties and classifications, for example, enable relatively simple objects to play a wide variety of roles with no ambiguity. This is particularly true for costing. Even if costing could be solely determined by the geometry of construction elements, the effort involved would be prohibitive.</p>
+<p>For example, a single chair object can represent a wide variety of products with different finishes or provided by multiple manufactures. The key is to carry this information in the object properties, classifications and (for <em>Quantities</em>) recipes.</p>
+<p>However, this places a heavier burden on the BIM modelling and QA checking processes. Errors or omissions could result in costs incorrectly added, omitted, miscalculated, or assigned to the wrong item in the bill, all of which could have serious implications for estimating and quoting.</p>
+<p><em>Quantities </em>provides an array of tools to help avoid these problems at every stage of the modelling process, and the <em>Quantities Info</em> palette is the foremost, providing interactive viewing and editing facilities for managing element properties, classifications and recipes (for information about recipes refer to section 4, <em>Defining Measurements</em>, and particularly section 4.2, <em>Measurement Recipes</em>).</p>
+<p>The standard ARCHICAD <em>Settings</em> dialogs and <em>Info</em> palette can be risky, because it doesn’t show variations between multiple element, or ineffective because it is impossible to apply or edit data across different element types. The <em>Quantities Info</em> palette is explicitly designed to target these issues, enabling viewing and editing in multiple elements even when they are of differing types. The source of unwanted variations can be quickly identified and remedied to a fine level of detail.</p>
+<p>Note that the palette currently focusses on recipes, properties and classifications. This data will generally be summarised as element<em> traits</em> (to avoid repetition), but any exceptions will be noted as required. Only elements that contain these traits can be managed and measured by the add-on, primarily those that have a 3D body. The one exception is fill patterns, which sometimes play a role in denoting areas of material quantity (and therefore cost) within a building.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>BIM projects become more valuable to to the processes of design, documentation, construction and facilities management when they expand beyond simple geometric models and embrace data modelling. Properties and classifications, for example, enable relatively simple objects to play a wide variety of roles with no ambiguity. This is particularly true for costing. Even if costing could be solely determined by the geometry of construction elements, the effort involved would be prohibitive.</p>
+<p>For example, a single chair object can represent a wide variety of products with different finishes or provided by multiple manufactures. The key is to carry this information in the object properties, classifications and (for <em>Quantities</em>) recipes.</p>
+<p>However, this places a heavier burden on the BIM modelling and QA checking processes. Errors or omissions could result in costs incorrectly added, omitted, miscalculated, or assigned to the wrong item in the bill, all of which could have serious implications for estimating and quoting.</p>
+<p><em>Quantities </em>provides an array of tools to help avoid these problems at every stage of the modelling process, and the <em>Quantities Info</em> palette is the foremost, providing interactive viewing and editing facilities for managing element properties, classifications and recipes (for information about recipes refer to section 4, <em>Defining Measurements</em>, and particularly section 4.2, <em>Measurement Recipes</em>).</p>
+<p>The standard ARCHICAD <em>Settings</em> dialogs and <em>Info</em> palette can be risky, because it doesn’t show variations between multiple element, or ineffective because it is impossible to apply or edit data across different element types. The <em>Quantities Info</em> palette is explicitly designed to target these issues, enabling viewing and editing in multiple elements even when they are of differing types. The source of unwanted variations can be quickly identified and remedied to a fine level of detail.</p>
+<p>Note that the palette currently focusses on recipes, properties and classifications. This data will generally be summarised as element<em> traits</em> (to avoid repetition), but any exceptions will be noted as required. Only elements that contain these traits can be managed and measured by the add-on, primarily those that have a 3D body. The one exception is fill patterns, which sometimes play a role in denoting areas of material quantity (and therefore cost) within a building.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001292855">
+  <div class="art-h"><span class="no">2.2</span>
+    <h3 class="zh-only block">2.2 查看构件数据：Quantities Info 面板详解</h3>
+    <h3 class="en-only block">2.2 Reviewing Element Data</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001292855" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>打开 <em>Quantities Info</em> 面板：菜单 <em>CI Tools &gt; Quantities &gt; Quantity Take-off Palette…</em></p>
+<p><img src="img/360001292855_0.png" alt="Quantities Info 面板" loading="lazy"></p>
+<p>面板顶部与 ARCHICAD 的 <em>Info</em>（信息）面板类似，显示已选中、可编辑的构件数量。旁边的 <em>Live Edit</em>（实时编辑）勾选框会显著改变面板的用法：</p>
+<ul>
+<li><p><em>Live Edit</em> 开启时，用法与 ARCHICAD 的 <em>Info</em> 面板基本一致：</p>
+<ul>
+<li><p>内容随当前选择动态更新；</p></li>
+<li><p>没选构件但选了工具时，显示该工具的设置；</p></li>
+<li><p>编辑立即作用于选中构件或当前工具设置；</p></li>
+<li><p>工具和构件都没选时，只显示 <em>No selection</em>，不做任何事；</p></li>
+<li><p>可以把构件选择集筛选为匹配所选特征标记的子集；</p></li>
+<li><p>也可以把匹配所选特征标记的构件扩充进选择集。</p></li>
+</ul></li>
+<li><p><em>Live Edit</em> 关闭时，面板转为被动角色，用于管理或转移设置：</p>
+<ul>
+<li><p>内容只能由面板自身的控件改变——选择操作不影响内容；</p></li>
+<li><p>可以从选中构件<strong>提取</strong>特征标记；</p></li>
+<li><p>可以把特征标记<strong>注入</strong>到构件里（可选哪些）；</p></li>
+<li><p>可以在新构件加入项目时自动套用特征标记（不限类型）。</p></li>
+</ul></li>
+</ul>
+<p>面板其余部分分三段，均可折叠：</p>
+<ol>
+<li><p><em>Quantities</em> 配方</p></li>
+<li><p><em>ARCHICAD</em> 属性</p></li>
+<li><p><em>ARCHICAD</em> 分类</p></li>
+</ol>
+<p>三个分区的操作方式基本相同，不必逐一详述。本节概括面板的通用功能，具体操作见后续各节。构件特征标记由以下面板按钮管理：</p>
+<table>
+<tbody>
+<tr><td></td><td></td><td><p><strong>Live Edit 开</strong></p></td><td><p><strong>Live Edit 关</strong></p></td></tr>
+<tr><td></td><td><p>添加特征标记</p></td><td><p>仅在选中构件或工具时可用。提示选择一个或多个特征标记，并立即加到选中构件或工具上。详见 2.3.1</p></td><td><p>提示选择一个或多个特征标记，加到对应的面板列表里。不影响选中的构件或工具。详见 2.3.4</p></td></tr>
+<tr><td></td><td><p>移除特征标记</p></td><td><p>仅在面板列表中选中了特征标记时可用。立即从选中构件或工具上移除所选特征标记。详见 2.3.2</p></td><td><p>仅在面板列表中选中了特征标记时可用。立即从面板列表中移除所选特征标记。不影响构件或工具</p></td></tr>
+<tr><td></td><td><p>提取特征标记</p></td><td><p>此场景不适用</p></td><td><p>仅在选中构件或工具时可用。从选中工具或构件提取全部相关特征标记并显示在列表里。构件与工具本身不受影响。详见 2.3.3、2.3.4</p></td></tr>
+<tr><td></td><td><p>注入特征标记</p></td><td><p>此场景不适用</p></td><td><p>仅在选中构件或工具时可用。把列表中的相关特征标记注入选中工具或构件；若列表里有选中项，则只注入这些项。详见 2.3.3、2.3.4</p></td></tr>
+<tr><td></td><td><p>选择匹配项</p></td><td><p>在面板列表选中至少一个特征标记时可用。立即在当前视图中选中具有匹配特征标记的构件（追加到当前选择集）。详见 2.3.5</p></td><td><p>此场景不适用</p></td></tr>
+<tr><td></td><td><p>按特征标记筛选</p></td><td><p>在面板列表选中至少一个特征标记时可用。立即筛选已选构件，只保留特征标记匹配的那些。详见 2.3.6</p></td><td><p>此场景不适用</p></td></tr>
+<tr><td></td><td><p>管理配方</p></td><td><p>打开 <em>Quantity Take-off Manager</em>（工程量提取管理器）并定位到 <em>Recipes</em>（配方）页，快速编辑配方、度量规则与计算。</p></td></tr>
+<tr><td></td><td><p>清单算量</p></td><td><p>打开 <em>Bill of Quantities</em> 面板。若有选中构件，则为该选择集生成清单，便于快速核对构件是否产出预期的工程量。</p></td></tr>
+</tbody>
+</table>
+<p>注意，列表中特征标记的文字样式在某些情况下会有变化。通常所有条目都是普通黑色字，但可能出现以下样式（有时会叠加）：</p>
+<table>
+<tbody>
+<tr><td><p>红色</p></td><td><p>仅与配方相关。配方名显示为红色，表示它是手工加到构件上的，但随后在工程量提取管理器里被删除了。这个警告可能提示该配方不该删——那样的话可以在管理器里恢复；如果配方确实多余，可以把它从构件上移除。注意：被删除的配方只要还挂在构件上，就不影响度量过程。</p></td></tr>
+<tr><td><p><em>斜体</em></p></td><td><p>仅与配方相关。配方名显示为斜体，表示它是被度量规则自动加到构件上的。例如某条规则要求挂到所有墙上，那么墙就会以斜体显示该配方名。</p></td></tr>
+<tr><td><p>蓝色</p></td><td><p>仅在选中多个构件时出现。名称显示为蓝色，表示它并非整个选择集共有——即选择集中至少有一个构件没有这个特征标记。这同样适用于单个属性值：选中的构件可能都有这个属性，但值不一样。详见 2.4.2。</p></td></tr>
+<tr><td><p><strong>加粗</strong></p></td><td><p>仅与属性相关。属性名显示为加粗，表示该属性在多个构件中都存在但取值不同。</p></td></tr>
+</tbody>
+</table>
+<p>这些文字样式的示例见上图。它们是审计和编辑项目数据的宝贵手段，因为差异和潜在问题一眼就能看出来——详见 2.3.7。</p></div>
+  <div class="en-only"><p>To view the <em>Quantities Info</em> palette, click the menu item <em>CI Tools &gt; Quantities &gt; Quantity Take-off P</em><em>alette…</em> </p>
+<p><img src="img/360001292855_0.png" alt="mceclip0.png" loading="lazy"> </p>
+<p>The palette is headed up in a similar way to ARCHICAD’s <em>Info</em> palette, showing the number of selected and editable elements. The adjacent <em>Live Edit</em> checkbox markedly changes how the palette is used:</p>
+<ul>
+<li>
+<p>When <em>Live Edit </em>is on, it works in much the same was as ARCHICAD’s <em>Info</em> palette:</p>
+<ul>
+<li>
+<p>The contents update dynamically based on the current selection;</p>
+</li>
+<li>
+<p>If no elements are selected but a tool is selected, the settings of that tool are displayed;</p>
+</li>
+<li>
+<p>Editing immediately updates either the selected elements or the active tool settings;</p>
+</li>
+<li>
+<p>If no tool or element is selected, it simply displays <em>No selection</em> and does nothing;</p>
+</li>
+<li>
+<p>The element selection can be filtered to a subset matching selected traits;</p>
+</li>
+<li>
+<p>The element selection can be extended to add elements matching selected traits.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>When <em>Live Edit</em> is off, the palette has a passive role in managing or transferring settings:</p>
+<ul>
+<li>
+<p>The content can only be changed by the palette controls – the selection has no effect;</p>
+</li>
+<li>
+<p>Traits can be extracted from selected elements;</p>
+</li>
+<li>
+<p>Traits can be selectively injected into elements;</p>
+</li>
+<li>
+<p>Traits can be applied to any element as it is added to the project (irrespective of type).</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>The remainder of the palette is divided into 3 sections, each of which can be collapsed:</p>
+<ol>
+<li>
+<p><em>Quantities </em>recipes</p>
+</li>
+<li>
+<p><em>ARCHICAD</em> properties</p>
+</li>
+<li>
+<p><em>ARCHICAD</em> classifications</p>
+</li>
+</ol>
+<p>All three panels largely work in the same way, so detailed explanation of each is not required. Common palette features are summarised in this section with a reference to more detailed instructions in following sections. Element traits are managed with the following palette buttons:</p>
+<table>
+<tbody>
+<tr>
+<td>
+
+</td>
+<td>
+
+</td>
+<td>
+<p><strong>Live Edit On</strong></p>
+</td>
+<td>
+<p><strong>Live Edit Off</strong></p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Add a trait</p>
+</td>
+<td>
+<p>Enabled only when an element or tool is selected. Prompts for one or more traits to be selected and immediately adds them to either the selected elements or tool. See section 2.3.1 for more detail</p>
+</td>
+<td>
+<p>Prompts for one or more traits to be selected and adds them to the relevant palette list. Selected elements or tools are not affected. See section 2.3.4 for more detail</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Remove a trait</p>
+</td>
+<td>
+<p>Enabled only when a trait is selected in the relevant palette list. Immediately removes the selected traits from the selected elements or tool. See section 2.3.2 for more detail</p>
+</td>
+<td>
+<p>Enabled only when a trait is selected in the relevant palette list. Immediately removes the selected traits from the relevant palette list. Selected elements or tools are not affected</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Extract traits</p>
+</td>
+<td>
+<p>n/a to this context</p>
+</td>
+<td>
+<p>Enabled only when an element or tool is selected. Extracts all the relevant traits from the selected tool or elements and displays them in the list. Selected elements or tools are not affected. See sections 2.3.3 and 2.3.4 for more detail</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Inject traits</p>
+</td>
+<td>
+<p>n/a to this context</p>
+</td>
+<td>
+<p>Enabled only when an element or tool is selected. Injects all the relevant traits from the list into the selected tool or elements. If items are selected in the list, only those items are injected. See sections 2.3.3 and 2.3.4 for more detail</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Select matching</p>
+</td>
+<td>
+<p>Enabled when at least one trait is selected in the relevant palette list. Immediately selects elements in the current view with matching traits (adding to the current selection). See section 2.3.5 for more detail</p>
+</td>
+<td>
+<p>n/a to this context</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Filter by traits</p>
+</td>
+<td>
+<p>Enabled when at least one trait is selected in the relevant palette list. Immediately filters selected elements so only those with matching traits remain selected. See section 2.3.6 for more detail</p>
+</td>
+<td>
+<p>n/a to this context</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Manage recipes</p>
+</td>
+<td>
+<p>Opens the <em>Quantity Take-off Manager</em> with the <em>Recipes </em>tab selected for quick access to editing recipes, measurement rules and calculations.</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Schedule quants</p>
+</td>
+<td>
+<p>Opens the <em>Bill of Quantities</em> palette. If elements are selected, a schedule is created for the selection. Enables quick checks that elements are producing the expected quantities.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the text style of listed traits may vary in certain circumstances. All items are typically displayed with a plain, black typeface, but the following alternatives may appear, sometimes in combination:</p>
+<table>
+<tbody>
+<tr>
+<td>
+<p>Red</p>
+</td>
+<td>
+<p>Only relevant to recipes. A recipe name displayed in red denotes that the recipe was manually added to an element but subsequently deleted in the Quantity Take-off Manager. This warning may highlight the recipe should not have been deleted, in which case it can be restored in the Quantity Take-off Manager. If the recipe is redundant, it can be removed from the element. Note that deleted recipes have no effect on the measurement process if they remain attached to elements.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><em>Italic</em></p>
+</td>
+<td>
+<p>Only relevant to recipes. A recipe name is displayed in an italics when it has been automatically added to the element by a measurement rule. For example, a wall will display a recipe name in italics if it has a rule that it must be attached to all walls.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Blue</p>
+</td>
+<td>
+<p>Only relevant when multiple elements are selected. A name is displayed in blue when it isn’t common to the entire selection, i.e. at least one element in the selection doesn’t have that trait. This also applies to individual property values, where the selected elements might share that property in common but with a different value. See section 2.4.2 for more detail.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>Bold</strong></p>
+</td>
+<td>
+<p>Only relevant to properties. A property name will be displayed in bold when the property is present in multiple elements with differing values. The</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Examples of these text styles can be seen in the illustration above. These styles are a valuable resource for auditing and editing project data because they highlight differences and potential problems – see section 2.3.7 for more detail.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>To view the <em>Quantities Info</em> palette, click the menu item <em>CI Tools &gt; Quantities &gt; Quantity Take-off P</em><em>alette…</em> </p>
+<p><img src="img/360001292855_0.png" alt="mceclip0.png" loading="lazy"> </p>
+<p>The palette is headed up in a similar way to ARCHICAD’s <em>Info</em> palette, showing the number of selected and editable elements. The adjacent <em>Live Edit</em> checkbox markedly changes how the palette is used:</p>
+<ul>
+<li>
+<p>When <em>Live Edit </em>is on, it works in much the same was as ARCHICAD’s <em>Info</em> palette:</p>
+<ul>
+<li>
+<p>The contents update dynamically based on the current selection;</p>
+</li>
+<li>
+<p>If no elements are selected but a tool is selected, the settings of that tool are displayed;</p>
+</li>
+<li>
+<p>Editing immediately updates either the selected elements or the active tool settings;</p>
+</li>
+<li>
+<p>If no tool or element is selected, it simply displays <em>No selection</em> and does nothing;</p>
+</li>
+<li>
+<p>The element selection can be filtered to a subset matching selected traits;</p>
+</li>
+<li>
+<p>The element selection can be extended to add elements matching selected traits.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>When <em>Live Edit</em> is off, the palette has a passive role in managing or transferring settings:</p>
+<ul>
+<li>
+<p>The content can only be changed by the palette controls – the selection has no effect;</p>
+</li>
+<li>
+<p>Traits can be extracted from selected elements;</p>
+</li>
+<li>
+<p>Traits can be selectively injected into elements;</p>
+</li>
+<li>
+<p>Traits can be applied to any element as it is added to the project (irrespective of type).</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>The remainder of the palette is divided into 3 sections, each of which can be collapsed:</p>
+<ol>
+<li>
+<p><em>Quantities </em>recipes</p>
+</li>
+<li>
+<p><em>ARCHICAD</em> properties</p>
+</li>
+<li>
+<p><em>ARCHICAD</em> classifications</p>
+</li>
+</ol>
+<p>All three panels largely work in the same way, so detailed explanation of each is not required. Common palette features are summarised in this section with a reference to more detailed instructions in following sections. Element traits are managed with the following palette buttons:</p>
+<table>
+<tbody>
+<tr>
+<td>
+
+</td>
+<td>
+
+</td>
+<td>
+<p><strong>Live Edit On</strong></p>
+</td>
+<td>
+<p><strong>Live Edit Off</strong></p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Add a trait</p>
+</td>
+<td>
+<p>Enabled only when an element or tool is selected. Prompts for one or more traits to be selected and immediately adds them to either the selected elements or tool. See section 2.3.1 for more detail</p>
+</td>
+<td>
+<p>Prompts for one or more traits to be selected and adds them to the relevant palette list. Selected elements or tools are not affected. See section 2.3.4 for more detail</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Remove a trait</p>
+</td>
+<td>
+<p>Enabled only when a trait is selected in the relevant palette list. Immediately removes the selected traits from the selected elements or tool. See section 2.3.2 for more detail</p>
+</td>
+<td>
+<p>Enabled only when a trait is selected in the relevant palette list. Immediately removes the selected traits from the relevant palette list. Selected elements or tools are not affected</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Extract traits</p>
+</td>
+<td>
+<p>n/a to this context</p>
+</td>
+<td>
+<p>Enabled only when an element or tool is selected. Extracts all the relevant traits from the selected tool or elements and displays them in the list. Selected elements or tools are not affected. See sections 2.3.3 and 2.3.4 for more detail</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Inject traits</p>
+</td>
+<td>
+<p>n/a to this context</p>
+</td>
+<td>
+<p>Enabled only when an element or tool is selected. Injects all the relevant traits from the list into the selected tool or elements. If items are selected in the list, only those items are injected. See sections 2.3.3 and 2.3.4 for more detail</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Select matching</p>
+</td>
+<td>
+<p>Enabled when at least one trait is selected in the relevant palette list. Immediately selects elements in the current view with matching traits (adding to the current selection). See section 2.3.5 for more detail</p>
+</td>
+<td>
+<p>n/a to this context</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Filter by traits</p>
+</td>
+<td>
+<p>Enabled when at least one trait is selected in the relevant palette list. Immediately filters selected elements so only those with matching traits remain selected. See section 2.3.6 for more detail</p>
+</td>
+<td>
+<p>n/a to this context</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Manage recipes</p>
+</td>
+<td>
+<p>Opens the <em>Quantity Take-off Manager</em> with the <em>Recipes </em>tab selected for quick access to editing recipes, measurement rules and calculations.</p>
+</td>
+</tr>
+<tr>
+<td>
+
+</td>
+<td>
+<p>Schedule quants</p>
+</td>
+<td>
+<p>Opens the <em>Bill of Quantities</em> palette. If elements are selected, a schedule is created for the selection. Enables quick checks that elements are producing the expected quantities.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the text style of listed traits may vary in certain circumstances. All items are typically displayed with a plain, black typeface, but the following alternatives may appear, sometimes in combination:</p>
+<table>
+<tbody>
+<tr>
+<td>
+<p>Red</p>
+</td>
+<td>
+<p>Only relevant to recipes. A recipe name displayed in red denotes that the recipe was manually added to an element but subsequently deleted in the Quantity Take-off Manager. This warning may highlight the recipe should not have been deleted, in which case it can be restored in the Quantity Take-off Manager. If the recipe is redundant, it can be removed from the element. Note that deleted recipes have no effect on the measurement process if they remain attached to elements.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><em>Italic</em></p>
+</td>
+<td>
+<p>Only relevant to recipes. A recipe name is displayed in an italics when it has been automatically added to the element by a measurement rule. For example, a wall will display a recipe name in italics if it has a rule that it must be attached to all walls.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Blue</p>
+</td>
+<td>
+<p>Only relevant when multiple elements are selected. A name is displayed in blue when it isn’t common to the entire selection, i.e. at least one element in the selection doesn’t have that trait. This also applies to individual property values, where the selected elements might share that property in common but with a different value. See section 2.4.2 for more detail.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>Bold</strong></p>
+</td>
+<td>
+<p>Only relevant to properties. A property name will be displayed in bold when the property is present in multiple elements with differing values. The</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Examples of these text styles can be seen in the illustration above. These styles are a valuable resource for auditing and editing project data because they highlight differences and potential problems – see section 2.3.7 for more detail.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001387555">
+  <div class="art-h"><span class="no">2.3</span>
+    <h3 class="zh-only block">2.3 管理特征标记（配方 / 属性 / 分类）</h3>
+    <h3 class="en-only block">2.3 Managing Quantity Traits</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001387555" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>以下各节给出管理各类特征标记（配方、属性、分类）通用数据的详细操作；2.4 节补充与属性值相关的管理细节。<strong>对特征标记（及其值）的所有修改都可撤销。</strong></p></div>
+  <div class="en-only"><p>The following sections provide detailed instructions for managing data common to all traits (recipes, properties and classifications). The following section (2.4) provides additional detail for managing values associated with properties.  All changes to attached traits (and values) are undoable.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The following sections provide detailed instructions for managing data common to all traits (recipes, properties and classifications). The following section (2.4) provides additional detail for managing values associated with properties.  All changes to attached traits (and values) are undoable.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001394936">
+  <div class="art-h"><span class="no">2.3.1</span>
+    <h3 class="zh-only block">2.3.1 如何给构件添加特征标记</h3>
+    <h3 class="en-only block">2.3.1 How to add new Traits to an element</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001394936" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>选中目标构件，点击对应列表下方的「添加」按钮（<img class="inl" src="img/360001394936_0.png" alt="添加按钮" loading="lazy">），在弹出的列表中勾选要添加的特征标记：</p>
+<p><img src="img/360001394936_1.png" alt="选择特征标记列表" loading="lazy"></p>
+<p>可以一次勾选多项一步添加，但注意<strong>每个分类系统只能加一个分类</strong>。Live Edit 开启时，所选特征标记立即加到选中构件上。</p>
+<p>Live Edit 关闭时需要多一步：先在面板列表里选中要添加的特征标记，再点「注入」按钮（<img class="inl" src="img/360001394936_2.png" alt="注入按钮" loading="lazy">）。注意：Live Edit 关闭时面板列表不受构件选择和视图切换影响，所以在后续构件上重复这套操作非常顺手。</p>
+<p>配方也可以通过 ARCHICAD 的 Settings 对话框添加（见 2.3.8）。属性的添加详见 2.4.4。</p></div>
+  <div class="en-only"><p>Select the target elements, click the ‘add’ button (<img class="inl" src="img/360001394936_0.png" alt="mceclip1.png" loading="lazy">) under the relevant list and select the traits to be added when the list appears:</p>
+<p><img src="img/360001394936_1.png" alt="mceclip0.png" loading="lazy"></p>
+<p>Multiple items can be selected and added in one step, but note that only one classification can be added per system. When Live Edit is active, the selected traits are immediately added to the selected elements.</p>
+<p><br>An additional step is required if Live Edit is off. Select the traits to be added in the palette list and click the inject button (<img class="inl" src="img/360001394936_2.png" alt="mceclip2.png" loading="lazy">). Note that it is very easy to repeat this action on subsequent element selections when Live Edit is off because the palette list is unaffected by element selection or view changes.</p>
+<p><br>Note that is is possible to added recipes using ARCHICAD’s Settings dialogs (refer to section 2.3.8). Section 2.4.4 provides more detail for adding properties.</p>
+
+<p><br> </p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Select the target elements, click the ‘add’ button (<img class="inl" src="img/360001394936_0.png" alt="mceclip1.png" loading="lazy">) under the relevant list and select the traits to be added when the list appears:</p>
+<p><img src="img/360001394936_1.png" alt="mceclip0.png" loading="lazy"></p>
+<p>Multiple items can be selected and added in one step, but note that only one classification can be added per system. When Live Edit is active, the selected traits are immediately added to the selected elements.</p>
+<p><br>An additional step is required if Live Edit is off. Select the traits to be added in the palette list and click the inject button (<img class="inl" src="img/360001394936_2.png" alt="mceclip2.png" loading="lazy">). Note that it is very easy to repeat this action on subsequent element selections when Live Edit is off because the palette list is unaffected by element selection or view changes.</p>
+<p><br>Note that is is possible to added recipes using ARCHICAD’s Settings dialogs (refer to section 2.3.8). Section 2.4.4 provides more detail for adding properties.</p>
+
+<p><br> </p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001394956">
+  <div class="art-h"><span class="no">2.3.2</span>
+    <h3 class="zh-only block">2.3.2 如何从构件移除特征标记</h3>
+    <h3 class="en-only block">2.3.2 How to remove traits from an element</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001394956" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>只有在 Live Edit 开启时才能直接从构件上移除特征标记。选中目标构件，在面板列表里选中要移除的特征标记，点「删除」按钮（<img class="inl" src="img/360001394956_0.png" alt="删除按钮" loading="lazy">）。</p>
+<p>Live Edit 关闭时点删除只会把所选特征标记从面板列表里清掉（构件不受影响）；但可以通过「向构件注入一份固定清单」的方式<strong>间接移除</strong>特征标记（见 2.3.3）。属性的删除详见 2.4.5。</p></div>
+  <div class="en-only"><p>Traits can only be directly removed from elements when Live Edit is on. Select the target elements, select the traits to be removed in the palette list and click the delete button (<img class="inl" src="img/360001394956_0.png" alt="mceclip0.png" loading="lazy">).</p>
+<p><br>Clicking the delete button when Live Edit is off simply removes the selected traits from the palette list (selected elements are unaffected), but traits can be indirectly removed by injecting a fixed list of traits into selected elements (refer to section 2.3.3). Section 2.4.5 provides more detail for deleting properties.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Traits can only be directly removed from elements when Live Edit is on. Select the target elements, select the traits to be removed in the palette list and click the delete button (<img class="inl" src="img/360001394956_0.png" alt="mceclip0.png" loading="lazy">).</p>
+<p><br>Clicking the delete button when Live Edit is off simply removes the selected traits from the palette list (selected elements are unaffected), but traits can be indirectly removed by injecting a fixed list of traits into selected elements (refer to section 2.3.3). Section 2.4.5 provides more detail for deleting properties.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001394996">
+  <div class="art-h"><span class="no">2.3.3</span>
+    <h3 class="zh-only block">2.3.3 如何把选定的特征标记设置或转移到构件</h3>
+    <h3 class="en-only block">2.3.3 How to set or transfer selected traits into elements</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001394996" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>ARCHICAD 本身有从构件提取数据、再注入另一个构件的方法，但对成本数据管理来说太粗——尤其是属性值。<em>Quantities Info</em> 面板允许把任意选定的特征标记套用或转移到选中构件上，甚至可以只改一个属性值。此方法仅在 <strong>Live Edit 关闭</strong>时可用。</p>
+<p>点「提取」按钮，面板即载入选中构件的特征标记；选中其他构件后点「注入」按钮，这些特征标记就转移到新构件上。<strong>关键规则</strong>：</p>
+<ul>
+<li><p>列表里<strong>没有</strong>选中任何项时注入——整个列表会替换构件原有的全部特征标记（既会添加、也会移除）；</p></li>
+<li><p>列表里选中了部分项时注入——只注入选中的那些，不移除任何东西。</p></li>
+</ul>
+<p>注意，面板列表里的特征标记不限于从其他构件提取来的——可以自由添加（2.3.1）、移除（2.3.2）。属性管理的更多细节见 2.4.8。</p></div>
+  <div class="en-only"><p>ARCHICAD already provides a method for extracting data from one element and injecting it into another, but this is too coarse-grained for managing costing data – particularly property values. The Quantities Info palette allows any selection of traits to be applied or transferred to selected elements, even allowing just a single property value to be changed. This method is only applicable when Live Edit is off.</p>
+<p>The palette can be populated with the traits of selected elements by clicking the extract button (). These traits can be transferred into other elements by selecting them and clicking the inject button (). If no traits are selected in the palette list, the entire list of traits replaces everything previously assigned to the element (so traits may be both added and removed). If some are selected in the list, only the selected traits are injected (and nothing is removed).</p>
+<p>Note that the list of traits in the palette isn’t limited to those extracted from other elements – they can be freely added (section 2.3.1) or removed (section 2.3.2). Some additional detail for managing properties is provided in section 2.4.8.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>ARCHICAD already provides a method for extracting data from one element and injecting it into another, but this is too coarse-grained for managing costing data – particularly property values. The Quantities Info palette allows any selection of traits to be applied or transferred to selected elements, even allowing just a single property value to be changed. This method is only applicable when Live Edit is off.</p>
+<p>The palette can be populated with the traits of selected elements by clicking the extract button (). These traits can be transferred into other elements by selecting them and clicking the inject button (). If no traits are selected in the palette list, the entire list of traits replaces everything previously assigned to the element (so traits may be both added and removed). If some are selected in the list, only the selected traits are injected (and nothing is removed).</p>
+<p>Note that the list of traits in the palette isn’t limited to those extracted from other elements – they can be freely added (section 2.3.1) or removed (section 2.3.2). Some additional detail for managing properties is provided in section 2.4.8.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001387615">
+  <div class="art-h"><span class="no">2.3.4</span>
+    <h3 class="zh-only block">2.3.4 如何让新建构件自动带上特征标记</h3>
+    <h3 class="en-only block">2.3.4 How to automatically add traits to new elements</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001387615" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>新构件的设置通常由对应工具的 Settings 对话框决定。ARCHICAD 的 Info 面板和 <em>Quantities Info</em> 面板都能交互查看这些设置，但<strong>这些设置从不在多个工具之间共享</strong>。</p>
+<p>不过，<em>Quantities Info</em> 面板在 <strong>Live Edit 关闭</strong>时可以把特征标记套用到<strong>任何类型</strong>的新构件上：面板里显示的所有特征标记，都会加到此后新建的每个构件上，不限类型。想停掉这个效果，清空面板列表或折叠对应分区即可。Settings 对话框里的数据不受影响。</p>
+<p>当一批构件必须共享某些特征标记或取值时，这个功能很省事——不用打开多个 Settings 对话框反复做同样的修改。</p></div>
+  <div class="en-only"><p>The settings for new elements is usually governed by the Settings dialog for the relevant tool. The ARCHICAD Info and Quantities Info palettes also provide an interactive view on those settings, but these settings are never shared by multiple tools.</p>
+<p>However, the Quantities Info palette can apply traits to new elements of any type when Live Edit is turned off. Any traits displayed in the palette will be added to every new element irrespective of type. This action can be prevented by either clearing the palette list or collapsing the relevant panel. The data in the Settings dialog remains unchanged.</p>
+<p>This feature is beneficial when a series of elements must share certain traits or values because it removes the need to open multiple Settings dialogs to repeatedly make the same change.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The settings for new elements is usually governed by the Settings dialog for the relevant tool. The ARCHICAD Info and Quantities Info palettes also provide an interactive view on those settings, but these settings are never shared by multiple tools.</p>
+<p>However, the Quantities Info palette can apply traits to new elements of any type when Live Edit is turned off. Any traits displayed in the palette will be added to every new element irrespective of type. This action can be prevented by either clearing the palette list or collapsing the relevant panel. The data in the Settings dialog remains unchanged.</p>
+<p>This feature is beneficial when a series of elements must share certain traits or values because it removes the need to open multiple Settings dialogs to repeatedly make the same change.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001387655">
+  <div class="art-h"><span class="no">2.3.5</span>
+    <h3 class="zh-only block">2.3.5 如何选中匹配所选特征标记的构件</h3>
+    <h3 class="en-only block">2.3.5 How to select elements matching selected traits</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001387655" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>此功能仅在 <strong>Live Edit 开启</strong>时可用。点选任意特征标记组合，再点「选择匹配项」按钮（<img class="inl" src="img/360001387655_0.png" alt="选择匹配项按钮" loading="lazy">），同视图中特征标记匹配的构件就会追加进当前选择集。</p>
+<p>按属性值选中构件的更多细节见 2.4.6。</p></div>
+  <div class="en-only"><p>This feature only works when Live Edit is on. Simply click on any combination traits and click the select matching button (<img class="inl" src="img/360001387655_0.png" alt="mceclip0.png" loading="lazy">). Any elements in the same view matching the selected traits will be added to the current selection.</p>
+<p>Some additional detail for selecting elements with matching property values is provided in section 2.4.6.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>This feature only works when Live Edit is on. Simply click on any combination traits and click the select matching button (<img class="inl" src="img/360001387655_0.png" alt="mceclip0.png" loading="lazy">). Any elements in the same view matching the selected traits will be added to the current selection.</p>
+<p>Some additional detail for selecting elements with matching property values is provided in section 2.4.6.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001395016">
+  <div class="art-h"><span class="no">2.3.6</span>
+    <h3 class="zh-only block">2.3.6 如何把选择集筛选为匹配特征标记的构件</h3>
+    <h3 class="en-only block">2.3.6 How to filter selected elements to those matching selected traits</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001395016" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>此功能仅在 <strong>Live Edit 开启</strong>时可用。点选任意特征标记组合，再点「按特征标记筛选」按钮（<img class="inl" src="img/360001395016_0.png" alt="按特征标记筛选按钮" loading="lazy">），选择集里只保留特征标记匹配的构件。</p>
+<p>按属性值筛选选择集的更多细节见 2.4.7。</p></div>
+  <div class="en-only"><p>This feature only works when Live Edit is on. Simply click on any combination traits and click the filter by traits button (<img class="inl" src="img/360001395016_0.png" alt="mceclip0.png" loading="lazy">). Only elements with matching traits will remain selected.</p>
+<p>Some additional detail for filtering the selection based on property values is provided in section 2.4.7.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>This feature only works when Live Edit is on. Simply click on any combination traits and click the filter by traits button (<img class="inl" src="img/360001395016_0.png" alt="mceclip0.png" loading="lazy">). Only elements with matching traits will remain selected.</p>
+<p>Some additional detail for filtering the selection based on property values is provided in section 2.4.7.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001395036">
+  <div class="art-h"><span class="no">2.3.7</span>
+    <h3 class="zh-only block">2.3.7 如何快速发现选择集中的异常与问题</h3>
+    <h3 class="en-only block">2.3.7 How to quickly spot anomalies or problems in selected elements</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001395036" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p><em>Quantities Info</em> 面板中特征标记的文字样式，是判断其状态的重要反馈。例如：</p>
+<ul>
+<li><p><strong>蓝色</strong>表示该特征标记并非所选构件共有——用来发现本应统一的特征标记非常好用。配合 ARCHICAD 的 Find &amp; Select（查找并选择）面板效果更佳：先找出本应相同的构件，再用 <em>Quantities Info</em> 查不一致的地方。</p></li>
+<li><p><strong>红色</strong>表示一个手工挂接的配方已被删除——多半是误删。</p></li>
+<li><p><strong>加粗</strong>表示某属性在所选构件间有多个不同的值；点开折叠三角即可查看这些值。</p></li>
+</ul>
+<p>发现异常的特征标记或属性值后，在列表里选中它们、点「按特征标记筛选」按钮，相关的构件就被单独隔离出来了。</p></div>
+  <div class="en-only"><p>The text style of traits listed in the Quantities Info palette provides important feedback about the their status. For example:</p>
+<ul>
+<li>Blue indicates that the trait is not common to the selected elements, which is useful for spotting traits that are supposed to be uniform. ARCHICAD’s Find &amp; Select palette is useful in conjunction with this feature, first finding elements that should be identical and then checking Quantities Info for inconsistencies.</li>
+<li>Red indicates that a manually applied recipe has been deleted, suggesting a mistake.</li>
+<li>A bold face is used wherever a property has multiple values across the selected elements. The values can be viewed by clicking the disclosure triangle.</li>
+</ul>
+<p>When an anomalous trait or property value is spotted, the contributing elements can be isolated by selecting the traits/values in the list and clicking the filter by traits button</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The text style of traits listed in the Quantities Info palette provides important feedback about the their status. For example:</p>
+<ul>
+<li>Blue indicates that the trait is not common to the selected elements, which is useful for spotting traits that are supposed to be uniform. ARCHICAD’s Find &amp; Select palette is useful in conjunction with this feature, first finding elements that should be identical and then checking Quantities Info for inconsistencies.</li>
+<li>Red indicates that a manually applied recipe has been deleted, suggesting a mistake.</li>
+<li>A bold face is used wherever a property has multiple values across the selected elements. The values can be viewed by clicking the disclosure triangle.</li>
+</ul>
+<p>When an anomalous trait or property value is spotted, the contributing elements can be isolated by selecting the traits/values in the list and clicking the filter by traits button</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001395056">
+  <div class="art-h"><span class="no">2.3.8</span>
+    <h3 class="zh-only block">2.3.8 如何在 ARCHICAD 设置对话框中编辑配方</h3>
+    <h3 class="en-only block">2.3.8 How to edit recipes in the ARCHICAD Settings dialog</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001395056" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>插件在 ARCHICAD 标准 Settings 对话框里追加了一个面板，用于编辑构件上<strong>手工挂接</strong>的配方：</p>
+<p><img src="img/360001395056_0.png" alt="Settings 对话框中的 Quantities 配方面板" loading="lazy"></p>
+<p>该面板可能需要在 Work Environment（工作环境）设置里手动开启。点「添加」按钮（<img class="inl" src="img/360001395056_1.png" alt="添加按钮" loading="lazy">）加配方，选中配方后点「删除」按钮（<img class="inl" src="img/360001395056_2.png" alt="删除按钮" loading="lazy">）移除。</p>
+<p><strong>警告</strong>：如果用 Settings 对话框同时编辑多个构件的配方，它们最终都会变成同一份配方列表（即 Settings 对话框里显示的那份），不管原先各自挂了什么。因此一般建议改用 Quantity Take-off 面板——它对多构件特征标记的编辑是非破坏性的。</p>
+<p>「Manual recipes only（仅手工配方）」选项可以阻止任何配方自动挂到构件上（见 4.5 节「自动度量」）。勾选后，只有手工挂接的配方会参与度量。</p></div>
+  <div class="en-only"><p>The add-on appends a panel for to ARCHICAD’s standard Settings dialog for editing the recipes manually attached to an element:</p>
+<p><img src="img/360001395056_0.png" alt="mceclip0.png" loading="lazy"></p>
+<p>This panel may have to be shown use the Work Environment settings. Recipes can be added by clicking the add button (<img class="inl" src="img/360001395056_1.png" alt="mceclip2.png" loading="lazy">), or selected recipes removed by clicking the delete button (<img class="inl" src="img/360001395056_2.png" alt="mceclip1.png" loading="lazy">). Warning: if the recipes of multiple elements are edited with the Settings dialog, they will all end up with the same recipe list (as shown in the Settings dialog) irrespective of whatever recipes were attached previously. For this reason, it is generally recommended to use the Quantity Take-off palette, because the traits of multiple elements can be edited non-destructively.</p>
+<p>The option for Manual recipes only can be set to prevent any recipes from automatically attaching to the element (refer to section 4.5, Automatic Measurements for more information). Only manually attached recipes will take measurements when this option is set.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The add-on appends a panel for to ARCHICAD’s standard Settings dialog for editing the recipes manually attached to an element:</p>
+<p><img src="img/360001395056_0.png" alt="mceclip0.png" loading="lazy"></p>
+<p>This panel may have to be shown use the Work Environment settings. Recipes can be added by clicking the add button (<img class="inl" src="img/360001395056_1.png" alt="mceclip2.png" loading="lazy">), or selected recipes removed by clicking the delete button (<img class="inl" src="img/360001395056_2.png" alt="mceclip1.png" loading="lazy">). Warning: if the recipes of multiple elements are edited with the Settings dialog, they will all end up with the same recipe list (as shown in the Settings dialog) irrespective of whatever recipes were attached previously. For this reason, it is generally recommended to use the Quantity Take-off palette, because the traits of multiple elements can be edited non-destructively.</p>
+<p>The option for Manual recipes only can be set to prevent any recipes from automatically attaching to the element (refer to section 4.5, Automatic Measurements for more information). Only manually attached recipes will take measurements when this option is set.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001387715">
+  <div class="art-h"><span class="no">2.3.9</span>
+    <h3 class="zh-only block">2.3.9 如何让构件不参与成本度量</h3>
+    <h3 class="en-only block">2.3.9 How to prevent an element from being measured for cost</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001387715" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在构件 Settings 对话框（见 2.3.8）或 <em>Quantities Info</em> 面板（见 2.2 节插图中的分区 1）里勾选「Manual recipes only（仅手工配方）」。若没有手工添加任何配方，该构件将不参与成本度量。</p></div>
+  <div class="en-only"><p>Set the option for Manual recipes only, either in the element Settings dialog (refer to section 2.3.8) or the Quantities Info palette (see panel 1 in the illustration for section 2.2). If no recipes are manually added, the elements will not be measured for cost.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Set the option for Manual recipes only, either in the element Settings dialog (refer to section 2.3.8) or the Quantities Info palette (see panel 1 in the illustration for section 2.2). If no recipes are manually added, the elements will not be measured for cost.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001393575">
+  <div class="art-h"><span class="no">2.4</span>
+    <h3 class="zh-only block">2.4 管理被度量的属性</h3>
+    <h3 class="en-only block">2.4 Managing Measured Properties</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393575" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>ARCHICAD 属性的显示和管理方式与其他特征标记（见上一节）基本相同，但「属性带值」这一点带来了额外复杂性。本节说明与属性值相关的特殊之处。<strong>所有属性修改均可撤销。</strong></p></div>
+  <div class="en-only"><p>ARCHICAD properties are generally displayed and managed like any other trait (in the previous section) but the paired value adds complexity. This section describes any special characteristics associated with property values. All property changes are undoable</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>ARCHICAD properties are generally displayed and managed like any other trait (in the previous section) but the paired value adds complexity. This section describes any special characteristics associated with property values. All property changes are undoable</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001401036">
+  <div class="art-h"><span class="no">2.4.1</span>
+    <h3 class="zh-only block">2.4.1 如何编辑属性值</h3>
+    <h3 class="en-only block">2.4.1 How to edit a property value</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401036" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在 <em>Quantities Info</em> 面板里编辑单个属性值，操作与 ARCHICAD 原生界面完全一致，功能也相同。</p></div>
+  <div class="en-only"><p>Editing individual property values in the Quantity Info palette is identical to the ARCHICAD UI and offers the same features.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Editing individual property values in the Quantity Info palette is identical to the ARCHICAD UI and offers the same features.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001401056">
+  <div class="art-h"><span class="no">2.4.2</span>
+    <h3 class="zh-only block">2.4.2 如何查看同一属性的不同取值</h3>
+    <h3 class="en-only block">2.4.2 How to view different values for the same property</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401056" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当选中的多个构件上同一属性取值不同时，属性名会以<strong>加粗</strong>显示并带一个折叠三角；点开三角即可查看各个取值：</p>
+<p><img src="img/360001401056_0.png" alt="属性多值展开" loading="lazy"></p>
+<p>每个值后面的括号里显示取该值的构件数量。若并非所有选中构件都有这个属性，属性名还可能同时显示为蓝色。</p>
+<p>每个属性值可以<strong>独立编辑</strong>——改动只影响原来取这个值的那些构件。属性值的修改可撤销。</p></div>
+  <div class="en-only"><p>When a property has different values across multiple selected elements, the property name is displayed in a bold face with a leading disclosure triangle. The property values are revealed by clicking the disclosure triangle:</p>
+<p><img src="img/360001401056_0.png" alt="mceclip0.png" loading="lazy"></p>
+<p>The number of elements set to each value is displayed in parentheses. The property name may also be displayed in blue if not all the selected elements have that property.</p>
+<p>Each property value can be independently edited – the change will only affect the elements with the original value. Property value changes are undoable.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>When a property has different values across multiple selected elements, the property name is displayed in a bold face with a leading disclosure triangle. The property values are revealed by clicking the disclosure triangle:</p>
+<p><img src="img/360001401056_0.png" alt="mceclip0.png" loading="lazy"></p>
+<p>The number of elements set to each value is displayed in parentheses. The property name may also be displayed in blue if not all the selected elements have that property.</p>
+<p>Each property value can be independently edited – the change will only affect the elements with the original value. Property value changes are undoable.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001401076">
+  <div class="art-h"><span class="no">2.4.3</span>
+    <h3 class="zh-only block">2.4.3 如何同时编辑多个属性值</h3>
+    <h3 class="en-only block">2.4.3 How to edit multiple property values simultaneously</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401076" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>面板里可以同时选中多个属性值，但只有最上面那个显示为可编辑。如果改了这个值，<strong>其他被选中的值会一并改成同一个值</strong>（相关构件随之更新）。当所有不同的值都改成一样后，该属性会重新收拢成一行。属性值的修改可撤销。</p></div>
+  <div class="en-only"><p>Multiple property values can be simultaneously selected in the palette, but only the foremost will be shown as editable. If that value is changed, all other selected values will be changed to the same value (and associated elements are updated). If all the different values are changed to the same value, the property will collapse to a single row again. Property value changes are undoable.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Multiple property values can be simultaneously selected in the palette, but only the foremost will be shown as editable. If that value is changed, all other selected values will be changed to the same value (and associated elements are updated). If all the different values are changed to the same value, the property will collapse to a single row again. Property value changes are undoable.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001401116">
+  <div class="art-h"><span class="no">2.4.4</span>
+    <h3 class="zh-only block">2.4.4 如何给构件添加属性</h3>
+    <h3 class="en-only block">2.4.4 How to add a property to an element</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401116" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>添加属性与添加其他特征标记基本一样，但有一个重要区别：<strong>属性是通过分类挂到构件上的</strong>——因此给构件加属性的唯一途径，是改动它关联的分类，也就是把这个属性加进该分类。<em>Quantities</em> 会自动完成这一步以方便添加。改动是非破坏性的、可撤销，但要明白：给构件加属性，同样会影响<strong>具有相同分类的其他构件</strong>。</p>
+<p>可以一次给多个构件添加属性，这可能引起多个分类的变动。</p></div>
+  <div class="en-only"><p>Adding a property is essentially the same as adding any other trait, but there is an important difference. Properties are associated with elements on the basis of their classification – therefore, the only way to add a property to an element is to change the classification it is associated with, i.e. by adding the property to the classification. Quantities will do this automatically to facilitate adding a property. The change is non-destructive and undoable, but it is important to understand that adding a property to an element will likewise affect other elements with the same classification.</p>
+<p>Properties can be added to multiple elements simultaneously, which may result in changes to multiple classifications.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Adding a property is essentially the same as adding any other trait, but there is an important difference. Properties are associated with elements on the basis of their classification – therefore, the only way to add a property to an element is to change the classification it is associated with, i.e. by adding the property to the classification. Quantities will do this automatically to facilitate adding a property. The change is non-destructive and undoable, but it is important to understand that adding a property to an element will likewise affect other elements with the same classification.</p>
+<p>Properties can be added to multiple elements simultaneously, which may result in changes to multiple classifications.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001393595">
+  <div class="art-h"><span class="no">2.4.5</span>
+    <h3 class="zh-only block">2.4.5 如何从构件删除属性</h3>
+    <h3 class="en-only block">2.4.5 How to delete a property from an element</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393595" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>从构件上移除属性的操作与其他特征标记相同，但插件的实现方式有一个重要区别：属性是通过分类挂到构件上的——真正把属性从构件上「拿掉」的唯一途径是改动分类，也就是把这个属性从分类中移除。</p>
+<p><em>Quantities</em> 不这么做，因为那是破坏性的——其他许多构件关联的属性值可能被无声无息地丢掉。所以插件的做法是把属性值<strong>置为未定义</strong>而不是移除，实际效果一样。</p>
+<p>可以一次从多个构件上移除属性。</p></div>
+  <div class="en-only"><p>The process of removing a property from an element is the same as any other trait, but there is an important difference in how the add-on achieves this. Properties are associated with elements on the basis of their classification – therefore, the only way to remove a property from an element is to change the classification it is associated with, i.e. by removing the property to the classification.</p>
+<p>Quantities doesn’t do this because it’s destructive, i.e. the property values associated with many other elements may be silently lost. Therefore, the add-on sets the property value to undefined rather than removing it – in effect, the result is the same.</p>
+<p>Properties can be removed from multiple elements simultaneously.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The process of removing a property from an element is the same as any other trait, but there is an important difference in how the add-on achieves this. Properties are associated with elements on the basis of their classification – therefore, the only way to remove a property from an element is to change the classification it is associated with, i.e. by removing the property to the classification.</p>
+<p>Quantities doesn’t do this because it’s destructive, i.e. the property values associated with many other elements may be silently lost. Therefore, the add-on sets the property value to undefined rather than removing it – in effect, the result is the same.</p>
+<p>Properties can be removed from multiple elements simultaneously.</p>
+    </div>
+  </details>
+</div>
+
+<div class="art" id="a-360001393615">
+  <div class="art-h"><span class="no">2.4.6</span>
+    <h3 class="zh-only block">2.4.6 如何按属性值选中构件</h3>
+    <h3 class="en-only block">2.4.6 How to select elements with specific property values</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393615" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>特征标记选择按钮（<img class="inl" src="img/360001393615_0.png" alt="特征标记选择按钮" loading="lazy">）作用于属性的方式与其他特征标记相同，但它只选中<strong>具有相同属性且取值匹配</strong>的构件。若面板里选中了多个值，则只要构件的属性和取值与其中任意一项匹配，就会加入选择集。</p></div>
+  <div class="en-only"><p>The trait selection button (<img class="inl" src="img/360001393615_0.png" alt="mceclip0.png" loading="lazy">) works with properties in the same way as other traits, but also selects only elements with the same property and a matching value. If multiple values are selected in the palette, all elements with a property and value matching any one of those items will be added to the selection.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The trait selection button (<img class="inl" src="img/360001393615_0.png" alt="mceclip0.png" loading="lazy">) works with properties in the same way as other traits, but also selects only elements with the same property and a matching value. If multiple values are selected in the palette, all elements with a property and value matching any one of those items will be added to the selection.</p>
+    </div>
+  </details>
+</div>
+
 
 <div class="art" id="a-360001393635">
   <div class="art-h"><span class="no">01</span>
@@ -243,17 +1364,17 @@ html[data-lang="en"] .en-only.block { display:block; }
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393635-2-4-7-How-to-filter-an-element-selection-for-those-matching-specific-property-values" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
   <div class="zh-only"><p>特征标记筛选按钮（</p>
-<p><img src="img/360001393635_0.jpg" alt="2.4.7 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393635_0.jpg" alt="2.4.7 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
 <p>）处理属性的方式与处理其他特征标记相同，但它还会将选择集筛选为具有相同属性且取值匹配的构件。如果在面板中选中了多个值，则只要构件的属性和取值与其中任意一项匹配，即可通过筛选。</p></div>
   <div class="en-only"><p>The trait filter button (</p>
-<p><img src="img/360001393635_0.jpg" alt="2.4.7 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393635_0.jpg" alt="2.4.7 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
 <p>) works with properties in the same way as other traits, but also filters the selection to elements with the same property and a matching value. If multiple values are selected in the palette, elements with a property and value matching any one of those items will pass the filter.</p></div>
   <details class="orig-toggle">
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
       <p>The trait filter button (</p>
-<p><img src="img/360001393635_0.jpg" alt="2.4.7 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393635_0.jpg" alt="2.4.7 How to filter an element selection for those matching specific property values 示意图" loading="lazy"></p>
 <p>) works with properties in the same way as other traits, but also filters the selection to elements with the same property and a matching value. If multiple values are selected in the palette, elements with a property and value matching any one of those items will pass the filter.</p>
     </div>
   </details>
@@ -265,17 +1386,17 @@ html[data-lang="en"] .en-only.block { display:block; }
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393655-2-4-8-How-to-inject-a-property-with-a-specific-value-into-selected-elements" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
   <div class="zh-only"><p>当开启实时编辑（Live Edit）时，可以与添加其他任何特征标记相同的方式添加属性（使用添加特征标记按钮</p>
-<p><img src="img/360001393655_0.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393655_0.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
 <p>）。可以通过选中该属性的所有值并将其编辑为所需值来设置取值。</p>
 <p>另一种方式是，当实时编辑关闭时，将所需属性添加到列表中、设置为所需值，然后点击注入按钮（</p>
-<p><img src="img/360001393655_1.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393655_1.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
 <p>）将其设置到所选构件中。</p>
 <p>这两种做法之间有一个细微差别 —— 前者会在必要时修改构件分类，以确保属性先被附加，然后再设置正确的值；而后者只会为已经拥有该属性的构件设置属性值。</p></div>
   <div class="en-only"><p>When Live Edit is on, a property can be added in the same way as any other trait (with the add trait button</p>
-<p><img src="img/360001393655_0.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393655_0.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
 <p>). The value can be set by selecting all values of that property and editing it the required value.</p>
 <p>Alternatively, when Live Edit is off, the required property can be added to the list, set to the required value and set in the selected elements by clicking the inject button (</p>
-<p><img src="img/360001393655_1.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393655_1.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
 <p>).</p>
 <p>There is a subtle difference in these two approaches – the former will modify the element classification if necessary to ensure the property is attached before setting the correct value, whereas the latter will only set the property value in elements that already have that property.</p></div>
   <details class="orig-toggle">
@@ -283,10 +1404,10 @@ html[data-lang="en"] .en-only.block { display:block; }
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
       <p>When Live Edit is on, a property can be added in the same way as any other trait (with the add trait button</p>
-<p><img src="img/360001393655_0.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393655_0.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
 <p>). The value can be set by selecting all values of that property and editing it the required value.</p>
 <p>Alternatively, when Live Edit is off, the required property can be added to the list, set to the required value and set in the selected elements by clicking the inject button (</p>
-<p><img src="img/360001393655_1.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393655_1.jpg" alt="2.4.8 How to inject a property with a specific value into selected elements 示意图" loading="lazy"></p>
 <p>).</p>
 <p>There is a subtle difference in these two approaches – the former will modify the element classification if necessary to ensure the property is attached before setting the correct value, whereas the latter will only set the property value in elements that already have that property.</p>
     </div>
@@ -773,7 +1894,7 @@ html[data-lang="en"] .en-only.block { display:block; }
   <div class="zh-only"><p>Quantities 中的测量定义在配方中，这符合这样一个理念：成本的计算通常是许多"食材"的组合，而不是简单地清点构件的某个属性或将其总计。一个配方可以将任意数量的测量项绑定在一起，每一项测量都可以引用任意组合的构件属性和几何，并通过规则将它们与"贡献到哪个清单条目"以及"何时进行每项测量"关联起来。</p>
 <p>接下来的各节将从基本的计数配方开始，逐步过渡到实现计算、可选/自动测量，最后以一些常见示例和问题收尾。</p>
 <p>测量配方在工程量管理器中查看，可通过点击菜单项 CI Tools > Quantities > Quantity Take-off Manager 并选择"配方"选项卡打开。所有 Quantities 面板还都显示一个图标，可快速打开该管理器对话框（</p>
-<p><img src="img/360001393915_0.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393915_0.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
 <p>）。</p>
 <p><img src="img/360001393915_1.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
 <p>管理器的主要功能如下：</p>
@@ -799,7 +1920,7 @@ html[data-lang="en"] .en-only.block { display:block; }
   <div class="en-only"><p>Measurements in Quantities are defined in recipes to conform to the concept that calculation of cost is usually a combination of many ingredients rather than simply counting or totalling some property of elements. A recipe can bind together any number of measurements, each of which can reference any combination of element properties and geometry, and couple them with rules governing which bill item they contribute to and when each measurement should be taken.</p>
 <p>The following sections will start with basic counting recipes and work up gradually to implementing calculations, optional/automatic measurements and finishing with some common examples and questions.</p>
 <p>Measurement recipes are viewed in the Quantity Take-off Manager, which can be opened by clicking the menu item CI Tools > Quantities > Quantity Take-off Manager and selecting the Recipes tab. All Quantities palettes also display an icon to quickly open the manager dialog (</p>
-<p><img src="img/360001393915_0.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393915_0.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
 <p>).</p>
 <p><img src="img/360001393915_1.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
 <p>The key features of the manager are:</p>
@@ -829,7 +1950,7 @@ html[data-lang="en"] .en-only.block { display:block; }
       <p>Measurements in Quantities are defined in recipes to conform to the concept that calculation of cost is usually a combination of many ingredients rather than simply counting or totalling some property of elements. A recipe can bind together any number of measurements, each of which can reference any combination of element properties and geometry, and couple them with rules governing which bill item they contribute to and when each measurement should be taken.</p>
 <p>The following sections will start with basic counting recipes and work up gradually to implementing calculations, optional/automatic measurements and finishing with some common examples and questions.</p>
 <p>Measurement recipes are viewed in the Quantity Take-off Manager, which can be opened by clicking the menu item CI Tools > Quantities > Quantity Take-off Manager and selecting the Recipes tab. All Quantities palettes also display an icon to quickly open the manager dialog (</p>
-<p><img src="img/360001393915_0.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360001393915_0.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
 <p>).</p>
 <p><img src="img/360001393915_1.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
 <p>The key features of the manager are:</p>
@@ -2352,7 +3473,7 @@ html[data-lang="en"] .en-only.block { display:block; }
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057296-5-2-Scheduling-Quantities" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
   <div class="zh-only"><p>算量结果显示在 *B**ill of Quantities<em>（工程量清单）面板中，可通过点击菜单项 </em>CI Tools > Quantities > B**ill of Quantities Palette<em> 打开。</em>Quantities Info* 面板还显示一个图标，可快速打开该面板并自动对当前选择进行算量（</p>
-<p><img src="img/360004057296_0.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360004057296_0.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
 <p>）。</p>
 <p><img src="img/360004057296_1.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
 <p>该面板的主要功能如下：</p>
@@ -2373,7 +3494,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>算量清单的筛选控件。第 4c 项显示总成本。第 4b 项允许手动编辑算量数量 —— 此功能是应某些较窄的用途而提出的，但总体上并不推荐使用。</li>
 </ul></div>
   <div class="en-only"><p>Scheduled quantities are viewed in the *B**ill of Quantities<em> palette, which can be opened by clicking the menu item </em>CI Tools > Quantities > B**ill of Quantities Palette<em>. The </em>Quantities Info*palette also displays an icon to quickly open palette and automatically schedule the current selection (</p>
-<p><img src="img/360004057296_0.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360004057296_0.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
 <p>).</p>
 <p><img src="img/360004057296_1.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
 <p>The key features of the palette are:</p>
@@ -2398,7 +3519,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
       <p>Scheduled quantities are viewed in the *B**ill of Quantities<em> palette, which can be opened by clicking the menu item </em>CI Tools > Quantities > B**ill of Quantities Palette<em>. The </em>Quantities Info*palette also displays an icon to quickly open palette and automatically schedule the current selection (</p>
-<p><img src="img/360004057296_0.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360004057296_0.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
 <p>).</p>
 <p><img src="img/360004057296_1.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
 <p>The key features of the palette are:</p>
@@ -2428,17 +3549,17 @@ html[data-lang="en"] .en-only.block { display:block; }
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057316-5-2-1-How-to-schedule-the-bill-of-quantities" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
   <div class="zh-only"><p>点击 <em>Calculate</em>（计算）按钮（<a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">示意图</a>中的第 2b 项）以执行算量流程。请注意，当从 <a href="#2.2.Reviewing%20Element%20Data|outline" target="_blank" rel="noopener">Quantity Info</a> 信息板（通过点击</p>
-<p><img src="img/360004057316_0.jpg" alt="5.2.1 How to schedule the bill of quantities 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360004057316_0.jpg" alt="5.2.1 How to schedule the bill of quantities 示意图" loading="lazy"></p>
 <p>）激活该面板时，会自动对当前选择执行此操作。</p></div>
   <div class="en-only"><p>Click the <em>Calculate</em>button (item 2b in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>) to action the schedule process. Note that this is automatically invoked for the current selection when the palette is activated from the <a href="#2.2.Reviewing%20Element%20Data|outline" target="_blank" rel="noopener">Quantity Info</a> palette (by clicking</p>
-<p><img src="img/360004057316_0.jpg" alt="5.2.1 How to schedule the bill of quantities 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360004057316_0.jpg" alt="5.2.1 How to schedule the bill of quantities 示意图" loading="lazy"></p>
 <p>).</p></div>
   <details class="orig-toggle">
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
       <p>Click the <em>Calculate</em>button (item 2b in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>) to action the schedule process. Note that this is automatically invoked for the current selection when the palette is activated from the <a href="#2.2.Reviewing%20Element%20Data|outline" target="_blank" rel="noopener">Quantity Info</a> palette (by clicking</p>
-<p><img src="img/360004057316_0.jpg" alt="5.2.1 How to schedule the bill of quantities 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360004057316_0.jpg" alt="5.2.1 How to schedule the bill of quantities 示意图" loading="lazy"></p>
 <p>).</p>
     </div>
   </details>
@@ -2457,7 +3578,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>Current Selection（当前选择） ：仅当前选中的构件（来自项目中任意视图的选择）</li>
 </ul>
 <p>请注意，在算量表完成计算后，此设置不再生效。要使其生效，请点击 *Calculat**e*。当从 <a href="#2.2.Reviewing%20Element%20Data|outline" target="_blank" rel="noopener">Quantity Info</a> 信息板（通过点击</p>
-<p><img src="img/360004057336_0.jpg" alt="5.2.2 How to limit the bill calculation to selected elements 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360004057336_0.jpg" alt="5.2.2 How to limit the bill calculation to selected elements 示意图" loading="lazy"></p>
 <p>）激活该面板时，此项会自动设为 <em>Current Selection</em>。</p></div>
   <div class="en-only"><p>The<em>Scope</em> menu (item 2a in <a href="#5.2.Scheduling%20Quantities|outline" target="_blank" rel="noopener">the illustration</a>) determines the scope of the elements contributing to the schedule when the <em>Calculate</em> button is clicked:</p>
 <ul>
@@ -2467,7 +3588,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>Current Selection : Only currently selected elements (from any view into the project model)</li>
 </ul>
 <p>Note that this has no effect after the schedule has been calculated. To effect a change, click *Calculat**e<em>. This is automatically set to </em>Current Selection*when the palette is activated from the <a href="#2.2.Reviewing%20Element%20Data|outline" target="_blank" rel="noopener">Quantity Info</a> palette (by clicking</p>
-<p><img src="img/360004057336_0.jpg" alt="5.2.2 How to limit the bill calculation to selected elements 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360004057336_0.jpg" alt="5.2.2 How to limit the bill calculation to selected elements 示意图" loading="lazy"></p>
 <p>).</p></div>
   <details class="orig-toggle">
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
@@ -2481,7 +3602,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>Current Selection : Only currently selected elements (from any view into the project model)</li>
 </ul>
 <p>Note that this has no effect after the schedule has been calculated. To effect a change, click *Calculat**e<em>. This is automatically set to </em>Current Selection*when the palette is activated from the <a href="#2.2.Reviewing%20Element%20Data|outline" target="_blank" rel="noopener">Quantity Info</a> palette (by clicking</p>
-<p><img src="img/360004057336_0.jpg" alt="5.2.2 How to limit the bill calculation to selected elements 示意图" loading="lazy"></p>
+<p><img class="inl" src="img/360004057336_0.jpg" alt="5.2.2 How to limit the bill calculation to selected elements 示意图" loading="lazy"></p>
 <p>).</p>
     </div>
   </details>

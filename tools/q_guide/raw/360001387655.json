@@ -1,0 +1,8 @@
+{
+ "id": "360001387655",
+ "title": "2.3.5 How to select elements matching selected traits",
+ "html": "<p>This feature only works when Live Edit is on. Simply click on any combination traits and click the select matching button (<img src=\"img/360001387655_0.png\" alt=\"mceclip0.png\" width=\"23\" height=\"23\">). Any elements in the same view matching the selected traits will be added to the current selection.</p>\n<p>Some additional detail for selecting elements with matching property values is provided in section 2.4.6.</p>",
+ "created_at": "2020-02-25T23:17:10Z",
+ "updated_at": "2024-08-22T09:09:25Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001387655"
+}

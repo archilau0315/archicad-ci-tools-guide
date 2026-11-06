@@ -1,0 +1,8 @@
+{
+ "id": "360001394936",
+ "title": "2.3.1 How to add new Traits to an element",
+ "html": "<p>Select the target elements, click the ‘add’ button (<img src=\"img/360001394936_0.png\" alt=\"mceclip1.png\" width=\"23\" height=\"23\">) under the relevant list and select the traits to be added when the list appears:</p>\n<p><img src=\"img/360001394936_1.png\" alt=\"mceclip0.png\"></p>\n<p>Multiple items can be selected and added in one step, but note that only one classification can be added per system. When Live Edit is active, the selected traits are immediately added to the selected elements.</p>\n<p><br>An additional step is required if Live Edit is off. Select the traits to be added in the palette list and click the inject button (<img src=\"img/360001394936_2.png\" alt=\"mceclip2.png\" width=\"23\" height=\"23\">). Note that it is very easy to repeat this action on subsequent element selections when Live Edit is off because the palette list is unaffected by element selection or view changes.</p>\n<p><br>Note that is is possible to added recipes using ARCHICAD’s Settings dialogs (refer to section 2.3.8). Section 2.4.4 provides more detail for adding properties.</p>\n<p class=\"western\" style=\"margin-left: 1.92cm;\"><font color=\"#000000\"><font face=\"Calibri, sans-serif\"><font style=\"font-size: 11pt;\" size=\"2\"><span style=\"font-weight: normal;\"> </span></font></font></font></p>\n<p class=\"western\" style=\"margin-left: 1.92cm; page-break-before: auto;\" align=\"center\"><br> <span style=\"font-style: normal;\"><span style=\"font-weight: normal;\"></span></span></p>",
+ "created_at": "2020-02-25T22:56:18Z",
+ "updated_at": "2024-08-22T09:19:23Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001394936"
+}

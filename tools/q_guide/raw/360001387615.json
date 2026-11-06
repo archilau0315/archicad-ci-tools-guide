@@ -1,0 +1,8 @@
+{
+ "id": "360001387615",
+ "title": "2.3.4 How to automatically add traits to new elements",
+ "html": "<p>The settings for new elements is usually governed by the Settings dialog for the relevant tool. The ARCHICAD Info and Quantities Info palettes also provide an interactive view on those settings, but these settings are never shared by multiple tools.</p>\n<p>However, the Quantities Info palette can apply traits to new elements of any type when Live Edit is turned off. Any traits displayed in the palette will be added to every new element irrespective of type. This action can be prevented by either clearing the palette list or collapsing the relevant panel. The data in the Settings dialog remains unchanged.</p>\n<p>This feature is beneficial when a series of elements must share certain traits or values because it removes the need to open multiple Settings dialogs to repeatedly make the same change.</p>",
+ "created_at": "2020-02-25T23:10:30Z",
+ "updated_at": "2022-01-20T16:07:35Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001387615"
+}

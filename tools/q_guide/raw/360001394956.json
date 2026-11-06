@@ -1,0 +1,8 @@
+{
+ "id": "360001394956",
+ "title": "2.3.2 How to remove traits from an element",
+ "html": "<p>Traits can only be directly removed from elements when Live Edit is on. Select the target elements, select the traits to be removed in the palette list and click the delete button (<img src=\"img/360001394956_0.png\" alt=\"mceclip0.png\" width=\"23\" height=\"23\">).</p>\n<p><br>Clicking the delete button when Live Edit is off simply removes the selected traits from the palette list (selected elements are unaffected), but traits can be indirectly removed by injecting a fixed list of traits into selected elements (refer to section 2.3.3). Section 2.4.5 provides more detail for deleting properties.</p>",
+ "created_at": "2020-02-25T22:57:59Z",
+ "updated_at": "2024-08-22T09:16:44Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001394956"
+}

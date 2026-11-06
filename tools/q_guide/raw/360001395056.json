@@ -1,0 +1,8 @@
+{
+ "id": "360001395056",
+ "title": "2.3.8 How to edit recipes in the ARCHICAD Settings dialog",
+ "html": "<p>The add-on appends a panel for to ARCHICAD’s standard Settings dialog for editing the recipes manually attached to an element:</p>\n<p><img src=\"img/360001395056_0.png\" alt=\"mceclip0.png\"></p>\n<p>This panel may have to be shown use the Work Environment settings. Recipes can be added by clicking the add button (<img src=\"img/360001395056_1.png\" alt=\"mceclip2.png\" width=\"23\" height=\"23\">), or selected recipes removed by clicking the delete button (<img src=\"img/360001395056_2.png\" alt=\"mceclip1.png\" width=\"23\" height=\"23\">). Warning: if the recipes of multiple elements are edited with the Settings dialog, they will all end up with the same recipe list (as shown in the Settings dialog) irrespective of whatever recipes were attached previously. For this reason, it is generally recommended to use the Quantity Take-off palette, because the traits of multiple elements can be edited non-destructively.</p>\n<p>The option for Manual recipes only can be set to prevent any recipes from automatically attaching to the element (refer to section 4.5, Automatic Measurements for more information). Only manually attached recipes will take measurements when this option is set.</p>",
+ "created_at": "2020-02-25T23:22:59Z",
+ "updated_at": "2024-08-22T08:50:41Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001395056"
+}

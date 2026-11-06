@@ -896,18 +896,19 @@ python3 build_article.py "文章.md" --embed            # 单文件内嵌版（b
 
 **备注**：`build_site.py` 仍缺 `clean.json` 无法重跑，故用 `tools/add_annotate_articles.py`（幂等）直接改产物；JSON 已同步，将来重建时文章正文不丢，图片按 `{id}_{n}` 规则也能被重新关联。
 
-## 2026-11-06 14:10 · 教程推送 GitHub 远程仓库
+## 2026-11-06 18:15 · Quantities 补官方手册第 1、2 章共 22 篇
 
-**模块**：resources 仓库（远程配置）
+**模块**：`site/quantities.html`、`site/index.html`、`site/all.html`、`site/about.html`、`site/img/`（新增 13 图）、`tools/fetch_quantities_guide.py`（新增）、`tools/add_quantities_guide.py`（新增）、`tools/q_guide/`（抓取与翻译数据）
+
+**背景**：与官方知识库 API 逐篇核对后发现，Quantities 分册缺 22 篇官方手册章节（第 1 章概念 + 第 2 章数据管理），站内原有第 3–9 章。
 
 **变更**：
-- 用 `git subtree split -P AC_Tutorial/ci_tools` 拆出教程专属历史（18 个提交，根目录即本目录内容），推送到新建公开仓库 **archilau0315/archicad-ci-tools-guide** 的 main 分支。
-- resources 仓库新增远程 `guide` 指向该仓库；本地保留 `ci-tools-split` 分支。
+- 抓官方 22 篇英文原文与 13 张图（`tools/fetch_quantities_guide.py`），Word 导出脏 HTML 清洗为干净标签（`q_guide/clean_en.py`）。
+- 逐篇译为中文，人工核对术语（Trait=特征标记、Recipe=配方、BoQ=工程量清单、构件）；数据合并为 `q_guide/articles.json`（`build_data.py`）。
+- 注入分册 `<article>` 最前，编号直接用手册章节号（1.1 … 2.4.6），与已有 2.4.7、3.x 自然衔接；每篇含「MyCi 官方原文」链接与「英文原文对照」折叠块。
+- 小按钮图（宽<60px）加 `class="inl"`，新增 CSS `.art img.inl` 使其随文排列，不再被全局 img 样式拉成独占一行。
+- 计数同步：360→382 篇、1214→1227 图、42.5→46.4 万字；Quantities hero 100→122 篇 / 9.8→13.7 万字 / 28→41 图；index 卡片与 all 页 pill 同步；readme 徽章 382/1227。
 
-**以后同步教程更新的操作**（在 resources/ 目录）：
-```
-git subtree split -P AC_Tutorial/ci_tools -b ci-tools-split
-git push guide ci-tools-split:main
-```
+**验证**：线上 quantities.html 200 / 541613B，文章块 122 个，首篇「1.1 工具定位」正常渲染，13 张新图均 200；1440 宽度截图核对中文排版、内联按钮图、英文对照折叠块。
 
-**备注**：AUtrain 内训资料不在本仓库跟踪范围，未推送。
+**备注**：官方 Quantities 分类现共 122 篇，至此该分册与官方全量对齐。其余分册仍缺 Getting Started 27 篇、Bracing(NZ) 10 篇、LaunchPad 2 篇、Labeller 1 篇。

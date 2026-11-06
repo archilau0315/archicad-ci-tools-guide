@@ -4,7 +4,7 @@
 
 **ci_tools** — Central Innovation CI Tools / Graphisoft ProKit 的完整中文操作手册与速查卡
 
-[![Version](https://img.shields.io/badge/version-v2.0-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![Articles](https://img.shields.io/badge/articles-357-6d9470?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) [![Screenshots](https://img.shields.io/badge/screenshots-1193-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![CAD](https://img.shields.io/badge/CAD-ArchiCAD-c0392b?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)
+[![Version](https://img.shields.io/badge/version-v2.0-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![Articles](https://img.shields.io/badge/articles-382-6d9470?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) [![Screenshots](https://img.shields.io/badge/screenshots-1227-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![CAD](https://img.shields.io/badge/CAD-ArchiCAD-c0392b?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)
 
 **[在线访问](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)** · [中文主线速查](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/guide.html) · [全量文章索引](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) · [工具目录](#-工具目录) · [工程结构](#-工程结构)
 
@@ -16,7 +16,7 @@
 
 一套**面向全团队**的 Archicad CI Tools 官方教程全量中文版。
 
-内容来自 Central Innovation / Graphisoft 官方 MyCi 知识库，<b>357 篇官方文档全部译为中文、1193 张界面截图</b>，按 16 个工具分册整理。
+内容来自 Central Innovation / Graphisoft 官方 MyCi 知识库，<b>379 篇官方文档全部译为中文、1227 张界面截图</b>，按 16 个工具分册整理。
 
 **全站中英双语，右上角一键切换，默认中文。** 每篇文章下方可展开「英文原文对照」，随时对照官方原图。
 

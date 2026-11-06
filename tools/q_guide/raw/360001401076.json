@@ -1,0 +1,8 @@
+{
+ "id": "360001401076",
+ "title": "2.4.3 How to edit multiple property values simultaneously",
+ "html": "<p>Multiple property values can be simultaneously selected in the palette, but only the foremost will be shown as editable. If that value is changed, all other selected values will be changed to the same value (and associated elements are updated). If all the different values are changed to the same value, the property will collapse to a single row again. Property value changes are undoable.</p>",
+ "created_at": "2020-03-01T22:46:28Z",
+ "updated_at": "2022-01-20T16:07:32Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001401076"
+}

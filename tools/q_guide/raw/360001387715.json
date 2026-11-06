@@ -1,0 +1,8 @@
+{
+ "id": "360001387715",
+ "title": "2.3.9 How to prevent an element from being measured for cost",
+ "html": "<p>Set the option for Manual recipes only, either in the element Settings dialog (refer to section 2.3.8) or the Quantities Info palette (see panel 1 in the illustration for section 2.2). If no recipes are manually added, the elements will not be measured for cost.</p>",
+ "created_at": "2020-02-25T23:23:45Z",
+ "updated_at": "2022-01-20T16:07:33Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001387715"
+}

@@ -1,0 +1,8 @@
+{
+ "id": "360001393615",
+ "title": "2.4.6 How to select elements with specific property values",
+ "html": "<p>The trait selection button (<img src=\"img/360001393615_0.png\" alt=\"mceclip0.png\" width=\"23\" height=\"23\">) works with properties in the same way as other traits, but also selects only elements with the same property and a matching value. If multiple values are selected in the palette, all elements with a property and value matching any one of those items will be added to the selection.</p>",
+ "created_at": "2020-03-01T22:48:57Z",
+ "updated_at": "2024-08-22T08:50:41Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001393615"
+}

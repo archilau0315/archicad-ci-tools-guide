@@ -1,0 +1,8 @@
+{
+ "id": "360001395016",
+ "title": "2.3.6 How to filter selected elements to those matching selected traits",
+ "html": "<p>This feature only works when Live Edit is on. Simply click on any combination traits and click the filter by traits button (<img src=\"img/360001395016_0.png\" alt=\"mceclip0.png\" width=\"23\" height=\"23\">). Only elements with matching traits will remain selected.</p>\n<p>Some additional detail for filtering the selection based on property values is provided in section 2.4.7.</p>",
+ "created_at": "2020-02-25T23:18:17Z",
+ "updated_at": "2024-08-22T09:39:38Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001395016"
+}
