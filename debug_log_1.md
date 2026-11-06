@@ -895,3 +895,19 @@ python3 build_article.py "文章.md" --embed            # 单文件内嵌版（b
 **发现（未改动，待定）**：站上「16 个工具」的第 16 个是 **NZ Bracing**，官方明确其不属于 ProKit（属 Ci 遗留工具，与 Launch Pad、Framewright 同类），所以分册页只有 15 个。数字与 guide 内容自洽，但口径需说明。
 
 **备注**：`build_site.py` 仍缺 `clean.json` 无法重跑，故用 `tools/add_annotate_articles.py`（幂等）直接改产物；JSON 已同步，将来重建时文章正文不丢，图片按 `{id}_{n}` 规则也能被重新关联。
+
+## 2026-11-06 14:10 · 教程推送 GitHub 远程仓库
+
+**模块**：resources 仓库（远程配置）
+
+**变更**：
+- 用 `git subtree split -P AC_Tutorial/ci_tools` 拆出教程专属历史（18 个提交，根目录即本目录内容），推送到新建公开仓库 **archilau0315/archicad-ci-tools-guide** 的 main 分支。
+- resources 仓库新增远程 `guide` 指向该仓库；本地保留 `ci-tools-split` 分支。
+
+**以后同步教程更新的操作**（在 resources/ 目录）：
+```
+git subtree split -P AC_Tutorial/ci_tools -b ci-tools-split
+git push guide ci-tools-split:main
+```
+
+**备注**：AUtrain 内训资料不在本仓库跟踪范围，未推送。
