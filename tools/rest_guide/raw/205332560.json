@@ -1,0 +1,9 @@
+{
+ "id": "205332560",
+ "title": "Change Tip of the Day Preferences",
+ "cat": "Getting Started",
+ "html": "<p>When you install the <strong>Ci Tools</strong>, you will notice that you’ll get an <strong>Archicad Tip of the Day</strong> when you launch <strong>ARCHICAD</strong>. You’ll have the option of viewing the Tip in your Internet browser.</p>\n<p><img src=\"img/205332560_0.jpg\"></p>\n<p>When you first launch ARCHICAD with the Tools installed, you'll get this message:</p>\n<p><img src=\"img/205332560_1.jpg\" alt=\"\"></p>\n<p>If you want to change your viewing preferences (ie, to turn the Tips on or off):</p>\n<p>1. In ARCHICAD, choose <strong>Ci Tools &gt; MyCi Tools &gt; Preferences:<br><br></strong></p>\n<p>2. Check or uncheck the ‘<strong>Display Tip of the Day at Launch’</strong> option as preferred:<br><br><img src=\"img/205332560_2.jpg\"></p>",
+ "created_at": "2015-08-04T21:40:29Z",
+ "updated_at": "2024-08-22T09:39:38Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/205332560"
+}

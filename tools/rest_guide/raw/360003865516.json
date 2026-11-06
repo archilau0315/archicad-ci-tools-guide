@@ -1,0 +1,9 @@
+{
+ "id": "360003865516",
+ "title": "The loaded library for Ci Tools is the wrong version.",
+ "cat": "Getting Started",
+ "html": "<h2><span class=\"wysiwyg-color-orange\">Issue:</span></h2>\n<p>When opening an Archicad file an error saying that either the project or the add of a Ci Tools is older.</p>\n<p><img src=\"img/360003865516_0.jpg\" alt=\"PastedGraphic-4.png\" width=\"512\" height=\"189\"></p>\n<p>This can be due to a number of factors, the main 2 are;</p>\n<ul>\n<li>Someone has Back saved a file from a newer version of Archicad for the file to be used in an older version of Archicad,</li>\n<li>This is a teamwork project, or is a solo project using a library from your BIMcloud Basic or BIMcloud,</li>\n</ul>\n<h2><span class=\"wysiwyg-color-orange\">Solution:</span></h2>\n<p><a href=\"https://cadimage.zendesk.com/hc/en-us/articles/6569505413647\" target=\"_self\">Please see CI Tools Library version warning</a></p>\n<p><em> </em></p>",
+ "created_at": "2021-03-25T03:55:32Z",
+ "updated_at": "2024-08-22T09:39:38Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360003865516"
+}

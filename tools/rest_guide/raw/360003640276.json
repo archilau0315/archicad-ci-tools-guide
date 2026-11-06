@@ -1,0 +1,9 @@
+{
+ "id": "360003640276",
+ "title": "Create a Custom Brace Type",
+ "cat": "Bracing",
+ "html": "<p>Open the bracing Types manager (<strong>Ci Tools </strong>&gt;<strong> Bracing </strong>&gt;<strong> Bracing Types Manager</strong>)</p>\n<p><img src=\"img/360003640276_0.png\" alt=\"2021-03-09_15-16-39.png\"></p>\n<p> </p>\n<p>Next in the Ci Tools Bracing Types window, Select the Bracing set you commonly use, and click <strong>New</strong>.</p>\n<p><img src=\"img/360003640276_1.png\" alt=\"2021-03-09_15-28-00.png\"></p>\n<p> </p>\n<p>Enter the Name of your Brace &amp; the bracing details.</p>\n<p><strong>Composite Prefix</strong> (INT for internal only, EXT for external only, INT/EXT for a brace that can be used on either INT or EXT)</p>\n<p>Enter a <strong>description</strong>,</p>\n<p>Set the <strong>Length</strong> (ensure to tick <strong>Maximum</strong>)</p>\n<p>Change the Bracing units to <strong>Fixed</strong></p>\n<p>Set the min <strong>length</strong>, <strong>Wind</strong> Bus &amp; <strong>EQ</strong> Bus</p>\n<p>Click <strong>Ok</strong></p>\n<p><img src=\"img/360003640276_2.png\" alt=\"2021-03-09_16-03-20.png\"></p>\n<p> </p>\n<p>Once back on your floor plan, <strong>select</strong> and <strong>open</strong> the <strong>settings</strong> of bracing element you want to now be your new Brace type.</p>\n<p>In the options go to <strong>Configuration</strong> and <strong>select</strong> the <strong>new Brace Type </strong>you created then Click <strong>OK</strong></p>\n<p><img src=\"img/360003640276_3.png\" alt=\"2021-03-09_16-05-45.png\"></p>\n<p> </p>\n<p>Select the Bracing Table then go to <strong>Ci Tools</strong> &gt; <strong>Bracing</strong> &gt; <strong>Update Brace Tables</strong>.</p>\n<p><img src=\"img/360003640276_4.png\" alt=\"2021-03-09_16-06-37.png\"></p>",
+ "created_at": "2021-03-09T21:35:59Z",
+ "updated_at": "2024-08-22T09:21:27Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360003640276"
+}

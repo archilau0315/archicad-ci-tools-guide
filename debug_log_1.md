@@ -912,3 +912,23 @@ python3 build_article.py "文章.md" --embed            # 单文件内嵌版（b
 **验证**：线上 quantities.html 200 / 541613B，文章块 122 个，首篇「1.1 工具定位」正常渲染，13 张新图均 200；1440 宽度截图核对中文排版、内联按钮图、英文对照折叠块。
 
 **备注**：官方 Quantities 分类现共 122 篇，至此该分册与官方全量对齐。其余分册仍缺 Getting Started 27 篇、Bracing(NZ) 10 篇、LaunchPad 2 篇、Labeller 1 篇。
+
+## 2026-11-06 18:50 · 补齐剩余 4 分册 40 篇（Getting Started / LaunchPad / Bracing / Labeller）
+
+**模块**：`site/{gettingstarted,launchpad,bracing,labeller}.html`（新增 4 页）、`site/img/`（新增 97 图）、`site/{index,all,about,guide}.html` 与全部 15 个旧分册页侧栏、`readme.md`、`tools/fetch_rest_guides.py`（新增）、`tools/add_rest_books.py`（新增）、`tools/rest_guide/`（抓取清洗与译文）
+
+**背景**：与官方知识库 API 逐篇核对，站内原缺 40 篇——Getting Started 27、Bracing(NZ) 10、LaunchPad 2、Labeller 1。至此官方 ProKit 相关分类与站内**完全对齐（422 篇）**。
+
+**变更**：
+- 抓取 4 个分类全量正文与图片（`fetch_rest_guides.py`），Word 脏 HTML 清洗（`rest_guide/clean_en.py`），并新增两类处理：YouTube iframe 转「▶ 观看官方视频」链接（站内以往无视频嵌入）、官方已 404 的附件图删除。
+- 40 篇逐篇人工翻译，术语与站内统一（Trait=特征标记、Recipe=配方、BoQ=工程量清单、Bracing=支撑、Support/支撑线、Brace Type=支撑类型）。
+- 新建 4 个分册页：Getting Started（入门指南，27 篇，带目录）、Launchpad（2 篇）、Bracing（支撑（NZ 专用），10 篇）、Labeller（表面标注，1 篇）；均含 MyCi 原文链接 + 英文原文对照折叠块。
+- 全站侧栏统一升级：「16 个工具」→「18 个工具」（新增 Launchpad / Bracing / Labeller），「开始」组新增「入门与安装」；22 个页面全部同步。
+- index：新增「开始使用」小节与 Getting Started 卡片，工具卡补 3 张；hero 计数 422 篇 / 1330 图 / 49.1 万字 / 18 工具；顺带修正上次 Quantities 补录时漏改的中英文描述旧数字（357 篇 / 1214 图 / 42.5 万字 / 16 工具）。
+- all：追加 4 个分组 40 条链接，统计改 422（419 官方 + 3 AC30 补写）。
+- about：419 篇官方文档 / 1330 张截图 / 419 篇全文翻译。
+- 排版：27px 平台图标（win/osx）加 `class="inl"`，避免被全局 `img{display:block}` 拉成独占一行；`.art img.inl` 样式补入新页面。
+
+**验证**：4 个新页文章块 27/2/10/1、目录条数一致、当前页侧栏高亮正确、图片零缺失；站内文章块合计 422；线上 6 个页面全部 200，新图 200，all 页统计 422。
+
+**备注**：Bracing 为新西兰专用工具（NZS 3604），非 ProKit 成员但属 Ci Tools，独立成册；Getting Started 不属工具，置于「开始」组。至此 19 个分册（18 工具 + 入门）全部齐备。

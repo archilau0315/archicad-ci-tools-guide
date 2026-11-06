@@ -1,0 +1,65 @@
+<h1> </h1>
+<p>There are 3 different methods that can be done. These range in difficulty and should only be completed by the person in charge of your BIM Server.</p>
+<p>We generally recommend you use Method 1 as this is the most straight forward method &amp; no issues could possibly arrise from this is all Library &amp; Add-on Management advice is followed.</p>
+<p>Method 2 and 3 can cause issues later on &amp; some work may need to be carried out later to maintain this to avoid duplicate objects or unnecessary projects on your BIM Server.</p>
+<div>
+<div>
+<h2>Method 1 – Refresh the BIM Server Libraries ...</h2>
+</div>
+<div>
+
+<p>This method also works and should be done if you have updated your Cadimage Tools lately.</p>
+<p>From within your <strong>Teamwork </strong>project go to <strong>File&gt;Libraries &amp; Objects&gt;Manage BIM Server Libraries</strong>:</p>
+
+<p>It will open the <strong>Manage BIM Server Libraries</strong> dialog with your current server selected at the top.</p>
+
+<p>The current libraries in the <strong>BIM Server</strong> will display details like which computer it came from &amp; when it was last updated, this is a pretty good indication whether an update is required.</p>
+<p>You will need to be the admin user for the<strong> BIM Server</strong> who has the <strong>Access Rights</strong> to manage libraries, these <strong>Access Rights</strong> will stop other people uploading incorrect libraries from their workstation. This is done via the<strong> BIM Server Manager</strong> program &amp;<strong> User settings</strong>:</p>
+
+<p>Select the Library you want to update, for my computer I am updating just my ArchiCAD Library 16 as all of the Cadimage libraries are automatically installed in there and all my custom libraries are located within it as well. Then click the ‘<strong>Refresh</strong>’ button &amp; it will automatically look for the <strong>ArchiCAD Library 16</strong> in your computer, if it doesn’t find it; it will prompt you to indicate where it is located. This will take a few minutes &amp; once complete a dialog will show you what has been added, deleted &amp; refreshed:</p>
+
+<p>Once you click <strong>OK </strong>you can close the <strong>Manage BIM Server Libraries</strong> dialog. <strong>ArchiCAD </strong>will prompt you to reload the libraries within the teamwork project as they have changed, simply click ‘Reload’ and it will get the new updated libraries for the project you are current working on</p>
+<p>All other <strong>Teamwork </strong>members will need to restart <strong>ArchiCAD </strong>to receive the new <strong>BIM Server Libraries</strong>.</p>
+</div>
+</div>
+<div>
+<div>
+<h2>Method 2 – Share a new project &amp; replace BIM Server libraries ...</h2>
+</div>
+<div>
+<p>An easy way to replace your <strong>BIM Server Library</strong> with the one from your computer (after you checked its all up to date) is to start a new project then go to <strong>File&gt;Teamwork&gt;Share</strong>:</p>
+
+<p>The<strong> Share this Project</strong> dialog that appears will allow you to name the project, best to give it a simple name so it can be deleted in the future. Then you can select the ‘<strong>Replace Linked libraries with Server Libraries automatically</strong>’:</p>
+
+<p><strong>NOTE</strong>: Ideally this will be a project or template that you will want to use in future use otherwise this project will stay on your <strong>BIM Server</strong> and confuse others. Should you choose to proceed with this method it would be best to set the users to '<strong>Custom</strong>' and click '<strong>Users and roles...</strong>' choosing only yourself to view that project so it does not confuse others.</p>
+<p>Once the project shares to the<strong> BIM Server</strong> it will replace the <strong>ArchiCAD Library 16</strong> that is current in use by the <strong>BIM Server</strong> with the one that is on the machine that the project is being shared from.</p>
+<p>All other <strong>Teamwork </strong>members will need to restart ArchiCAD to receive the new BIM Server Libraries.</p>
+</div>
+</div>
+<div>
+<div>
+<h2>Method 3 – Add the Cadimage Library to the BIM Server ...</h2>
+</div>
+<div>
+<p>This method is the advanced method of adding the Cadimage Libraries to the <strong>BIM Serve</strong>r, it is recommended only experienced BIM Server Managers undertake this method. You will need to have used an '<strong>Advanced Install</strong>' when installing the <strong>Cadimage Tools</strong> so they are placed outside of the normal file path to ensure that duplicates do not occur when adding the <strong>Cadimage Library</strong> to your <strong>BIM Server Libraries</strong>. With this method you will need to manually add the Cadimage Library to each Teamwork project, with the previous two methods this can be avoided.</p>
+<p>The final method is to manually add the <strong>Cadimage Library</strong> to your <strong>BIM Server</strong>, this method avoids you from refreshing your entire ArchiCAD Library 16 but also means that you will then have to manually add the <strong>Cadimage Libraries</strong> to any Teamwork project you want to use the <strong>Cadimage Tools</strong> on.</p>
+<p>To do this go to<strong> File&gt;Libraries and Objects&gt;Manage BIM Server Libraries…</strong></p>
+
+<p>Within the <strong>Manage BIM Server Libraries</strong> click the ‘<strong>Upload</strong>’ button:</p>
+
+<p>You will then be prompted to navigate to a library that you want to upload. Because each Cadimage tool usually requires additional ‘Global’ libraries it is much safer you load the entire <strong>Cadimage Library folder</strong>:</p>
+
+<p>Once you click ‘<strong>Choose</strong>’ the library will automatically be uploaded to the <strong>BIM Serve</strong>r:</p>
+
+<p>Now you will need to add this new additional library to your projects. To do this from within the Teamwork project go to<strong>File&gt;Libraries and Objects&gt;Library Manager</strong>:</p>
+
+<p>The<strong> Library Manager</strong> will now only show <strong>Embedded Library</strong> (specific to the project) and what <strong>BIM Server Libraries</strong> it is currently using. You will first need to reserve the <strong>Library Manager</strong>, just select a <strong>BIM Server library</strong> &amp; click ‘<strong>Reserve</strong>’:</p>
+
+<p>Once reserved you will be able to add <strong>BIM Server Libraries</strong> to the current project. Click the small right arrow beside ‘<strong>Add…</strong>’ and choose ‘<strong>Use Bim Server Library…</strong>’:</p>
+
+<p>Select the newly uploaded <strong>Cadimage Library</strong> &amp; click '<strong>Add</strong>':</p>
+
+<p>It will then bring you back to the <strong>Library Manager</strong>. Click '<strong>OK</strong>' to refresh the loaded library and it will then update all libraries loaded in the project taking a few moments. If the <strong>Cadimage Tools</strong> are installed in the default location you may get duplicates when the <strong>ArchiCAD Library folder</strong> is refreshed as it will load the <strong>Cadimage Library folder</strong> within it also.</p>
+<p>All other Teamwork members will need to restart <strong>ArchiCAD </strong>to receive the new <strong>BIM Server Libraries</strong>.</p>
+</div>
+</div>

@@ -1,0 +1,9 @@
+{
+ "id": "360000549475",
+ "title": "Set the Wind & Earthquake Zone…",
+ "cat": "Bracing",
+ "html": "<p>1. Navigate to the Plan view that you wish to brace. From the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; </strong><strong>Wind Earthquake Zone.</strong></p>\n<p><img src=\"img/360000549475_0.jpg\" alt=\"2018-11-02_15-59-47.jpeg\"></p>\n<p> </p>\n<p>2. In Wind &amp; Earthquake Zones pop up window set the <strong>Wind Zone</strong>, <strong>Earthquake Zone</strong> &amp; <strong>Soil Class.</strong></p>\n<table>\n<tbody>\n<tr>\n<td>\n<p><em>Note that there are two ways to calculate the <strong>Wind Zone</strong>, use the arrows in the centre of the dialog to choose one method or the other.</em></p>\n</td>\n</tr>\n</tbody>\n</table>",
+ "created_at": "2018-11-04T21:39:17Z",
+ "updated_at": "2023-03-01T23:14:28Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360000549475"
+}

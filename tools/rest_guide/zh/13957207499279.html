@@ -1,0 +1,22 @@
+<p>在 Archicad 29 中打开旧版 Archicad 的项目时，必须确保加载配套的正确库文件。</p>
+<p>本文覆盖两种情形——在 v29 中打开 v28 项目，以及在 v29 中打开 v27 及更早的项目。</p>
+<h2>在 Archicad 29 中加载 Archicad 28 项目</h2>
+<p>Archicad 28 同样使用库包（Library Packages），所以只需把 v28 的 libpack 换成 v29 的。</p>
+<p>打开 Library Manager，移除现有的 Ci Tools Library Packages：</p>
+<p><img src="img/13957207499279_0.jpg" alt="移除 v28 库包" loading="lazy"></p>
+<p>然后点 Add...，把 Archicad 29 的全部新 libpack 加进来——它们在 Archicad 29 文件夹里的「Ci Tools Library Packages」文件夹中。</p>
+<p><img src="img/13957207499279_1.jpg" alt="添加 v29 库包" loading="lazy"></p>
+<p>加载后应如下图：</p>
+<p><img src="img/13957207499279_2.jpg" alt="加载完成" loading="lazy"></p>
+<p>点 OK 即完成。</p>
+<h2>在 Archicad 29 中加载 Archicad 27 或更早项目</h2>
+<p>打开库包体系出现之前的老项目时，需要使用 Monolith Migration 库。</p>
+<p>先从 <a href="https://myci.centralinnovation.com/Content/Resources/f909" target="_blank" rel="noopener">MyCi 此处</a> 或 <a href="https://www.graphisoft.com/resources-and-support/downloads/?section=monolith-template-and-library" target="_blank" rel="noopener">此处</a> 下载安装（注意一定要下载 Monolith Migration Library 这个库）。</p>
+<p>装好后，它位于 Graphisoft 文件夹下的 Monolith Migration Library。</p>
+<p>现在用 Archicad 29 打开要迁移的项目。打开过程中会询问是否迁移库——点「是」，它会自动找到并使用你刚装的库。</p>
+<p><img src="img/13957207499279_3.jpg" alt="迁移库询问" loading="lazy"></p>
+<p>如果没有看到这个询问、或者点错了按钮，可以稍后在 Library Manager 里点这个按钮补做：</p>
+<p><img src="img/13957207499279_4.jpg" alt="Migrate Library 按钮" loading="lazy"></p>
+<p>接着还要加载 Ci Tools 的迁移库。打开 Library Manager，点左下角 Add 按钮，选中 Archicad 29 文件夹里的「Ci Tools Monolith Migration Library」，点 Open。</p>
+<p><img src="img/13957207499279_5.jpg" alt="添加 Ci Tools 迁移库" loading="lazy"></p>
+<p>在 Library Manager 按 OK，全部完成！</p>

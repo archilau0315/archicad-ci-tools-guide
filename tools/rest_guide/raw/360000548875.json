@@ -1,0 +1,9 @@
+{
+ "id": "360000548875",
+ "title": "Interior/ Exterior Walls Not Found ...",
+ "cat": "Bracing",
+ "html": "<div class=\"page\" title=\"Page 1\">\n<div class=\"layoutArea\">\n<div class=\"column\">\n<p>If no walls are found with prefix starting with EXT or INT then the tool will stop. Only walls in the current selection are checked; if no walls are selected then all visible walls on the current story are checked.</p>\n</div>\n</div>\n</div>",
+ "created_at": "2018-11-02T08:52:20Z",
+ "updated_at": "2023-08-29T23:43:49Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360000548875"
+}

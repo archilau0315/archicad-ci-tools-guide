@@ -1,0 +1,45 @@
+<p>在 Archicad 28 或 29 中使用 Ci Tools 之前，务必先了解从这个版本起库（Libraries）机制的一些变化。</p>
+<p>请严格按以下步骤操作，不要想当然认为过去的 Library Manager 用法依然适用。</p>
+<p>这些变化大多围绕新的「Libpack」库体系（又称 Global Libraries）及其工作方式。</p>
+<p>使用 Libpack 时需要知道以下几点：</p>
+<ol>
+<li>
+<strong>使用 Libpack 时，不能让 Library Manager 加载整个文件夹。</strong>可以多选并加载多个 Libpack，但像加载 LCF 文件夹那样去加载文件夹，并不会把其中的 Libpack 加载进来。</li>
+<li>即使 Libpack 就放在 Archicad Library 28/29 文件夹里，Archicad 28 和 29 也<strong>不会</strong>自动把它们加载进项目。</li>
+<li>因此，新建项目后，必须先把 Ci Tools 的 Libpack 添加进 Library Manager，才能使用 Ci Tools。</li>
+<li>不要把包含相同库部件的 Libpack 和 LCF 同时加载进一个项目。建议只加载 LCF 或只加载 Libpack，二选一。同时加载会产生重复的库部件，损害项目的「健康度」。</li>
+</ol>
+<p>规则说完了，下面看把 Libpack 或 LCF 加载进项目的过程：</p>
+<ul>
+<li>从 File 菜单打开 Library Manager。</li>
+</ul>
+<p><img src="img/10886875093391_0.jpg" alt="File 菜单中的 Library Manager" loading="lazy"></p>
+<ul>
+<li>弹出 Library Manager 对话框。这里可以看到项目已加载了哪些 Libpack。</li>
+</ul>
+<p><img src="img/10886875093391_1.jpg" alt="Library Manager 对话框" loading="lazy"></p>
+<ul>
+<li>然后点对话框底部的「Add」按钮。</li>
+</ul>
+<p><img src="img/10886875093391_2.jpg" alt="Add 按钮" loading="lazy"></p>
+<ul>
+<li>接着可以浏览并定位要加载的 LCF 或 Libpack。找到存放目标文件的文件夹：
+<ul>
+<li>CI Tools 的 LCF 位于：Archicad 28 是 Graphisoft/Archicad 28/Archicad Library 28/CI Tools Library 28；Archicad 29 是 Graphisoft/Archicad 29/CI Tools Monolith Migration Library。</li>
+</ul>
+</li>
+</ul>
+<p><img src="img/10886875093391_3.jpg" alt="LCF 所在目录" loading="lazy"></p>
+<ul>
+<li>
+<ul>
+<li>Ci Tools 的 Libpack 位于：Graphisoft/Archicad 28/CI Tools Library Packages 或 Graphisoft/Archicad 29/CI Tools Library Packages。</li>
+</ul>
+</li>
+</ul>
+<p><img src="img/10886875093391_4.jpg" alt="Libpack 所在目录" loading="lazy"></p>
+<ul>
+<li>注意：如前所述，加载 Libpack 时必须选中全部要加载的文件再点 Open——不能只添加文件夹。</li>
+</ul>
+<p><img src="img/10886875093391_5.jpg" alt="多选 Libpack 文件" loading="lazy"></p>
+<p>加好 Libpack 或 LCF 后，点 OK 加载这些库并关闭 Library Manager 即可。</p>

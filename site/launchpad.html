@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Launchpad（启动台）中文教程：把项目库从 Archicad 27 迁移到 Global Libraries">
+<title>Launchpad · 启动台 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+
+.vb{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;
+  background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba;
+  font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle;
+  letter-spacing:.02em;white-space:nowrap}
+.vb-old{background:#f7e3e3;color:#9a3b3b;border-color:#e6c6c6}
+.vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
+  background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
+.vb-note b{color:#8a5a1e}
+.art img.inl{display:inline-block;vertical-align:-0.35em;margin:0 3px;max-width:1.7em;max-height:1.7em;border-radius:3px;box-shadow:none}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
+<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<a class=" on" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
+<a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
+</aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></div>
+<div class="hero">
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>Launchpad · <span class="zh-only">启动台</span></h1>
+  <p class="zh-only">项目库迁移：从 27 整体库迁到 Global Libraries</p>
+  <p class="en-only">Migrate project libraries from v27 monolith to Global Libraries</p>
+  <div class="meta">
+    <span><b>2</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>0.2</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>4</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
+  </div>
+</div>
+<article>
+<h2>Launchpad · <span class="zh-only">启动台</span></h2>
+<ul class="toc-list"><li><a href="launchpad.html#a-11169235181967"><span class="tg">01</span><span class="zh-only">把项目库从 27 迁移到 Global Libraries</span><span class="en-only">Migrating project Libraries from 27 to Global Libraries</span></a></li><li><a href="launchpad.html#a-11352953618319"><span class="tg">02</span><span class="zh-only">Launchpad 发布网络研讨会（2024 年 11 月）</span><span class="en-only">Launch Pad Release Webinar - November 2024</span></a></li></ul>
+
+
+
+<div class="art" id="a-11169235181967">
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">把项目库从 27 迁移到 Global Libraries</h3>
+    <h3 class="en-only block">Migrating project Libraries from 27 to Global Libraries</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/11169235181967" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Ci Launchpad 工具新增了一项功能，可以把 Archicad 27 项目从旧式「monolith」库（即「Archicad Library 27」文件夹）自动迁移到新式 Global Libraries（即加载一组 .libpack 文件）。</p>
+<p>不过在讲具体操作之前，请先读一读「为什么要迁移」这一节——多数情况下你根本不需要迁移，迁了反而可能给自己找麻烦。</p>
+<h2>我该迁移库吗？</h2>
+<p>多数情况下，只需用 Archicad 28 打开项目，在它询问时点「Migrate Libraries」即可。</p>
+<p><img src="img/11169235181967_0.png" alt="Migrate Libraries 询问" loading="lazy"></p>
+<p>这样得到一个可正常工作的 v28 项目，继续用旧库干下去，不会有多余的麻烦。</p>
+<p>对大多数人来说就该这么做。这是 Graphisoft 的建议，也是我们的建议。</p>
+<p>只有当你开始在 v28 里新建第一个项目时，才会开始使用 Global Libraries。</p>
+<p>如果你属于这种情况，就不需要这个新迁移功能，本文可以到此为止了。</p>
+<p>不过——有些情况下，你可能出于某种原因需要对项目做「完整」迁移。比如项目尚处于早期、预计要跨越多个未来的 Archicad 版本；或者你有一套预先画好的建筑「骨架」库（或其中一部分），在所有项目（包括还没开始的新项目）中都会用到。</p>
+<p>如果是这类情况，Launchpad 工具的这个新功能就是为你准备的。</p>
+<h2>使用迁移功能前的须知</h2>
+<p>在考虑做完整的 Global Libraries 迁移之前，强烈建议先读 Graphisoft 这篇指南：<a href="https://community.graphisoft.com/t5/Libraries-objects/Archicad-28-Migration-Converting-from-Monolithic-Libraries-to/ta-p/631549" target="_blank" rel="noopener">Archicad 28 迁移：从整体式库转换到全局库体系</a></p>
+<p>文中「路径 1」如前所述就是不迁移库；我们这里关注的是「路径 2」。</p>
+<p>Ci Launch 迁移工具实际上会替你完成该流程的第 5、6 步，另外还需要按下文说明对第 1 步稍作调整。</p>
+<h2>执行迁移</h2>
+<ol>
+<li>首先，<em><strong>把项目当前状态备份一份</strong></em>，以便需要时可以回退。</li>
+<li>然后用 Archicad 28 打开项目。</li>
+<li>如有询问，选择<em><strong>「Migrate Archicad Libraries」</strong></em>。</li>
+<li>项目打开后，打开 Library Manager。</li>
+<li>把标准的 Global Libraries 一组库加载进来，同时把 Ci Tools 的库包也加上：
+<ul>
+<li>不确定要加载哪些 Global Library 文件的话，可以<a href="https://community.graphisoft.com/t5/Libraries-objects/Default-Library-Packs-in-Each-Archicad-Language-Version/ta-p/631547" target="_blank" rel="noopener">在此查看你所在地区的默认库</a>。</li>
+<li>Ci Tools 库就在你 Archicad 28 文件夹里的 <em><strong>Ci Tools Library Packages</strong></em> 文件夹中，把里面的文件全部添加进来。</li>
+<li><em>加好后，旧库（Archicad Library 28）、新 libpack、Ci Tools libpack 应同时加载——应如下图所示。这会产生大量重复警告（约 1 万条）——没关系，重复对象马上就会清理。</em><em><img src="img/11169235181967_1.jpg" alt="" loading="lazy"></em></li>
+</ul>
+</li>
+<li>库全部加载后，进入 <strong><em>Ci Tools</em></strong> 菜单 - <strong><em>Launchpad</em></strong> - <strong><em>Migrate Missing Library Parts</em></strong>。</li>
+<li>询问是否迁移所有图元时点 OK。</li>
+<li>完成后再次打开 Library Manager，此时把「monolith」库移除——包括 Archicad Library 28、MEP Library 28、Migration Libraries 等。</li>
+<li>库部件迁移至此完成，你可以<a href="https://community.graphisoft.com/t5/Libraries-objects/Archicad-28-Migration-Converting-from-Monolithic-Libraries-to/ta-p/631549" target="_blank" rel="noopener">继续走转换流程</a>，从第 2 步开始，跳过第 5、6 步（已完成）。</li>
+</ol>
+<h2>其他注意事项</h2>
+<p>库部件迁移工具目前无法迁移楼梯（Stair）图元，也无法迁移新 Global Library 中已不存在的对象。</p>
+<p>尤其是那些用了很久、但早就从 Archicad 库里淘汰的对象会成问题（比如我们注意到不少 Archicad 24 时代的 Cabinet 对象）。</p>
+<p>工具跑完项目后，会把所有无法迁移的对象输出到报告窗口（File - Info - Session Report）。你可以据此决定这些无法迁移的图元怎么处理——换成近似的替代对象，或者干脆把旧对象内嵌进项目。</p>
+<p><img src="img/11169235181967_2.jpg" alt="Session Report" loading="lazy"></p>
+<p>我们还注意到，Archicad 28 库中有不少对象迁移后会重置部分设置。具体来说，相当多家具对象的 2D Representation（二维表达）设置会从「By MVO」变成「Schematic」。<br><img src="img/11169235181967_3.jpg" alt="2D Representation 设置变化" loading="lazy"></p>
+<p>如果遇到这种情况，建议打开一个全部图层可见的 3D 视图，选一个受影响的对象，然后用对象工具加键盘快捷键全选所有对象（Select All Objects）。再进入设置，把 2D Representation 改成你要的值，点 OK。所有使用该设置的对象都会一起更新。</p>
+<p>以下视频也演示了这个过程：</p>
+<p><a href="https://www.youtube.com/watch?v=hOfdepUHgcs" target="_blank" rel="noopener">▶ <b>观看官方视频（YouTube）</b> ↗</a></p></div>
+  <div class="en-only"><p>The Ci Launchpad tool contains a new function to allow you to automatically migrate Archicad 27 projects from using the old style 'monolith' libraries (i.e. the "Archicad Library 27" folder) to the new style Global Libraries (i.e. loading the collection of .libpack files).</p>
+<p>Before going into the detail on how to do this though, first, please read this section on Why you might want to do it, since in most cases, you very likely don't need to, and would only be causing potential trouble for yourself by doing it.</p>
+<h2>Should I migrate my libraries?</h2>
+<p>In most cases, simply opening your project in Archicad 28 and hitting the "Migrate Libraries" option if/when it asks you about it is all you need to do.</p>
+<p><img src="img/11169235181967_0.png" alt="MigrateLibraryWarning.png" loading="lazy"></p>
+<p>This will give you a working project in v28 that you can continue working on using the old libraries with no additional trouble.</p>
+<p>For most people, this is what you should do. This is what Graphisoft recommends, and it's what we recommend too.</p>
+<p>The only time you will start using Global Libraries is when you start your first New project in v28.</p>
+<p>So if that applies to you, you don't need this new migration function, and you can pretty much stop reading this now.</p>
+<p>However - in some cases, you may, for whatever reason, need to do a 'full' migration of a project. For instance - if your project is early on in its life, and you anticipate it will continue through multiple future Archicad versions. Or possibly you have a library of pre-drawn building 'skeletons' or parts of them which you use in all project (including new ones that haven't started yet).</p>
+<p>If you are in a situation like that, then this new Function in the Launchpad tool is for you.</p>
+<h2>Things to know before using the Migration function</h2>
+<p>Before you even contemplate doing full migrations to Global Libraries, I would very strongly recommend reading this guide from Graphisoft: <a href="https://community.graphisoft.com/t5/Libraries-objects/Archicad-28-Migration-Converting-from-Monolithic-Libraries-to/ta-p/631549" target="_blank" rel="noopener">Archicad 28 Migration: Converting from Monolithic Libraries to the Global Library System</a></p>
+<p>In that document, Path 1 is, as mentioned, to just not migrate libraries, but Path 2 is what we are concerned with here.</p>
+<p>The Ci Launch Migration tools will effectively do steps 5 and 6 of that process for you, and we also will need to slightly modify Step 1 as detailed below.</p>
+<h2>Running the Migration</h2>
+<ol>
+<li>First, <em><strong>save a backup of the project as it currently is</strong></em>, so you can go back if you need to</li>
+<li>Then open your project in Archicad 28</li>
+<li>If asked, choose the option to <em><strong>Migrate Archicad Libraries</strong></em>
+</li>
+<li>Once the project is open, open the Library Manager</li>
+<li>Add the standard set of Global Libraries there, and also add the Ci Tools library packages
+<ul>
+<li>If you aren't sure which Global Library files to load, you can <a href="https://community.graphisoft.com/t5/Libraries-objects/Default-Library-Packs-in-Each-Archicad-Language-Version/ta-p/631547" target="_blank" rel="noopener">check the Default libraries for your region here</a>
+</li>
+<li>For the Ci Tools Libraries, just find the <em><strong>Ci Tools Library Packages</strong></em> folder in your Archicad 28 folder, and add all the files inside it</li>
+<li>
+<em>When done, you should have the old libraries (Archicad Library 28), new libpacks, and Ci Tools libpacks all loaded at once - it should look like the image below. This will produce a large amount of duplicate warnings (i.e. about 10,000) - this is fine, as we will be removing the duplicated objects very soon.</em><em><img src="img/11169235181967_1.jpg" alt="" loading="lazy"></em>
+</li>
+</ul>
+</li>
+<li>Once the libraries are all loaded - got to the <strong><em>Ci Tools</em></strong> menu - <strong><em>Launchpad</em></strong> - <strong><em>Migrate Missing Library Parts</em></strong>
+</li>
+<li>Click OK when asked if you want to migrate all elements</li>
+<li>Once the process is complete, open your Library Manager again, and now Remove the 'Monolith' libraries - so that means Archicad Library 28, MEP Library 28, Migration Libraries etc...</li>
+<li>Your library part migration is now done, so you can <a href="https://community.graphisoft.com/t5/Libraries-objects/Archicad-28-Migration-Converting-from-Monolithic-Libraries-to/ta-p/631549" target="_blank" rel="noopener">continue through the Conversion workflow</a>, starting with Step 2, and skipping steps 5, and 6, as those have already been done now.</li>
+</ol>
+<h2>Additional Considerations</h2>
+<p>The Library Part Migration tool is not able to migrate any Stair elements currently, nor is it able to Migrate any objects that no longer exist in the new Global Library.</p>
+<p>In particular, this will be a problem if you have objects that you've been using for a while, but that were discontinued out of Archicad's library some time again (we have noticed a lot of Cabinet objects from Archicad 24, for instances).</p>
+<p>After our tool runs through your project, it will output a record of all the objects that it was unable to migrate into your Report Window (File - Info - Session Report). You can use this as a reference to decide what you want to do with these non-migratable elements - either swapping them to similar replacement objects, or perhaps just embedding the old objects in the project.</p>
+<p><img src="img/11169235181967_2.jpg" alt="" loading="lazy"></p>
+<p>We have also noticed that a number of objects in the Archicad 28 library, when migrated, will reset some settings. Specifically, quite a few Furniture objects will change their 2D Representation setting from "By MVO" to "Schematic"<br><img src="img/11169235181967_3.jpg" alt="" loading="lazy"></p>
+<p>If this happens for you, I would recommend opening a 3D view with all layers on, selecting one of the affected objects, and then using the object tool and keyboard shortcut to Select All Objects. Then go into the settings, change the 2D Representation to what you want, and hit OK. This will update every object that uses that setting.</p>
+<p>This process is also documented in the video below:</p>
+<p><p><a href="https://www.youtube.com/watch?v=hOfdepUHgcs" target="_blank" rel="noopener">▶ <b>观看官方视频（YouTube）</b> ↗</a></p></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Ci Launchpad tool contains a new function to allow you to automatically migrate Archicad 27 projects from using the old style 'monolith' libraries (i.e. the "Archicad Library 27" folder) to the new style Global Libraries (i.e. loading the collection of .libpack files).</p>
+<p>Before going into the detail on how to do this though, first, please read this section on Why you might want to do it, since in most cases, you very likely don't need to, and would only be causing potential trouble for yourself by doing it.</p>
+<h2>Should I migrate my libraries?</h2>
+<p>In most cases, simply opening your project in Archicad 28 and hitting the "Migrate Libraries" option if/when it asks you about it is all you need to do.</p>
+<p><img src="img/11169235181967_0.png" alt="MigrateLibraryWarning.png" loading="lazy"></p>
+<p>This will give you a working project in v28 that you can continue working on using the old libraries with no additional trouble.</p>
+<p>For most people, this is what you should do. This is what Graphisoft recommends, and it's what we recommend too.</p>
+<p>The only time you will start using Global Libraries is when you start your first New project in v28.</p>
+<p>So if that applies to you, you don't need this new migration function, and you can pretty much stop reading this now.</p>
+<p>However - in some cases, you may, for whatever reason, need to do a 'full' migration of a project. For instance - if your project is early on in its life, and you anticipate it will continue through multiple future Archicad versions. Or possibly you have a library of pre-drawn building 'skeletons' or parts of them which you use in all project (including new ones that haven't started yet).</p>
+<p>If you are in a situation like that, then this new Function in the Launchpad tool is for you.</p>
+<h2>Things to know before using the Migration function</h2>
+<p>Before you even contemplate doing full migrations to Global Libraries, I would very strongly recommend reading this guide from Graphisoft: <a href="https://community.graphisoft.com/t5/Libraries-objects/Archicad-28-Migration-Converting-from-Monolithic-Libraries-to/ta-p/631549" target="_blank" rel="noopener">Archicad 28 Migration: Converting from Monolithic Libraries to the Global Library System</a></p>
+<p>In that document, Path 1 is, as mentioned, to just not migrate libraries, but Path 2 is what we are concerned with here.</p>
+<p>The Ci Launch Migration tools will effectively do steps 5 and 6 of that process for you, and we also will need to slightly modify Step 1 as detailed below.</p>
+<h2>Running the Migration</h2>
+<ol>
+<li>First, <em><strong>save a backup of the project as it currently is</strong></em>, so you can go back if you need to</li>
+<li>Then open your project in Archicad 28</li>
+<li>If asked, choose the option to <em><strong>Migrate Archicad Libraries</strong></em>
+</li>
+<li>Once the project is open, open the Library Manager</li>
+<li>Add the standard set of Global Libraries there, and also add the Ci Tools library packages
+<ul>
+<li>If you aren't sure which Global Library files to load, you can <a href="https://community.graphisoft.com/t5/Libraries-objects/Default-Library-Packs-in-Each-Archicad-Language-Version/ta-p/631547" target="_blank" rel="noopener">check the Default libraries for your region here</a>
+</li>
+<li>For the Ci Tools Libraries, just find the <em><strong>Ci Tools Library Packages</strong></em> folder in your Archicad 28 folder, and add all the files inside it</li>
+<li>
+<em>When done, you should have the old libraries (Archicad Library 28), new libpacks, and Ci Tools libpacks all loaded at once - it should look like the image below. This will produce a large amount of duplicate warnings (i.e. about 10,000) - this is fine, as we will be removing the duplicated objects very soon.</em><em><img src="img/11169235181967_1.jpg" alt="" loading="lazy"></em>
+</li>
+</ul>
+</li>
+<li>Once the libraries are all loaded - got to the <strong><em>Ci Tools</em></strong> menu - <strong><em>Launchpad</em></strong> - <strong><em>Migrate Missing Library Parts</em></strong>
+</li>
+<li>Click OK when asked if you want to migrate all elements</li>
+<li>Once the process is complete, open your Library Manager again, and now Remove the 'Monolith' libraries - so that means Archicad Library 28, MEP Library 28, Migration Libraries etc...</li>
+<li>Your library part migration is now done, so you can <a href="https://community.graphisoft.com/t5/Libraries-objects/Archicad-28-Migration-Converting-from-Monolithic-Libraries-to/ta-p/631549" target="_blank" rel="noopener">continue through the Conversion workflow</a>, starting with Step 2, and skipping steps 5, and 6, as those have already been done now.</li>
+</ol>
+<h2>Additional Considerations</h2>
+<p>The Library Part Migration tool is not able to migrate any Stair elements currently, nor is it able to Migrate any objects that no longer exist in the new Global Library.</p>
+<p>In particular, this will be a problem if you have objects that you've been using for a while, but that were discontinued out of Archicad's library some time again (we have noticed a lot of Cabinet objects from Archicad 24, for instances).</p>
+<p>After our tool runs through your project, it will output a record of all the objects that it was unable to migrate into your Report Window (File - Info - Session Report). You can use this as a reference to decide what you want to do with these non-migratable elements - either swapping them to similar replacement objects, or perhaps just embedding the old objects in the project.</p>
+<p><img src="img/11169235181967_2.jpg" alt="" loading="lazy"></p>
+<p>We have also noticed that a number of objects in the Archicad 28 library, when migrated, will reset some settings. Specifically, quite a few Furniture objects will change their 2D Representation setting from "By MVO" to "Schematic"<br><img src="img/11169235181967_3.jpg" alt="" loading="lazy"></p>
+<p>If this happens for you, I would recommend opening a 3D view with all layers on, selecting one of the affected objects, and then using the object tool and keyboard shortcut to Select All Objects. Then go into the settings, change the 2D Representation to what you want, and hit OK. This will update every object that uses that setting.</p>
+<p>This process is also documented in the video below:</p>
+<p><p><a href="https://www.youtube.com/watch?v=hOfdepUHgcs" target="_blank" rel="noopener">▶ <b>观看官方视频（YouTube）</b> ↗</a></p></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-11352953618319">
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">Launchpad 发布网络研讨会（2024 年 11 月）</h3>
+    <h3 class="en-only block">Launch Pad Release Webinar - November 2024</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/11352953618319" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p><a href="https://www.youtube.com/watch?v=gotlCq8uhss" target="_blank" rel="noopener">▶ <b>观看官方视频（YouTube）</b>（从 21 秒处开始） ↗</a></p></div>
+  <div class="en-only"><p><p><a href="https://www.youtube.com/watch?v=gotlCq8uhss" target="_blank" rel="noopener">▶ <b>观看官方视频（YouTube）</b>（从 21 秒处开始） ↗</a></p></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p><p><a href="https://www.youtube.com/watch?v=gotlCq8uhss" target="_blank" rel="noopener">▶ <b>观看官方视频（YouTube）</b>（从 21 秒处开始） ↗</a></p></p>
+    </div>
+  </details>
+</div>
+</article>
+
+<footer class="foot">
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
+})();
+</script>
+</body>
+</html>
