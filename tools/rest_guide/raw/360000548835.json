@@ -1,0 +1,9 @@
+{
+ "id": "360000548835",
+ "title": "Cadimage Bracing in a teamwork project",
+ "cat": "Bracing",
+ "html": "<div class=\"page\" title=\"Page 1\">\n<div class=\"layoutArea\">\n<div class=\"column\">\n<p>When using Cadimage Bracing in a teamwork project, you should:</p>\n<p>Reserve all selected walls you are about to Place Bracing and when Calculating Bracing.</p>\n<p><br> Reserve all placed Braces, Brace Lines and the Brace Tables when you Update Bracing.</p>\n<p>Currently Presets are not being shared correctly in Teamwork, so all of your Brace Presets should be loaded before Sharing you project.</p>\n</div>\n</div>\n</div>",
+ "created_at": "2018-11-02T08:30:39Z",
+ "updated_at": "2023-03-01T23:14:58Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360000548835"
+}

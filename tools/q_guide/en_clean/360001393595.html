@@ -1,0 +1,3 @@
+<p>The process of removing a property from an element is the same as any other trait, but there is an important difference in how the add-on achieves this. Properties are associated with elements on the basis of their classification – therefore, the only way to remove a property from an element is to change the classification it is associated with, i.e. by removing the property to the classification.</p>
+<p>Quantities doesn’t do this because it’s destructive, i.e. the property values associated with many other elements may be silently lost. Therefore, the add-on sets the property value to undefined rather than removing it – in effect, the result is the same.</p>
+<p>Properties can be removed from multiple elements simultaneously.</p>

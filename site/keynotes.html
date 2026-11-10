@@ -1,0 +1,2748 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Keynotes（规范注释）完整中文教程：注释数据库自动挂接与明细表">
+<title>Keynotes · 规范注释 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+
+.vb{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;
+  background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba;
+  font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle;
+  letter-spacing:.02em;white-space:nowrap}
+.vb-old{background:#f7e3e3;color:#9a3b3b;border-color:#e6c6c6}
+.vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
+  background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
+.vb-note b{color:#8a5a1e}
+</style>
+<link rel="stylesheet" href="search.css">
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
+<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class=" on" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
+<a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
+</aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></div>
+<div class="hero">
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>Keynotes · <span class="zh-only">规范注释</span></h1>
+  <p class="zh-only">注释数据库自动挂接与明细表</p>
+  <p class="en-only">Note database auto-attached by element attributes, with schedules</p>
+  <div class="meta">
+    <span><b>24</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>3.6</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>104</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
+  </div>
+  <p class="vb-note">
+    <span class="zh-only">标 <b>AC19–AC23</b> 的文章基于旧版界面编写：功能思路仍通用，但按钮位置和菜单名可能与当前版本不同。</span>
+    <span class="en-only">Articles tagged <b>AC19–AC23</b> were written for older interfaces — the concepts still apply, but UI paths may differ from the current version.</span>
+  </p>
+</div>
+<article>
+
+<div class="art" id="a-5179283986447">
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">“refer spec” 现在会从 master spec 带入到所有注释中</h3>
+    <h3 class="en-only block">"refer spec" is coming in from master spec on all notes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/5179283986447--refer-spec-is-coming-in-from-master-spec-on-all-notes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>“refer spec” 现在会从 master spec 中带入。</p>
+<p>登录 masterspec 网站，点击 <strong>My Details</strong>（我的详情）> <strong>Organisation Profile</strong>（组织资料）> <strong>MasterKey</strong>，然后关闭 Append "refer spec" to titles（在标题后附加 “refer spec”）。</p>
+<p><img src="img/5179283986447_0.jpg" alt=""refer spec" is coming in from master spec on all notes 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>The "refer spec" is coming in from master spec.</p>
+<p>Log into masterspec website, Click on <strong>My Details</strong> > <strong>Organisation Profile</strong> > <strong>MasterKey</strong> and turn off the Append "refer spec" to titles.</p>
+<p><img src="img/5179283986447_0.jpg" alt=""refer spec" is coming in from master spec on all notes 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The "refer spec" is coming in from master spec.</p>
+<p>Log into masterspec website, Click on <strong>My Details</strong> > <strong>Organisation Profile</strong> > <strong>MasterKey</strong> and turn off the Append "refer spec" to titles.</p>
+<p><img src="img/5179283986447_0.jpg" alt=""refer spec" is coming in from master spec on all notes 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206313576">
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">创建 Keynotes</h3>
+    <h3 class="en-only block">Creating Keynotes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206313576-Creating-Keynotes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>本文将向你展示如何创建一个 Keynote。</p>
+<p>你会注意到我们已经设置好了分类（Category，例如 General 和 Site）以及子分类（Sub-Category，例如 Concrete、Masonry 和 Timber），它们为我们的 Keynotes 提供了结构化的顺序。设置分类有助于管理你的注释；不过在创建 Keynotes 之前你并不必须这样做。</p>
+<p><a href="https://cadimage.zendesk.com/hc/en-us/articles/206313746" target="_blank" rel="noopener">阅读更多关于设置和管理 Keynotes 分类的内容</a></p>
+<ul>
+<li>通过 <strong>Cadimage> Keynotes> Keynotes Palette</strong> 打开 Keynotes 面板</li>
+</ul>
+<p>**</p>
+<p><img src="img/206313576_0.jpg" alt="Creating Keynotes 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>在面板顶部的数据库（Database）区域，<strong>点击</strong>你希望添加新 Keynotes 位置的<em>上方</em>（本例中我们点击 3.03 Timber 子分类，这样 Keynote 就会出现在该项的正下方）。</li>
+</ul>
+<p> <strong>提示：</strong> 如果 Keynote 没有添加到你想的位置，或者以后想移动它，你随时可以点击并拖动到新的位置。</p>
+<ul>
+<li>点击 <strong>A</strong> 按钮添加一条新注释。在 <strong>Keynote Editing</strong>（Keynote 编辑）下，你可以为这条注释添加额外信息，包括标题（Title）、规范参考（Spec Reference）和描述（Description）。</li>
+</ul>
+<p>提示：</p>
+<ul>
+<li>Description（描述）是添加与该 keynote 相关的详细信息的地方。</li>
+</ul>
+<ul>
+<li>Specification Reference（规范参考）是对外部/独立规范文档的引用，可以是 ID、产品代码或页码参考。</li>
+</ul>
+<p>使用这些参数后，我们的 Keynotes 列表看起来如下：</p>
+<p><img src="img/206313576_1.jpg" alt="Creating Keynotes 示意图" loading="lazy"></p>
+<ul>
+<li>添加注释时你不需要关闭面板。点击 <strong>A</strong> 按钮时注释即被添加。</li>
+</ul></div>
+  <div class="en-only"><p>In this article we show you how to create a Keynote.</p>
+<p>You will notice that we have set up Categories (such as General and Site); as well as Sub-Categories (such as Concrete, Masonry and Timber), which have provided a structured order around our Keynotes. Setting up Categories will help manage your notes; however you do not have to do this in order to create your Keynotes.</p>
+<p><a href="https://cadimage.zendesk.com/hc/en-us/articles/206313746" target="_blank" rel="noopener">Read more about setting up and managing Keynote Categories</a></p>
+<ul>
+<li>Open the Keynote Palette by going to <strong>Cadimage> Keynotes> Keynotes Palette</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/206313576_0.jpg" alt="Creating Keynotes 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>In the Database (top) area of the Palette, <strong>click</strong> <em>above</em> the point at which you want to add the new Keynote (in this example we will click on the 3.03 Timber Sub-Category in order to get the Keynote to appear just below this item).</li>
+</ul>
+<p> <strong>Tip:</strong> If the Keynote is not added where you want, or if you want to move it later, you can always click and drag it into a new location.</p>
+<ul>
+<li>Click the <strong>A</strong> button to add a new Note. Under <strong>Keynote Editing</strong>, you will be able to add extra information to this note. Including a Tittle, Spec Reference and Description.</li>
+</ul>
+<p>TIP:</p>
+<ul>
+<li>The Description is where the detailed information relating to the keynote is added.</li>
+</ul>
+<ul>
+<li>The Specification Reference is a reference to an external / separate Specification Document and can be an ID, produce code or page reference.</li>
+</ul>
+<p>Using these parameters, our Keynotes List looks like this:</p>
+<p><img src="img/206313576_1.jpg" alt="Creating Keynotes 示意图" loading="lazy"></p>
+<ul>
+<li>You won't need to close your palette for the note to be added. It is added when you click the <strong>A</strong> button.</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this article we show you how to create a Keynote.</p>
+<p>You will notice that we have set up Categories (such as General and Site); as well as Sub-Categories (such as Concrete, Masonry and Timber), which have provided a structured order around our Keynotes. Setting up Categories will help manage your notes; however you do not have to do this in order to create your Keynotes.</p>
+<p><a href="https://cadimage.zendesk.com/hc/en-us/articles/206313746" target="_blank" rel="noopener">Read more about setting up and managing Keynote Categories</a></p>
+<ul>
+<li>Open the Keynote Palette by going to <strong>Cadimage> Keynotes> Keynotes Palette</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/206313576_0.jpg" alt="Creating Keynotes 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>In the Database (top) area of the Palette, <strong>click</strong> <em>above</em> the point at which you want to add the new Keynote (in this example we will click on the 3.03 Timber Sub-Category in order to get the Keynote to appear just below this item).</li>
+</ul>
+<p> <strong>Tip:</strong> If the Keynote is not added where you want, or if you want to move it later, you can always click and drag it into a new location.</p>
+<ul>
+<li>Click the <strong>A</strong> button to add a new Note. Under <strong>Keynote Editing</strong>, you will be able to add extra information to this note. Including a Tittle, Spec Reference and Description.</li>
+</ul>
+<p>TIP:</p>
+<ul>
+<li>The Description is where the detailed information relating to the keynote is added.</li>
+</ul>
+<ul>
+<li>The Specification Reference is a reference to an external / separate Specification Document and can be an ID, produce code or page reference.</li>
+</ul>
+<p>Using these parameters, our Keynotes List looks like this:</p>
+<p><img src="img/206313576_1.jpg" alt="Creating Keynotes 示意图" loading="lazy"></p>
+<ul>
+<li>You won't need to close your palette for the note to be added. It is added when you click the <strong>A</strong> button.</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-208014116">
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">创建多页 Keynote 明细表</h3>
+    <h3 class="en-only block">Creating Multiple Page Keynote Schedules</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/208014116-Creating-Multiple-Page-Keynote-Schedules" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>从 ARCHICAD 19 中的 Keynotes 5.20 版本开始，你可以让 Keynotes 明细表跨多个页面/布局延伸。</p>
+<p>要做到这一点，打开你希望明细表起始的布局，然后像平常一样进入 <em>Cadimage</em>菜单<em>> Keynotes > Create Schedule…</em>。</p>
+<p>在 <em>Create Keynotes Schedule</em> 对话框中，选择 Include（包含）<em><strong>All Keynotes</strong></em>（全部 Keynotes）、<em><strong>Only Keynotes used in the Project</strong></em>（仅项目中已使用的 Keynotes）或 <em><strong>Only Keynotes visible in any Layout</strong></em>（仅任一布局中可见的 Keynotes）。这样选择后，右上方的复选框将变为可用：</p>
+<p><img src="img/208014116_0.jpg" alt="Creating Multiple Page Keynote Schedules 示意图" loading="lazy"></p>
+<p>勾选 <em><strong>Fit Schedule to Layout</strong></em>（明细表适应布局）复选框，即可开启多布局跨页明细表功能。</p>
+<p>如果你的布局有图框标题栏或其他需要留出空间的内容，点击 <em><strong>Margins</strong></em>（页边距）按钮，设置所需的偏移量，然后点击 OK。</p>
+<p><img src="img/208014116_1.jpg" alt="Creating Multiple Page Keynote Schedules 示意图" loading="lazy"></p>
+<p>Create Keynote Schedule 中其余的设置与平常相同，按需修改明细表设置的施加方式，然后点击 OK 创建明细表。</p>
+<p>Keynotes 工具现在开始计算它能在每个布局上放置多少 keynotes。这是一个相当复杂的任务，因此根据你排入的注释数量，完成时间可能从 10 秒到 1、2 分钟不等。</p>
+<p>完成后，你应该会在当前布局上看到明细表的第一部分，并且在导航器中该布局下方会出现一系列新的布局，其中包含明细表的其余部分。</p>
+<p>它们的行为与普通明细表相同，也可以以同样的方式编辑。唯一的区别是：</p>
+<ul>
+<li>如果你更新明细表，必须等待它重新计算尺寸，因此更新明细表会稍微慢一些</li>
+</ul>
+<ul>
+<li>现在既然有了多布局明细表，如果你删除了其中任何自动生成的布局，更新明细表时它们会被重新创建</li>
+</ul></div>
+  <div class="en-only"><p>Starting with Keynotes version 5.20 in ARCHICAD 19, you can have your Keynotes Schedules span across Multiple Pages/Layouts.</p>
+<p>To do this, open the Layout that you want the Schedule to begin on, and then go to the <em>Cadimage</em>menu<em>> Keynotes > Create Schedule…</em> as normal.</p>
+<p>In the <em>Create Keynotes Schedule</em> dialog, choose to Include either <em><strong>All Keynotes</strong></em>, <em><strong>Only Keynotes used in the Project</strong></em>, or <em><strong>Only Keynotes visible in any Layout</strong></em>. When you do so, the checkbox above and to the right will become available:</p>
+<p><img src="img/208014116_0.jpg" alt="Creating Multiple Page Keynote Schedules 示意图" loading="lazy"></p>
+<p>Check the <em><strong>Fit Schedule to Layout</strong></em> box to turn on the Multi-Layout schedule spanning feature.</p>
+<p>If your Layouts have a title block or other content that you need to allow room for, click the <em><strong>Margins</strong></em> button, set the offset/s you require, and click OK.</p>
+<p><img src="img/208014116_1.jpg" alt="Creating Multiple Page Keynote Schedules 示意图" loading="lazy"></p>
+<p>The rest of the setting in Create Keynote Schedule are the same as usual, so make any changes you require to the way the schedule settings are applied, and then click OK to create the Schedule.</p>
+<p>The Keynotes tool will now begin calculating how much of your keynotes it can put onto each layout. This is a fairly complex task so, depending on how many notes you are scheduling, this can take anywhere from 10 seconds to a minute or 2 to complete.</p>
+<p>Once it's done, you should see the first chunk of the schedule on the current layout, and a series of new layouts below this one in the navigator which contain the rest of the schedule.</p>
+<p>These behave and can be edited in the same way as a normal schedule. The only differences are:</p>
+<ul>
+<li>If you update the schedule, you will have to wait for it to recalculate the sizes again, so updating schedule/s will take a bit longer</li>
+</ul>
+<ul>
+<li>And now that you have a multi-layout schedule on them, if you delete any of the layouts that were automatically generated, updating the schedule will re-create them</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Starting with Keynotes version 5.20 in ARCHICAD 19, you can have your Keynotes Schedules span across Multiple Pages/Layouts.</p>
+<p>To do this, open the Layout that you want the Schedule to begin on, and then go to the <em>Cadimage</em>menu<em>> Keynotes > Create Schedule…</em> as normal.</p>
+<p>In the <em>Create Keynotes Schedule</em> dialog, choose to Include either <em><strong>All Keynotes</strong></em>, <em><strong>Only Keynotes used in the Project</strong></em>, or <em><strong>Only Keynotes visible in any Layout</strong></em>. When you do so, the checkbox above and to the right will become available:</p>
+<p><img src="img/208014116_0.jpg" alt="Creating Multiple Page Keynote Schedules 示意图" loading="lazy"></p>
+<p>Check the <em><strong>Fit Schedule to Layout</strong></em> box to turn on the Multi-Layout schedule spanning feature.</p>
+<p>If your Layouts have a title block or other content that you need to allow room for, click the <em><strong>Margins</strong></em> button, set the offset/s you require, and click OK.</p>
+<p><img src="img/208014116_1.jpg" alt="Creating Multiple Page Keynote Schedules 示意图" loading="lazy"></p>
+<p>The rest of the setting in Create Keynote Schedule are the same as usual, so make any changes you require to the way the schedule settings are applied, and then click OK to create the Schedule.</p>
+<p>The Keynotes tool will now begin calculating how much of your keynotes it can put onto each layout. This is a fairly complex task so, depending on how many notes you are scheduling, this can take anywhere from 10 seconds to a minute or 2 to complete.</p>
+<p>Once it's done, you should see the first chunk of the schedule on the current layout, and a series of new layouts below this one in the navigator which contain the rest of the schedule.</p>
+<p>These behave and can be edited in the same way as a normal schedule. The only differences are:</p>
+<ul>
+<li>If you update the schedule, you will have to wait for it to recalculate the sizes again, so updating schedule/s will take a bit longer</li>
+</ul>
+<ul>
+<li>And now that you have a multi-layout schedule on them, if you delete any of the layouts that were automatically generated, updating the schedule will re-create them</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206315166">
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">编辑 Keynote</h3>
+    <h3 class="en-only block">Editing a Keynote</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206315166-Editing-a-Keynote" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>要编辑或修改某个 Keynote 或 Keynotes 数据库：</p>
+<ul>
+<li>在 ARCHICAD 中打开 <strong>Keynotes Palette</strong>（Keynotes 面板）（进入 <strong>Cadimage> Keynotes> Keynotes Palette</strong>）。</li>
+</ul>
+<p><img src="img/206315166_0.jpg" alt="Editing a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li>展开所需的数据库（如需要）并<strong>选中你想编辑的 Keynote</strong>：</li>
+</ul>
+<p><img src="img/206315166_1.jpg" alt="Editing a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li>现在你应该能在 ‘<strong>Keynote Editing</strong>’（Keynote 编辑）字段中看到该 Keynote 的详情（上面已圈出）</li>
+</ul>
+<p>对字段所做的任何更改都会自动保存到数据库。但是，如果其中任何 keynote 已经作为标签（Label）放置过，你需要运行 <strong>Cadimage> Keynotes> Audit Labels…</strong>（审核标签）工具，以确保所有标签都更新为最新数据。</p></div>
+  <div class="en-only"><p>To edit or modify a Keynote or a Keynote Database:</p>
+<ul>
+<li>In ARCHICAD, open the <strong>Keynotes Palette</strong> (go to <strong>Cadimage> Keynotes> Keynotes Palette</strong>).</li>
+</ul>
+<p><img src="img/206315166_0.jpg" alt="Editing a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li>Expand the required Database (if required) and<strong>select the Keynote</strong> you wish to edit:</li>
+</ul>
+<p><img src="img/206315166_1.jpg" alt="Editing a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li>You should now see the details of the Keynote in the '<strong>Keynote Editing</strong>' field (circled, above)</li>
+</ul>
+<p>Any changes made to the fields are automatically saved to the database. However, if any of the keynotes have already been placed as Labels, you will need to run the <strong>Cadimage> Keynotes> Audit Labels…</strong> tool to ensure all Labels are updated with the latest data.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>To edit or modify a Keynote or a Keynote Database:</p>
+<ul>
+<li>In ARCHICAD, open the <strong>Keynotes Palette</strong> (go to <strong>Cadimage> Keynotes> Keynotes Palette</strong>).</li>
+</ul>
+<p><img src="img/206315166_0.jpg" alt="Editing a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li>Expand the required Database (if required) and<strong>select the Keynote</strong> you wish to edit:</li>
+</ul>
+<p><img src="img/206315166_1.jpg" alt="Editing a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li>You should now see the details of the Keynote in the '<strong>Keynote Editing</strong>' field (circled, above)</li>
+</ul>
+<p>Any changes made to the fields are automatically saved to the database. However, if any of the keynotes have already been placed as Labels, you will need to run the <strong>Cadimage> Keynotes> Audit Labels…</strong> tool to ensure all Labels are updated with the latest data.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206662343">
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">认识 Keynotes 面板</h3>
+    <h3 class="en-only block">Getting to know the Keynote Palette.</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206662343-Getting-to-know-the-Keynote-Palette" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>要在 ARCHICAD 中打开 Keynotes 面板，请进入 <strong>Ci Tools > Keynotes> Keynotes Palette.</strong>（Keynotes 面板）</p>
+<p><img src="img/206662343_0.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<h2>Keynotes 面板</h2>
+<p>打开面板后，你会注意到它被分为 3 个区域，如下图所示：</p>
+<p><img src="img/206662343_1.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<ul>
+<li>顶部区域显示 keynotes 的数据库（此处为空）以及一些管理功能</li>
+</ul>
+<ul>
+<li>中间区域用于 Keynote Editing（Keynote 编辑）</li>
+</ul>
+<ul>
+<li>Label Contents（标签内容）区域用于放置和编辑 Keynotes。</li>
+</ul>
+<p>你可以随时通过折叠箭头隐藏 Keynote Editing 或 Label Contents 区域。</p>
+<h2>Keynotes 数据库</h2>
+<p>不同来源的标识方式如下：</p>
+<ul>
+<li></li>
+</ul>
+<p><img src="img/206662343_2.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p>  内容存储在项目中（不链接到外部来源）。通过导入文件或使用"</p>
+<p><img src="img/206662343_3.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p>  Create a new note"（创建新注释）按钮直接创建注释来填充。</p>
+<ul>
+<li></li>
+</ul>
+<p><img src="img/206662343_4.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p>  内容链接到在线来源（目前仅 NZ 的 Masterspec）。</p>
+<ul>
+<li></li>
+</ul>
+<p><img src="img/206662343_5.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p>  内容链接到外部文件。通过链接到外部文件来填充。</p>
+<h2></h2>
+<p><img src="img/206662343_6.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<h2>图标</h2>
+<p>顶部面板中的图标按钮具有以下功能：</p>
+<p><img src="img/206662343_7.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 搜索匹配输入文本的 keynotes</p>
+<p><img src="img/206662343_8.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 创建新注释（<a href="https://cadimage.zendesk.com/hc/en-us/articles/206313576" target="_blank" rel="noopener">参见这里：创建 Keynotes</a>）</p>
+<p><img src="img/206662343_9.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 删除选中的注释</p>
+<p><img src="img/206662343_10.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 审核所有 keynote 标签</p>
+<p><img src="img/206662343_11.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 管理注释（显示模态 Keynotes Manager 对话框，用于导入/导出等）</p>
+<p><img src="img/206662343_12.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 更新所有链接的 keynotes（Masterspec 或外部文件）</p>
+<p>下方面板中的图标具有以下功能：</p>
+<p><img src="img/206662343_13.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 将选中的注释添加到当前标签</p>
+<p><img src="img/206662343_14.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 从当前标签移除选中的注释</p>
+<p><img src="img/206662343_15.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p>  在当前标签中隐藏选中的注释（切换为</p>
+<p><img src="img/206662343_16.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 以显示）</p>
+<p><img src="img/206662343_17.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 对当前标签中的注释进行排序的开关</p>
+<p><em>Label Contents</em> 面板下的图标仅在未勾选 <em>Live edit</em>（实时编辑）时出现：</p>
+<p><img src="img/206662343_18.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 将选中的注释添加到所有选中的标签</p>
+<p><img src="img/206662343_19.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 从所有选中的标签中移除选中的注释</p>
+<p><img src="img/206662343_20.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> 从所有选中的标签获取全部注释</p>
+<p>%%IMG21%%</p>
+<p> 设置所有选中标签中的注释</p>
+<h2>分类与 Keynotes</h2>
+<p><a href="https://cadimage.zendesk.com/hc/en-us/articles/206313746" target="_blank" rel="noopener">在 Keynotes 中使用分类（Categories）</a></p>
+<p>%%IMG22%%</p>
+<p>任何带有子项的条目都是一个分类（文件夹图标），任何没有子项的条目就是一个 keynote。把某个条目拖到另一个原本没有子项的条目之下，会把它变成一个分类。</p></div>
+  <div class="en-only"><p>To open the Keynotes palette in ARCHICAD, go to <strong>Ci Tools > Keynotes> Keynotes Palette.</strong></p>
+<p><img src="img/206662343_0.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<h2>Keynote Palette</h2>
+<p>When you open the palette, you will notice that it is divided into 3 sections, shown in the graphic below:</p>
+<p><img src="img/206662343_1.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<ul>
+<li>The  top  section displays the  Database  of keynotes (empty) and some management functions</li>
+</ul>
+<ul>
+<li>The  middle  section is where  Keynote Editing  is carried out</li>
+</ul>
+<ul>
+<li>The  Label Contents  section is used when placing and editing Keynotes.</li>
+</ul>
+<p>You can hide the Keynote Editing or Label Contents areas at any time by using the twirl-down arrow.</p>
+<h2>Keynotes Database</h2>
+<p>Different sources will be identified as follows:</p>
+<ul>
+<li></li>
+</ul>
+<p><img src="img/206662343_2.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> The content is stored in the project (no link to an external source). This is populated by importing a file or creating notes directly using the "</p>
+<p><img src="img/206662343_3.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Create a new note" button</p>
+<ul>
+<li></li>
+</ul>
+<p><img src="img/206662343_4.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> The content is linked to an online source (currently only Masterspec & for NZ)</p>
+<ul>
+<li></li>
+</ul>
+<p><img src="img/206662343_5.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p>  The content is linked to an external file. This is populated by linking to an external file.</p>
+<h2></h2>
+<p><img src="img/206662343_6.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<h2>Icons</h2>
+<p>The icon buttons in the top panel carry out the following functions:</p>
+<p><img src="img/206662343_7.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Search for keynotes matching the entered text</p>
+<p><img src="img/206662343_8.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Create a new note  (<a href="https://cadimage.zendesk.com/hc/en-us/articles/206313576" target="_blank" rel="noopener">Refer here on Creating Keynotes</a>)</p>
+<p><img src="img/206662343_9.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Delete the selected note(s)</p>
+<p><img src="img/206662343_10.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Audit all keynote labels</p>
+<p><img src="img/206662343_11.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Manage notes (display the modal Keynote Manager dialog for import/export etc)</p>
+<p><img src="img/206662343_12.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Update all linked keynotes (Masterspec or external file)</p>
+<p>The icons in the lower panel carry out the following functions:</p>
+<p><img src="img/206662343_13.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Add the selected note(s) to the current label</p>
+<p><img src="img/206662343_14.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Remove the selected note(s) from the current label</p>
+<p><img src="img/206662343_15.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p>  Hide the selected note(s) in the current label (switches to</p>
+<p><img src="img/206662343_16.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> to show)</p>
+<p><img src="img/206662343_17.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> A toggle switch for sorting notes in the current label</p>
+<p>The icons under the <em>Label Contents</em> panel only appear when <em>Live edit</em> is unchecked:</p>
+<p><img src="img/206662343_18.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Add the selected note(s) to all selected labels</p>
+<p><img src="img/206662343_19.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Remove the selected note(s) from all selected labels</p>
+<p><img src="img/206662343_20.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Get all the notes from all selected labels</p>
+<p>%%IMG21%%</p>
+<p> Set the notes in all selected labels</p>
+<h2>Categories and keynotes</h2>
+<p><a href="https://cadimage.zendesk.com/hc/en-us/articles/206313746" target="_blank" rel="noopener">Working with Categories in Keynotes</a></p>
+<p>%%IMG22%%</p>
+<p>Any item with children will be a category (folder icon), Any item without children is a keynote. Dragging an item under another item that previously had no children will transform it into a category.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>To open the Keynotes palette in ARCHICAD, go to <strong>Ci Tools > Keynotes> Keynotes Palette.</strong></p>
+<p><img src="img/206662343_0.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<h2>Keynote Palette</h2>
+<p>When you open the palette, you will notice that it is divided into 3 sections, shown in the graphic below:</p>
+<p><img src="img/206662343_1.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<ul>
+<li>The  top  section displays the  Database  of keynotes (empty) and some management functions</li>
+</ul>
+<ul>
+<li>The  middle  section is where  Keynote Editing  is carried out</li>
+</ul>
+<ul>
+<li>The  Label Contents  section is used when placing and editing Keynotes.</li>
+</ul>
+<p>You can hide the Keynote Editing or Label Contents areas at any time by using the twirl-down arrow.</p>
+<h2>Keynotes Database</h2>
+<p>Different sources will be identified as follows:</p>
+<ul>
+<li></li>
+</ul>
+<p><img src="img/206662343_2.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> The content is stored in the project (no link to an external source). This is populated by importing a file or creating notes directly using the "</p>
+<p><img src="img/206662343_3.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Create a new note" button</p>
+<ul>
+<li></li>
+</ul>
+<p><img src="img/206662343_4.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> The content is linked to an online source (currently only Masterspec & for NZ)</p>
+<ul>
+<li></li>
+</ul>
+<p><img src="img/206662343_5.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p>  The content is linked to an external file. This is populated by linking to an external file.</p>
+<h2></h2>
+<p><img src="img/206662343_6.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<h2>Icons</h2>
+<p>The icon buttons in the top panel carry out the following functions:</p>
+<p><img src="img/206662343_7.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Search for keynotes matching the entered text</p>
+<p><img src="img/206662343_8.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Create a new note  (<a href="https://cadimage.zendesk.com/hc/en-us/articles/206313576" target="_blank" rel="noopener">Refer here on Creating Keynotes</a>)</p>
+<p><img src="img/206662343_9.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Delete the selected note(s)</p>
+<p><img src="img/206662343_10.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Audit all keynote labels</p>
+<p><img src="img/206662343_11.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Manage notes (display the modal Keynote Manager dialog for import/export etc)</p>
+<p><img src="img/206662343_12.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Update all linked keynotes (Masterspec or external file)</p>
+<p>The icons in the lower panel carry out the following functions:</p>
+<p><img src="img/206662343_13.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Add the selected note(s) to the current label</p>
+<p><img src="img/206662343_14.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Remove the selected note(s) from the current label</p>
+<p><img src="img/206662343_15.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p>  Hide the selected note(s) in the current label (switches to</p>
+<p><img src="img/206662343_16.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> to show)</p>
+<p><img src="img/206662343_17.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> A toggle switch for sorting notes in the current label</p>
+<p>The icons under the <em>Label Contents</em> panel only appear when <em>Live edit</em> is unchecked:</p>
+<p><img src="img/206662343_18.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Add the selected note(s) to all selected labels</p>
+<p><img src="img/206662343_19.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Remove the selected note(s) from all selected labels</p>
+<p><img src="img/206662343_20.jpg" alt="Getting to know the Keynote Palette. 示意图" loading="lazy"></p>
+<p> Get all the notes from all selected labels</p>
+<p>%%IMG21%%</p>
+<p> Set the notes in all selected labels</p>
+<h2>Categories and keynotes</h2>
+<p><a href="https://cadimage.zendesk.com/hc/en-us/articles/206313746" target="_blank" rel="noopener">Working with Categories in Keynotes</a></p>
+<p>%%IMG22%%</p>
+<p>Any item with children will be a category (folder icon), Any item without children is a keynote. Dragging an item under another item that previously had no children will transform it into a category.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-9527090906127">
+  <div class="art-h"><span class="no">06</span>
+    <h3 class="zh-only block">如何在 Keynotes 中替换标签</h3>
+    <h3 class="en-only block">How to Replace Labels in Keynote</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/9527090906127-How-to-Replace-Labels-in-Keynote" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>0.- 打开 Keynotes 面板（Keynote Palette）。</p>
+<p><img src="img/9527090906127_0.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>1.- 打开 Keynotes 管理器（Keynotes Manager）。</p>
+<p>2.- 选择要删除/替换的注释。</p>
+<p><img src="img/9527090906127_1.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>3.- 打开 Audit（审核）窗口。</p>
+<p>4.- 找到并选中那个孤立的标签。</p>
+<p>5.- 点击 Replace（替换）。</p>
+<p><img src="img/9527090906127_2.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>6.- 选择你希望用来替换已删除标签的标签，然后点击 ok。</p>
+<p><img src="img/9527090906127_3.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>7.- 会弹出一个警告窗口，点击 ok 完成整个过程。</p>
+<p><img src="img/9527090906127_4.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p><img src="img/9527090906127_5.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>0.- Open the Keynote Palette.</p>
+<p><img src="img/9527090906127_0.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>1.- Open the Keynotes Manager.</p>
+<p>2.- Select the Note to be deleted/replaced.</p>
+<p><img src="img/9527090906127_1.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>3.- Open the Audit window.</p>
+<p>4.- Identify and select the Orphaned label.</p>
+<p>5.- Click on Replace.</p>
+<p><img src="img/9527090906127_2.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>6.- Select the label you wish to replace the deleted label, then click ok.</p>
+<p><img src="img/9527090906127_3.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>7.- A warning window will pop up and click ok to complete the process.</p>
+<p><img src="img/9527090906127_4.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p><img src="img/9527090906127_5.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>0.- Open the Keynote Palette.</p>
+<p><img src="img/9527090906127_0.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>1.- Open the Keynotes Manager.</p>
+<p>2.- Select the Note to be deleted/replaced.</p>
+<p><img src="img/9527090906127_1.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>3.- Open the Audit window.</p>
+<p>4.- Identify and select the Orphaned label.</p>
+<p>5.- Click on Replace.</p>
+<p><img src="img/9527090906127_2.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>6.- Select the label you wish to replace the deleted label, then click ok.</p>
+<p><img src="img/9527090906127_3.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p>7.- A warning window will pop up and click ok to complete the process.</p>
+<p><img src="img/9527090906127_4.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+<p><img src="img/9527090906127_5.jpg" alt="How to Replace Labels in Keynote 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206033156">
+  <div class="art-h"><span class="no">07</span>
+    <h3 class="zh-only block">如何配置 Keynotes 标签</h3>
+    <h3 class="en-only block">How to configure your Keynote Label</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206033156-How-to-configure-your-Keynote-Label" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>标签是把数据库中的 Keynote 信息传递到项目视图（平面图、剖面图、立面图等）中所使用的方法。</p>
+<p>标签使用标准的 ARCHICAD Label Tool（标签工具），另外增加了一个 Cadimage 面板来控制 Keynotes 标签配置。</p>
+<ul>
+<li>要查看标签的默认设置，在 <strong>Toolbox</strong>（工具箱）中双击 <strong>Label Tool</strong>（标签工具）：</li>
+</ul>
+<p><img src="img/206033156_0.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<ul>
+<li>这将打开 <strong>Label Default Settings</strong>（标签默认设置）对话框</li>
+</ul>
+<ul>
+<li>在 <strong>Type and Preview</strong>（类型与预览）区域，你会看到 <strong>Cadimage Keynote Label</strong> 选项（见下图）</li>
+</ul>
+<p><img src="img/206033156_1.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<ul>
+<li>你还会看到一个名为 ‘<strong>Cadimage Keynote Label – Settings</strong>’（Cadimage Keynote 标签 – 设置）的区域（上方）</li>
+</ul>
+<p><em>提示：如果你看不到这个区域，说明你可能没有安装 Keynotes。</em></p>
+<ul>
+<li>在 <strong>Content</strong>（内容）区域，你会看到定义 Keynote 显示方式的选项：</li>
+</ul>
+<p><img src="img/206033156_2.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<p>在这里你可以选择显示以下选项（可用上方的复选框打开/关闭）：</p>
+<ul>
+<li>Content（内容）——你可输入的自定义文本</li>
+</ul>
+<ul>
+<li>Category（分类）——你的 keynote 所属分组的分类标题</li>
+</ul>
+<ul>
+<li>Key（编号）——你的 keynote 使用的唯一参考编号</li>
+</ul>
+<ul>
+<li>Title（标题）——你的 keynote 的标题 / 标题行</li>
+</ul>
+<ul>
+<li>Description（描述）——你所列出条目的详细规范说明</li>
+</ul>
+<ul>
+<li>Specification Reference（规范参考）——可引用与你的编号不同的外部系统参考</li>
+</ul>
+<p><strong>示例：</strong> 一个独立放置的、指向内墙的 Keynote：</p>
+<p><img src="img/206033156_3.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<p>在上图中你可以看到只有 Key 显示在 Keynote 上。</p>
+<p>返回第 4 步所示的 Settings 区域，勾选 Category 和 Title 复选框，就可以开启这些内容区域，效果如下：</p>
+<p><img src="img/206033156_4.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>Labels are the method used to transfer Keynote information into project views (plans, sections, elevations etc) from the database.</p>
+<p>Labels use the standard ARCHICAD Label Tool with the addition of a Cadimage Palette to control the Keynotes Label Configuration.</p>
+<ul>
+<li>To view the default settings for a Label, double click on the <strong>Label Tool</strong> in the <strong>Toolbox</strong>:</li>
+</ul>
+<p><img src="img/206033156_0.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<ul>
+<li>This will open the <strong>Label Default Settings</strong> dialogue</li>
+</ul>
+<ul>
+<li>Under the <strong>Type and Preview</strong> area you will see the <strong>Cadimage Keynote Label</strong> option (see below)</li>
+</ul>
+<p><img src="img/206033156_1.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<ul>
+<li>You will also see an area called '<strong>Cadimage Keynote Label – Settings'</strong> (above)</li>
+</ul>
+<p><em>TIP: If you cannot see this area you may not have Keynotes installed.</em></p>
+<ul>
+<li>In the <strong>Content</strong> area you will see the options that define how your Keynote will look:</li>
+</ul>
+<p><img src="img/206033156_2.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<p>Here you can choose to display the following options (you can switch them on/off using the checkboxes shown above):</p>
+<ul>
+<li>Content  – this is custom text you can enter</li>
+</ul>
+<ul>
+<li>Category – the category title for the group your keynote belongs to</li>
+</ul>
+<ul>
+<li>Key – the unique reference used by your keynote</li>
+</ul>
+<ul>
+<li>Title – the title / heading for your keynote</li>
+</ul>
+<ul>
+<li>Description – the detailed description of specification of the item you are listing</li>
+</ul>
+<ul>
+<li>Specification Reference – this can refer to an external systems reference different from your key</li>
+</ul>
+<p><strong>Example:</strong> A Keynote that has been independently placed, referring to an internal wall:</p>
+<p><img src="img/206033156_3.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<p>In the image above you can see that only the Key is appearing on the Keynote.</p>
+<p>By returning to the Settings area shown in Step 4, and ticking the Category and Title checkboxes, we can turn on those areas of content as can be seen below:</p>
+<p><img src="img/206033156_4.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Labels are the method used to transfer Keynote information into project views (plans, sections, elevations etc) from the database.</p>
+<p>Labels use the standard ARCHICAD Label Tool with the addition of a Cadimage Palette to control the Keynotes Label Configuration.</p>
+<ul>
+<li>To view the default settings for a Label, double click on the <strong>Label Tool</strong> in the <strong>Toolbox</strong>:</li>
+</ul>
+<p><img src="img/206033156_0.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<ul>
+<li>This will open the <strong>Label Default Settings</strong> dialogue</li>
+</ul>
+<ul>
+<li>Under the <strong>Type and Preview</strong> area you will see the <strong>Cadimage Keynote Label</strong> option (see below)</li>
+</ul>
+<p><img src="img/206033156_1.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<ul>
+<li>You will also see an area called '<strong>Cadimage Keynote Label – Settings'</strong> (above)</li>
+</ul>
+<p><em>TIP: If you cannot see this area you may not have Keynotes installed.</em></p>
+<ul>
+<li>In the <strong>Content</strong> area you will see the options that define how your Keynote will look:</li>
+</ul>
+<p><img src="img/206033156_2.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<p>Here you can choose to display the following options (you can switch them on/off using the checkboxes shown above):</p>
+<ul>
+<li>Content  – this is custom text you can enter</li>
+</ul>
+<ul>
+<li>Category – the category title for the group your keynote belongs to</li>
+</ul>
+<ul>
+<li>Key – the unique reference used by your keynote</li>
+</ul>
+<ul>
+<li>Title – the title / heading for your keynote</li>
+</ul>
+<ul>
+<li>Description – the detailed description of specification of the item you are listing</li>
+</ul>
+<ul>
+<li>Specification Reference – this can refer to an external systems reference different from your key</li>
+</ul>
+<p><strong>Example:</strong> A Keynote that has been independently placed, referring to an internal wall:</p>
+<p><img src="img/206033156_3.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+<p>In the image above you can see that only the Key is appearing on the Keynote.</p>
+<p>By returning to the Settings area shown in Step 4, and ticking the Category and Title checkboxes, we can turn on those areas of content as can be seen below:</p>
+<p><img src="img/206033156_4.jpg" alt="How to configure your Keynote Label 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206315936">
+  <div class="art-h"><span class="no">08</span>
+    <h3 class="zh-only block">如何删除 Keynote</h3>
+    <h3 class="en-only block">How to delete a Keynote</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206315936-How-to-delete-a-Keynote" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>要把某个 Keynote 设为已删除：</p>
+<ul>
+<li>在 ARCHICAD 中打开 Keynotes 面板（进入 <strong>Cadimage> Keynotes> Keynotes Palette</strong>）</li>
+</ul>
+<p><img src="img/206315936_0.jpg" alt="How to delete a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li><strong>选中你想删除的 Keynote</strong>：</li>
+</ul>
+<p><img src="img/206315936_1.jpg" alt="How to delete a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li>点击上面所示的 <strong>X</strong> 按钮。</li>
+</ul>
+<p> 如果你删除的任何 Keynotes 已经作为标签放置过，你需要运行 <strong>Cadimage> Keynotes> Audit Labels…</strong>（审核标签）工具，以确保所有标签都被更新。Audit Labels 工具会给你选项，可以移除标签，或用另一个替代已删除的 keynote。</p></div>
+  <div class="en-only"><p>In order to set a Keynote as Deleted:</p>
+<ul>
+<li>Open the Keynotes Palette in ARCHICAD (go to <strong>Cadimage> Keynotes> Keynotes Palette</strong>)</li>
+</ul>
+<p><img src="img/206315936_0.jpg" alt="How to delete a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Select the Keynote</strong> you wish to Delete:</li>
+</ul>
+<p><img src="img/206315936_1.jpg" alt="How to delete a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the <strong>X</strong>button shown above.</li>
+</ul>
+<p> If you delete any Keynotes have already been placed as Labels, you will need to run the <strong>Cadimage> Keynotes> Audit Labels…</strong> tool to ensure all Labels are updated. The Audit Labels tool will give you the option to remove the label or replace the deleted keynote with an alternative.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In order to set a Keynote as Deleted:</p>
+<ul>
+<li>Open the Keynotes Palette in ARCHICAD (go to <strong>Cadimage> Keynotes> Keynotes Palette</strong>)</li>
+</ul>
+<p><img src="img/206315936_0.jpg" alt="How to delete a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Select the Keynote</strong> you wish to Delete:</li>
+</ul>
+<p><img src="img/206315936_1.jpg" alt="How to delete a Keynote 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the <strong>X</strong>button shown above.</li>
+</ul>
+<p> If you delete any Keynotes have already been placed as Labels, you will need to run the <strong>Cadimage> Keynotes> Audit Labels…</strong> tool to ensure all Labels are updated. The Audit Labels tool will give you the option to remove the label or replace the deleted keynote with an alternative.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205941046">
+  <div class="art-h"><span class="no">09</span>
+    <h3 class="zh-only block">导入示例数据库</h3>
+    <h3 class="en-only block">Import a Sample Database</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205941046-Import-a-Sample-Database" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在每次安装 Cadimage Keynotes 时，我们都会附带一个示例 Keynotes 数据库，你可以使用或自定义它来创建自己的结构和内容。要使用该示例数据库：</p>
+<ul>
+<li>进入 <strong>Cadimage>Keynotes>Import Keynotes...</strong></li>
+</ul>
+<p><img src="img/205941046_0.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<ul>
+<li>从与你操作系统相对应的以下文件位置导入 <strong>Cadimage Keynotes.keynotes</strong> 数据库：</li>
+</ul>
+<ul>
+<li>Windows:  Program Files> GRAPHISOFT> ARCHICAD 20> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>Mac OSX:  Applications> GRAPHISOFT> ARCHICAD 20> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>现在你会看到以下对话框：</li>
+</ul>
+<p><img src="img/205941046_1.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<p>如果你想导入整个数据库，可以点击 <strong>Import All</strong>（全部导入）。不过，你也可以展开各章节，用标准的 Windows / MacOS 命令（Shift+点击 或 Ctrl+点击 / Cmd+点击）选择部分内容，但请确保在点击 <strong>OK</strong> 前勾选 <strong>Import</strong>（导入）复选框。</p>
+<p>示例数据库将被导入，你可以使用并自定义它。</p>
+<p>方式二：从 Excel 或外部数据库导入示例数据库</p>
+<p>在每次安装 Cadimage Keynotes 时，我们都会附带一个示例 .csv（逗号分隔值）数据库，你可以使用或自定义它来创建自己的结构和内容。要使用该示例数据库，请使用上面概述的相同方法。补充信息见下文。</p>
+<ul>
+<li>从计算机上的以下位置之一（取决于你的操作系统）导入 <strong>Cadimage Keynotes.csv</strong> 数据库：</li>
+</ul>
+<ul>
+<li>Windows = Program Files> GRAPHISOFT> ARCHICAD 20> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>Mac OSX = Applications> GRAPHISOFT> ARCHICAD 19> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>点击 <strong>Files Type</strong>（文件类型）下拉列表（Windows）或 <strong>Enable</strong>（启用）下拉列表（Mac OSX）（如下图所示）：</li>
+</ul>
+<p><img src="img/205941046_2.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<p><strong>提示：</strong> 你可能会注意到 <strong>.txt</strong> 是另一种支持导入数据库信息的格式。</p>
+<ul>
+<li>选择 <strong>.csv 格式</strong></li>
+</ul>
+<p>5.<strong>选择</strong> <strong>Cadimage Keynotes.csv</strong></p>
+<p>6.<strong>点击</strong> <strong>Open</strong>（打开）</p>
+<ul>
+<li>现在你会看到以下对话框，它允许你配置数据导入：</li>
+</ul>
+<p>请确保 Data Application（数据应用）字段与列名（Column Name）匹配。</p>
+<p><img src="img/205941046_3.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<ul>
+<li>点击 <strong>OK</strong>。</li>
+</ul>
+<ul>
+<li>现在你会看到以下对话框：</li>
+</ul>
+<p>%%IMG4%%</p>
+<p>10.选择你想导入的注释，然后点击 <strong>OK</strong>。</p></div>
+  <div class="en-only"><p>With every installation of Cadimage Keynotes, we include a sample Keynotes database that can be used or customised to create your own structure and content. To use this sample database:</p>
+<ul>
+<li>Go to <strong>Cadimage>Keynotes>Import Keynotes...</strong></li>
+</ul>
+<p><img src="img/205941046_0.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<ul>
+<li>Import the <strong>Cadimage Keynotes.keynotes</strong> database from the following file location relevant to your operating system:</li>
+</ul>
+<ul>
+<li>Windows:  Program Files> GRAPHISOFT> ARCHICAD 20> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>Mac OSX:  Applications> GRAPHISOFT> ARCHICAD 20> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>You should now see the following dialogue:</li>
+</ul>
+<p><img src="img/205941046_1.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<p>If you want to import the entire database you can click on<strong>Import All.</strong> However, you can select parts of the content by expanding the sections and select using standard Windows / MacOS commands (Shit+click or Ctrl+click / Cmd+click) but make sure you click the <strong>Import</strong> check box before clicking <strong>OK</strong>.</p>
+<p>The sample database will be imported and available for you to use and customise.</p>
+<p>Option two: Import a sample database from Excel or an external database</p>
+<p>With every installation of Cadimage Keynotes, we include a sample .csv (comma separated values) database that can be used or customised to create your own structure and content. To use this sample database, use the same method outlined above. Extra information below.</p>
+<ul>
+<li>Import the <strong>Cadimage Keynotes.csv</strong> database from one of the following locations on your computer (depending on your Operating System):</li>
+</ul>
+<ul>
+<li>Windows = Program Files> GRAPHISOFT> ARCHICAD 20> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>Mac OSX = Applications> GRAPHISOFT> ARCHICAD 19> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>Click on the <strong>Files Type</strong> pull down (Windows) or <strong>Enable</strong> pull down (Mac OSX) (shown below):</li>
+</ul>
+<p><img src="img/205941046_2.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<p><strong>TIP:</strong> You may notice <strong>.txt</strong> is a further format that is supported for importing database information.</p>
+<ul>
+<li>Choose the<strong>.csv format</strong></li>
+</ul>
+<p>5.<strong>Select</strong> the <strong>Cadimage Keynotes.csv</strong></p>
+<p>6.<strong>Click</strong> <strong>Open</strong></p>
+<ul>
+<li>You should now see the dialogue below which allows you to configure the import of your data:</li>
+</ul>
+<p>Please make sure the Data Application fields match the Column Name.</p>
+<p><img src="img/205941046_3.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<ul>
+<li>Click <strong>OK</strong>.</li>
+</ul>
+<ul>
+<li>You should now see the dialogue below:</li>
+</ul>
+<p>%%IMG4%%</p>
+<p>10.Select the Notes you would like to import and click <strong>OK</strong>.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>With every installation of Cadimage Keynotes, we include a sample Keynotes database that can be used or customised to create your own structure and content. To use this sample database:</p>
+<ul>
+<li>Go to <strong>Cadimage>Keynotes>Import Keynotes...</strong></li>
+</ul>
+<p><img src="img/205941046_0.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<ul>
+<li>Import the <strong>Cadimage Keynotes.keynotes</strong> database from the following file location relevant to your operating system:</li>
+</ul>
+<ul>
+<li>Windows:  Program Files> GRAPHISOFT> ARCHICAD 20> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>Mac OSX:  Applications> GRAPHISOFT> ARCHICAD 20> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>You should now see the following dialogue:</li>
+</ul>
+<p><img src="img/205941046_1.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<p>If you want to import the entire database you can click on<strong>Import All.</strong> However, you can select parts of the content by expanding the sections and select using standard Windows / MacOS commands (Shit+click or Ctrl+click / Cmd+click) but make sure you click the <strong>Import</strong> check box before clicking <strong>OK</strong>.</p>
+<p>The sample database will be imported and available for you to use and customise.</p>
+<p>Option two: Import a sample database from Excel or an external database</p>
+<p>With every installation of Cadimage Keynotes, we include a sample .csv (comma separated values) database that can be used or customised to create your own structure and content. To use this sample database, use the same method outlined above. Extra information below.</p>
+<ul>
+<li>Import the <strong>Cadimage Keynotes.csv</strong> database from one of the following locations on your computer (depending on your Operating System):</li>
+</ul>
+<ul>
+<li>Windows = Program Files> GRAPHISOFT> ARCHICAD 20> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>Mac OSX = Applications> GRAPHISOFT> ARCHICAD 19> CadimageTools Extras</li>
+</ul>
+<ul>
+<li>Click on the <strong>Files Type</strong> pull down (Windows) or <strong>Enable</strong> pull down (Mac OSX) (shown below):</li>
+</ul>
+<p><img src="img/205941046_2.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<p><strong>TIP:</strong> You may notice <strong>.txt</strong> is a further format that is supported for importing database information.</p>
+<ul>
+<li>Choose the<strong>.csv format</strong></li>
+</ul>
+<p>5.<strong>Select</strong> the <strong>Cadimage Keynotes.csv</strong></p>
+<p>6.<strong>Click</strong> <strong>Open</strong></p>
+<ul>
+<li>You should now see the dialogue below which allows you to configure the import of your data:</li>
+</ul>
+<p>Please make sure the Data Application fields match the Column Name.</p>
+<p><img src="img/205941046_3.jpg" alt="Import a Sample Database 示意图" loading="lazy"></p>
+<ul>
+<li>Click <strong>OK</strong>.</li>
+</ul>
+<ul>
+<li>You should now see the dialogue below:</li>
+</ul>
+<p>%%IMG4%%</p>
+<p>10.Select the Notes you would like to import and click <strong>OK</strong>.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206382383">
+  <div class="art-h"><span class="no">10</span>
+    <h3 class="zh-only block">Keynote 标签类型</h3>
+    <h3 class="en-only block">Keynote Label Types</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206382383-Keynote-Label-Types" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>标签是数据库条目在项目中的可视化表示，可以在项目平面图、剖面图或立面图上查看。</p>
+<p>标签有两种类型：</p>
+<ul>
+<li>Independent Labels（独立标签）可以放置在任何项目视图或布局中，并独立地放置在你的项目中。它们可以由单个 Keynote 或多个 Keynote 组成。</li>
+</ul>
+<ul>
+<li>Element Labels（构件标签）放置时与某个 ARCHICAD 构件（如墙体、屋顶、填充或对象）建立链接。在这种情况下，标签会显示与该构件本身相关联的 Keynotes，或与该构件所使用的任何属性（复合体、填充或建筑材料等）相关联的 Keynotes。构件标签放置后，也可以直接从数据库中添加 Keynotes。</li>
+</ul>
+<p>需要认识到的是，独立标签和构件标签看起来是一样的；两者都可以显示 Key、Title、Description 和 Specification Reference 的任意组合。</p></div>
+  <div class="en-only"><p>Labels are the visual representation of a database entry in our project, and may be viewed on your project plan, section or elevation.</p>
+<p>There are two types of labels:</p>
+<ul>
+<li>Independent Labels can be placed in any project view or layout, and are placed independently in your project. They may consist of single Keynotes or multiple Keynotes.</li>
+</ul>
+<ul>
+<li>Element Labels are placed with a link to an ARCHICAD element (such as a wall, roof, fill or object). In this case, the label will display Keynotes that are associated with either the element itself or with any attribute used by the element (a composite, fill or building material etc). An Element Label, once placed, can also have Keynotes added directly from the database.</li>
+</ul>
+<p>It is important to realise that Independent and Element Labels look the same; and can both display any combination of the Key, Title, Description, and Specification Reference.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Labels are the visual representation of a database entry in our project, and may be viewed on your project plan, section or elevation.</p>
+<p>There are two types of labels:</p>
+<ul>
+<li>Independent Labels can be placed in any project view or layout, and are placed independently in your project. They may consist of single Keynotes or multiple Keynotes.</li>
+</ul>
+<ul>
+<li>Element Labels are placed with a link to an ARCHICAD element (such as a wall, roof, fill or object). In this case, the label will display Keynotes that are associated with either the element itself or with any attribute used by the element (a composite, fill or building material etc). An Element Label, once placed, can also have Keynotes added directly from the database.</li>
+</ul>
+<p>It is important to realise that Independent and Element Labels look the same; and can both display any combination of the Key, Title, Description, and Specification Reference.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-207356153">
+  <div class="art-h"><span class="no">11</span>
+    <h3 class="zh-only block">Keynotes 文本大小写设置</h3>
+    <h3 class="en-only block">Keynotes Text Case Settings</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/207356153-Keynotes-Text-Case-Settings" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Keynotes 文本大小写设置允许用户为 keynotes 的标题和描述设置大小写（作为偏好），并可指定例外情况，例如：全部大写，但数字后面的字母 ‘mm’ 除外（这样尺寸会显示为 100mm 而不是 100MM）。</p>
+<p>你可以使用菜单项 <em>Cadimage > Keynotes > Text Case</em>（文本大小写）来设置这些偏好</p>
+<p><img src="img/207356153_0.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>选中后会显示一个偏好设置对话框。</p>
+<p><img src="img/207356153_1.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>顶部的 <em>Text case</em>（文本大小写）菜单决定应用于所有文本的大小写。选项有：</p>
+<ul>
+<li>Original（原始）：文本保持输入时的样子（不改变大小写）</li>
+</ul>
+<ul>
+<li>Sentence case（句首大写）：每个新句子以大写字母开头，其余为小写</li>
+</ul>
+<ul>
+<li>Title case（标题大写）：每个单词以大写字母开头，其余为小写</li>
+</ul>
+<ul>
+<li>Upper-case（全大写）：全部大写</li>
+</ul>
+<ul>
+<li>Lower-case（全小写）：全部小写</li>
+</ul>
+<p>如果用户希望应用下面列表中定义的任何特殊情况，则 <em>Apply special cases</em>（应用特殊情况）复选框会被勾选。</p>
+<p><img src="img/207356153_2.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>底部的列表包含所有可能与标准文本大小写不同的文本，例如：即使应用全大写也仍显示为 ‘mm’ 的单位，或应用标题大写时显示为 ‘NZS’。</p>
+<p><img src="img/207356153_3.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<ul>
+<li>第一列的 Expression（表达式）是按用户所要求的大小写书写的文本。</li>
+</ul>
+<ul>
+<li>Position（位置）列限制该文本可能出现的位置。例如，我们不希望像 ‘mm’ 这样的例外导致出现 ‘COmmENT’ 这类单词，因此可以规定它的位置应为 ‘After number’（数字之后）。</li>
+</ul>
+<p>全部可选范围包括：</p>
+<ul>
+<li>Whole word（完整单词）：只有完全由空白或标点字符包围的文本才会被匹配，例如 ‘a word example’ 中的 ‘word’</li>
+</ul>
+<ul>
+<li>Before number（数字之前）：只有位于数字之前的文本才会被匹配，例如 ‘NZS3604’ 中的 ‘NZS’</li>
+</ul>
+<ul>
+<li>After number（数字之后）：只有位于数字之后的文本才会被匹配，例如 ‘100mm’ 中的 ‘mm’</li>
+</ul>
+<ul>
+<li>Between number（数字之间）：只有位于两个数字之间的文本才会被匹配，例如 ‘100x50’ 中的 ‘x’</li>
+</ul>
+<ul>
+<li>Start of word（单词开头）：只有位于完整单词开头的文本才会被匹配，例如 ‘GIBboard’ 中的 ‘GIB’</li>
+</ul>
+<ul>
+<li>End of word（单词结尾）：只有位于完整单词结尾的文本才会被匹配，例如 ‘GIBBoard’ 中的 ‘Board’</li>
+</ul>
+<ul>
+<li>Anywhere（任意位置）：匹配到的文本出现在任何位置都将被替换，不加限制</li>
+</ul>
+<p>如果表达式包含非字母字符，例如标点符号、数字等，位置应始终设为 <em>Anywhere</em>（任意位置）。插件会警告用户并自动切换到 <em>Anywhere</em>。这是因为数字/字母/标点的混合在其他任何上下文中都没有意义。</p>
+<p><strong>示例</strong></p>
+<p><img src="img/207356153_4.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>偏好设置更改后，面板内容会自动刷新。随后可以使用审核（audit）把更新后的文本应用到任何已放置的标签上。该更改不会永久写入数据库，因此切回 <em>Original</em> 会看到原始文本被恢复。但是，如果在应用大小写更改期间你编辑了标题或描述，那么输入的任何内容都会变成永久的（即屏幕上显示的样子就成为原始内容）。</p>
+<p><em>新西兰 Masterspec 用户注意事项：</em></p>
+<p>Masterspec 的 keynotes 在数据库中始终保持不变，因为它们无法被编辑；不过上面概述的偏好设置仍然会生效。</p></div>
+  <div class="en-only"><p>Keynotes Text Case Settings allow the users to set the case for the title and description of keynotes (as a preference) and to specify exceptions, e.g. all upper-case except for the letters ‘mm’ following a number (so dimensions come out as 100mm rather than 100MM).</p>
+<p>You can set up these preferences using the menu item <em>Cadimage > Keynotes > Text Case</em></p>
+<p><img src="img/207356153_0.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>It displays a preferences dialog when selected.</p>
+<p><img src="img/207356153_1.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>The <em>Text case</em> menu at the top determine the case to be applied to all the text. Options are:</p>
+<ul>
+<li>Original: the text is left as entered (no change of case)</li>
+</ul>
+<ul>
+<li>Sentence case: Every new sentence starts with an upper-case letter and the remainder is lower-case</li>
+</ul>
+<ul>
+<li>Title case: Every word starts with an upper case letter and the remainder is lower-case</li>
+</ul>
+<ul>
+<li>Upper-case: All upper-case</li>
+</ul>
+<ul>
+<li>Lower-case: All lower-case</li>
+</ul>
+<p>The <em>Apply special cases</em> checkbox is ticked if the user wants to apply any of the special case defined in the list below.</p>
+<p><img src="img/207356153_2.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>The list at the bottom contains all text that may differ from the standard text case, e.g. showing the unit as ‘mm’ even when upper-case is applied or ’NZS’ when title-case is applied.</p>
+<p><img src="img/207356153_3.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<ul>
+<li>The  Expression  in the first column is the text written in the case required by the user.</li>
+</ul>
+<ul>
+<li>The  Position  column restricts where occurrences of that text might appear. For example, we don’t want an exception like ‘mm’ to result in words like ‘COmmENT’, so we could state that it’s position should be ‘After number’.</li>
+</ul>
+<p>The full range of options includes:</p>
+<ul>
+<li>Whole word: Only text fully bounded by white-space or punctuation characters will be targeted, e.g. ‘word’ in ‘a word example’</li>
+</ul>
+<ul>
+<li>Before number: Only text positioned before a number will be targeted, e.g. ’NZS’ in 'NZS3604’</li>
+</ul>
+<ul>
+<li>After number: Only text positioned after a number will be targeted, e.g. ‘mm’ in ‘100mm'</li>
+</ul>
+<ul>
+<li>Between number: Only text positioned between numbers will be targeted, e.g. ‘x’ in ‘100x50’</li>
+</ul>
+<ul>
+<li>Start of word: Only text positioned at the beginning of a whole word will be targeted, e.g. ‘GIB’ in ‘GIBboard’</li>
+</ul>
+<ul>
+<li>End of word: Only text positioned at the end of a whole word will be targeted, e.g. ‘Board’ in GIBBoard’</li>
+</ul>
+<ul>
+<li>Anywhere: This will replace matching text found anywhere, with no restriction</li>
+</ul>
+<p>If an expression contains non-letter characters, e.g. punctuation, numbers etc, the position should always be set to <em>Anywhere</em>. The add-on will warn the user and switch to <em>Anywhere</em> automatically. This is because mixtures of numbers/letter/punctuation wouldn’t make sense in any of the other contexts.</p>
+<p><strong>Example</strong></p>
+<p><img src="img/207356153_4.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>When the preferences are changed, the palette contents will automatically refresh. An audit can then be used to apply the updated text to any placed labels. The change is not permanent in the database, so switching back to <em>Original</em> will see the original text restored. However, if you edit a title or description while a change of case is applied, anything you enter becomes permanent (i.e. the way it looks on the screen becomes the original).</p>
+<p><em>Considerations for New Zealand users of Masterspec:</em></p>
+<p>Masterspec keynotes will always remain unchanged within the database because you can’t edit them, however, the Preferences outlined above will still be applied.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Keynotes Text Case Settings allow the users to set the case for the title and description of keynotes (as a preference) and to specify exceptions, e.g. all upper-case except for the letters ‘mm’ following a number (so dimensions come out as 100mm rather than 100MM).</p>
+<p>You can set up these preferences using the menu item <em>Cadimage > Keynotes > Text Case</em></p>
+<p><img src="img/207356153_0.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>It displays a preferences dialog when selected.</p>
+<p><img src="img/207356153_1.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>The <em>Text case</em> menu at the top determine the case to be applied to all the text. Options are:</p>
+<ul>
+<li>Original: the text is left as entered (no change of case)</li>
+</ul>
+<ul>
+<li>Sentence case: Every new sentence starts with an upper-case letter and the remainder is lower-case</li>
+</ul>
+<ul>
+<li>Title case: Every word starts with an upper case letter and the remainder is lower-case</li>
+</ul>
+<ul>
+<li>Upper-case: All upper-case</li>
+</ul>
+<ul>
+<li>Lower-case: All lower-case</li>
+</ul>
+<p>The <em>Apply special cases</em> checkbox is ticked if the user wants to apply any of the special case defined in the list below.</p>
+<p><img src="img/207356153_2.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>The list at the bottom contains all text that may differ from the standard text case, e.g. showing the unit as ‘mm’ even when upper-case is applied or ’NZS’ when title-case is applied.</p>
+<p><img src="img/207356153_3.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<ul>
+<li>The  Expression  in the first column is the text written in the case required by the user.</li>
+</ul>
+<ul>
+<li>The  Position  column restricts where occurrences of that text might appear. For example, we don’t want an exception like ‘mm’ to result in words like ‘COmmENT’, so we could state that it’s position should be ‘After number’.</li>
+</ul>
+<p>The full range of options includes:</p>
+<ul>
+<li>Whole word: Only text fully bounded by white-space or punctuation characters will be targeted, e.g. ‘word’ in ‘a word example’</li>
+</ul>
+<ul>
+<li>Before number: Only text positioned before a number will be targeted, e.g. ’NZS’ in 'NZS3604’</li>
+</ul>
+<ul>
+<li>After number: Only text positioned after a number will be targeted, e.g. ‘mm’ in ‘100mm'</li>
+</ul>
+<ul>
+<li>Between number: Only text positioned between numbers will be targeted, e.g. ‘x’ in ‘100x50’</li>
+</ul>
+<ul>
+<li>Start of word: Only text positioned at the beginning of a whole word will be targeted, e.g. ‘GIB’ in ‘GIBboard’</li>
+</ul>
+<ul>
+<li>End of word: Only text positioned at the end of a whole word will be targeted, e.g. ‘Board’ in GIBBoard’</li>
+</ul>
+<ul>
+<li>Anywhere: This will replace matching text found anywhere, with no restriction</li>
+</ul>
+<p>If an expression contains non-letter characters, e.g. punctuation, numbers etc, the position should always be set to <em>Anywhere</em>. The add-on will warn the user and switch to <em>Anywhere</em> automatically. This is because mixtures of numbers/letter/punctuation wouldn’t make sense in any of the other contexts.</p>
+<p><strong>Example</strong></p>
+<p><img src="img/207356153_4.jpg" alt="Keynotes Text Case Settings 示意图" loading="lazy"></p>
+<p>When the preferences are changed, the palette contents will automatically refresh. An audit can then be used to apply the updated text to any placed labels. The change is not permanent in the database, so switching back to <em>Original</em> will see the original text restored. However, if you edit a title or description while a change of case is applied, anything you enter becomes permanent (i.e. the way it looks on the screen becomes the original).</p>
+<p><em>Considerations for New Zealand users of Masterspec:</em></p>
+<p>Masterspec keynotes will always remain unchanged within the database because you can’t edit them, however, the Preferences outlined above will still be applied.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-8295619172751">
+  <div class="art-h"><span class="no">12</span>
+    <h3 class="zh-only block">Teamwork 中的 Keynotes</h3>
+    <h3 class="en-only block">Keynotes in Teamwork</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8295619172751-Keynotes-in-Teamwork" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h1>预留（Reservation）</h1>
+<p>与 Teamwork 环境中的所有工具一样，首先需要理解的是：要进行任何更改，都必须先进行预留（Reserved）。</p>
+<p><img src="img/8295619172751_0.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>做法是点击 Keynotes 面板右下角的 ‘Reserve’（预留）按钮（要显示 Keynotes 面板，可像平常一样通过激活屏幕顶部 Menu 选项卡中的 CI Tools 下拉菜单来激活）。</p>
+<p>Keynotes 面板被预留之后，就可以对 Keynotes 数据库进行更改。你能做出的更改取决于你在 BIMCloud 服务器上的权限（见下文）。Reserve 按钮现已替换为 Release 按钮。在编辑、添加、删除或审核 Keynote 标签之后，必须执行 Release，才能让其他用户编辑 Keynotes 数据库。</p>
+<p><img src="img/8295619172751_1.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>注意：</p>
+<p>请注意目前没有 Request（请求）按钮，占用预留的 Teamwork 用户需要通过标准的 Teamwork 消息系统来请求 Release Keynotes。</p>
+<p>在 Keynotes 面板被预留期间，Keynotes 面板底部的 ‘Reserved by’（预留者）对话框会向项目中的所有其他用户显示预留它的 Teamwork 用户名。</p>
+<p><img src="img/8295619172751_2.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>与单机项目环境类似，可以通过 Keynotes 面板右上角的 Keynotes manager 按钮激活 Keynotes 管理器，也可以通过 Keynotes 菜单项下的 CITools 下拉菜单来激活。</p>
+<p><img src="img/8295619172751_3.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>此后所有标准的 Keynote 编辑功能都可以通过该界面使用：</p>
+<ul>
+<li>New（新建）</li>
+</ul>
+<ul>
+<li>Delete（删除）</li>
+</ul>
+<ul>
+<li>Link（链接）</li>
+</ul>
+<ul>
+<li>Import（导入）</li>
+</ul>
+<ul>
+<li>Export（导出）</li>
+</ul>
+<ul>
+<li>Update（更新）</li>
+</ul>
+<p>……如下图所示：</p>
+<p><img src="img/8295619172751_4.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>标准的 Teamwork 发送/接收功能同样适用；当相应的 Teamwork 用户执行 Release 时，Keynotes 数据库也会随之更新。</p>
+<h1>Teamwork 权限：</h1>
+<p>请注意，在 BimCloud Manager 的 Teamwork ‘Roles’（角色）设置中，务必指派同时具备 ‘Classifications and Properties’（分类与属性）Create 和 Delete/Modify 权限的角色。这一指派决定了哪些 ‘Roles’ 可以在 Teamwork 项目中修改和编辑 Keynotes。</p>
+<p>*请注意，BIMCloud Teamwork 中 ‘Draftsman’（绘图员）角色的默认设置并未启用 ‘Classifications and Properties’ 的 Create 或 Delete/Modify 权限；如有需要，应相应修改该角色。</p>
+<h1>审核标签（Audit Labels）</h1>
+<p>审核标签时，务必确保 Keynote 标签已被预留。</p>
+<p>为便于使用，Keynotes 菜单在 CITools 下拉菜单项下新增了若干功能。它们是：</p>
+<ul>
+<li>预留项目中所有标签（Reserve all Labels in the Project）</li>
+</ul>
+<ul>
+<li>释放项目中所有标签（Release all Labels in the Project）</li>
+</ul>
+<ul>
+<li>预留视图中所有 Keynotes（Reserve All Keynotes in the View）</li>
+</ul>
+<ul>
+<li>释放视图中所有 Keynotes（Release all Keynotes in the View）</li>
+</ul>
+<p><img src="img/8295619172751_5.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>审核标签时，用户可以审核某个视图中的所有标签，也可以审核整个 Teamwork 项目的全部标签。请注意，审核后需要释放标签，其他用户才能对其做任何更改。</p></div>
+  <div class="en-only"><h1>Reservation</h1>
+<p>As with all tools in the Teamwork environment, the first thing to understand is that to be able to make any changes, it needs to be Reserved.</p>
+<p><img src="img/8295619172751_0.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>This is done by selecting the ‘Reserve’ button located at the bottom right of the Keynotes Palette (to display the Keynotes Palette it can be activated as usual by activating the CI Tools drop-down in the Menu tab at the top of the screen).</p>
+<p>Once the Keynotes Palette has been Reserved, changes can be made to the Keynotes Database. The changes that can be made are determined by your permissions on the BIMCloud server as mentioned below. The Reserve Button has now been replaced with a Release Button. After Editing, Adding, Deleting or Auditing Keynote Labels, it is necessary to Release the Keynotes for other users to be able to Edit the Keynotes Database.</p>
+<p><img src="img/8295619172751_1.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>Note:</p>
+<p>Please note that there is not a Request button available at this stage, and the Teamwork user that has it reserved, will have to be asked to Release using the standard Teamwork messaging system to Release Keynotes.</p>
+<p>While the Keynotes Palette is reserved, a ‘Reserved by’ dialogue at the bottom of the Keynotes palette will display the user-name of the Teamwork user that has it Reserved to all other users in the Project.</p>
+<p><img src="img/8295619172751_2.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>Similar to the Solo Project environment, the Keynotes manager can be activated with the Keynotes manager button on the top right of the Keynotes palette or alternatively through the CITools Drop down under the Keynotes Menu Item.</p>
+<p><img src="img/8295619172751_3.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>All the standard Keynote Editing functionality is then available from this interface:</p>
+<ul>
+<li>New</li>
+</ul>
+<ul>
+<li>Delete</li>
+</ul>
+<ul>
+<li>Link</li>
+</ul>
+<ul>
+<li>Import</li>
+</ul>
+<ul>
+<li>Export</li>
+</ul>
+<ul>
+<li>Update</li>
+</ul>
+<p>...as shown in the Image below:</p>
+<p><img src="img/8295619172751_4.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>The Standard Teamwork Send and Receive functionality applies, and the Keynotes Database is also updated when it is Released by the respective Teamwork user.</p>
+<h1>Teamwork Permissions:</h1>
+<p>Please note that it is important to assign permissions that enable both Create and Delete/Modify of ‘Classifications and Properties’ in the Teamwork ‘Roles’ settings on your BimCloud Manager. This assignment determines which ‘Roles’ will be able to modify and edit Keynotes on the Teamwork Project.</p>
+<p>*Please be aware that the default BIMCloud Teamwork settings for the role of ‘Draftsman’ does NOT have the Create or Delete/Modify for ‘Classifications and Properties’ enabled, if this is required the Role should be modified accordingly.</p>
+<h1>Audit Labels</h1>
+<p>When auditing labels, it is important to have the Keynote Labels reserved.</p>
+<p>For ease of use, a few new functions have been added to the Keynote Menu under the  CITools drop- down menu item.</p>
+<p>These are:</p>
+<ul>
+<li>Reserve all Labels in the Project</li>
+</ul>
+<ul>
+<li>Release all Labels in the Project</li>
+</ul>
+<ul>
+<li>Reserve All Keynotes in the View</li>
+</ul>
+<ul>
+<li>Release all Keynotes in the View</li>
+</ul>
+<p><img src="img/8295619172751_5.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>When auditing labels, the user can audit all labels in a View, or in the entire Teamwork Project as a whole. Please note that labels will need to be Released after auditing for other users to be able to make any changes to them.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h1>Reservation</h1>
+<p>As with all tools in the Teamwork environment, the first thing to understand is that to be able to make any changes, it needs to be Reserved.</p>
+<p><img src="img/8295619172751_0.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>This is done by selecting the ‘Reserve’ button located at the bottom right of the Keynotes Palette (to display the Keynotes Palette it can be activated as usual by activating the CI Tools drop-down in the Menu tab at the top of the screen).</p>
+<p>Once the Keynotes Palette has been Reserved, changes can be made to the Keynotes Database. The changes that can be made are determined by your permissions on the BIMCloud server as mentioned below. The Reserve Button has now been replaced with a Release Button. After Editing, Adding, Deleting or Auditing Keynote Labels, it is necessary to Release the Keynotes for other users to be able to Edit the Keynotes Database.</p>
+<p><img src="img/8295619172751_1.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>Note:</p>
+<p>Please note that there is not a Request button available at this stage, and the Teamwork user that has it reserved, will have to be asked to Release using the standard Teamwork messaging system to Release Keynotes.</p>
+<p>While the Keynotes Palette is reserved, a ‘Reserved by’ dialogue at the bottom of the Keynotes palette will display the user-name of the Teamwork user that has it Reserved to all other users in the Project.</p>
+<p><img src="img/8295619172751_2.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>Similar to the Solo Project environment, the Keynotes manager can be activated with the Keynotes manager button on the top right of the Keynotes palette or alternatively through the CITools Drop down under the Keynotes Menu Item.</p>
+<p><img src="img/8295619172751_3.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>All the standard Keynote Editing functionality is then available from this interface:</p>
+<ul>
+<li>New</li>
+</ul>
+<ul>
+<li>Delete</li>
+</ul>
+<ul>
+<li>Link</li>
+</ul>
+<ul>
+<li>Import</li>
+</ul>
+<ul>
+<li>Export</li>
+</ul>
+<ul>
+<li>Update</li>
+</ul>
+<p>...as shown in the Image below:</p>
+<p><img src="img/8295619172751_4.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>The Standard Teamwork Send and Receive functionality applies, and the Keynotes Database is also updated when it is Released by the respective Teamwork user.</p>
+<h1>Teamwork Permissions:</h1>
+<p>Please note that it is important to assign permissions that enable both Create and Delete/Modify of ‘Classifications and Properties’ in the Teamwork ‘Roles’ settings on your BimCloud Manager. This assignment determines which ‘Roles’ will be able to modify and edit Keynotes on the Teamwork Project.</p>
+<p>*Please be aware that the default BIMCloud Teamwork settings for the role of ‘Draftsman’ does NOT have the Create or Delete/Modify for ‘Classifications and Properties’ enabled, if this is required the Role should be modified accordingly.</p>
+<h1>Audit Labels</h1>
+<p>When auditing labels, it is important to have the Keynote Labels reserved.</p>
+<p>For ease of use, a few new functions have been added to the Keynote Menu under the  CITools drop- down menu item.</p>
+<p>These are:</p>
+<ul>
+<li>Reserve all Labels in the Project</li>
+</ul>
+<ul>
+<li>Release all Labels in the Project</li>
+</ul>
+<ul>
+<li>Reserve All Keynotes in the View</li>
+</ul>
+<ul>
+<li>Release all Keynotes in the View</li>
+</ul>
+<p><img src="img/8295619172751_5.jpg" alt="Keynotes in Teamwork 示意图" loading="lazy"></p>
+<p>When auditing labels, the user can audit all labels in a View, or in the entire Teamwork Project as a whole. Please note that labels will need to be Released after auditing for other users to be able to make any changes to them.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205941056">
+  <div class="art-h"><span class="no">13</span>
+    <h3 class="zh-only block">手动创建 Keynotes 数据库</h3>
+    <h3 class="en-only block">Manually start a Keynotes Database</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205941056-Manually-start-a-Keynotes-Database" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>要开始创建一个新数据库：</p>
+<ul>
+<li>打开 Keynotes 面板： <strong>Cadimage>Keynotes>Keynote Palette</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205941056_0.jpg" alt="Manually start a Keynotes Database 示意图" loading="lazy"></p>
+<p>**</p>
+<p>1.<strong>点击</strong>下面高亮的 <strong>New</strong>（新建）按钮：</p>
+<p><img src="img/205941056_1.jpg" alt="Manually start a Keynotes Database 示意图" loading="lazy"></p>
+<p>这会创建一个名为 <strong>Untitled</strong>（未命名）、<strong>Key = 0</strong> 的新数据库条目。在 <strong>Keynote Editing</strong> 折叠区中你可以编辑这些内容。</p>
+<p>一个 keynote 由四部分组成：</p>
+<ul>
+<li>Key（编号）——你所引用的代码</li>
+</ul>
+<ul>
+<li>Title（标题）——注释的标题</li>
+</ul>
+<ul>
+<li>Spec（规范）——可引用外部规范参考</li>
+</ul>
+<ul>
+<li>Description（描述）——你所标注条目的详细说明或规范说明</li>
+</ul>
+<p>你可以创建更多内容，并拖放这些条目以组成你偏好的结构。</p></div>
+  <div class="en-only"><p>To start a new database:</p>
+<ul>
+<li>Open the Keynote Palette: <strong>Cadimage>Keynotes>Keynote Palette</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205941056_0.jpg" alt="Manually start a Keynotes Database 示意图" loading="lazy"></p>
+<p>**</p>
+<p>1.<strong>Click the</strong> <strong>New</strong> button highlighted below:</p>
+<p><img src="img/205941056_1.jpg" alt="Manually start a Keynotes Database 示意图" loading="lazy"></p>
+<p>This creates a new database entry called <strong>Untitled</strong> with the <strong>Key = 0</strong>. In the <strong>Keynote Editing</strong> twirl down you can edit this content.</p>
+<p>A keynote consists of four parts:</p>
+<ul>
+<li>Key – the code you refer to</li>
+</ul>
+<ul>
+<li>Title – the title for your note</li>
+</ul>
+<ul>
+<li>Spec – this can refer to an external specification reference</li>
+</ul>
+<ul>
+<li>Description – the detailed description or specification of the item you are notating</li>
+</ul>
+<p>You can create additional content and drag and drop the entries to form your preferred structure.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>To start a new database:</p>
+<ul>
+<li>Open the Keynote Palette: <strong>Cadimage>Keynotes>Keynote Palette</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205941056_0.jpg" alt="Manually start a Keynotes Database 示意图" loading="lazy"></p>
+<p>**</p>
+<p>1.<strong>Click the</strong> <strong>New</strong> button highlighted below:</p>
+<p><img src="img/205941056_1.jpg" alt="Manually start a Keynotes Database 示意图" loading="lazy"></p>
+<p>This creates a new database entry called <strong>Untitled</strong> with the <strong>Key = 0</strong>. In the <strong>Keynote Editing</strong> twirl down you can edit this content.</p>
+<p>A keynote consists of four parts:</p>
+<ul>
+<li>Key – the code you refer to</li>
+</ul>
+<ul>
+<li>Title – the title for your note</li>
+</ul>
+<ul>
+<li>Spec – this can refer to an external specification reference</li>
+</ul>
+<ul>
+<li>Description – the detailed description or specification of the item you are notating</li>
+</ul>
+<p>You can create additional content and drag and drop the entries to form your preferred structure.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000875896">
+  <div class="art-h"><span class="no">14</span>
+    <h3 class="zh-only block">Masterspec 的 MasterKey Keynote</h3>
+    <h3 class="en-only block">Masterspec’s MasterKey Keynote</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000875896-Masterspec-s-MasterKey-Keynote" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>有关 MasterKey 的更多信息，请参阅 masterspec 网站：<a href="https://masterspec.co.nz/MasterKey-On-ArchiCAD/6820/" target="_blank" rel="noopener">https://masterspec.co.nz/MasterKey-On-ArchiCAD/6820/</a></p>
+<p>请确保你具备以下条件：</p>
+<ul>
+<li>Cadimage Keynotes</li>
+</ul>
+<ul>
+<li>请联系 <a href="https://masterspec.co.nz/" target="_blank" rel="noopener">https://masterspec.co.nz/</a> 以激活 MasterSpec 与 Masterkey 订阅</li>
+</ul>
+<p>在 ARCHICAD 中打开 <strong>Keynotes Manager</strong>（Keynotes 管理器），进入 <strong>Cadimage> Keynotes> Keynotes Manager</strong></p>
+<ul>
+<li>Keynotes Manager 打开后，点击 Keynotes Database（Keynotes 数据库）</li>
+</ul>
+<ul>
+<li>点击 Link（链接）——这将打开 Select Import Source（选择导入来源）窗口。</li>
+</ul>
+<ul>
+<li>在该窗口中选择你的来源，本例中为 “A Masterspec project”（一个 Masterspec 项目）</li>
+</ul>
+<ul>
+<li>使用与你登录 Masterspec 时相同的邮箱和密码登录 <a href="https://masterspec.co.nz/" target="_blank" rel="noopener">https://masterspec.co.nz/</a></li>
+</ul>
+<p><img src="img/360000875896_0.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>成功登录后，你会看到你当前用 Masterspec 编写的项目规范清单。</p>
+<p>选择其中一个项目规范，然后<strong>点击 OK</strong></p>
+<p><img src="img/360000875896_1.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>在下一个窗口中，检查你要导入的 Keynotes，然后<strong>点击 ok</strong></p>
+<p><img src="img/360000875896_2.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>再次点击 OK 关闭 Keynotes Manager。</p>
+<p><img src="img/360000875896_3.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>现在你应该能够在 ARCHICAD 中把 Masterspec 的规范选项作为 Keynotes 来访问。</p>
+<p>当你需要从 Masterspec 规范更新 keynotes 数据库时，点击 **</p>
+<p><div class="missing">▢ 该图在官方源站已失效</div></p>
+<p>  Update all linked keynotes,<strong>（更新所有链接的 keynotes）检查更改，并在 </strong>Keynotes Review**（Keynotes 审阅）窗口上点击 ok。</p>
+<p><img src="img/360000875896_5.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>蓝色 - 已添加到你的规范，将被添加到你的 Keynotes 数据库</p>
+<p>红色 - 已从规范中删除，将从你的 Keynotes 数据库中删除。</p>
+<p>黄色 - 规范中的内容已更新，将更新到你的 Keynotes 数据库。</p>
+<p>请注意，如果你删除/添加/更改了任何已作为标签放置的 Keynotes，你需要运行 <strong>Cadimage> Keynotes> Audit Labels…</strong>（审核标签）工具，以确保所有标签都被更新。Audit Labels 工具会给你选项，可以移除标签，或用另一个替代已删除的 keynote。</p></div>
+  <div class="en-only"><p>For more info on MasterKey please refer to the masterspec website: <a href="https://masterspec.co.nz/MasterKey-On-ArchiCAD/6820/" target="_blank" rel="noopener">https://masterspec.co.nz/MasterKey-On-ArchiCAD/6820/</a></p>
+<p>Please ensure you have the following:</p>
+<ul>
+<li>Cadimage Keynotes</li>
+</ul>
+<ul>
+<li>Activate MasterSpec & Masterkey subscriptions please contact <a href="https://masterspec.co.nz/" target="_blank" rel="noopener">https://masterspec.co.nz/</a></li>
+</ul>
+<p>Open the <strong>Keynotes Manager</strong> in ARCHICAD, go to <strong>Cadimage> Keynotes> Keynotes Manager</strong></p>
+<ul>
+<li>Once the Keynotes Manager is open click on Keynotes Database</li>
+</ul>
+<ul>
+<li>Click on Link - This will open the Select Import Source window.</li>
+</ul>
+<ul>
+<li>In the window select your source in this case, it will be the "A Masterspec project"</li>
+</ul>
+<ul>
+<li>Log in  using the same email and password you use to log into Masterspec     <a href="https://masterspec.co.nz/" target="_blank" rel="noopener">https://masterspec.co.nz/</a></li>
+</ul>
+<p><img src="img/360000875896_0.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>Once you've signed in successfully you'll see a list of your current project specifications that you've been writing with Masterspec.</p>
+<p>Select one of your project specs and <strong>click OK</strong></p>
+<p><img src="img/360000875896_1.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>In the next window, review the Keynotes your importing and then <strong>click ok</strong></p>
+<p><img src="img/360000875896_2.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>Click OK once more to close the Keynotes Manager.</p>
+<p><img src="img/360000875896_3.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>You should now be able to access your Masterspec specification selections as Keynotes in ARCHICAD.</p>
+<p>When you need to update the keynotes database from your Masterspec specification, click on **</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p> Update all linked keynotes,<strong>review the changes and click ok on the </strong>Keynotes Review** window.</p>
+<p><img src="img/360000875896_5.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>Blue - Added to your spec and will be added to your Keynotes Database</p>
+<p>Red - Deleted from the spec and will be deleted to your Keynotes Database.</p>
+<p>Yellow - Content updated in your spec and will be updated to your Keynotes Database.</p>
+<p>Note if you delete / add / change any Keynotes that are already placed as labels, you'll need to run the <strong>Cadimage> Keynotes> Audit Labels…</strong> tool to ensure all Labels are updated. The Audit Labels tool will give you the option to remove the label or replace the deleted keynote with an alternative.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>For more info on MasterKey please refer to the masterspec website: <a href="https://masterspec.co.nz/MasterKey-On-ArchiCAD/6820/" target="_blank" rel="noopener">https://masterspec.co.nz/MasterKey-On-ArchiCAD/6820/</a></p>
+<p>Please ensure you have the following:</p>
+<ul>
+<li>Cadimage Keynotes</li>
+</ul>
+<ul>
+<li>Activate MasterSpec & Masterkey subscriptions please contact <a href="https://masterspec.co.nz/" target="_blank" rel="noopener">https://masterspec.co.nz/</a></li>
+</ul>
+<p>Open the <strong>Keynotes Manager</strong> in ARCHICAD, go to <strong>Cadimage> Keynotes> Keynotes Manager</strong></p>
+<ul>
+<li>Once the Keynotes Manager is open click on Keynotes Database</li>
+</ul>
+<ul>
+<li>Click on Link - This will open the Select Import Source window.</li>
+</ul>
+<ul>
+<li>In the window select your source in this case, it will be the "A Masterspec project"</li>
+</ul>
+<ul>
+<li>Log in  using the same email and password you use to log into Masterspec     <a href="https://masterspec.co.nz/" target="_blank" rel="noopener">https://masterspec.co.nz/</a></li>
+</ul>
+<p><img src="img/360000875896_0.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>Once you've signed in successfully you'll see a list of your current project specifications that you've been writing with Masterspec.</p>
+<p>Select one of your project specs and <strong>click OK</strong></p>
+<p><img src="img/360000875896_1.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>In the next window, review the Keynotes your importing and then <strong>click ok</strong></p>
+<p><img src="img/360000875896_2.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>Click OK once more to close the Keynotes Manager.</p>
+<p><img src="img/360000875896_3.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>You should now be able to access your Masterspec specification selections as Keynotes in ARCHICAD.</p>
+<p>When you need to update the keynotes database from your Masterspec specification, click on **</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p> Update all linked keynotes,<strong>review the changes and click ok on the </strong>Keynotes Review** window.</p>
+<p><img src="img/360000875896_5.jpg" alt="Masterspec’s MasterKey Keynote 示意图" loading="lazy"></p>
+<p>Blue - Added to your spec and will be added to your Keynotes Database</p>
+<p>Red - Deleted from the spec and will be deleted to your Keynotes Database.</p>
+<p>Yellow - Content updated in your spec and will be updated to your Keynotes Database.</p>
+<p>Note if you delete / add / change any Keynotes that are already placed as labels, you'll need to run the <strong>Cadimage> Keynotes> Audit Labels…</strong> tool to ensure all Labels are updated. The Audit Labels tool will give you the option to remove the label or replace the deleted keynote with an alternative.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205030754">
+  <div class="art-h"><span class="no">15</span>
+    <h3 class="zh-only block">概述</h3>
+    <h3 class="en-only block">Overview</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205030754-Overview" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Cadimage Keynotes 让你可以轻松快捷地为文档添加注释：它提供了一个创建注释数据库的框架——你也可以导入已有的数据库。除了放置单条注释之外，还可以根据构件的属性（墙体、楼板、屋顶等）设置注释自动附加到相应构件上。</p>
+<p> Keynotes 由四部分组成：</p>
+<ul>
+<li>Key（编号）——你所引用的代码</li>
+</ul>
+<ul>
+<li>Title（标题）——注释的标题</li>
+</ul>
+<ul>
+<li>Spec（规范）——可引用外部规范参考</li>
+</ul>
+<ul>
+<li>Description（描述）——你所标注条目的详细说明或规范说明</li>
+</ul>
+<p> Keynotes 可以以包含上述全部内容的完整注释形式放置到文档上，也可以只放置其中部分内容，还可以将其隐藏。之后所有 keynotes 都可以汇总并排入单个布局上的明细表，或作为完整的规范清单。</p></div>
+  <div class="en-only"><p>Cadimage Keynotes allows you to annotate your document easily and quickly by providing a framework to create a database of notes – or you can import an existing database. As well as placing individual notes, they can also be set to automatically attach to elements (wall, slab, roof etc) based on their attributes.</p>
+<p> Keynotes consist of four parts:</p>
+<ul>
+<li>Key – the code you refer to</li>
+</ul>
+<ul>
+<li>Title – the title for your note</li>
+</ul>
+<ul>
+<li>Spec – this can refer to an external specification reference</li>
+</ul>
+<ul>
+<li>Description – the detailed description or specification of the item you are notating</li>
+</ul>
+<p> Keynotes can be placed on the documents with a full note containing all of the above items or a selection of the items or they can be hidden. All keynotes can then be collated and scheduled on individual layouts or as a complete specification listing.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Cadimage Keynotes allows you to annotate your document easily and quickly by providing a framework to create a database of notes – or you can import an existing database. As well as placing individual notes, they can also be set to automatically attach to elements (wall, slab, roof etc) based on their attributes.</p>
+<p> Keynotes consist of four parts:</p>
+<ul>
+<li>Key – the code you refer to</li>
+</ul>
+<ul>
+<li>Title – the title for your note</li>
+</ul>
+<ul>
+<li>Spec – this can refer to an external specification reference</li>
+</ul>
+<ul>
+<li>Description – the detailed description or specification of the item you are notating</li>
+</ul>
+<p> Keynotes can be placed on the documents with a full note containing all of the above items or a selection of the items or they can be hidden. All keynotes can then be collated and scheduled on individual layouts or as a complete specification listing.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-17891545541263">
+  <div class="art-h"><span class="no">16</span>
+    <h3 class="zh-only block">ProKit Keynotes - 从这里开始</h3>
+    <h3 class="en-only block">ProKit Keynotes -  Start here</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/17891545541263-ProKit-Keynotes-Start-here" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>ProKit Keynotes 让你可以添加一个注释数据库，该数据库可在整个项目中通用；它们可以以多种方式生成明细表，甚至可以在项目之间传输。</p>
+<p>这意味着信息可以在一个地方修改和修订，并贯穿整个项目。</p>
+<p>也可以把 ProKit Keynotes 关联到 Archicad 中任意的属性（Attribute）上，并自动为这些属性添加标签（Label）。</p>
+<p><strong>Libpack 加载（自 ARCHICAD 29 起）</strong></p>
+<p>需要注意的是，ProKit Keynotes 工具要求手动把 Keynotes Libpack 加载到项目中。</p>
+<p>与所有库一样，这需要通过 Library Manager（库管理器）完成。请注意，已加载的 Libpack 需要在单个文件层级上选择，而不能像早期 Archicad 版本那样在文件夹层级上选择。</p>
+<p>Library Manager 可通过 File>Library Manager 下拉菜单访问。</p>
+<p><img src="img/17891545541263_0.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>进入 Library Manager 后，我们使用 “Add” 按钮添加 Keynotes Libpack。</p>
+<p><img src="img/17891545541263_1.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>这样就可以导航到位于 ARCHICAD 安装文件夹中的 ProKit Libpack 文件夹。</p>
+<p><img src="img/17891545541263_2.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>这将加载 Keynotes Libpack 及相关的宏（Macros）。</p>
+<p><strong>添加 Keynote</strong></p>
+<p>请注意，所有 Keynotes 都通过 Keynotes 下拉菜单管理：ProKit>Keynotes>Keynotes Palette（Keynotes 面板）。</p>
+<p>通过点击 ProKit 下拉菜单并选择 Keynote Palette（Keynote 面板），即可添加 Keynotes。</p>
+<p><img src="img/17891545541263_3.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>使用 A+ 按钮添加 Keynotes 并修改其内容。</p>
+<p><img src="img/17891545541263_4.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>这将添加该 Keynote。</p>
+<p><img src="img/17891545541263_5.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>放置 Keynote 时，使用 Archicad 的 Label Tool（标签工具），但要选择 ProKit Label。</p>
+<p><img src="img/17891545541263_6.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>放置 Keynote 的方法：在面板中双击该注释（Note），然后把它放到期望的位置。</p>
+<p><img src="img/17891545541263_7.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>关于 Keynotes 工具各项功能的更多详细信息，请参阅知识库（Knowledge-base）中的相关文章。</p></div>
+  <div class="en-only"><p>ProKit Keynotes allows you to add a database of notes that can be used throughout your project, they can be scheduled in various ways, and even transferred from one project to another.</p>
+<p>This means that information can be altered and revised in one place, and permeate throughout the project.</p>
+<p>It is also Possible to associate ProKit Keynotes to any Attributes in Archicad and automatically label these Attributes.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Keynotes Tool requires the Keynotes Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier Archicad versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17891545541263_0.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Keynotes Libpack.</p>
+<p><img src="img/17891545541263_1.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17891545541263_2.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>This will load the Keynotes Libpack and associated Macros.</p>
+<p><strong>Adding a Keynote</strong></p>
+<p>Please note that all Keynotes are managed from the Keynotes dropdown menu, ProKit>Keynotes>Keynotes Palette.</p>
+<p>By then clicking on the ProKit dropdown and selecting the Keynote Palette Keynotes can be added.</p>
+<p><img src="img/17891545541263_3.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>Use the A+ to add Keynotes and change the contents.</p>
+<p><img src="img/17891545541263_4.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>This will add the Keynote.</p>
+<p><img src="img/17891545541263_5.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>To Place a Keynote, we use the Archicad Label Tool, but select the ProKit Label.</p>
+<p><img src="img/17891545541263_6.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>To Place the Keynote, Double Click on the Note in the Palette and place it in the desired position.</p>
+<p><img src="img/17891545541263_7.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on each Keynotes Tool feature, please see the articles on the Knowledge-base.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>ProKit Keynotes allows you to add a database of notes that can be used throughout your project, they can be scheduled in various ways, and even transferred from one project to another.</p>
+<p>This means that information can be altered and revised in one place, and permeate throughout the project.</p>
+<p>It is also Possible to associate ProKit Keynotes to any Attributes in Archicad and automatically label these Attributes.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Keynotes Tool requires the Keynotes Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier Archicad versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17891545541263_0.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Keynotes Libpack.</p>
+<p><img src="img/17891545541263_1.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17891545541263_2.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>This will load the Keynotes Libpack and associated Macros.</p>
+<p><strong>Adding a Keynote</strong></p>
+<p>Please note that all Keynotes are managed from the Keynotes dropdown menu, ProKit>Keynotes>Keynotes Palette.</p>
+<p>By then clicking on the ProKit dropdown and selecting the Keynote Palette Keynotes can be added.</p>
+<p><img src="img/17891545541263_3.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>Use the A+ to add Keynotes and change the contents.</p>
+<p><img src="img/17891545541263_4.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>This will add the Keynote.</p>
+<p><img src="img/17891545541263_5.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>To Place a Keynote, we use the Archicad Label Tool, but select the ProKit Label.</p>
+<p><img src="img/17891545541263_6.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>To Place the Keynote, Double Click on the Note in the Palette and place it in the desired position.</p>
+<p><img src="img/17891545541263_7.jpg" alt="ProKit Keynotes -  Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on each Keynotes Tool feature, please see the articles on the Knowledge-base.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-8620640312847">
+  <div class="art-h"><span class="no">17</span>
+    <h3 class="zh-only block">发行说明 - Keynotes</h3>
+    <h3 class="en-only block">Release Notes - Keynotes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8620640312847-Release-Notes-Keynotes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h1>发行说明 - Keynotes - 6.40</h1>
+<h3>缺陷</h3>
+<p>KNT-438 同一文件内 keynotes 明细表在布局页面之间分配不均</p>
+<p>KNT-495 Keynotes 标签文字溢出边框</p>
+<p>KNT-509 Teamwork 中 Reserve 按钮被临时禁用</p>
+<p>KNT-510 为其他用户授予 Reserve 权限时，Keynotes 未推送到 Teamwork</p>
+<p>KNT-514 清空搜索框并输入新文本时，面板中的搜索框失去焦点</p>
+<p>KNT-517 并非所有 Keynotes 都被排入明细表</p>
+<h3>改进</h3>
+<p>KNT-38 应用标签样式的过程繁琐</p>
+<p>KNT-474 标签和明细表对象新增选项，可为注释的各部分设置大小写</p>
+<h3>大型功能</h3>
+<p>KNT-485 Keynotes 的 Teamwork 支持</p></div>
+  <div class="en-only"><h1>Release notes - Keynotes - 6.40</h1>
+<h3>Bug</h3>
+<p>KNT-438 keynotes schedule not equally divided between layout pages in one file</p>
+<p>KNT-495 Keynotes label text oozes out of frame</p>
+<p>KNT-509 Reserve button temporarily Disabled in Teamwork</p>
+<p>KNT-510 Keynotes not pushed to Teamwork when Granting access for other user to Reserve</p>
+<p>KNT-514 Searchbox in Palette loses focus when clearing the box and entering new text</p>
+<p>KNT-517 Not all Keynotes Scheduled on Layout</p>
+<h3>Improvement</h3>
+<p>KNT-38 Applying Label Styles long winded</p>
+<p>KNT-474 Options in the label and schedule objects, to set case for parts of the note</p>
+<h3>Epic</h3>
+<p>KNT-485 Teamwork for Keynotes</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h1>Release notes - Keynotes - 6.40</h1>
+<h3>Bug</h3>
+<p>KNT-438 keynotes schedule not equally divided between layout pages in one file</p>
+<p>KNT-495 Keynotes label text oozes out of frame</p>
+<p>KNT-509 Reserve button temporarily Disabled in Teamwork</p>
+<p>KNT-510 Keynotes not pushed to Teamwork when Granting access for other user to Reserve</p>
+<p>KNT-514 Searchbox in Palette loses focus when clearing the box and entering new text</p>
+<p>KNT-517 Not all Keynotes Scheduled on Layout</p>
+<h3>Improvement</h3>
+<p>KNT-38 Applying Label Styles long winded</p>
+<p>KNT-474 Options in the label and schedule objects, to set case for parts of the note</p>
+<h3>Epic</h3>
+<p>KNT-485 Teamwork for Keynotes</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-14065806570255">
+  <div class="art-h"><span class="no">18</span>
+    <h3 class="zh-only block">恢复 Keynotes 数据库</h3>
+    <h3 class="en-only block">Restore Keynotes Database</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/14065806570255-Restore-Keynotes-Database" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在某些情况下（通常是 Keynote 从数据库中被删除时），Keynote 标签可能会变成孤立（Orphaned）状态。处于这种状态时，它们无法被更新或生成明细表。</p>
+<p>在 CI Tools Keynotes 工具的语境中，<strong>孤立（Orphaned）</strong> 状态意味着某个标签没有“父级”——即它没有与项目数据库中的任何 Keynote 关联。</p>
+<p>如果删除该注释并非有意为之，或者你本来只是想删掉它、但现在又想找回来，可以通过把注释数据库恢复为与另一个 Archicad 项目中所拥有的内容一致来实现。</p>
+<p>要恢复 Keynotes 数据库，你可以使用<strong>先前保存过的“主（Master）”keynote 数据库</strong>，或者从另一个包含所需注释的 Archicad 项目中导出数据库。如果没有备份，<strong>也可以按照下面步骤使用 Bug 补丁</strong>。</p>
+<p><strong>如果你已经有可用的数据库或项目，请直接跳到</strong><a href="#h_01K86JMMVB7VM0TBED7CS2DT3W" target="_blank" rel="noopener">导出 Keynotes</a><strong>或</strong><a href="#h_01K86JMT6FH8K7GJ93TVFPHPJC" target="_blank" rel="noopener">将 Keynotes 导入到有问题的项目中</a></p>
+<h2>BUG 补丁</h2>
+<ul>
+<li>首先，退出所有正在运行的 Archicad 26 或 27 会话。</li>
+</ul>
+<ul>
+<li>使用下面的链接下载 BUG 补丁文件：<a href="https://cadimagegroup.files.com/f/75aa1d383e99fe2d" target="_blank" rel="noopener">Keynotes BUG 补丁文件</a></li>
+</ul>
+<ul>
+<li>解压下载的文件——其中包含 2 个文件夹：Archicad 26 和 Archicad 27</li>
+</ul>
+<ul>
+<li>在 Windows 中浏览到 C:\Program Files\GRAPHISOFT\ARCHICAD [version]，或在 Mac OS 中浏览到 Macintosh HD\Applications\Graphisoft\ARCHICAD [version]，然后进入 Add-Ons，再进入 CI Tools</li>
+</ul>
+<ul>
+<li>删除已有的 Ci Tools Keynotes 文件</li>
+</ul>
+<ul>
+<li>从下载的那套文件中把合适的（即版本与操作系统相匹配的）Ci Tools Keynotes 文件移动到 Add-Ons - Ci Tools 文件夹中。如果还在使用第二个 Archicad 版本，同样再操作一次。重要提示：在打开 Archicad 项目之前，务必先复制/备份一份，以确保有可回退的版本。</li>
+</ul>
+<h2>导出 Keynotes</h2>
+<p>打开包含所需 Keynotes 数据库的 Archicad 项目（可以是 .PLN 文件，也可以打开 Teamwork 项目），即 Keynote 当前显示正确的那个项目。</p>
+<p>如果没有合适的 .pln 文件，可以打开 .bpn 文件（即项目备份文件），并尝试同样的流程：</p>
+<ul>
+<li>点击 Ci Tools > Keynotes > Export Keynotes，导出 Keynotes 并保存为默认的 .keynotes 格式</li>
+</ul>
+<p><img src="img/14065806570255_0.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<ul>
+<li>然后选择一个便于访问的位置，输入文件名，确保选中 Keynotes 数据库格式，然后点击 OK</li>
+</ul>
+<p><img src="img/14065806570255_1.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<h2>将 Keynotes 导入到需要它们的项目中</h2>
+<ul>
+<li>打开需要导入缺失注释的项目，选择 Ci Tools > Keynotes > Import Keynotes ：</li>
+</ul>
+<p><img src="img/14065806570255_2.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<ul>
+<li>选择要导入的数据库，然后点击 Open</li>
+</ul>
+<p><img src="img/14065806570255_3.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<ul>
+<li>选择要导入的注释（1），点击 Import 按钮（2），对所有想导入的注释重复此操作；或者直接点击 Import All 按钮（3），从源数据库导入全部注释。导入所需注释后，点击 OK（4）以完成整个过程</li>
+</ul>
+<p><img src="img/14065806570255_4.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<p>这将用可用的版本替换该文件中的 Keynotes。</p>
+<p>如果这未能修复孤立注释，请<a href="mailto:nz.support@centralinnovation.com" target="_blank" rel="noopener">向我们提交支持工单</a>，并另存为 .pla 提供给支持团队，供我们的开发人员检查。</p></div>
+  <div class="en-only"><p>In certain circumstances - usually when a Keynote is Deleted from the database - Keynote Labels can become Orphaned. When they are in this state, they cannot be Updated or Scheduled.</p>
+<p>In the context of the Ci Tools Keynotes tool, <strong>Orphaned</strong> status means that a Label has no 'parent' - i.e. it is not linked to any Keynote in the project database</p>
+<p>If the deletion of the note was not intentional, or if you just meant to do it, but now want them back, you can do so by Restoring the note database to match what you have in a different Archicad Project.</p>
+<p>To restore a Keynotes Database, you can either use a <strong>previously saved 'Master' keynote database</strong>, or export the database from a different Archicad project you have that contains the notes you want. If a backup is unavailable,<strong>it's possible to use a Bug patch</strong> in the steps outlined below.</p>
+<p><strong>If you already have a database or project to use, skip to</strong><a href="#h_01K86JMMVB7VM0TBED7CS2DT3W" target="_blank" rel="noopener">Export Keynotes</a><strong>or</strong><a href="#h_01K86JMT6FH8K7GJ93TVFPHPJC" target="_blank" rel="noopener">Import the Keynotes into the Issue Project</a></p>
+<h2>BUG Patch</h2>
+<ul>
+<li>First, exit any Archicad 26 or 27 sessions you have running.</li>
+</ul>
+<ul>
+<li>Download the BUG patch files using the link below: <a href="https://cadimagegroup.files.com/f/75aa1d383e99fe2d" target="_blank" rel="noopener">Keynotes BUG Patch Files</a></li>
+</ul>
+<ul>
+<li>Unzip the downloaded file - it will contain 2 folders - Archicad 26 and Archicad 27</li>
+</ul>
+<ul>
+<li>Browse to  C:\Program Files\GRAPHISOFT\ARCHICAD [version]  in Windows, or  Macintosh HD\Applications\Graphisoft\ARCHICAD [version]  in Mac OS   Then go to Add-Ons and then CI Tools</li>
+</ul>
+<ul>
+<li>Delete the existing  Ci Tools Keynotes  file</li>
+</ul>
+<ul>
+<li>Move the appropriate (i.e. the matching Archicad versions and operating system)  Ci Tools Keynotes  file  from  the downloaded set  into  the Add-Ons - Ci Tools folder   Do the same again for the second Archicad version as well if in use.   IMPORTANT: Make a copy/backup of your Archicad project before opening it to ensure you have a fallback.</li>
+</ul>
+<h2>Export Keynotes</h2>
+<p>Open the Archicad project (either the .PLN file or open the Teamwork project) that contains the required Keynotes Database. i.e. where the Keynotes currently appear correctly.</p>
+<p>If there is no suitable .pln available you can open the .bpn file which is the project back up file, and attempt the same process:</p>
+<ul>
+<li>Export the Keynotes and save as the default .keynotes format by clicking on Ci Tools > Keynotes > Export Keynotes</li>
+</ul>
+<p><img src="img/14065806570255_0.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<ul>
+<li>Then choose a location you can easily access, enter a filename, ensure that the Keynotes Database format is selected, and then hit OK</li>
+</ul>
+<p><img src="img/14065806570255_1.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<h2>Import the Keynotes into the Project that needs them</h2>
+<ul>
+<li>Open the project that you need to import the missing notes to, and select Ci Tools > Keynotes > Import Keynotes :</li>
+</ul>
+<p><img src="img/14065806570255_2.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<ul>
+<li>Select the database you want to import, and then hit Open</li>
+</ul>
+<p><img src="img/14065806570255_3.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<ul>
+<li>Select the Notes you want to import (1), and hit the Import button (2), and go through all the notes you want to bring in and do the same, or simply hit the Import All button (3) to bring in all the notes from the source database. Once you have imported the notes you want, click OK (4) to complete the process</li>
+</ul>
+<p><img src="img/14065806570255_4.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<p>This will replace the Keynotes in the file with a working version.</p>
+<p>If this does not fix your orphaned notes, <a href="mailto:nz.support@centralinnovation.com" target="_blank" rel="noopener">log a support ticket with us</a>, and save as .pla and provide to support for our developers to inspect.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In certain circumstances - usually when a Keynote is Deleted from the database - Keynote Labels can become Orphaned. When they are in this state, they cannot be Updated or Scheduled.</p>
+<p>In the context of the Ci Tools Keynotes tool, <strong>Orphaned</strong> status means that a Label has no 'parent' - i.e. it is not linked to any Keynote in the project database</p>
+<p>If the deletion of the note was not intentional, or if you just meant to do it, but now want them back, you can do so by Restoring the note database to match what you have in a different Archicad Project.</p>
+<p>To restore a Keynotes Database, you can either use a <strong>previously saved 'Master' keynote database</strong>, or export the database from a different Archicad project you have that contains the notes you want. If a backup is unavailable,<strong>it's possible to use a Bug patch</strong> in the steps outlined below.</p>
+<p><strong>If you already have a database or project to use, skip to</strong><a href="#h_01K86JMMVB7VM0TBED7CS2DT3W" target="_blank" rel="noopener">Export Keynotes</a><strong>or</strong><a href="#h_01K86JMT6FH8K7GJ93TVFPHPJC" target="_blank" rel="noopener">Import the Keynotes into the Issue Project</a></p>
+<h2>BUG Patch</h2>
+<ul>
+<li>First, exit any Archicad 26 or 27 sessions you have running.</li>
+</ul>
+<ul>
+<li>Download the BUG patch files using the link below: <a href="https://cadimagegroup.files.com/f/75aa1d383e99fe2d" target="_blank" rel="noopener">Keynotes BUG Patch Files</a></li>
+</ul>
+<ul>
+<li>Unzip the downloaded file - it will contain 2 folders - Archicad 26 and Archicad 27</li>
+</ul>
+<ul>
+<li>Browse to  C:\Program Files\GRAPHISOFT\ARCHICAD [version]  in Windows, or  Macintosh HD\Applications\Graphisoft\ARCHICAD [version]  in Mac OS   Then go to Add-Ons and then CI Tools</li>
+</ul>
+<ul>
+<li>Delete the existing  Ci Tools Keynotes  file</li>
+</ul>
+<ul>
+<li>Move the appropriate (i.e. the matching Archicad versions and operating system)  Ci Tools Keynotes  file  from  the downloaded set  into  the Add-Ons - Ci Tools folder   Do the same again for the second Archicad version as well if in use.   IMPORTANT: Make a copy/backup of your Archicad project before opening it to ensure you have a fallback.</li>
+</ul>
+<h2>Export Keynotes</h2>
+<p>Open the Archicad project (either the .PLN file or open the Teamwork project) that contains the required Keynotes Database. i.e. where the Keynotes currently appear correctly.</p>
+<p>If there is no suitable .pln available you can open the .bpn file which is the project back up file, and attempt the same process:</p>
+<ul>
+<li>Export the Keynotes and save as the default .keynotes format by clicking on Ci Tools > Keynotes > Export Keynotes</li>
+</ul>
+<p><img src="img/14065806570255_0.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<ul>
+<li>Then choose a location you can easily access, enter a filename, ensure that the Keynotes Database format is selected, and then hit OK</li>
+</ul>
+<p><img src="img/14065806570255_1.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<h2>Import the Keynotes into the Project that needs them</h2>
+<ul>
+<li>Open the project that you need to import the missing notes to, and select Ci Tools > Keynotes > Import Keynotes :</li>
+</ul>
+<p><img src="img/14065806570255_2.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<ul>
+<li>Select the database you want to import, and then hit Open</li>
+</ul>
+<p><img src="img/14065806570255_3.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<ul>
+<li>Select the Notes you want to import (1), and hit the Import button (2), and go through all the notes you want to bring in and do the same, or simply hit the Import All button (3) to bring in all the notes from the source database. Once you have imported the notes you want, click OK (4) to complete the process</li>
+</ul>
+<p><img src="img/14065806570255_4.jpg" alt="Restore Keynotes Database 示意图" loading="lazy"></p>
+<p>This will replace the Keynotes in the file with a working version.</p>
+<p>If this does not fix your orphaned notes, <a href="mailto:nz.support@centralinnovation.com" target="_blank" rel="noopener">log a support ticket with us</a>, and save as .pla and provide to support for our developers to inspect.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206315806">
+  <div class="art-h"><span class="no">19</span>
+    <h3 class="zh-only block">在 ARCHICAD 19 及更早版本中恢复已删除的 Keynote<span class="vb vb-old" title="该文基于旧版界面，操作路径可能已变">AC19</span></h3>
+    <h3 class="en-only block">Restore a deleted Keynote in ARCHICAD 19 and previous versions.<span class="vb" title="基于该版本的界面编写">AC19</span></h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206315806-Restore-a-deleted-Keynote-in-ARCHICAD-19-and-previous-versions" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当一个 keynote 被删除时，它并未从数据库中移除——这意味着你随时都可以轻松恢复条目。</p>
+<p>要恢复一个 Keynote：</p>
+<ul>
+<li>在 ARCHICAD 中打开 Keynotes 面板（进入 <strong>Cadimage> Keynotes> Keynotes Palette</strong>）</li>
+</ul>
+<p><img src="img/206315806_0.jpg" alt="Restore a deleted Keynote in ARCHICAD 19 and previous versions. 示意图" loading="lazy"></p>
+<ul>
+<li>把 <strong>Status</strong>（状态）改为 ‘<strong>Deleted</strong>’（已删除），即可查看已删除的 Keynotes：</li>
+</ul>
+<p><strong>提示：</strong> 选择状态 ‘All’（全部）可同时查看当前和已删除的 keynotes。</p>
+<p><img src="img/206315806_1.jpg" alt="Restore a deleted Keynote in ARCHICAD 19 and previous versions. 示意图" loading="lazy"></p>
+<p><strong>提示：</strong> 已删除的 Keynotes 会以<em>斜体</em>显示，便于你在 Keynotes 列表中识别。</p>
+<ul>
+<li><strong>选中</strong>你想恢复的已删除 Keynote</li>
+</ul>
+<ul>
+<li>点击 <strong>Restore button</strong>（恢复按钮）来恢复该 Keynote：</li>
+</ul>
+<p><img src="img/206315806_2.jpg" alt="Restore a deleted Keynote in ARCHICAD 19 and previous versions. 示意图" loading="lazy"></p>
+<p>现在你应该能在原来的位置看到已删除的 Keynote：</p></div>
+  <div class="en-only"><p>When a keynote is deleted it is not removed from the database - that means you can easily restore items at any time.</p>
+<p>To restore a Keynote:</p>
+<ul>
+<li>Open the Keynotes Palette in ARCHICAD (go to <strong>Cadimage> Keynotes> Keynotes Palette</strong>)</li>
+</ul>
+<p><img src="img/206315806_0.jpg" alt="Restore a deleted Keynote in ARCHICAD 19 and previous versions. 示意图" loading="lazy"></p>
+<ul>
+<li>View deleted Keynotes by changing the <strong>Status</strong> to '<strong>Deleted</strong>':</li>
+</ul>
+<p><strong>TIP:</strong> Select the status 'All' to view both current and deleted keynotes.</p>
+<p><img src="img/206315806_1.jpg" alt="Restore a deleted Keynote in ARCHICAD 19 and previous versions. 示意图" loading="lazy"></p>
+<p><strong>TIP:</strong> Deleted Keynotes will appear in <em>Italics</em> to help identify them in your Keynotes list.</p>
+<ul>
+<li><strong>Select the deleted Keynote</strong> that you want to restore</li>
+</ul>
+<ul>
+<li>Click the <strong>Restore button</strong> to restore the Keynote:</li>
+</ul>
+<p><img src="img/206315806_2.jpg" alt="Restore a deleted Keynote in ARCHICAD 19 and previous versions. 示意图" loading="lazy"></p>
+<p>You should now see your deleted Keynote back in its original position:</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>When a keynote is deleted it is not removed from the database - that means you can easily restore items at any time.</p>
+<p>To restore a Keynote:</p>
+<ul>
+<li>Open the Keynotes Palette in ARCHICAD (go to <strong>Cadimage> Keynotes> Keynotes Palette</strong>)</li>
+</ul>
+<p><img src="img/206315806_0.jpg" alt="Restore a deleted Keynote in ARCHICAD 19 and previous versions. 示意图" loading="lazy"></p>
+<ul>
+<li>View deleted Keynotes by changing the <strong>Status</strong> to '<strong>Deleted</strong>':</li>
+</ul>
+<p><strong>TIP:</strong> Select the status 'All' to view both current and deleted keynotes.</p>
+<p><img src="img/206315806_1.jpg" alt="Restore a deleted Keynote in ARCHICAD 19 and previous versions. 示意图" loading="lazy"></p>
+<p><strong>TIP:</strong> Deleted Keynotes will appear in <em>Italics</em> to help identify them in your Keynotes list.</p>
+<ul>
+<li><strong>Select the deleted Keynote</strong> that you want to restore</li>
+</ul>
+<ul>
+<li>Click the <strong>Restore button</strong> to restore the Keynote:</li>
+</ul>
+<p><img src="img/206315806_2.jpg" alt="Restore a deleted Keynote in ARCHICAD 19 and previous versions. 示意图" loading="lazy"></p>
+<p>You should now see your deleted Keynote back in its original position:</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-13262869869583">
+  <div class="art-h"><span class="no">20</span>
+    <h3 class="zh-only block">使用主控明细表定义并同步 Keynotes 明细表设置</h3>
+    <h3 class="en-only block">Using Master Schedules to define and sync Keynote Schedule Settings</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/13262869869583-Using-Master-Schedules-to-define-and-sync-Keynote-Schedule-Settings" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>如果你想为 Keynotes 明细表定义自定义设置，以便在放置每个明细表后不必逐一修改，可以使用主控明细表（Master Schedule）来设置并统一应用到你所有明细表上的明细表设置。</p>
+<ul>
+<li>首先，打开你要使用的主控布局（Master layout）。所有使用该主控的布局都会继承你在这里指定的明细表设置，即：</li>
+</ul>
+<p><img src="img/13262869869583_0.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p> （你也可以稍后把它们添加到其他主控上，但我们得先从某处开始）</p>
+<ul>
+<li>使用对象工具（Object tool）找到 Keynotes 明细表对象——它位于 Ci Tools 库文件夹下的 Keynotes 中：</li>
+</ul>
+<p><img src="img/13262869869583_1.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<ul>
+<li>将此对象的设置改为你希望使用的——即定义画笔（pens）、字体、字号等……然后把该对象放在主控布局上你希望它在图纸中出现的位置。注意：把它放在 Archicad 图层（layer）上是个好主意，这样你就不必记住它在哪一层。</li>
+</ul>
+<ul>
+<li>放置完成后，选中该对象并重新打开设置，在这里勾选 Hide the Schedule（隐藏明细表）复选框：</li>
+</ul>
+<p><img src="img/13262869869583_2.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p> 然后点击 OK（这只是隐藏明细表，使它不会出现在你没有放置明细表的布局上）</p>
+<ul>
+<li>对其他任何希望具有可继承 Keynotes 明细表设置的主控布局，重复同样的过程（或者直接复制粘贴你刚放置的对象，如果你希望其他图纸使用相同设置的话）</li>
+</ul>
+<p>现在我们已经设好了所需的默认设置，可以开始创建明细表：</p>
+<ul>
+<li>打开你想创建明细表的布局，点击 CI Tools 菜单 - Keynotes - Create Schedule（创建明细表）</li>
+</ul>
+<p><img src="img/13262869869583_3.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<ul>
+<li>按你的喜好设置明细表设置，然后为了让它使用我们刚刚定义的主控设置，请确保选中 Apply Settings Of the schedule on the master layout（应用主控布局上明细表的设置）选项</li>
+</ul>
+<p><img src="img/13262869869583_4.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<ul>
+<li>点击 OK，你的明细表将使用你在主控上指定的设置放置</li>
+</ul>
+<p>可选操作——如果你想同步主控上所做的更改，也可以做到——即在主控上更改设置后，运行一次更新，让这些设置传递到所有已放置的明细表上</p>
+<p>要做到这一点，请确保在明细表设置中把 <strong>Apply Settings on Update</strong>（更新时应用设置）打开（默认应为开启）</p>
+<p><img src="img/13262869869583_5.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p>该选项打开后，你会注意到其他所有设置都变成灰色不可用：</p>
+<p><img src="img/13262869869583_6.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p>这是因为现在所有设置都由你的主控定义，因此不能在这里手动覆盖，除非你再次把“更新时应用”选项关闭</p></div>
+  <div class="en-only"><p>If you want to define customised settings for your Keynotes schedules so that you don't have to make changes to each one after placing it, you can use Master Schedules to set and enforce the schedule settings that should be used on all your schedules</p>
+<ul>
+<li>First, open the Master layout that you want to use. All layouts which use this master will inherit the Schedule Settings you specify here. i.e.</li>
+</ul>
+<p><img src="img/13262869869583_0.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p> (You can add them to other masters as well later, but we need to start somewhere)</p>
+<ul>
+<li>Using the Object tool, find the Keynotes schedule object - it is in the Ci Tools Library folder, under Keynotes:</li>
+</ul>
+<p><img src="img/13262869869583_1.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Set the settings in this object to what you want to use - i.e. define the pens, fonts, font sizes etc... and then Place the object down on the master layout wherever you want it to be placed on your sheets Note: it's a good idea to place it on the Archicad layer so that you don't need to worry about remembering what layer it's on</li>
+</ul>
+<ul>
+<li>Once it's placed, select the object and re-open the settings, and tick the Hide the Schedule box here:</li>
+</ul>
+<p><img src="img/13262869869583_2.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p> and then click OK (this just hides the schedule so that it won't show up on any layouts that you don't place schedules on)</p>
+<ul>
+<li>Repeat the same process for any other Master Layouts that you want to have inheritable Keynote Schedule settings (or simply copy and paste the object you just placed, if you want other sheets to have the same settings)</li>
+</ul>
+<p>Now that we have set our desired default settings, we can create some schedules:</p>
+<ul>
+<li>Open the layout that you want to create a schedule on, and click on the CI Tools menu - Keynotes - Create Schedule</li>
+</ul>
+<p><img src="img/13262869869583_3.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Set the schedule settings as you like, and then to tell it to use the master settings we have just defined, make sure you select the option to Apply Settings Of the schedule on the master layout</li>
+</ul>
+<p><img src="img/13262869869583_4.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Hit OK and your schedule will be placed, using the settings you specified on the Master</li>
+</ul>
+<p>Optionally - If you want to Sync changes made to your master, you can do that too - i.e. you can make a change to the settings on the Master, and then after running an update, have those settings filter through to all your already-placed schedules</p>
+<p>To do that, make sure you set the <strong>Apply Settings on Update</strong> on in the schedule settings (it should be on by default)</p>
+<p><img src="img/13262869869583_5.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p>When that option is turned on, you will notice that all other settings are Greyed Out:</p>
+<p><img src="img/13262869869583_6.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p>This is because they are all being defined by your Master now, so can't be manually overridden here, unless you turn the option to apply on update back Off again</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>If you want to define customised settings for your Keynotes schedules so that you don't have to make changes to each one after placing it, you can use Master Schedules to set and enforce the schedule settings that should be used on all your schedules</p>
+<ul>
+<li>First, open the Master layout that you want to use. All layouts which use this master will inherit the Schedule Settings you specify here. i.e.</li>
+</ul>
+<p><img src="img/13262869869583_0.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p> (You can add them to other masters as well later, but we need to start somewhere)</p>
+<ul>
+<li>Using the Object tool, find the Keynotes schedule object - it is in the Ci Tools Library folder, under Keynotes:</li>
+</ul>
+<p><img src="img/13262869869583_1.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Set the settings in this object to what you want to use - i.e. define the pens, fonts, font sizes etc... and then Place the object down on the master layout wherever you want it to be placed on your sheets Note: it's a good idea to place it on the Archicad layer so that you don't need to worry about remembering what layer it's on</li>
+</ul>
+<ul>
+<li>Once it's placed, select the object and re-open the settings, and tick the Hide the Schedule box here:</li>
+</ul>
+<p><img src="img/13262869869583_2.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p> and then click OK (this just hides the schedule so that it won't show up on any layouts that you don't place schedules on)</p>
+<ul>
+<li>Repeat the same process for any other Master Layouts that you want to have inheritable Keynote Schedule settings (or simply copy and paste the object you just placed, if you want other sheets to have the same settings)</li>
+</ul>
+<p>Now that we have set our desired default settings, we can create some schedules:</p>
+<ul>
+<li>Open the layout that you want to create a schedule on, and click on the CI Tools menu - Keynotes - Create Schedule</li>
+</ul>
+<p><img src="img/13262869869583_3.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Set the schedule settings as you like, and then to tell it to use the master settings we have just defined, make sure you select the option to Apply Settings Of the schedule on the master layout</li>
+</ul>
+<p><img src="img/13262869869583_4.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<ul>
+<li>Hit OK and your schedule will be placed, using the settings you specified on the Master</li>
+</ul>
+<p>Optionally - If you want to Sync changes made to your master, you can do that too - i.e. you can make a change to the settings on the Master, and then after running an update, have those settings filter through to all your already-placed schedules</p>
+<p>To do that, make sure you set the <strong>Apply Settings on Update</strong> on in the schedule settings (it should be on by default)</p>
+<p><img src="img/13262869869583_5.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p>When that option is turned on, you will notice that all other settings are Greyed Out:</p>
+<p><img src="img/13262869869583_6.jpg" alt="Using Master Schedules to define and sync Keynote Schedule Settings 示意图" loading="lazy"></p>
+<p>This is because they are all being defined by your Master now, so can't be manually overridden here, unless you turn the option to apply on update back Off again</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-213785123">
+  <div class="art-h"><span class="no">21</span>
+    <h3 class="zh-only block">观看：10 分钟快速上手！</h3>
+    <h3 class="en-only block">Watch: Get started in 10 minutes!</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/213785123-Watch-Get-started-in-10-minutes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在这段视频中，Thomas 概述了 Keynotes 工具：</p></div>
+  <div class="en-only"><p>In this video, Thomas provides an overview of the Keynotes Tool:</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this video, Thomas provides an overview of the Keynotes Tool:</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206441843">
+  <div class="art-h"><span class="no">22</span>
+    <h3 class="zh-only block">观看：Keynotes 工具入门（网络研讨会录像）</h3>
+    <h3 class="en-only block">Watch: Introduction to the Keynotes Tool (webinar recording)</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206441843-Watch-Introduction-to-the-Keynotes-Tool-webinar-recording" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在这 30 分钟的网络研讨会中，Josh 将向你展示如何开始使用 Cadimage Keynotes 工具。具体来说，他向你展示了：</p>
+<ul>
+<li>如何添加注释（通过导入和创建新注释）</li>
+</ul>
+<ul>
+<li>你的注释标签中可以显示哪些内容</li>
+</ul>
+<ul>
+<li>修改注释的外观</li>
+</ul>
+<ul>
+<li>如何生成 Keynotes 明细表</li>
+</ul></div>
+  <div class="en-only"><p>In this 30-minute webinar, Josh shows you how to get started with the Cadimage Keynotes Tool. Specifically, he shows you:</p>
+<ul>
+<li>How to add notes (via importing and creating new notes)</li>
+</ul>
+<ul>
+<li>What content can be displayed in your note labels</li>
+</ul>
+<ul>
+<li>Modify the appearance of your notes</li>
+</ul>
+<ul>
+<li>How to generate your Keynote Schedule</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this 30-minute webinar, Josh shows you how to get started with the Cadimage Keynotes Tool. Specifically, he shows you:</p>
+<ul>
+<li>How to add notes (via importing and creating new notes)</li>
+</ul>
+<ul>
+<li>What content can be displayed in your note labels</li>
+</ul>
+<ul>
+<li>Modify the appearance of your notes</li>
+</ul>
+<ul>
+<li>How to generate your Keynote Schedule</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-9100895723663">
+  <div class="art-h"><span class="no">23</span>
+    <h3 class="zh-only block">使用与属性关联的 Keynotes</h3>
+    <h3 class="en-only block">Working with Attribute linked Keynotes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/9100895723663-Working-with-Attribute-linked-Keynotes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>我们可以通过把 Keynotes 指派给构件的属性（Attributes）来非常智能地使用 Keynotes。</p>
+<p>该功能允许用户创建与项目中特定属性关联的注释，把这些 keynotes 指派给这些属性可提高效率。它还支持对收集在注释数据库中的信息进行更严格的管理——该数据库可集中管理，并可在不同项目之间移植。</p>
+<h2>创建注释：</h2>
+<p>在本教程中，我们创建了一些用于描述 Archicad 中可用属性的注释。</p>
+<p><img src="img/9100895723663_0.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>我们创建了这样一条注释，它将关联到：</p>
+<ul>
+<li>Building Material（建筑材料）</li>
+</ul>
+<ul>
+<li>Complex or Wall Profile（复合体或墙体轮廓）</li>
+</ul>
+<ul>
+<li>Surface Fill（表面填充）</li>
+</ul>
+<ul>
+<li>Line（线条）</li>
+</ul>
+<p>下面我们把这些注释分别指派给我们选定的属性。</p>
+<p>在 Keynotes 面板中激活 Keynotes 管理器，并切换到 Keynotes 属性选项卡，即进入一个对话框，我们可以把一条或多条 Keynotes 指派给 Archicad 中的一条或多条属性。</p>
+<p><img src="img/9100895723663_1.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>在本教程中，我们会使用一个穿过墙体的剖面，其中 2D 填充的填充类型为 ‘Hexagonal’（六边形），线条的线型为 ‘Bubble’（气泡）。这些可以是任意你选择的属性。</p>
+<p><img src="img/9100895723663_2.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>我们知道该墙体指派了以下属性：</p>
+<ul>
+<li>轮廓为 ‘Brick Wall w Concrete Lintel’（砖墙带混凝土过梁）</li>
+</ul>
+<ul>
+<li>表面为 “Stucco – Yellow Rough’（灰泥 – 黄色粗面）</li>
+</ul>
+<ul>
+<li>并且该轮廓包含建筑材料 ‘Brick – Structural’（砖 – 结构用）</li>
+</ul>
+<p>现在我们把 Keynotes 指派给这些属性。</p>
+<p>在左侧选中要指派的 Keynote，并在右侧导航到 Building Materials（建筑材料），我们就可以进行选择。</p>
+<p>然后我们可以从右侧展开的下拉列表中选择建筑材料：</p>
+<p><img src="img/9100895723663_3.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>点击 ‘Attach’（附加）按钮后，该注释就被附加到 Archicad 中的 ‘Building Material’ 属性上：</p>
+<p><img src="img/9100895723663_4.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>我们可以对填充、线型、表面和墙体轮廓重复这些步骤。</p>
+<p><img src="img/9100895723663_5.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p><img src="img/9100895723663_6.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p><img src="img/9100895723663_7.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p><img src="img/9100895723663_8.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>如果现在返回剖面视图，我们可以实现真正令人惊叹的效果。</p>
+<p>选中所有构件后，执行 CITools 的 ‘Label Attributes’（标注属性）命令，标签就会根据所选构件自动放置，如下图所示：</p>
+<p><img src="img/9100895723663_9.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>结果如下。</p>
+<p><img src="img/9100895723663_10.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>可以看到，标签是根据标签设置放置的，其内容直接来自 Keynotes 管理器的 Attributes Keynotes 选项卡中附加的标签。</p></div>
+  <div class="en-only"><p>We can use Keynotes in a very intelligent way by assigning it to Attributes of Elements.</p>
+<p>This functionality allows the user to create notes liked to specific attributes in the project, and assigning these keynotes to these attributes increases productivity. It also allows for more rigorous management of information captured in a database of notes that can be managed in one place and is portable between different projects.</p>
+<h2>Creating notes:</h2>
+<p>For the purposes of this tutorial we have created notes that describe the different attributes available in Archicad.</p>
+<p><img src="img/9100895723663_0.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>We have created a note that will be associated with:</p>
+<ul>
+<li>Building Material</li>
+</ul>
+<ul>
+<li>Complex or Wall Profile</li>
+</ul>
+<ul>
+<li>Surface Fill</li>
+</ul>
+<ul>
+<li>Line</li>
+</ul>
+<p>We will now proceed to assign each of these to an Attribute of our choice.,</p>
+<p>By activating the Keynotes manager in the Keynotes palette, and switching to the Keynotes attribute tab we are in a dialogue where we can assign one or more of these Keynotes to one or more of the Attributes in Archicad.</p>
+<p><img src="img/9100895723663_1.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>For the purposes of this tutorial, we will be using a Section through a wall with a 2D fill with fill type ‘Hexagonal’ and a line with line type ‘Bubble’. These can be any attributes of your choice.</p>
+<p><img src="img/9100895723663_2.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>We know that the wall has the following attributes assigned:</p>
+<ul>
+<li>A profile of ‘Brick Wall w Concrete Lintel’</li>
+</ul>
+<ul>
+<li>A surface of “Stucco – Yellow Rough’</li>
+</ul>
+<ul>
+<li>and the profile contains the Building Material ‘Brick – Structural’</li>
+</ul>
+<p>We will now proceed to assign the Keynotes to the Attributes.</p>
+<p>By selecting the Keynote to be assigned on the left and navigating to Building Materials on the right, we can make the selection.</p>
+<p>We can then choose the Building Material from the expanded drop down on the right hand side:</p>
+<p><img src="img/9100895723663_3.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>By clicking the ‘Attach’ button the note is attached to the ‘Building Material’ Attribute in Archicad:</p>
+<p><img src="img/9100895723663_4.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>We can replicate these steps for the Fill, Line type, Surface and Wall profile.</p>
+<p><img src="img/9100895723663_5.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p><img src="img/9100895723663_6.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p><img src="img/9100895723663_7.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p><img src="img/9100895723663_8.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>If we now navigate back to the Section we can achieve something truly remarkable.</p>
+<p>By selecting the CITools ‘Label Attributes’ command with all the elements selected, the Labels are automatically placed according to the Elements selected as shown below:</p>
+<p><img src="img/9100895723663_9.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>And the result is as follows.</p>
+<p><img src="img/9100895723663_10.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>As we can see the labels are placed based on the label settings and the contents is directly related to the labels attached in the Attributes Keynotes tab of the Keynotes manager.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>We can use Keynotes in a very intelligent way by assigning it to Attributes of Elements.</p>
+<p>This functionality allows the user to create notes liked to specific attributes in the project, and assigning these keynotes to these attributes increases productivity. It also allows for more rigorous management of information captured in a database of notes that can be managed in one place and is portable between different projects.</p>
+<h2>Creating notes:</h2>
+<p>For the purposes of this tutorial we have created notes that describe the different attributes available in Archicad.</p>
+<p><img src="img/9100895723663_0.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>We have created a note that will be associated with:</p>
+<ul>
+<li>Building Material</li>
+</ul>
+<ul>
+<li>Complex or Wall Profile</li>
+</ul>
+<ul>
+<li>Surface Fill</li>
+</ul>
+<ul>
+<li>Line</li>
+</ul>
+<p>We will now proceed to assign each of these to an Attribute of our choice.,</p>
+<p>By activating the Keynotes manager in the Keynotes palette, and switching to the Keynotes attribute tab we are in a dialogue where we can assign one or more of these Keynotes to one or more of the Attributes in Archicad.</p>
+<p><img src="img/9100895723663_1.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>For the purposes of this tutorial, we will be using a Section through a wall with a 2D fill with fill type ‘Hexagonal’ and a line with line type ‘Bubble’. These can be any attributes of your choice.</p>
+<p><img src="img/9100895723663_2.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>We know that the wall has the following attributes assigned:</p>
+<ul>
+<li>A profile of ‘Brick Wall w Concrete Lintel’</li>
+</ul>
+<ul>
+<li>A surface of “Stucco – Yellow Rough’</li>
+</ul>
+<ul>
+<li>and the profile contains the Building Material ‘Brick – Structural’</li>
+</ul>
+<p>We will now proceed to assign the Keynotes to the Attributes.</p>
+<p>By selecting the Keynote to be assigned on the left and navigating to Building Materials on the right, we can make the selection.</p>
+<p>We can then choose the Building Material from the expanded drop down on the right hand side:</p>
+<p><img src="img/9100895723663_3.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>By clicking the ‘Attach’ button the note is attached to the ‘Building Material’ Attribute in Archicad:</p>
+<p><img src="img/9100895723663_4.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>We can replicate these steps for the Fill, Line type, Surface and Wall profile.</p>
+<p><img src="img/9100895723663_5.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p><img src="img/9100895723663_6.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p><img src="img/9100895723663_7.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p><img src="img/9100895723663_8.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>If we now navigate back to the Section we can achieve something truly remarkable.</p>
+<p>By selecting the CITools ‘Label Attributes’ command with all the elements selected, the Labels are automatically placed according to the Elements selected as shown below:</p>
+<p><img src="img/9100895723663_9.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>And the result is as follows.</p>
+<p><img src="img/9100895723663_10.jpg" alt="Working with Attribute linked Keynotes 示意图" loading="lazy"></p>
+<p>As we can see the labels are placed based on the label settings and the contents is directly related to the labels attached in the Attributes Keynotes tab of the Keynotes manager.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206313746">
+  <div class="art-h"><span class="no">24</span>
+    <h3 class="zh-only block">在 Keynotes 中使用分类</h3>
+    <h3 class="en-only block">Working with Categories in Keynotes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206313746-Working-with-Categories-in-Keynotes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>本文将向你展示如何添加和管理 Keynote 分类：</p>
+<ul>
+<li><a href="#category" target="_blank" rel="noopener">分类（Categories）</a></li>
+</ul>
+<ul>
+<li><a href="#subcategory" target="_blank" rel="noopener">子分类（Sub-Categories）</a></li>
+</ul>
+<p>要为你的 Keynotes 创建分类：</p>
+<ul>
+<li>在 ARCHICAD 中，进入 <strong>Cadimage> Keynotes> Keynotes Palette</strong></li>
+</ul>
+<p><img src="img/206313746_0.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<ul>
+<li>点击 <strong>A</strong> 按钮添加一条新注释：</li>
+</ul>
+<p><img src="img/206313746_1.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<p>在面板顶部的 ‘<strong>Database</strong>’（数据库）区域，你会注意到新分类已创建，其 <strong>Key = 0</strong>、<strong>Title = Untitled</strong>。我们将在下一步修改这些设置。</p>
+<p>3 . 在面板下半部分的 <strong>Keynote Editing</strong>（Keynote 编辑）区域，把 ‘<strong>Key</strong>’ 旁的文本改为 <strong>‘1’</strong>，把 ‘<strong>Title</strong>’ 改为 ‘<strong>General</strong>’（这将是你新分类的标题）</p>
+<p> 提示：我们不需要为 Spec 或 Description 添加内容，因为这些是用于实际的 Keynotes（注释）而非分类的：</p>
+<p><img src="img/206313746_2.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<p>创建子分类</p>
+<p>要为你的 Keynotes 创建子分类：</p>
+<ul>
+<li>使用 <strong>A</strong> 按钮创建一个新分类</li>
+</ul>
+<ul>
+<li>输入相关的 Key（例如，如果该子分类要位于分类 1 之下，其 Key 可以是 1.01）：</li>
+</ul>
+<p><img src="img/206313746_3.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<ul>
+<li>在面板的 Database 区域中，选中你新建的子分类（按住 shift 多选）并拖放到所需的父分类上：</li>
+</ul>
+<p><img src="img/206313746_4.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<p>完成后，你会看到新的结构以及一个折叠按钮：</p>
+<p><img src="img/206313746_5.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>In this article we show you how to add and manage Keynote:</p>
+<ul>
+<li><a href="#category" target="_blank" rel="noopener">Categories</a></li>
+</ul>
+<ul>
+<li><a href="#subcategory" target="_blank" rel="noopener">Sub-Categories</a></li>
+</ul>
+<p>To create a Category for your Keynotes:</p>
+<ul>
+<li>In ARCHICAD, go to <strong>Cadimage> Keynotes> Keynotes Palette</strong></li>
+</ul>
+<p><img src="img/206313746_0.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<ul>
+<li>Click the <strong>A</strong> button to add a new note:</li>
+</ul>
+<p><img src="img/206313746_1.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<p>At the top of the palette, in the ‘<strong>Database</strong>’ area, you will notice that the new Category has been created with the <strong>Key = 0</strong> and the <strong>Title = Untitled</strong>. We will change these settings in the next step.</p>
+<p>3 . In the lower half of the palette, go to the <strong>Keynote Editing</strong> area and change the text next to ‘<strong>Key</strong>' to<strong>‘1’</strong>and ‘<strong>Title’</strong>to ‘<strong>General’</strong>(this will be the title of your new Category)</p>
+<p> TIP: We do not need to add content to Spec or Description as these are used for the actual Keynotes – not Categories:</p>
+<p><img src="img/206313746_2.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<p>Creating a Sub-Category</p>
+<p>To create a Sub-Category for your Keynotes:</p>
+<ul>
+<li>Create a new Category using the <strong>A</strong> button</li>
+</ul>
+<ul>
+<li>Enter a relevant Key (for example, if this sub-category is to sit under Category 1; the item Key might be 1.01):</li>
+</ul>
+<p><img src="img/206313746_3.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<ul>
+<li>In the Database area of the Palette, select your new sub-categories (hold down shift to multi select) and drag and drop it onto the desired parent Category:</li>
+</ul>
+<p><img src="img/206313746_4.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<p>Once completed, you will see the new structure along with a twirl-down button:</p>
+<p><img src="img/206313746_5.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this article we show you how to add and manage Keynote:</p>
+<ul>
+<li><a href="#category" target="_blank" rel="noopener">Categories</a></li>
+</ul>
+<ul>
+<li><a href="#subcategory" target="_blank" rel="noopener">Sub-Categories</a></li>
+</ul>
+<p>To create a Category for your Keynotes:</p>
+<ul>
+<li>In ARCHICAD, go to <strong>Cadimage> Keynotes> Keynotes Palette</strong></li>
+</ul>
+<p><img src="img/206313746_0.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<ul>
+<li>Click the <strong>A</strong> button to add a new note:</li>
+</ul>
+<p><img src="img/206313746_1.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<p>At the top of the palette, in the ‘<strong>Database</strong>’ area, you will notice that the new Category has been created with the <strong>Key = 0</strong> and the <strong>Title = Untitled</strong>. We will change these settings in the next step.</p>
+<p>3 . In the lower half of the palette, go to the <strong>Keynote Editing</strong> area and change the text next to ‘<strong>Key</strong>' to<strong>‘1’</strong>and ‘<strong>Title’</strong>to ‘<strong>General’</strong>(this will be the title of your new Category)</p>
+<p> TIP: We do not need to add content to Spec or Description as these are used for the actual Keynotes – not Categories:</p>
+<p><img src="img/206313746_2.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<p>Creating a Sub-Category</p>
+<p>To create a Sub-Category for your Keynotes:</p>
+<ul>
+<li>Create a new Category using the <strong>A</strong> button</li>
+</ul>
+<ul>
+<li>Enter a relevant Key (for example, if this sub-category is to sit under Category 1; the item Key might be 1.01):</li>
+</ul>
+<p><img src="img/206313746_3.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<ul>
+<li>In the Database area of the Palette, select your new sub-categories (hold down shift to multi select) and drag and drop it onto the desired parent Category:</li>
+</ul>
+<p><img src="img/206313746_4.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+<p>Once completed, you will see the new structure along with a twirl-down button:</p>
+<p><img src="img/206313746_5.jpg" alt="Working with Categories in Keynotes 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+</article>
+
+<footer class="foot">
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
+})();
+</script>
+<script src="search-index.js"></script>
+<script src="search.js"></script>
+</body>
+</html>

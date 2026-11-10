@@ -1,0 +1,84 @@
+<p>While a silent install for the CI Tools is not possible through the CI Tools Installer app, there is a workable method of distributing the tools, and their updates, to multiple computers where installing and operating the CI Tools Installer is not possible.</p>
+<p>If you would like to perform a silent/managed install for Archicad, please read the guide linked below:</p>
+<ul>
+<li><a href="https://help.graphisoft.com/AC/28/INT/index.htm?rhcsh=1&amp;rhnewwnd=0&amp;rhmapid=#t=_AC28_Help%2F004_BIMManager_InstallGuide%2F004_BIMManager_InstallGuide-1.htm%23XREF_63954_Network" target="_blank" rel="noopener">Graphisoft - Network install for BIM Managers</a></li>
+</ul>
+<h2>Installation:</h2>
+<p>Please see the instructions below for the steps required to install and then <strong>manually deploy</strong> the CI Tools.</p>
+<p><strong>1)</strong> Install the CI Tools add-ons on an unmanaged machine:</p>
+<p><strong>a)</strong> Close Archicad if it is open.</p>
+<p><strong>b)</strong> Run the <strong>Ci Tools Installer</strong>, and install <strong>all</strong> tools/updates to tools that should be accessible to the users.</p>
+<p><strong>c)</strong> Quit the installer.</p>
+<p><strong>d)</strong> Navigate to the Archicad Install folder, where <strong>##</strong> stands for the Archicad version:</p>
+<p><strong>Windows</strong>:</p>
+<p><code>C:\Program Files\Graphisoft\ARCHICAD ##\</code></p>
+<p><strong>macOS</strong>:</p>
+<p><code>/Applications/Graphisoft/ARCHICAD ##/</code></p>
+<p><strong>e)</strong> Then copy the following files and subfolders, making note of the relative file path:</p>
+<p><code>...\ARCHICAD ##<strong>\</strong></code><br>copy the folder called <code><strong>\</strong>CI Tools Extras</code>.</p>
+<p><code>...\ARCHICAD ##\Add-Ons\</code><br>copy the folder called <code>\CI Tools</code>.</p>
+<p><code>...\ARCHICAD ##\ARCHICAD Library ##<strong>\</strong></code><br>copy the folder called <code><strong>\</strong>CI Tools Library ##</code>.</p>
+<p><code>...\ARCHICAD ##\Defaults\ARCHICAD\WorkEnvironment\Profiles</code><br>copy the file called <code>\Ci Tools Profile ##.xml</code>.</p>
+<p><code>...\ARCHICAD ##\Defaults\ARCHICAD\WorkEnvironment\Tools</code><br>copy the file called <code>\Ci Tools Toolbox ##.xml</code>.</p>
+<p><em>(and if using Archicad 28 or later):</em></p>
+<p><code>...\ARCHICAD ##\</code><br>copy the folder called <code><strong>\</strong>CI Tools Library Packages</code>.</p>
+<p><strong>2)</strong> Deploy the tools to the user’s machine(s):</p>
+<p>Copy the <code>CI Tools Extras</code>, <code>CI Tools</code> and <code>CI Library ##</code> folders and the two <code>.xml</code> files, using your preferred method, to the appropriate directories on the user’s machines.</p>
+<p>The <code>CI Tools Library ##</code> folder where the CI Tools Library files are located, is contained in the <code>Archicad Library ##</code> folder by default, and will be loaded automatically with the default Archicad Library. </p>
+<p>The <code>CI Tools</code> folder must <strong>always</strong> be copied into to the <code>Add-Ons</code> folder inside the Archicad install directory, this is <strong>necessary</strong> for Archicad to detect the add-ons.</p>
+<p><strong>3)</strong> Upload/update the libraries on BIMcloud:</p>
+<p>Since the CI Tools Libraries are installed inside the <code>Archicad Library ##</code> folder by default, the most reliable method to install or update the CI Tools Libraries on the BIMcloud server is to replace the '<strong>Archicad Library ##</strong>' library stored there with a local copy that has the updated Tools already installed. If you do not use BIMcloud you may skip this step.</p>
+<p><strong>a)</strong> Ask everyone to send and receive and 'leave the teamwork projects'.</p>
+<p>This way you can make sure that this won’t affect anyone’s libraries.</p>
+<p><strong>b)</strong> Update the BIMcloud library from one of the local machines:</p>
+<p>To replace the Library, open the <em><strong>File ➔ Libraries and Objects ➔ Manage BIMcloud Libraries…</strong></em> window.</p>
+<p>From here, you can select and delete the ‘<strong>Archicad Library ##</strong>‘ library from the server.<br></p>
+<p>Then, click the ‘<strong>Upload a local library…</strong>‘ button.<br></p>
+<p>Then select the <code>Archicad Library ##</code> folder from inside your Archicad install directory.</p>
+<p>Once the library has uploaded, '<strong>Reload &amp; Apply</strong>' the libraries from the Library Manager.</p>
+<p>See the link below for more information:</p>
+<ul>
+<li><a href="https://helpcenter.graphisoft.com/user-guide/136776/" target="_blank" rel="noopener">Archicad User Guide: Manage BIMcloud Libraries</a></li>
+</ul>
+<p><strong>c)</strong> Ask all users to clear their Local Teamwork Data.</p>
+<p>This way they will not have to reload the updated library for each project.</p>
+<p>See the link below for more information:</p>
+<ul>
+<li><a href="https://helpcenter.graphisoft.com/user-guide-chapter/86861/" target="_blank" rel="noopener">Archicad User Guide: Manage Local Teamwork Data</a></li>
+</ul>
+<p>Once this is done, the users can re-join their projects.</p>
+
+<h2>Updating:</h2>
+<p>When updating a deployed Installation, or where there is an existing version of the CI Tools installed, it is strongly recommended to clear the Library Cache.</p>
+<p>This can be done by deleting the following folder, where <strong>##</strong> stands for the Archicad version and <strong>***</strong> is the localisation code:</p>
+<p><strong>Windows:</strong></p>
+<p><code>C:\Users\[username]\Appdata\Local\Graphisoft\ArchiCAD-64 Cache Folder\AC ##.0.0 *** v1</code></p>
+<p><strong>Note:</strong></p>
+<p>The <code>AppData</code> folder is hidden by default. To show hidden files and folders please see the article at the link below:</p>
+<ul>
+<li><a href="https://support.microsoft.com/en-us/windows/view-hidden-files-and-folders-in-windows-97fbc472-c603-9d90-91d0-1166d1d9f4b5" target="_blank" rel="noopener">View hidden files and folders in Windows</a></li>
+</ul>
+<p>Or simply copy and paste <code>%appdata%\..\</code> into the address bar in File Explorer then hit '<strong>Enter</strong>' on your keyboard.</p>
+<p><strong>macOS:</strong></p>
+<p><code>~/Library/Caches/GRAPHISOFT/Archicad Cache Folder/AC ##.0.0 *** v1</code></p>
+<p><strong>Note:</strong></p>
+<p>The <code>~/Library</code> folder is hidden by default. To browse the <code>~/Library</code> folder:</p>
+<ul>
+<li>In Finder choose <em><strong>Go ➔ Go To Folder...</strong></em> from the top menu bar.</li>
+<li>Type "<strong>~/Library</strong>"</li>
+<li>Click '<strong>GO</strong>' to navigate to the Library folder</li>
+</ul>
+<p>You can also press <strong>opt⌥</strong> from the '<strong>Go To Folder</strong>' window to show <code>~/Library</code> on the list, or press <strong>cmd⌘ + shift⇧ + . (period)</strong> in Finder to show hidden folders.</p>
+<p>As an example, to clear the library cache for the New Zealand version of Archicad 26, you would delete the folder:</p>
+<p><code>%appdata%\..\Local\Graphisoft\ArchiCAD-64 Cache Folder\AC 26.0.0 NZE v1</code></p>
+<p>...on windows, and:</p>
+<p><code>~/Library/Caches/GRAPHISOFT/Archicad
+  Cache Folder/AC 26.0.0 NZE v1</code></p>
+<p>...on a Mac.</p>
+
+<h2>Extras:</h2>
+<p>If this deployment is for a classroom environment, students may be interested in our <strong><a href="https://centralinnovation.com/aec-tip-of-the-day" target="_blank" rel="noopener">AEC Tip of the Day</a></strong>. The Tip of the Day can be saved as a favourite, or set as the home page.</p>
+<p>The Tip of the Day can be set to open when starting Archicad. You can read more about it at the link below:</p>
+<ul>
+<li><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000766755" target="_blank" rel="noopener">CI Knowledgebase: Tip of the Day</a></li>
+</ul>

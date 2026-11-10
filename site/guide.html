@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="CI Tools 18 个工具中文主线速查：操作要点、菜单路径、关键步骤">
+<title>中文主线速查 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+
+.vb{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;
+  background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba;
+  font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle;
+  letter-spacing:.02em;white-space:nowrap}
+.vb-old{background:#f7e3e3;color:#9a3b3b;border-color:#e6c6c6}
+.vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
+  background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
+.vb-note b{color:#8a5a1e}
+</style>
+<link rel="stylesheet" href="search.css">
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
+<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
+<a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
+</aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html">总览</a> / 中文主线速查</div>
+<div class="hero">
+  <span class="kicker"><span class="zh-only">中文主线</span><span class="en-only">Quick Guide</span></span>
+  <h1><span class="zh-only">18 个工具操作要点</span><span class="en-only">CI Tools at a Glance</span></h1>
+  <p class="zh-only">每个工具「干什么、入口在哪、关键步骤、坑在哪」的中文主线速查。完整细节见各工具分册（含官方原文与全部截图）。</p>
+  <p class="en-only">A Chinese quick-start covering all 18 tools. Full detail lives in the
+  reference chapters — each article keeps the official English original available for
+  side-by-side reading.</p>
+</div>
+<article><div class="zh-only"><h1>CI Tools 中文主线 · 18 个工具操作要点</h1>
+<p>> 本文是<strong>主线速查</strong> —— 每个工具"干什么、入口在哪、关键步骤、坑在哪"。</p>
+<p>> 完整细节看右侧分册（含官方原文与全部截图）。</p>
+<p>> 适用 Archicad 24 及以上版本。</p>
+<p>---</p>
+<h2>通用前提</h2>
+<h3>这套工具是什么</h3>
+<p>Central Innovation（新西兰）为 Archicad 开发的效率插件包，2026 年起被 Graphisoft 收进自有产品线并改名 <strong>ProKit</strong>。同一套东西两个名字，搜老教程用 CI Tools，搜新文档用 ProKit。</p>
+<div class="table-wrap"><table><thead><tr><th></th><th>ProKit Core</th><th>ProKit Suite</th></tr></thead><tbody><tr><td>包含</td><td>Annotate、Transformer、Time Tracker、Detail Elements</td><td>Cabinets、Coverings、Doors+Windows、Electrical、Fitout、Keynotes、MetaData、Quantities、Site、Stairs、Structure</td></tr><tr><td>解决什么</td><td>出图提速、改图安全、计工时</td><td>建模提速、数据管理、算量出图</td></tr></tbody></table></div>
+<h3>三步启动（每次新项目必做）</h3>
+<pre><code>1. 文件 → 工作环境 → Ci Tools Profile XX → 应用
+2. 文件 → 库管理器 → Add → Ci Tools Macros.libpack（先加这个）
+   ★ 必须选单个 .libpack 文件，选文件夹内容会全空
+3. 右键工具箱 → 工具箱设置 → 勾选工具 → ★保存工作环境</code></pre>
+<p><strong>第二步是"装了却用不了"的头号原因</strong> —— 从 Archicad 29 起，CI Tools 的库包不再自动挂载，必须手动加载进项目。</p>
+<h3>先自查</h3>
+<p>不同机器安装情况不同，用之前先确认：</p>
+<div class="table-wrap"><table><thead><tr><th>查什么</th><th>怎么看</th></tr></thead><tbody><tr><td>插件装没装</td><td>`C:\Program Files\Graphisoft\Archicad XX\Add-Ons\CI Tools\` 下有 `CI Tools XXX.apx`</td></tr><tr><td>工作环境在不在</td><td>文件 → 工作环境，列表有 `Ci Tools Profile`</td></tr><tr><td>库包装没装</td><td>库管理器里能选到 `Ci Tools Macros.libpack`</td></tr></tbody></table></div>
+<p>---</p>
+<h2>一、Annotate · 文字格式</h2>
+<p><strong>干什么</strong>：全项目文字大小写、字体批量统一。CAD 里从别处粘来的文字格式乱成一片，手改能改到下班 —— 出图前最省时间的工具。</p>
+<p><strong>入口</strong>：CI Tools → Annotate → Convert Case…</p>
+<p><strong>关键步骤</strong>：</p>
+<ul>
+<li>打开 <strong>Case Conversion Options</strong> 对话框</li>
+<li><strong>Case</strong> 栏选目标格式：<code>Sentence case</code> / <code>UPPER CASE</code> / <code>lower case</code> / <code>Title Case</code></li>
+<li>勾 <code>Observe case exceptions</code> → 出现「编辑」按钮，可把 iPhone、BIM、m² 锁定不变</li>
+<li><strong>Scope</strong> 栏决定改多少（<strong>防手滑的关键</strong>）：</li>
+<li><code>Selected items only</code> — 只改选中项（没选中时变灰）</li>
+<li><code>Text in the current drawing</code> — 当前视图；平面图激活时=当前楼层</li>
+<li><code>Text in floor plan (all storeys)</code> — 平面图全部楼层</li>
+<li><code>Text in all drawings</code> — 全部图纸，含剖面、详图</li>
+<li>勾 <code>String properties</code> 同时转字符串属性值</li>
+<li>勾 <code>String parameters</code> 同时转参数文字，选 <code>If displayed</code> <strong>最安全</strong></li>
+<li><strong>Ignore</strong> 栏勾选跳过的：隐藏图层、锁定构件、锁定图层、可能引起关联标签变化的内容</li>
+<li>点 OK</li>
+</ul>
+<p><strong>其他功能</strong>：</p>
+<ul>
+<li>替换字体 — CI Tools → Annotate → Replace Fonts</li>
+<li>批量替换属性值 — CI Tools → Annotate → Attribute Replacement</li>
+<li>合并文本框 — 把多个独立文本框合并成一个可编辑文本框</li>
+</ul>
+<p>> <strong>坑</strong>：批量改错撤不回来。执行前先 Ctrl+Z 备份，或先用「Selected items only」试手。</p>
+<p>---</p>
+<h2>二、Transformer · 项目镜像</h2>
+<p><strong>干什么</strong>：整个项目（含模型、标记、标签、2D 文字）沿轴线镜像。适合对称建筑、重复户型、批量复制改朝向。</p>
+<p>手动旋转 3D 模型后，剖面、立面、标注、房间标签全得跟着改，极易漏 —— 这就是它的价值。</p>
+<p><strong>入口</strong>：CI Tools → Transformer → Mirror Project…</p>
+<p><strong>关键步骤</strong>：</p>
+<ul>
+<li>点击镜像轴线的起点</li>
+<li>预览线随鼠标在<strong>水平 / 垂直</strong>之间自动切换（目前只支持这两种角度）</li>
+<li>方向满意 → 单击确认；取消 → 按 ESC</li>
+</ul>
+<p>> <strong>坑</strong>：破坏性操作，镜像后元素 ID 会变、原位置对象被替换。先另存副本。</p>
+<p>---</p>
+<h2>三、Time Tracker · 工时统计</h2>
+<p><strong>干什么</strong>：记录各任务工时，和报价、预期工时对比。<strong>接活报价场景直接相关。</strong></p>
+<p><strong>入口</strong>：CI Tools → Time Tracker → Open Time Tracker</p>
+<p><strong>关键步骤</strong>（就三步）：</p>
+<ul>
+<li>点文件夹图标，选择存档位置（时间数据存在你指定的文件里）</li>
+<li>指定 <strong>Job（项目）</strong> 和 <strong>Task（任务）</strong></li>
+<li>启动计时</li>
+</ul>
+<p>---</p>
+<h2>四、Detail Elements · 二维详图</h2>
+<p><strong>干什么</strong>：拖拽式参数化 2D 详图对象库，大幅加速详图绘制。</p>
+<p><strong>10 个分类</strong>：General / Floor / Wall / Roof / Ceiling / Door and Window / Interior Trim / Fastening / Reinforcing / 2D Symbols</p>
+<p><strong>前置</strong>：手动加载 <code>Ci Tools Detail Elements.libpack</code></p>
+<p><strong>关键步骤</strong>：工具箱选中 ProKit Detail Elements → 设置面板挑构件 → 图纸上放置。对象是参数化的，双击可编辑。</p>
+<p><strong>工具箱没有这个工具</strong>：右键工具箱 → 工具箱设置 → 勾选 → <strong>保存工作环境</strong></p>
+<p>---</p>
+<h2>五、Keynotes · 规范注释</h2>
+<p><strong>干什么</strong>：建立注释数据库，按构件属性<strong>自动</strong>挂注释，避免手工逐个标注的枯燥和错误。</p>
+<p><strong>入口</strong>：CI Tools → Keynotes → Keynotes Palette</p>
+<p><strong>前置</strong>：手动加载 <code>Ci Tools Keynotes.libpack</code></p>
+<p><strong>关键步骤</strong>：</p>
+<ul>
+<li>打开 Keynotes Palette，点 <strong>A+</strong> 添加 Keynote、编辑内容</li>
+<li><strong>放置</strong> Keynote：用 Archicad 标签工具，但要选 <strong>ProKit Label</strong></li>
+<li><strong>双击</strong> Palette 里的注释 → 在图纸上定位放置</li>
+<li>也可把 Keynote 关联到 Archicad 属性，自动标注</li>
+</ul>
+<p><strong>两种用法</strong>：直接放完整注释；或只放参考键，由 Keynotes 自动汇总成明细表。</p>
+<p>---</p>
+<h2>六、MetaData · 属性管理</h2>
+<p><strong>干什么</strong>：在一个面板里改属性和分类，不用在各种对话框里跳。<strong>BIM 数据管理的主力工具。</strong></p>
+<p><strong>入口</strong>：CI Tools → MetaData</p>
+<p><strong>核心能力</strong>：</p>
+<div class="table-wrap"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>属性视图</td><td>在模型视图里直接看改属性</td></tr><tr><td>批量改属性</td><td>一次改多个选中构件</td></tr><tr><td>筛选与选择</td><td>按条件过滤出目标构件</td></tr><tr><td>属性传递</td><td>在构件之间复制、传递属性</td></tr><tr><td>Traits 管理</td><td>添加、移除、迁移自定义标记</td></tr></tbody></table></div>
+<p><strong>实战路径</strong>：筛选定位 → 批量编辑 → 审计检查。</p>
+<p>---</p>
+<h2>七、Quantities · 工程量算量</h2>
+<p><strong>干什么</strong>：从实时模型出工程量清单，分配单价与数量，可导出 CSV 喂给其他造价软件。</p>
+<p><strong>入口</strong>：CI Tools → Quantities</p>
+<p><strong>三个核心概念</strong>：</p>
+<ul>
+<li><strong>Recipe（配方）</strong> — 用规则自动给构件分配数量成本，避免手工一个个填</li>
+<li><strong>Bill Structure（清单结构）</strong> — 分级目录（分类 → 条目），可嵌套</li>
+<li><strong>Traits</strong> — 挂在构件上的数量成本标记</li>
+</ul>
+<p><strong>九个模块</strong>：概览 → 构件数据 → 清单结构 → 测量配方 → 生成工程量 → 审计 → 构件计算表达式 → 计算函数 → 计算运算符</p>
+<p><strong>审计是交付前必做</strong>：</p>
+<div class="table-wrap"><table><thead><tr><th>审计项</th><th>查什么</th></tr></thead><tbody><tr><td>6.2 审计构件数据</td><td>数据填全没有</td></tr><tr><td>6.3 审计 Recipe 完成度</td><td>配方有没有漏</td></tr><tr><td>**6.4 审计漏算构件**</td><td>哪些构件根本没进清单</td></tr><tr><td>6.5 审计工程量清单</td><td>清单本身对不对</td></tr></tbody></table></div>
+<p>> Quantities 是最容易「看着对其实错」的工具。交付前至少跑 6.4 和 6.5。</p>
+<p>---</p>
+<h2>八、Cabinets · 橱柜木作</h2>
+<p><strong>干什么</strong>：<strong>一个</strong>高度可配置的对象搞定所有橱柜类型，不用为每种柜体单独建对象。</p>
+<p><strong>能力</strong>：平面和曲面柜门、抽屉面板库；可编辑面板样式与把手类型；自定义门、顶板、酒架、隔板、分隔件；隔板支持三维直接编辑。</p>
+<p>---</p>
+<h2>九、Doors+Windows · 门窗</h2>
+<p><strong>干什么</strong>：突破原生门窗样式限制，多面板、多开启方式、多收边/窗台组合。</p>
+<p><strong>能力</strong>：面板与开启方式组合；<strong>门窗尺寸捕捉</strong>；自定义样式可<strong>跨项目共享</strong>（团队标准化关键）。</p>
+<p>---</p>
+<h2>十、Coverings · 覆面层</h2>
+<p><strong>干什么</strong>：给墙、板、柱、屋顶贴 3D 建模的"皮"，2D/3D 视图都显示，模型立刻有真实感。</p>
+<p><strong>关键机制</strong>：</p>
+<ul>
+<li>覆面<strong>保持正确比例</strong>，<strong>自动链接主体构件</strong>，主体改了覆面跟着更新</li>
+<li>预置覆面样式 + 支持自定义</li>
+<li>屋顶覆面可<strong>自动生成排水管</strong></li>
+</ul>
+<p>> 出效果图和汇报模型时性价比很高 —— 比单纯改材质真实得多。</p>
+<p>---</p>
+<h2>十一、Electrical · 电气</h2>
+<p><strong>干什么</strong>：智能放置电气符号，自动创建回路、明细表。</p>
+<p><strong>库覆盖</strong>：欧盟、印度、撒哈拉以南非洲、英国、美国。<strong>没有中国国标库</strong>，国内项目需自建符号。</p>
+<p><strong>前置</strong>：手动加载 <code>Ci Tools Electrical.libpack</code></p>
+<p><strong>关键步骤</strong>：</p>
+<ul>
+<li>工具箱选中 ProKit Electrical → 设置里挑符号（插座、开关、插孔、其他面板）</li>
+<li>设<strong>标高 Elevation</strong> → 符号自动旋转并贴靠墙体</li>
+<li>符号可显示为整个面板，或拆成面板内的单个组件</li>
+<li><strong>自动布电线</strong>：选中构件 → 工具自动加走线</li>
+<li>设 Wire Style 走线样式 → 生成关联走线</li>
+<li>建回路、明细表</li>
+</ul>
+<p>---</p>
+<h2>十二、Stairs · 楼梯</h2>
+<p><strong>干什么</strong>：直接在模型上自由设计楼梯。</p>
+<p><strong>能力</strong>：各类独立构件，住宅商业都能配；<strong>栏杆可关联楼梯、板甚至独立放置</strong>，能在不同宽度和高度处转折接平台；楼梯组合可当作单一对象编辑、标注、出图。</p>
+<p>---</p>
+<h2>十三、Structural · 结构构件</h2>
+<p><strong>干什么</strong>：创建 3D 结构构件 —— 桁架、框架、连接件。</p>
+<p>---</p>
+<h2>十四、Sites · 场地景观</h2>
+<p><strong>干什么</strong>：可视评估模型与边界、退让高度的关系。<strong>澳洲项目直接相关。</strong></p>
+<p><strong>能力</strong>：边界与高度退让平面；大型剪影式植物对象库；面积图章；边界绘制辅助；建筑包络工具。<strong>早期方案阶段</strong>评价场地关系最有用。</p>
+<p>> 澳新专属。</p>
+<p>---</p>
+<h2>十五、Fitout · 室内布置</h2>
+<p><strong>干什么</strong>：把空房间一键变成配齐家具的房间。<strong>酒店客房、公寓户型快速布置神器。</strong></p>
+<p><strong>前置</strong>：加载 Ci Tools Profile 工作环境 + <code>Ci Tools Fitout.lcf</code> 图库</p>
+<p><strong>关键步骤</strong>：</p>
+<ul>
+<li>编译 Sets（套组）和 Fitouts（布置），样例在 CI Tools Library → Fitout 文件夹</li>
+<li>在 Fitout 工具里选一个 Example Fitout（如 Bathroom 含浴缸、淋浴、马桶、洗手盆）</li>
+<li><strong>在 Zone 里点击</strong>放置</li>
+<li>工具对光标位置敏感，会优先把重点构件放在离点击点最近处</li>
+<li><strong>可能要试放几次</strong>才满意</li>
+<li>若 Zone 里没有窗扇净空，工具会自动补一个</li>
+<li>放置后是<strong>成组</strong>的 → <code>Alt+G</code> / <code>Cmd+G</code> 切换挂起分组，可单独移动，移动时自动吸附到靠着的墙</li>
+</ul>
+<p>---</p>
+<h2>十六、Bracing · NZ 木结构支撑</h2>
+<p><strong>干什么</strong>：新西兰木结构住宅的抗侧力构件计算与布置，符合 NZS 规范。</p>
+<p>> 新西兰专属，国内和澳洲项目用不上。</p>
+<p>---</p>
+<h2>学习路径建议</h2>
+<p><strong>别一次学 16 个。</strong> 按你手上的活选：</p>
+<p><strong>第一优先 · 立刻见效</strong></p>
+<ul>
+<li><strong>Annotate</strong> — 出图前文字统一，10 分钟上手，省几小时</li>
+<li><strong>MetaData</strong> — 属性批量管理，BIM 交付必用</li>
+<li><strong>Time Tracker</strong> — 算工时对报价，直接对钱</li>
+</ul>
+<p><strong>第二优先 · 项目需要时</strong></p>
+<ul>
+<li><strong>Quantities</strong> — 出算量清单</li>
+<li><strong>Keynotes</strong> — 规范注释系统（配数据库前期投入大）</li>
+<li><strong>Transformer</strong> — 偶尔镜像时用</li>
+</ul>
+<p><strong>第三优先 · 特定场景</strong></p>
+<ul>
+<li><strong>Coverings</strong>（汇报模型提质感）、<strong>Fitout</strong>（客房批量布置）、<strong>Sites</strong>（澳洲场地）、<strong>Detail Elements</strong>（详图库）</li>
+</ul>
+<p><strong>暂不建议碰</strong>：Cabinets、Doors+Windows、Electrical（无中国国标库）、Structural、Bracing（NZ 专用）</p>
+<p>---</p>
+<h2>三个最常踩的坑</h2>
+<p><strong>① libpack 选成文件夹 → 内容全空</strong></p>
+<p>库管理器里必须选<strong>单个 <code>.libpack</code> 文件</strong>，选文件夹层级只会挂载一层，工具打开是空的。官方明确警告。</p>
+<p><strong>② 加了工具箱图标没保存工作环境</strong></p>
+<p>下次开 Archicad 又没了，每次都要重加。勾选后务必点<strong>保存工作环境</strong>。</p>
+<p><strong>③ Annotate 批量改错 → 撤不回来</strong></p>
+<p>执行前先 Ctrl+Z 备份。优先用「Selected items only」试手，参数勾「If displayed」最保险。</p></div><div class="en-only">
+<p>This quick guide is written in Chinese. The full official English documentation for
+every tool is available in the reference chapters below — each chapter shows the Chinese
+translation by default, with the official English original available under
+<i>View original English</i> in every article.</p>
+<h2>Browse by tool</h2>
+<ul class="toc-list"><li><a href="annotate.html"><span class="tg">Aa</span>Annotate — Batch text case and font formatting across the whole project</a></li><li><a href="transformer.html"><span class="tg">⇄</span>Transformer — Mirror an entire project in one click, 2D annotations included</a></li><li><a href="timetracker.html"><span class="tg">◷</span>Time Tracker — Log time per task and compare against quoted hours</a></li><li><a href="detail.html"><span class="tg">▤</span>Detail Elements — Drag-and-drop parametric 2D detail component library</a></li><li><a href="keynotes.html"><span class="tg">❝</span>Keynotes — Note database auto-attached by element attributes, with schedules</a></li><li><a href="metadata.html"><span class="tg">◈</span>MetaData — Palette for bulk editing properties and classifications</a></li><li><a href="quantities.html"><span class="tg">∑</span>Quantities — Bill of quantities from a live model, recipes auto-assign values</a></li><li><a href="cabinets.html"><span class="tg">▦</span>Cabinets — One configurable object covers every cabinet type</a></li><li><a href="doors.html"><span class="tg">⌸</span>Doors+Windows — Non-standard door and window styles with size snapping</a></li><li><a href="coverings.html"><span class="tg">▨</span>Coverings — 3D surface skins on walls, slabs, columns and roofs</a></li><li><a href="electrical.html"><span class="tg">⚡</span>Electrical — Smart electrical symbols, circuits and schedules</a></li><li><a href="stairs.html"><span class="tg">⇱</span>Stairs — Free-form stair design with associative railings</a></li><li><a href="structural.html"><span class="tg">⌗</span>Structural — 3D structural components: trusses, frames and fixings</a></li><li><a href="sites.html"><span class="tg">⛿</span>Sites — Site boundaries, recession planes and plant placement</a></li><li><a href="fitout.html"><span class="tg">⌸</span>Fitout — Furnish a room in one click from a saved set</a></li></ul>
+<p>Tip: use the <b>中文 / EN</b> switch at the top-right corner to toggle the language of
+the interface and the article titles on any page.</p></div></article>
+
+<footer class="foot">
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
+})();
+</script>
+<script src="search-index.js"></script>
+<script src="search.js"></script>
+</body>
+</html>

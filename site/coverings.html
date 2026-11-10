@@ -1,0 +1,3356 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Coverings（覆面层）完整中文教程：墙板柱贴 3D 覆面皮">
+<title>Coverings · 覆面层 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+
+.vb{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;
+  background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba;
+  font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle;
+  letter-spacing:.02em;white-space:nowrap}
+.vb-old{background:#f7e3e3;color:#9a3b3b;border-color:#e6c6c6}
+.vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
+  background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
+.vb-note b{color:#8a5a1e}
+</style>
+<link rel="stylesheet" href="search.css">
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
+<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class=" on" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
+<a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
+</aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></div>
+<div class="hero">
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>Coverings · <span class="zh-only">覆面层</span></h1>
+  <p class="zh-only">墙板柱贴 3D 覆面皮</p>
+  <p class="en-only">3D surface skins on walls, slabs, columns and roofs</p>
+  <div class="meta">
+    <span><b>36</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>3.4</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>160</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
+  </div>
+  <p class="vb-note">
+    <span class="zh-only">标 <b>AC19–AC23</b> 的文章基于旧版界面编写：功能思路仍通用，但按钮位置和菜单名可能与当前版本不同。</span>
+    <span class="en-only">Articles tagged <b>AC19–AC23</b> were written for older interfaces — the concepts still apply, but UI paths may differ from the current version.</span>
+  </p>
+</div>
+<article>
+
+<div class="art" id="a-360000559435">
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">Cadimage Coverings - 编辑屋檐边</h3>
+    <h3 class="en-only block">Cadimage Coverings - Edit Roof Edges</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000559435-Cadimage-Coverings-Edit-Roof-Edges" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在版本 20 中，我们为若干更受欢迎的工具引入了一些新功能。</p>
+<p>过去，屋檐边的编辑受到限制。因此我们现在专门创建了一个用于为所选屋顶覆面编辑屋檐边的对话框。</p>
+<p>你可以从 <strong>Cadimage > Coverings > Edit Roof Edges...</strong>（Cadimage > 覆面 > 编辑屋檐边）打开此对话框。</p>
+<p><img src="img/360000559435_0.jpg" alt="Cadimage Coverings - Edit Roof Edges 示意图" loading="lazy"></p>
+<p><img src="img/360000559435_1.jpg" alt="Cadimage Coverings - Edit Roof Edges 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>In version 20, we have been able to introduce some new features to a number of our more popular Tools.</p>
+<p>In the past the ease of editing Roof Edges was constrained. Therefore we have now created a specific Dialog for Editing the Roof Edges for selected Roof Coverings.</p>
+<p>You can access this Dialog from <strong>Cadimage>Coverings>Edit Roof Edges...</strong></p>
+<p><img src="img/360000559435_0.jpg" alt="Cadimage Coverings - Edit Roof Edges 示意图" loading="lazy"></p>
+<p><img src="img/360000559435_1.jpg" alt="Cadimage Coverings - Edit Roof Edges 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In version 20, we have been able to introduce some new features to a number of our more popular Tools.</p>
+<p>In the past the ease of editing Roof Edges was constrained. Therefore we have now created a specific Dialog for Editing the Roof Edges for selected Roof Coverings.</p>
+<p>You can access this Dialog from <strong>Cadimage>Coverings>Edit Roof Edges...</strong></p>
+<p><img src="img/360000559435_0.jpg" alt="Cadimage Coverings - Edit Roof Edges 示意图" loading="lazy"></p>
+<p><img src="img/360000559435_1.jpg" alt="Cadimage Coverings - Edit Roof Edges 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-8295697342223">
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">Archicad 27 中使用 Coverings 的注意事项</h3>
+    <h3 class="en-only block">Considerations for Coverings in Archicad 27</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8295697342223-Considerations-for-Coverings-in-Archicad-27" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h1>设计选项</h1>
+<p>请注意，在使用设计选项时，由于 Archicad 内部的一些限制，任何已应用的覆面都<strong>不会</strong>自动继承父级几何体的设计选项，例如 Wall Covering 的父级墙体。</p>
+<p><img src="img/8295697342223_0.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p>例如，当应用了 Wall Covering 时，务必确保 Design Option 也设置为正确的值。</p>
+<p><img src="img/8295697342223_1.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<h1>动态编辑辅助线与覆面</h1>
+<p>请注意，当使用动态编辑辅助线移动任何已应用覆面的构件时，例如下图所示：</p>
+<p><img src="img/8295697342223_2.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p>在移动构件后必须更新覆面，在更新之前覆面会保持在原来的位置，参见下图。</p>
+<p><img src="img/8295697342223_3.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p><img src="img/8295697342223_4.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p>点击 CI Tools 菜单中的 Update Coverings 后，几何体将更新到新位置。</p>
+<p><img src="img/8295697342223_5.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p></div>
+  <div class="en-only"><h1>Design options</h1>
+<p>Please note that when working with design options that, due to some restrictions within Archicad any Covering that is applied, will not automatically inherit the Design option of the parent geometry, such as a Wall in the case of Wall Coverings.</p>
+<p><img src="img/8295697342223_0.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p>When a for instance a Wall Covering is applied, it is important to ensure that Design Option is also set to the correct value.</p>
+<p><img src="img/8295697342223_1.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<h1>Dynamic Editing Guides and Coverings</h1>
+<p>Please note that when using the Dynamic Editing guides to move any Elements that have Coverings applied, such as in the image below:</p>
+<p><img src="img/8295697342223_2.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p>It is necessary to Update Coverings after moving the Element, the Covering will remain in its original position until it has been updated, see image below.</p>
+<p><img src="img/8295697342223_3.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p><img src="img/8295697342223_4.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p>By clicking the Update Coverings in the CI Tools Menu, the Geometry will update to the new position.</p>
+<p><img src="img/8295697342223_5.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h1>Design options</h1>
+<p>Please note that when working with design options that, due to some restrictions within Archicad any Covering that is applied, will not automatically inherit the Design option of the parent geometry, such as a Wall in the case of Wall Coverings.</p>
+<p><img src="img/8295697342223_0.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p>When a for instance a Wall Covering is applied, it is important to ensure that Design Option is also set to the correct value.</p>
+<p><img src="img/8295697342223_1.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<h1>Dynamic Editing Guides and Coverings</h1>
+<p>Please note that when using the Dynamic Editing guides to move any Elements that have Coverings applied, such as in the image below:</p>
+<p><img src="img/8295697342223_2.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p>It is necessary to Update Coverings after moving the Element, the Covering will remain in its original position until it has been updated, see image below.</p>
+<p><img src="img/8295697342223_3.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p><img src="img/8295697342223_4.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+<p>By clicking the Update Coverings in the CI Tools Menu, the Geometry will update to the new position.</p>
+<p><img src="img/8295697342223_5.jpg" alt="Considerations for Coverings in Archicad 27 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000558556">
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">覆面阴影</h3>
+    <h3 class="en-only block">Covering Shadows</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000558556-Covering-Shadows" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>你是否希望覆面在三维中投射阴影？</p>
+<p>选择你的覆面，打开设置。在 Display Options（显示选项）下将 Shadow（阴影）设置改为 Model View Options（模型视图选项）或 Use local Settings（使用本地设置）。</p>
+<p>如果选择“Use Local Settings”，请同时勾选 Cladding（挂板）和 Trims（收边件）。</p>
+<p><a href="http://blog.cadimage.com/wp-content/uploads/2016/09/COVShadow01.jpg" target="_blank" rel="noopener"><img src="img/il_5ab7c1cf8b.jpg" alt="" loading="lazy"></a></p>
+<p>对于 MVO，你需要在 Model View Options 设置中勾选 Cadimage Coverings 下的 Cladding 和 Trims。</p>
+<p><a href="http://blog.cadimage.com/wp-content/uploads/2016/09/COVShadow03.jpg" target="_blank" rel="noopener"><img src="img/il_bf3875e009.jpg" alt="" loading="lazy"></a></p>
+<p><a href="http://blog.cadimage.com/wp-content/uploads/2016/09/COVShadow02.jpg" target="_blank" rel="noopener"><img src="img/il_98ad596bca.jpg" alt="" loading="lazy"></a></p></div>
+  <div class="en-only"><p>Would you like the coverings to cast shadows in 3D?</p>
+<p>Select your coverings, open the settings. Under the Display Options change the Shadow settings to either Model View Options or Use local Settings.</p>
+<p>If you select "Use Local Settings" tick both Cladding and Trims.</p>
+<p><a href="http://blog.cadimage.com/wp-content/uploads/2016/09/COVShadow01.jpg" target="_blank" rel="noopener"><img src="img/il_5ab7c1cf8b.jpg" alt="" loading="lazy"></a></p>
+<p>For MVO, you'll need to tick the Cladding and Trims under the Cadimage Coverings in Model View Options Settings.</p>
+<p><a href="http://blog.cadimage.com/wp-content/uploads/2016/09/COVShadow03.jpg" target="_blank" rel="noopener"><img src="img/il_bf3875e009.jpg" alt="" loading="lazy"></a></p>
+<p><a href="http://blog.cadimage.com/wp-content/uploads/2016/09/COVShadow02.jpg" target="_blank" rel="noopener"><img src="img/il_98ad596bca.jpg" alt="" loading="lazy"></a></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Would you like the coverings to cast shadows in 3D?</p>
+<p>Select your coverings, open the settings. Under the Display Options change the Shadow settings to either Model View Options or Use local Settings.</p>
+<p>If you select "Use Local Settings" tick both Cladding and Trims.</p>
+<p><a href="http://blog.cadimage.com/wp-content/uploads/2016/09/COVShadow01.jpg" target="_blank" rel="noopener"><img src="img/il_5ab7c1cf8b.jpg" alt="" loading="lazy"></a></p>
+<p>For MVO, you'll need to tick the Cladding and Trims under the Cadimage Coverings in Model View Options Settings.</p>
+<p><a href="http://blog.cadimage.com/wp-content/uploads/2016/09/COVShadow03.jpg" target="_blank" rel="noopener"><img src="img/il_bf3875e009.jpg" alt="" loading="lazy"></a></p>
+<p><a href="http://blog.cadimage.com/wp-content/uploads/2016/09/COVShadow02.jpg" target="_blank" rel="noopener"><img src="img/il_98ad596bca.jpg" alt="" loading="lazy"></a></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-9474329110671">
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">Coverings 4.42 更新说明</h3>
+    <h3 class="en-only block">Coverings 4.42 Update Notes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/9474329110671-Coverings-4-42-Update-Notes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h2>更新 2024/06/26</h2>
+<p>Coverings 的一次重大升级现已发布，适用于 Archicad 26 —— 此次更新带来了若干新功能，详见下文，但在阅读之前，请先查看这则关于弃用对象的重要说明。</p>
+<h2>弃用的库对象：</h2>
+<p>由于 Coverings 对象发生了大量变更，我们为更新后的对象创建了新对象，并将原有对象重命名为 Deprecated（已弃用）。</p>
+<p>这些对象仍然可以正常使用，因此你可以继续在现有项目中使用它们，但我们建议凡是新放置的覆面都使用新对象。</p>
+<p><strong>除非你需要其中某些新功能，否则无需立即将现有已放置的覆面迁移到新构件上。</strong></p>
+<p><img src="img/9474329110671_0.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p><img src="img/9474329110671_1.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>若要原样使用已放置的任何现有对象，只需按下“Edit Settings”按钮，如下所示：</p>
+<p><img src="img/9474329110671_2.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p><img src="img/9474329110671_3.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>关于本次变更的更多细节，另见这场 Ci Tools 网络研讨会：</p>
+<h2>墙体覆面</h2>
+<h3>界面重新设计与建筑材料：</h3>
+<p>作为最新版本的一部分，我们将建筑材料引入了屋顶覆面和墙体覆面。这使得你可以像处理 Archicad 原生构件那样，对体积和面积进行统计。</p>
+<p>同时，我们也对用户界面做了一些调整，显著精简了设置项。</p>
+<p>在这张图中，可以看到墙体覆面中各项功能的变更与分组方式。左侧为弃用的设置，右侧为新版本的设置。</p>
+<p><img src="img/9474329110671_4.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>每个子构件的建筑材料都位于各自的子菜单项内，平面图、立面图和剖面图中的线型设置同样如此。</p>
+<p><img src="img/9474329110671_5.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>更为重要的是，通过使用位于建筑材料和表面设置右侧的 Uniform/Independent（统一/独立）切换按钮，可以一次性将建筑材料和表面应用到所有收边件和挂板（Cladding）上。你也可以使用 Surfaces Brush（表面画刷）按钮覆盖附着在建筑材料上的表面。</p>
+<p><img src="img/9474329110671_6.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>另一项重要优化是“snapshot”（快照）功能。在任一子菜单中编辑时，你可以启用如下所示的快照按钮：</p>
+<p><img src="img/9474329110671_7.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>这将“对启用快照那一刻正在调整的覆面部分”生成快照。</p>
+<p><img src="img/9474329110671_8.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<h2>屋顶覆面：</h2>
+<h3>界面重新设计与建筑材料：</h3>
+<p>作为最新版本的一部分，我们将建筑材料引入了屋顶覆面和墙体覆面。这使得你可以像处理 Archicad 构件那样，对体积和面积进行统计。</p>
+<p>同时，我们也对用户界面做了一些调整，显著精简了设置项。</p>
+<p>在接下来的两张图中，可以看到屋顶覆面中各项功能的变更与分组方式。左侧为弃用的设置，右侧为新版本的设置：</p>
+<p><img src="img/9474329110671_9.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>每个子构件的建筑材料都位于各自的子菜单项内，平面图、立面图和剖面图中的线型设置同样如此。</p>
+<p><img src="img/9474329110671_10.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>更为重要的是，通过使用位于表面设置右侧、板条尺寸左侧的 Uniform/Independent（统一/独立）切换按钮，可以一次性将建筑材料、尺寸和表面应用到所有子构件上。</p>
+<p><img src="img/9474329110671_11.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>另一项重要优化是“snapshot”（快照）功能。在任一子菜单中编辑时，你可以启用如下所示的快照按钮。</p>
+<p><img src="img/9474329110671_12.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>这将“对启用快照那一刻正在调整的覆面部分”生成快照。</p>
+<p><img src="img/9474329110671_13.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p></div>
+  <div class="en-only"><h2>Update 26/06/2024</h2>
+<p>A major upgrade for Coverings has now been released for Archicad 26 - this new update brings in several new features, detailed below, but before reading that, please see this important note about the Deprecated objects</p>
+<h2>Deprecated Library Objects:</h2>
+<p>With the large amount of changes to the Coverings objects, we have created new objects for the Updated ones, and have renamed the existing objects as Deprecated.</p>
+<p>They are still fine to use, so you can continue using them in your existing projects, but we recommend that for any New coverings you place, you use the new objects.</p>
+<p><strong>There is no need to migrate your existing placed coverings to the new Elements right away, unless you need some of the new features in them.</strong></p>
+<p><img src="img/9474329110671_0.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p><img src="img/9474329110671_1.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>To use any of the existing objects you have places as they are, simply hit the "Edit Settings" button, as shown below:</p>
+<p><img src="img/9474329110671_2.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p><img src="img/9474329110671_3.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>There are also more details about the changes in this recent Ci Tools Webinar:</p>
+<h2>Wall Coverings</h2>
+<h3>Interface re-design and Building Materials:</h3>
+<p>As part of the latest release, we have incorporated Building Materials into Roof and Wall Coverings. This will allow for volumes and areas to be scheduled as you can with native Archicad elements.</p>
+<p>At the same time, we have made some changes to the User Interface that have streamlined the settings significantly</p>
+<p>In this image, the changes and grouping of functions in Wall Coverings can be seen. The deprecated settings are on the left and the new release settings are on the right.</p>
+<p><img src="img/9474329110671_4.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>The Building Material of each of these sub-elements is located within each sub-menu item, as is the line type in Plan, Elevation, and Section.</p>
+<p><img src="img/9474329110671_5.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>Of further importance is that the Building Materials and Surfaces can be applied to all the Trims and Claddings simultaneously by using the Uniform/Independent toggle button to the right of Building Materials and Surface Settings. You can also override Surfaces that are attached to Building Materials with the Surfaces Brush button.</p>
+<p><img src="img/9474329110671_6.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>Another important optimization is the ‘snapshot’ function. While editing in any of the sub-menus, you can activate the snapshot button shown below:</p>
+<p><img src="img/9474329110671_7.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>This will then ‘snapshot’ the part of the Covering that was being adjusted at the time of activation.</p>
+<p><img src="img/9474329110671_8.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<h2>Roof Coverings:</h2>
+<h3>Interface re-design and Building Materials:</h3>
+<p>As part of the latest release, we incorporated Building Materials into Roof and Wall Coverings. This will allow for volumes and areas to be scheduled as you can with Archicad elements.</p>
+<p>At the same time, we have made some tweaks to the User Interface that have streamlined the settings significantly.</p>
+<p>In the next two images, the changes and grouping of functions in Roof Coverings can be seen. The deprecated settings are on the left and the new release settings are on the right:</p>
+<p><img src="img/9474329110671_9.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>The Building Material of each of these sub-elements is located within each sub-menu item, as is the line type in Plan, Elevation, and Section.</p>
+<p><img src="img/9474329110671_10.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>Of further importance is that the Building Materials, Dimensions and Surfaces can be applied to all of the Sub-Elements simultaneously by using the Uniform/Independent toggle button to the right of Surface Settings and left of Board Dimensions.</p>
+<p><img src="img/9474329110671_11.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>Another important optimization is the ‘snapshot’ function. While editing in any of the sub-menu’s one can activate the snapshot button shown below.</p>
+<p><img src="img/9474329110671_12.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>This will then ‘snapshot’ the part of the Covering that was being adjusted at the time of activation.</p>
+<p><img src="img/9474329110671_13.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h2>Update 26/06/2024</h2>
+<p>A major upgrade for Coverings has now been released for Archicad 26 - this new update brings in several new features, detailed below, but before reading that, please see this important note about the Deprecated objects</p>
+<h2>Deprecated Library Objects:</h2>
+<p>With the large amount of changes to the Coverings objects, we have created new objects for the Updated ones, and have renamed the existing objects as Deprecated.</p>
+<p>They are still fine to use, so you can continue using them in your existing projects, but we recommend that for any New coverings you place, you use the new objects.</p>
+<p><strong>There is no need to migrate your existing placed coverings to the new Elements right away, unless you need some of the new features in them.</strong></p>
+<p><img src="img/9474329110671_0.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p><img src="img/9474329110671_1.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>To use any of the existing objects you have places as they are, simply hit the "Edit Settings" button, as shown below:</p>
+<p><img src="img/9474329110671_2.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p><img src="img/9474329110671_3.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>There are also more details about the changes in this recent Ci Tools Webinar:</p>
+<h2>Wall Coverings</h2>
+<h3>Interface re-design and Building Materials:</h3>
+<p>As part of the latest release, we have incorporated Building Materials into Roof and Wall Coverings. This will allow for volumes and areas to be scheduled as you can with native Archicad elements.</p>
+<p>At the same time, we have made some changes to the User Interface that have streamlined the settings significantly</p>
+<p>In this image, the changes and grouping of functions in Wall Coverings can be seen. The deprecated settings are on the left and the new release settings are on the right.</p>
+<p><img src="img/9474329110671_4.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>The Building Material of each of these sub-elements is located within each sub-menu item, as is the line type in Plan, Elevation, and Section.</p>
+<p><img src="img/9474329110671_5.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>Of further importance is that the Building Materials and Surfaces can be applied to all the Trims and Claddings simultaneously by using the Uniform/Independent toggle button to the right of Building Materials and Surface Settings. You can also override Surfaces that are attached to Building Materials with the Surfaces Brush button.</p>
+<p><img src="img/9474329110671_6.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>Another important optimization is the ‘snapshot’ function. While editing in any of the sub-menus, you can activate the snapshot button shown below:</p>
+<p><img src="img/9474329110671_7.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>This will then ‘snapshot’ the part of the Covering that was being adjusted at the time of activation.</p>
+<p><img src="img/9474329110671_8.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<h2>Roof Coverings:</h2>
+<h3>Interface re-design and Building Materials:</h3>
+<p>As part of the latest release, we incorporated Building Materials into Roof and Wall Coverings. This will allow for volumes and areas to be scheduled as you can with Archicad elements.</p>
+<p>At the same time, we have made some tweaks to the User Interface that have streamlined the settings significantly.</p>
+<p>In the next two images, the changes and grouping of functions in Roof Coverings can be seen. The deprecated settings are on the left and the new release settings are on the right:</p>
+<p><img src="img/9474329110671_9.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>The Building Material of each of these sub-elements is located within each sub-menu item, as is the line type in Plan, Elevation, and Section.</p>
+<p><img src="img/9474329110671_10.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>Of further importance is that the Building Materials, Dimensions and Surfaces can be applied to all of the Sub-Elements simultaneously by using the Uniform/Independent toggle button to the right of Surface Settings and left of Board Dimensions.</p>
+<p><img src="img/9474329110671_11.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>Another important optimization is the ‘snapshot’ function. While editing in any of the sub-menu’s one can activate the snapshot button shown below.</p>
+<p><img src="img/9474329110671_12.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+<p>This will then ‘snapshot’ the part of the Covering that was being adjusted at the time of activation.</p>
+<p><img src="img/9474329110671_13.jpg" alt="Coverings 4.42 Update Notes 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360003693315">
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">三维视图中的平屋面覆面</h3>
+    <h3 class="en-only block">Flat roof covering in the 3D</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360003693315-Flat-roof-covering-in-the-3D" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>如果你的三维视图中显示了平屋面覆面，但你的设置不是该样式：</p>
+<p><img src="img/360003693315_0.jpg" alt="Flat roof covering in the 3D 示意图" loading="lazy"></p>
+<p>​​</p>
+<p>则需要在 MVO（模型视图选项）中将 Model resolution（模型分辨率）改为 Detailed（详细）：</p>
+<p><img src="img/360003693315_1.jpg" alt="Flat roof covering in the 3D 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>If you have a Flat roof covering in the 3D but your setting is not that style:</p>
+<p><img src="img/360003693315_0.jpg" alt="Flat roof covering in the 3D 示意图" loading="lazy"></p>
+<p>​​</p>
+<p>Then you need to change the Model resolution to Detailed at the MVO (Model View Option):</p>
+<p><img src="img/360003693315_1.jpg" alt="Flat roof covering in the 3D 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>If you have a Flat roof covering in the 3D but your setting is not that style:</p>
+<p><img src="img/360003693315_0.jpg" alt="Flat roof covering in the 3D 示意图" loading="lazy"></p>
+<p>​​</p>
+<p>Then you need to change the Model resolution to Detailed at the MVO (Model View Option):</p>
+<p><img src="img/360003693315_1.jpg" alt="Flat roof covering in the 3D 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206271113">
+  <div class="art-h"><span class="no">06</span>
+    <h3 class="zh-only block">添加屋顶覆面时遇到问题？</h3>
+    <h3 class="en-only block">Having problems adding a Roof Covering?</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206271113-Having-problems-adding-a-Roof-Covering" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>如果你在给屋顶添加 Cadimage Covering 时遇到问题，我们建议你检查以下常见问题：</p>
+<ul>
+<li>确保至少有一个 Roof（屋顶）元素（基几何体）可供覆面附着。</li>
+</ul>
+<ul>
+<li>在添加覆面之前，确保基几何体尽可能完整。这意味着你需要在各个元素之间建立正确的相交关系（屋脊、天沟等）。不过在应用 Cadimage Covering 之后你仍可修改这些，但最好从一个完整的屋顶开始整个流程。</li>
+</ul>
+<ul>
+<li>确保你的 ARCHICAD 屋顶连接正确。如果这里设置不正确，Cadimage Roof Covering 同样无法正确“附着”和显示。</li>
+</ul>
+<p><strong>要添加天窗吗？</strong> 天窗可以在屋顶覆面之前或之后添加。</p></div>
+  <div class="en-only"><p>If you are having problems adding a Cadimage Covering to a roof, we suggest you  check the following common issues:</p>
+<ul>
+<li>Ensure you have at least one Roof element (the base geometry) for the covering to be applied to.</li>
+</ul>
+<ul>
+<li>Ensure the base geometry is as complete as possible before adding the covering. This means you need to have the correct intersections between the various elements (ridges and valleys etc). You can modify this after the Cadimage Covering has been applied, however it is best to start the process with a complete roof.</li>
+</ul>
+<ul>
+<li>Make sure your ARCHICAD roof connects properly . If this isn't set up correctly the Cadimage Roof Covering will not be able to 'attach' and show correctly either.</li>
+</ul>
+<p><strong>Adding Skylights?</strong> These can be added before or after the Roof Covering.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>If you are having problems adding a Cadimage Covering to a roof, we suggest you  check the following common issues:</p>
+<ul>
+<li>Ensure you have at least one Roof element (the base geometry) for the covering to be applied to.</li>
+</ul>
+<ul>
+<li>Ensure the base geometry is as complete as possible before adding the covering. This means you need to have the correct intersections between the various elements (ridges and valleys etc). You can modify this after the Cadimage Covering has been applied, however it is best to start the process with a complete roof.</li>
+</ul>
+<ul>
+<li>Make sure your ARCHICAD roof connects properly . If this isn't set up correctly the Cadimage Roof Covering will not be able to 'attach' and show correctly either.</li>
+</ul>
+<p><strong>Adding Skylights?</strong> These can be added before or after the Roof Covering.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4406494280591">
+  <div class="art-h"><span class="no">07</span>
+    <h3 class="zh-only block">如何为屋顶覆面添加落水管</h3>
+    <h3 class="en-only block">How to Add Downpipes to a Roof Covering</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4406494280591-How-to-Add-Downpipes-to-a-Roof-Covering" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当你将屋顶覆面放置到 Archicad 屋顶上时，所有檐沟边都会绘制出来但不带落水管。</p>
+<p>每段檐沟最多可添加两根落水管。如果你想在某段檐沟上添加多于两根落水管，请在屋顶边上添加一个节点。</p>
+<p>要添加落水管：</p>
+<ul>
+<li>在平面视图中，点击选中屋顶覆面。</li>
+</ul>
+<p><img src="img/4406494280591_0.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>在每段檐沟的两端，你会看到一个可调整的热点。拾取它并拖入檐沟中。</li>
+</ul>
+<p><img src="img/4406494280591_1.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p> 落水管将出现在热点所在位置。</p>
+<p><img src="img/4406494280591_2.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p><img src="img/4406494280591_3.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>要移动落水管：</p>
+<ul>
+<li>在平面视图中，点击选中屋顶覆面。</li>
+</ul>
+<p><img src="img/4406494280591_4.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>移动落水管位置上的热点以重新定位落水管。</li>
+</ul>
+<p><img src="img/4406494280591_5.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>要调整落水管长度：</p>
+<ul>
+<li>在三维、剖面或立面视图中，点击选中屋顶覆面。</li>
+</ul>
+<p><img src="img/4406494280591_6.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>在落水管底部，你会看到一个可调整的热点。拾取它并上下拖动以调整落水管长度。</li>
+</ul>
+<p><img src="img/4406494280591_7.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p><img src="img/4406494280591_8.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>要更改落水管的直径或形状：</p>
+<ul>
+<li>选择屋顶覆面。</li>
+</ul>
+<p><img src="img/4406494280591_9.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>打开 Settings 对话框。</li>
+</ul>
+<p><img src="img/4406494280591_10.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>在 Downpipes（落水管）页面上，选择形状并设置落水管尺寸。</li>
+</ul>
+<p><img src="img/4406494280591_11.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>要移除落水管：</p>
+<ul>
+<li>选择屋顶覆面。</li>
+</ul>
+<p>%%IMG12%%</p>
+<ul>
+<li>将落水管的位置热点拖到檐沟范围之外。</li>
+</ul>
+<p>%%IMG13%%</p></div>
+  <div class="en-only"><p>When you place a roof covering onto an Archicad roof, all gutter edges are drawn without downpipes.</p>
+<p>You can add up to two downpipes for each length of gutter. If you want to add more than two downpipes on a length of gutter, add a node to the roof edge.</p>
+<p>To add a downpipe:</p>
+<ul>
+<li>In plan-view, click to select the roof covering.</li>
+</ul>
+<p><img src="img/4406494280591_0.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>At either end of each length of gutter, you will see an adjustable hotspot. Pick it up and drag it into the gutter.</li>
+</ul>
+<p><img src="img/4406494280591_1.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p> A downpipe will appear at the hotspot position.</p>
+<p><img src="img/4406494280591_2.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p><img src="img/4406494280591_3.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>To move the downpipe:</p>
+<ul>
+<li>In plan-view, click to select the roof covering.</li>
+</ul>
+<p><img src="img/4406494280591_4.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Move the hotspot at the downpipe position to re-position the downpipe.</li>
+</ul>
+<p><img src="img/4406494280591_5.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>To adjust the downpipe length:</p>
+<ul>
+<li>In a 3D, Section or Elevation view, click to select the roof covering.</li>
+</ul>
+<p><img src="img/4406494280591_6.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>At the base of the downpipe, you will see an adjustable hotspot. Pick it up and drag it up or down to adjust the downpipe length.</li>
+</ul>
+<p><img src="img/4406494280591_7.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p><img src="img/4406494280591_8.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>To change the downpipe's diameter or shape:</p>
+<ul>
+<li>Select the roof covering.</li>
+</ul>
+<p><img src="img/4406494280591_9.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Open the Settings dialog.</li>
+</ul>
+<p><img src="img/4406494280591_10.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>On the Downpipes page, choose the shape and set the size of the downpipe.</li>
+</ul>
+<p><img src="img/4406494280591_11.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>To remove the downpipe:</p>
+<ul>
+<li>Select the roof covering.</li>
+</ul>
+<p>%%IMG12%%</p>
+<ul>
+<li>Move the downpipe's position hotspot beyond the extent of the gutter.</li>
+</ul>
+<p>%%IMG13%%</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>When you place a roof covering onto an Archicad roof, all gutter edges are drawn without downpipes.</p>
+<p>You can add up to two downpipes for each length of gutter. If you want to add more than two downpipes on a length of gutter, add a node to the roof edge.</p>
+<p>To add a downpipe:</p>
+<ul>
+<li>In plan-view, click to select the roof covering.</li>
+</ul>
+<p><img src="img/4406494280591_0.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>At either end of each length of gutter, you will see an adjustable hotspot. Pick it up and drag it into the gutter.</li>
+</ul>
+<p><img src="img/4406494280591_1.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p> A downpipe will appear at the hotspot position.</p>
+<p><img src="img/4406494280591_2.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p><img src="img/4406494280591_3.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>To move the downpipe:</p>
+<ul>
+<li>In plan-view, click to select the roof covering.</li>
+</ul>
+<p><img src="img/4406494280591_4.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Move the hotspot at the downpipe position to re-position the downpipe.</li>
+</ul>
+<p><img src="img/4406494280591_5.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>To adjust the downpipe length:</p>
+<ul>
+<li>In a 3D, Section or Elevation view, click to select the roof covering.</li>
+</ul>
+<p><img src="img/4406494280591_6.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>At the base of the downpipe, you will see an adjustable hotspot. Pick it up and drag it up or down to adjust the downpipe length.</li>
+</ul>
+<p><img src="img/4406494280591_7.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p><img src="img/4406494280591_8.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>To change the downpipe's diameter or shape:</p>
+<ul>
+<li>Select the roof covering.</li>
+</ul>
+<p><img src="img/4406494280591_9.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Open the Settings dialog.</li>
+</ul>
+<p><img src="img/4406494280591_10.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>On the Downpipes page, choose the shape and set the size of the downpipe.</li>
+</ul>
+<p><img src="img/4406494280591_11.jpg" alt="How to Add Downpipes to a Roof Covering 示意图" loading="lazy"></p>
+<p>To remove the downpipe:</p>
+<ul>
+<li>Select the roof covering.</li>
+</ul>
+<p>%%IMG12%%</p>
+<ul>
+<li>Move the downpipe's position hotspot beyond the extent of the gutter.</li>
+</ul>
+<p>%%IMG13%%</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4406712929295">
+  <div class="art-h"><span class="no">08</span>
+    <h3 class="zh-only block">如何为山墙添加檐饰与顶饰</h3>
+    <h3 class="en-only block">How to Add Frieze and Finial to a Gable</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4406712929295-How-to-Add-Frieze-and-Finial-to-a-Gable" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Ci Tools Roof Covering 允许为山墙添加檐饰和/或顶饰。</p>
+<h2>添加顶饰</h2>
+<p>要添加顶饰：</p>
+<ul>
+<li>选择其中一个屋顶覆面对象。</li>
+</ul>
+<p><img src="img/4406712929295_0.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>打开 Settings（设置）对话框，在 Frieze & Finial（檐饰与顶饰）页面上选择顶饰的设置。</li>
+</ul>
+<p><img src="img/4406712929295_1.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<p> 将顶饰的 Placement（布置）设为 Holes to Both Ends（两端开孔）。</p>
+<ul>
+<li>点击 OK 。此后屋顶覆面对象将在山墙与屋脊相交处生成顶饰。</li>
+</ul>
+<p><img src="img/4406712929295_2.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>现在选择相邻的屋顶覆面。</li>
+</ul>
+<p><img src="img/4406712929295_3.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>打开 Settings 对话框，在 Frieze & Finial 页面上将 Placement 设为 None（无），Holes 设为 Both Ends（两端）。</li>
+</ul>
+<p><img src="img/4406712929295_4.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<p> 所选屋顶覆面上将开出一个孔，以容纳前面添加的顶饰（步骤 1 - 3）。</p>
+<p><img src="img/4406712929295_5.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<h2>添加檐饰</h2>
+<p>要添加檐饰：</p>
+<ul>
+<li>选择构成山墙的两个屋顶覆面，并打开它们的 Settings 对话框。</li>
+</ul>
+<p><img src="img/4406712929295_6.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>在 Frieze & Finial 页面上，选择 Frieze type（檐饰类型），并设置尺寸。</li>
+</ul>
+<p><img src="img/4406712929295_7.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>点击 OK 应用檐饰。</li>
+</ul>
+<p><img src="img/4406712929295_8.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<p><img src="img/4406712929295_9.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>The Ci Tools Roof Covering allows a frieze and/or finial to be added to gables.</p>
+<h2>Add Finials</h2>
+<p>To add finials:</p>
+<ul>
+<li>Select one of the roof covering objects.</li>
+</ul>
+<p><img src="img/4406712929295_0.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>Open the Settings dialog, and on the Frieze & Finial page, choose settings for the finial.</li>
+</ul>
+<p><img src="img/4406712929295_1.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<p> Set the finial Placement and Holes to Both Ends .</p>
+<ul>
+<li>Click OK . The roof covering object will now have a finial wherever a gable and ridge intersect.</li>
+</ul>
+<p><img src="img/4406712929295_2.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>Now select the adjacent roof covering.</li>
+</ul>
+<p><img src="img/4406712929295_3.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>Open the Settings dialog, and on the Frieze & Finial page, set Placement to None , and Holes to Both Ends .</li>
+</ul>
+<p><img src="img/4406712929295_4.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<p> A hole will be cut in the the selected roof covering, to allow for the finial we added earlier (steps 1 - 3).</p>
+<p><img src="img/4406712929295_5.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<h2>Add a Frieze</h2>
+<p>To add a frieze:</p>
+<ul>
+<li>Select both roof coverings that form the gable, and open their Settings dialog.</li>
+</ul>
+<p><img src="img/4406712929295_6.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>On the Frieze & Finial page, choose a Frieze type, and set dimensions.</li>
+</ul>
+<p><img src="img/4406712929295_7.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK to apply the frieze.</li>
+</ul>
+<p><img src="img/4406712929295_8.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<p><img src="img/4406712929295_9.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Ci Tools Roof Covering allows a frieze and/or finial to be added to gables.</p>
+<h2>Add Finials</h2>
+<p>To add finials:</p>
+<ul>
+<li>Select one of the roof covering objects.</li>
+</ul>
+<p><img src="img/4406712929295_0.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>Open the Settings dialog, and on the Frieze & Finial page, choose settings for the finial.</li>
+</ul>
+<p><img src="img/4406712929295_1.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<p> Set the finial Placement and Holes to Both Ends .</p>
+<ul>
+<li>Click OK . The roof covering object will now have a finial wherever a gable and ridge intersect.</li>
+</ul>
+<p><img src="img/4406712929295_2.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>Now select the adjacent roof covering.</li>
+</ul>
+<p><img src="img/4406712929295_3.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>Open the Settings dialog, and on the Frieze & Finial page, set Placement to None , and Holes to Both Ends .</li>
+</ul>
+<p><img src="img/4406712929295_4.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<p> A hole will be cut in the the selected roof covering, to allow for the finial we added earlier (steps 1 - 3).</p>
+<p><img src="img/4406712929295_5.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<h2>Add a Frieze</h2>
+<p>To add a frieze:</p>
+<ul>
+<li>Select both roof coverings that form the gable, and open their Settings dialog.</li>
+</ul>
+<p><img src="img/4406712929295_6.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>On the Frieze & Finial page, choose a Frieze type, and set dimensions.</li>
+</ul>
+<p><img src="img/4406712929295_7.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK to apply the frieze.</li>
+</ul>
+<p><img src="img/4406712929295_8.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+<p><img src="img/4406712929295_9.jpg" alt="How to Add Frieze and Finial to a Gable 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4406720738447">
+  <div class="art-h"><span class="no">09</span>
+    <h3 class="zh-only block">如何在山墙下方添加墙体挂板</h3>
+    <h3 class="en-only block">How to Add Wall Cladding under Gables</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4406720738447-How-to-Add-Wall-Cladding-under-Gables" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>山墙端部下方的墙体挂板通常直接连接到端部桁架。然而，端部桁架对象很少包含墙体挂板的设置。</p>
+<p>Ci Tools Roof Covering 允许在山墙端部下方建模可选的墙体挂板。</p>
+<ul>
+<li>选择屋顶覆面。</li>
+</ul>
+<p><img src="img/4406720738447_0.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<ul>
+<li>打开 Settings 对话框，在 Cladding > Gable End Walls（挂板 > 山墙端墙）页面上选择挂板类型。</li>
+</ul>
+<p><img src="img/4406720738447_1.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<ul>
+<li>点击 OK 应用挂板。</li>
+</ul>
+<p><img src="img/4406720738447_2.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<ul>
+<li>使用移动热点调整挂板高度。</li>
+</ul>
+<p><img src="img/4406720738447_3.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<p><img src="img/4406720738447_4.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>Wall cladding under gable ends is often attached directly to the end truss. However, end truss objects rarely include settings for wall cladding.</p>
+<p>The Ci Tools Roof Covering allows to model an optional wall cladding below gable ends.</p>
+<ul>
+<li>Select the roof coverings.</li>
+</ul>
+<p><img src="img/4406720738447_0.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<ul>
+<li>Open the Settings dialog, and choose a cladding type on the Cladding > Gable End Walls page.</li>
+</ul>
+<p><img src="img/4406720738447_1.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK to apply the cladding.</li>
+</ul>
+<p><img src="img/4406720738447_2.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<ul>
+<li>Use the moving hotspot to adjust the cladding height.</li>
+</ul>
+<p><img src="img/4406720738447_3.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<p><img src="img/4406720738447_4.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Wall cladding under gable ends is often attached directly to the end truss. However, end truss objects rarely include settings for wall cladding.</p>
+<p>The Ci Tools Roof Covering allows to model an optional wall cladding below gable ends.</p>
+<ul>
+<li>Select the roof coverings.</li>
+</ul>
+<p><img src="img/4406720738447_0.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<ul>
+<li>Open the Settings dialog, and choose a cladding type on the Cladding > Gable End Walls page.</li>
+</ul>
+<p><img src="img/4406720738447_1.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK to apply the cladding.</li>
+</ul>
+<p><img src="img/4406720738447_2.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<ul>
+<li>Use the moving hotspot to adjust the cladding height.</li>
+</ul>
+<p><img src="img/4406720738447_3.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+<p><img src="img/4406720738447_4.jpg" alt="How to Add Wall Cladding under Gables 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4405506731407">
+  <div class="art-h"><span class="no">10</span>
+    <h3 class="zh-only block">如何为屋顶覆面添加自定义檐沟</h3>
+    <h3 class="en-only block">How to Add a Custom Gutter to a Roof Covering</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4405506731407-How-to-Add-a-Custom-Gutter-to-a-Roof-Covering" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>使用 Archicad 的 <strong>Profile Manager</strong>（断面管理器）定义檐沟断面，然后将其应用到屋顶覆面。</p>
+<h2>定义檐沟断面</h2>
+<p>要定义自定义檐沟断面：</p>
+<ul>
+<li>在 <strong>Profile Manager</strong> 中绘制断面形状。位置和方向很重要。锚点应放在绘图原点处，檐沟正面应绘制在原点右侧。</li>
+</ul>
+<p><img src="img/4405506731407_0.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>从任何需要绘制为敞口的边上移除 <strong>Cut Line</strong>（裁切线）。</li>
+</ul>
+<p><img src="img/4405506731407_1.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<p>在此示例中，顶部 3 条边应保持敞口，裁切线已从三条边（两条直边和一条曲线边）上移除。</p>
+<p><img src="img/4405506731407_2.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>保存断面。</li>
+</ul>
+<p><img src="img/4405506731407_3.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<p>现在该断面即可用作自定义檐沟。</p>
+<h2>将檐沟断面应用到屋顶覆面</h2>
+<ul>
+<li>选择一个或多个覆面，并打开 <strong>Settings</strong> 对话框。</li>
+</ul>
+<ul>
+<li>在 <strong>Gutter</strong>（檐沟）页面上，将 <strong>Style</strong>（样式）设为 <strong>Custom Profile</strong>（自定义断面），并选择你上面创建的檐沟断面。</li>
+</ul>
+<p><img src="img/4405506731407_4.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<p>请注意，此时 <strong>A</strong> 和 <strong>B</strong> 尺寸将被锁定。檐沟尺寸无法通过参数进行调整。如需更改檐沟尺寸或形状，请在 <strong>Profile Manager</strong> 中编辑。</p>
+<ul>
+<li>点击 <strong>OK</strong>。</li>
+</ul>
+<p><img src="img/4405506731407_5.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>Use Archicad's <strong>Profile Manager</strong> to define a profile for the gutter, then apply it to the roof covering.</p>
+<h2>Define a Gutter Profile</h2>
+<p>To define a custom gutter profile:</p>
+<ul>
+<li>Draw the profile shape in the <strong>Profile Manager</strong>. The position and orientation are important. The anchor point should be placed at the drawing origin, and the gutter front should be drawn to the right of the origin.</li>
+</ul>
+<p><img src="img/4405506731407_0.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Remove the <strong>Cut Line</strong> from any edge that should be drawn open.</li>
+</ul>
+<p><img src="img/4405506731407_1.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<p>In this example, the top 3 edges should remain open, the cut line has been removed from three edges (two straight edges and one curved edge).</p>
+<p><img src="img/4405506731407_2.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Save the profile.</li>
+</ul>
+<p><img src="img/4405506731407_3.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<p>Now the profile is ready for use as a custom gutter.</p>
+<h2>Apply the Gutter Profile to a Roof Covering</h2>
+<ul>
+<li>Select one or more coverings, and open the <strong>Settings</strong> dialog.</li>
+</ul>
+<ul>
+<li>On the <strong>Gutter</strong> page, set the <strong>Style</strong> to <strong>Custom Profile</strong>, and choose the gutter profile you created above.</li>
+</ul>
+<p><img src="img/4405506731407_4.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<p>Note that the <strong>A</strong> and <strong>B</strong> dimensions become locked. The gutter size can't be adjusted parametrically. If you want to change the gutter size or shape, edit it in the <strong>Profile Manager</strong>.</p>
+<ul>
+<li>Click <strong>OK</strong>.</li>
+</ul>
+<p><img src="img/4405506731407_5.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Use Archicad's <strong>Profile Manager</strong> to define a profile for the gutter, then apply it to the roof covering.</p>
+<h2>Define a Gutter Profile</h2>
+<p>To define a custom gutter profile:</p>
+<ul>
+<li>Draw the profile shape in the <strong>Profile Manager</strong>. The position and orientation are important. The anchor point should be placed at the drawing origin, and the gutter front should be drawn to the right of the origin.</li>
+</ul>
+<p><img src="img/4405506731407_0.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Remove the <strong>Cut Line</strong> from any edge that should be drawn open.</li>
+</ul>
+<p><img src="img/4405506731407_1.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<p>In this example, the top 3 edges should remain open, the cut line has been removed from three edges (two straight edges and one curved edge).</p>
+<p><img src="img/4405506731407_2.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Save the profile.</li>
+</ul>
+<p><img src="img/4405506731407_3.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<p>Now the profile is ready for use as a custom gutter.</p>
+<h2>Apply the Gutter Profile to a Roof Covering</h2>
+<ul>
+<li>Select one or more coverings, and open the <strong>Settings</strong> dialog.</li>
+</ul>
+<ul>
+<li>On the <strong>Gutter</strong> page, set the <strong>Style</strong> to <strong>Custom Profile</strong>, and choose the gutter profile you created above.</li>
+</ul>
+<p><img src="img/4405506731407_4.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+<p>Note that the <strong>A</strong> and <strong>B</strong> dimensions become locked. The gutter size can't be adjusted parametrically. If you want to change the gutter size or shape, edit it in the <strong>Profile Manager</strong>.</p>
+<ul>
+<li>Click <strong>OK</strong>.</li>
+</ul>
+<p><img src="img/4405506731407_5.jpg" alt="How to Add a Custom Gutter to a Roof Covering 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4405748515855">
+  <div class="art-h"><span class="no">11</span>
+    <h3 class="zh-only block">如何为墙体添加墙体覆面</h3>
+    <h3 class="en-only block">How to Add a Wall Covering to a Wall</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4405748515855-How-to-Add-a-Wall-Covering-to-a-Wall" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>将 <em>Wall Coverings</em>（墙体覆面）添加到 Archicad <em>Walls</em>（墙体）上，以建模挂板和收边件。</p>
+<ul>
+<li>在平面视图中选择一个或多个墙体。</li>
+</ul>
+<p><img src="img/4405748515855_0.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<ul>
+<li>在 Ci Tools 菜单中，选择 Coverings > Wall Coverings（覆面 > 墙体覆面）。</li>
+</ul>
+<ul>
+<li>在 Configuration（配置）页面上，选择挂板的排列方式。</li>
+</ul>
+<p><img src="img/4405748515855_1.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<ul>
+<li>在 Claddings（挂板）页面上，选择挂板类型与尺寸。</li>
+</ul>
+<p><img src="img/4405748515855_2.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<ul>
+<li>点击 OK 。</li>
+</ul>
+<ul>
+<li>点击以指定覆面要应用到墙体的哪个面（根据所选项，你可能需要点击多次）。</li>
+</ul>
+<p><img src="img/4405748515855_3.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<p><img src="img/4405748515855_4.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>Add <em>Wall Coverings</em> to Archicad <em>Walls</em>, to model cladding and trims.</p>
+<ul>
+<li>Select one or more walls in plan view.</li>
+</ul>
+<p><img src="img/4405748515855_0.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<ul>
+<li>From the Ci Tools menu, choose Coverings > Wall Coverings .</li>
+</ul>
+<ul>
+<li>On the Configuration page, choose how the claddings should be arranged.</li>
+</ul>
+<p><img src="img/4405748515855_1.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<ul>
+<li>On the Claddings page, choose cladding type and dimensions.</li>
+</ul>
+<p><img src="img/4405748515855_2.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK .</li>
+</ul>
+<ul>
+<li>Click to indicate the face of the wall to which the covering should be applied (depending on the selection, you may be prompted to click multiple times).</li>
+</ul>
+<p><img src="img/4405748515855_3.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<p><img src="img/4405748515855_4.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Add <em>Wall Coverings</em> to Archicad <em>Walls</em>, to model cladding and trims.</p>
+<ul>
+<li>Select one or more walls in plan view.</li>
+</ul>
+<p><img src="img/4405748515855_0.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<ul>
+<li>From the Ci Tools menu, choose Coverings > Wall Coverings .</li>
+</ul>
+<ul>
+<li>On the Configuration page, choose how the claddings should be arranged.</li>
+</ul>
+<p><img src="img/4405748515855_1.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<ul>
+<li>On the Claddings page, choose cladding type and dimensions.</li>
+</ul>
+<p><img src="img/4405748515855_2.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK .</li>
+</ul>
+<ul>
+<li>Click to indicate the face of the wall to which the covering should be applied (depending on the selection, you may be prompted to click multiple times).</li>
+</ul>
+<p><img src="img/4405748515855_3.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+<p><img src="img/4405748515855_4.jpg" alt="How to Add a Wall Covering to a Wall 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4405799579663">
+  <div class="art-h"><span class="no">12</span>
+    <h3 class="zh-only block">如何调整屋顶覆面的边角度</h3>
+    <h3 class="en-only block">How to Adjust Roof Covering Edge Angles</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4405799579663-How-to-Adjust-Roof-Covering-Edge-Angles" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Archicad <em>Roof</em>（屋顶）的每条边都可以是垂直的、垂直于屋面的，或设置为自定义角度。</p>
+<p><img src="img/4405799579663_0.jpg" alt="How to Adjust Roof Covering Edge Angles 示意图" loading="lazy"></p>
+<p>这些屋顶角度也可应用到关联的 <em>Roof Covering</em>（屋顶覆面）上。</p>
+<ul>
+<li>选择一个 Roof Covering（屋顶覆面），并打开其 Settings 对话框。</li>
+</ul>
+<p><img src="img/4405799579663_1.jpg" alt="How to Adjust Roof Covering Edge Angles 示意图" loading="lazy"></p>
+<ul>
+<li>在 Configuration 页面上，将 Roof Polygon Edges > Angles（屋顶多边形边 > 角度）设为 Match Roof Edges（匹配屋顶边）。屋顶覆面将采用屋顶的边角度。</li>
+</ul>
+<p>在建模不对称屋顶（不同坡度的屋面在屋脊线处相交）时，这尤其有用。</p>
+<p><img src="img/4405799579663_2.jpg" alt="How to Adjust Roof Covering Edge Angles 示意图" loading="lazy"></p>
+<p>它同样适用于方形收头椽（square stopped rafter）构造。</p></div>
+  <div class="en-only"><p>Each edge of an Archicad <em>Roof</em> can be either vertical, perpendicular to the roof surface, or set at a custom angle.</p>
+<p><img src="img/4405799579663_0.jpg" alt="How to Adjust Roof Covering Edge Angles 示意图" loading="lazy"></p>
+<p>These roof angles can also be applied to the associated <em>Roof Covering</em>.</p>
+<ul>
+<li>Select a Roof Covering , and open its Settings dialog.</li>
+</ul>
+<p><img src="img/4405799579663_1.jpg" alt="How to Adjust Roof Covering Edge Angles 示意图" loading="lazy"></p>
+<ul>
+<li>On the Configuration page, set Roof Polygon Edges > Angles to Match Roof Edges . The roof covering will take the edge angles of the roof.</li>
+</ul>
+<p>This is particularly useful when modelling an asymmetric roof, where roofs of different pitch meet at a ridge line.</p>
+<p><img src="img/4405799579663_2.jpg" alt="How to Adjust Roof Covering Edge Angles 示意图" loading="lazy"></p>
+<p>It can also be useful for square stopped rafter construction.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Each edge of an Archicad <em>Roof</em> can be either vertical, perpendicular to the roof surface, or set at a custom angle.</p>
+<p><img src="img/4405799579663_0.jpg" alt="How to Adjust Roof Covering Edge Angles 示意图" loading="lazy"></p>
+<p>These roof angles can also be applied to the associated <em>Roof Covering</em>.</p>
+<ul>
+<li>Select a Roof Covering , and open its Settings dialog.</li>
+</ul>
+<p><img src="img/4405799579663_1.jpg" alt="How to Adjust Roof Covering Edge Angles 示意图" loading="lazy"></p>
+<ul>
+<li>On the Configuration page, set Roof Polygon Edges > Angles to Match Roof Edges . The roof covering will take the edge angles of the roof.</li>
+</ul>
+<p>This is particularly useful when modelling an asymmetric roof, where roofs of different pitch meet at a ridge line.</p>
+<p><img src="img/4405799579663_2.jpg" alt="How to Adjust Roof Covering Edge Angles 示意图" loading="lazy"></p>
+<p>It can also be useful for square stopped rafter construction.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4406075025167">
+  <div class="art-h"><span class="no">13</span>
+    <h3 class="zh-only block">如何对齐不同屋面上的挂板</h3>
+    <h3 class="en-only block">How to Align Claddings on Different Roof Planes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4406075025167-How-to-Align-Claddings-on-Different-Roof-Planes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当你将覆面附着到多坡屋顶后，相邻的挂板可能未对齐。</p>
+<p><img src="img/4406075025167_0.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<p>你可以调整肋式或瓦式挂板的放样起点。</p>
+<ul>
+<li>在平面视图中选择屋顶覆面。你会看到每个覆面上都有一个紫色热点，它标示挂板断面的原点。</li>
+</ul>
+<p><img src="img/4406075025167_1.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<ul>
+<li>移动热点以调整挂板原点。请注意，该热点同时控制檩条/挂瓦条的放样。</li>
+</ul>
+<p><img src="img/4406075025167_2.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<p>现在挂板将在平面视图和模型视图中对齐。</p>
+<p><img src="img/4406075025167_3.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<p><img src="img/4406075025167_4.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>Once you've attached coverings to a multi-plane roof, adjacent claddings may not be aligned.</p>
+<p><img src="img/4406075025167_0.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<p>You can adjust the setout point for ribbed or tiled claddings.</p>
+<ul>
+<li>Select the roof coverings in plan view. You'll see a purple hotspot on each covering. This marks the origin of the cladding profile.</li>
+</ul>
+<p><img src="img/4406075025167_1.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<ul>
+<li>Move the hotspot to adjust the cladding origin. Note that this hotspot also controls the setout for purlins/battens.</li>
+</ul>
+<p><img src="img/4406075025167_2.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<p>The claddings will now align in plan view and in model views.</p>
+<p><img src="img/4406075025167_3.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<p><img src="img/4406075025167_4.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Once you've attached coverings to a multi-plane roof, adjacent claddings may not be aligned.</p>
+<p><img src="img/4406075025167_0.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<p>You can adjust the setout point for ribbed or tiled claddings.</p>
+<ul>
+<li>Select the roof coverings in plan view. You'll see a purple hotspot on each covering. This marks the origin of the cladding profile.</li>
+</ul>
+<p><img src="img/4406075025167_1.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<ul>
+<li>Move the hotspot to adjust the cladding origin. Note that this hotspot also controls the setout for purlins/battens.</li>
+</ul>
+<p><img src="img/4406075025167_2.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<p>The claddings will now align in plan view and in model views.</p>
+<p><img src="img/4406075025167_3.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+<p><img src="img/4406075025167_4.jpg" alt="How to Align Claddings on Different Roof Planes 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4405748424207">
+  <div class="art-h"><span class="no">14</span>
+    <h3 class="zh-only block">如何更改屋顶覆面的边类型</h3>
+    <h3 class="en-only block">How to Change Roof Covering Edge Types</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4405748424207-How-to-Change-Roof-Covering-Edge-Types" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当你首次将 <em>Roof Covering</em>（屋顶覆面）放置到 Archicad <em>Roof</em>（屋顶）上时，默认边类型会根据 <strong>Configuration</strong>（配置）页面上所选的屋顶类型自动指定。</p>
+<p>例如，如果你选择 <strong>Hip/Gable</strong>（四坡/山墙）类型屋顶：</p>
+<ul>
+<li>所有平行于屋面坡向线、位于屋面下端的边，都将作为檐沟处理（自动添加封檐板、封檐底面和檐沟）。</li>
+</ul>
+<ul>
+<li>所有平行于屋面坡向线、位于屋面上端的边，都将作为屋脊交接处理（自动添加泛水）。</li>
+</ul>
+<ul>
+<li>所有垂直于屋面坡向线的边，都将作为山墙处理（自动添加博风板和封檐底面）。</li>
+</ul>
+<ul>
+<li>所有构成四坡（hip）的边，都将作为四坡交接处理（自动添加四坡泛水）。</li>
+</ul>
+<ul>
+<li>所有构成天沟（valley）的边，都将作为天沟交接处理（自动添加天沟泛水）。</li>
+</ul>
+<p>要编辑屋顶覆面的单条边：</p>
+<ul>
+<li>在任意项目视图中选择一个或多个屋顶覆面。</li>
+</ul>
+<p><img src="img/4405748424207_0.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p><img src="img/4405748424207_1.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<ul>
+<li>在 Ci Tools 菜单中，选择 Coverings > Edit Roof Edges（覆面 > 编辑屋檐边）。</li>
+</ul>
+<ul>
+<li>选择一条或多条边：</li>
+</ul>
+<p><img src="img/4405748424207_2.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p><img src="img/4405748424207_3.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p> 要选中一条边，请在该边上双击。</p>
+<ul>
+<li>点击时按住 Ctrl（Mac 上为 Command）键可选择多条边。</li>
+</ul>
+<ul>
+<li>在某个屋顶多边形内点击可选择该多边形的全部边。</li>
+</ul>
+<ul>
+<li>使用魔棒按钮可选择某一特定类型的所有边。</li>
+</ul>
+<ul>
+<li>为所选范围选择边类型。</li>
+</ul>
+<ul>
+<li>点击 OK 。</li>
+</ul>
+<p><img src="img/4405748424207_4.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p><img src="img/4405748424207_5.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>When you initially place a <em>Roof Covering</em> onto an Archicad <em>Roof</em>,  default edge types are assigned based on the type of roof selected on the <strong>Configuration</strong> page.</p>
+<p>For instance, if you choose a <strong>Hip/Gable</strong> type roof:</p>
+<ul>
+<li>All edges running parallel to the roof pitching line, at the lower end of the roof, will be treated as gutters (with fascia boards, soffits and gutters added).</li>
+</ul>
+<ul>
+<li>All edges running parallel to the roof pitching line, at the upper end of the roof, will be treated as ridge junctions (with flashings added).</li>
+</ul>
+<ul>
+<li>All edges running perpendicular to the roof pitching line, will be treated as gables (with barge boards and soffits added).</li>
+</ul>
+<ul>
+<li>All edges forming hips will be treated as hip junctions (with hip flashings added).</li>
+</ul>
+<ul>
+<li>All edges forming valleys will be treated as valley junctions (with valley flashings added).</li>
+</ul>
+<p>To edit individual edges of the roof covering:</p>
+<ul>
+<li>Select one or more roof coverings in any project view.</li>
+</ul>
+<p><img src="img/4405748424207_0.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p><img src="img/4405748424207_1.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<ul>
+<li>From the Ci Tools menu, choose Coverings > Edit Roof Edges .</li>
+</ul>
+<ul>
+<li>Select one or more edges:</li>
+</ul>
+<p><img src="img/4405748424207_2.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p><img src="img/4405748424207_3.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p> To select an edge, double-click on that edge.</p>
+<ul>
+<li>Use the control (command) key while clicking, to select multiple edges.</li>
+</ul>
+<ul>
+<li>Click within a roof polygon to select all edges of that polygon.</li>
+</ul>
+<ul>
+<li>Use the magic wand button to select all edges of a particular type.</li>
+</ul>
+<ul>
+<li>Choose an edge type for the selection.</li>
+</ul>
+<ul>
+<li>Click OK .</li>
+</ul>
+<p><img src="img/4405748424207_4.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p><img src="img/4405748424207_5.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>When you initially place a <em>Roof Covering</em> onto an Archicad <em>Roof</em>,  default edge types are assigned based on the type of roof selected on the <strong>Configuration</strong> page.</p>
+<p>For instance, if you choose a <strong>Hip/Gable</strong> type roof:</p>
+<ul>
+<li>All edges running parallel to the roof pitching line, at the lower end of the roof, will be treated as gutters (with fascia boards, soffits and gutters added).</li>
+</ul>
+<ul>
+<li>All edges running parallel to the roof pitching line, at the upper end of the roof, will be treated as ridge junctions (with flashings added).</li>
+</ul>
+<ul>
+<li>All edges running perpendicular to the roof pitching line, will be treated as gables (with barge boards and soffits added).</li>
+</ul>
+<ul>
+<li>All edges forming hips will be treated as hip junctions (with hip flashings added).</li>
+</ul>
+<ul>
+<li>All edges forming valleys will be treated as valley junctions (with valley flashings added).</li>
+</ul>
+<p>To edit individual edges of the roof covering:</p>
+<ul>
+<li>Select one or more roof coverings in any project view.</li>
+</ul>
+<p><img src="img/4405748424207_0.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p><img src="img/4405748424207_1.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<ul>
+<li>From the Ci Tools menu, choose Coverings > Edit Roof Edges .</li>
+</ul>
+<ul>
+<li>Select one or more edges:</li>
+</ul>
+<p><img src="img/4405748424207_2.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p><img src="img/4405748424207_3.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p> To select an edge, double-click on that edge.</p>
+<ul>
+<li>Use the control (command) key while clicking, to select multiple edges.</li>
+</ul>
+<ul>
+<li>Click within a roof polygon to select all edges of that polygon.</li>
+</ul>
+<ul>
+<li>Use the magic wand button to select all edges of a particular type.</li>
+</ul>
+<ul>
+<li>Choose an edge type for the selection.</li>
+</ul>
+<ul>
+<li>Click OK .</li>
+</ul>
+<p><img src="img/4405748424207_4.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+<p><img src="img/4405748424207_5.jpg" alt="How to Change Roof Covering Edge Types 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4407803838863">
+  <div class="art-h"><span class="no">15</span>
+    <h3 class="zh-only block">如何在模型视图中控制屋顶覆面的细部</h3>
+    <h3 class="en-only block">How to Control Roof Covering Details in Model Views</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4407803838863-How-to-Control-Roof-Covering-Details-in-Model-Views" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>屋顶覆面由若干组成部分构成：</p>
+<ul>
+<li>挂板（Cladding）</li>
+</ul>
+<ul>
+<li>框架（即檩条或挂瓦条）</li>
+</ul>
+<ul>
+<li>泛水</li>
+</ul>
+<ul>
+<li>边板（即封檐板和博风板）</li>
+</ul>
+<ul>
+<li>封檐底面</li>
+</ul>
+<ul>
+<li>檐沟</li>
+</ul>
+<ul>
+<li>落水管</li>
+</ul>
+<ul>
+<li>山墙端挂板</li>
+</ul>
+<ul>
+<li>檐饰（Frieze）与顶饰（Finial）</li>
+</ul>
+<p>在任一给定视图中，你可能希望显示全部或仅显示其中一部分组成部分。例如，在平面视图中通常没必要显示边板或框架；在三维视图中显示框架也可能没有帮助。</p>
+<p><em>Ci Tools Coverings</em> 库的 <strong>Model View Options</strong>（<strong>MVO</strong>，模型视图选项）设置提供了控制显示/隐藏各组成部分的选项。</p>
+<p><img src="img/4407803838863_0.jpg" alt="How to Control Roof Covering Details in Model Views 示意图" loading="lazy"></p>
+<p>还有一个通用控制项，可将屋顶覆面以通用模式或详细模式绘制。通用模式可减少多边形数量，因此除出图视图外都适合使用。</p>
+<p>出于迁移目的，你可以选择覆盖平面图的 <strong>MVO</strong> 设置。此时框架不显示，各组成部分的可见性由 <strong>Settings</strong> 对话框中 <strong>Display Options > Symbol</strong>（显示选项 > 符号）下的设置控制。</p>
+<p><img src="img/4407803838863_1.jpg" alt="How to Control Roof Covering Details in Model Views 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>Roof coverings are made up of several components:</p>
+<ul>
+<li>Cladding</li>
+</ul>
+<ul>
+<li>Framing (i.e. purlins or battens)</li>
+</ul>
+<ul>
+<li>Flashings</li>
+</ul>
+<ul>
+<li>Edge boards (i.e. fascias and barge boards)</li>
+</ul>
+<ul>
+<li>Soffits</li>
+</ul>
+<ul>
+<li>Gutters</li>
+</ul>
+<ul>
+<li>Downpipes</li>
+</ul>
+<ul>
+<li>Gable end cladding</li>
+</ul>
+<ul>
+<li>Frieze & finial</li>
+</ul>
+<p>In any given view, you may want to display all or only a subset of these components. For instance, in a plan view it's usually not helpful to display edge boards or framing. In a 3D view it may also be unhelpful to display framing.</p>
+<p>The <strong>Model View Options</strong> (<strong>MVO</strong>) settings for the <em>Ci Tools Coverings</em> library provide controls to show/hide each of these components.</p>
+<p><img src="img/4407803838863_0.jpg" alt="How to Control Roof Covering Details in Model Views 示意图" loading="lazy"></p>
+<p>There's also a general control to draw the roof covering in a generic or detailed mode. The generic mode reduces the polygon count, so it's a good option for all but presentation views.</p>
+<p>For migration purposes, you can choose to override the <strong>MVO</strong> settings for plan view. In this case the framing is not shown, and visibility of components is controlled in the <strong>Settings</strong> dialog under <strong>Display Options > Symbol</strong>.</p>
+<p><img src="img/4407803838863_1.jpg" alt="How to Control Roof Covering Details in Model Views 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Roof coverings are made up of several components:</p>
+<ul>
+<li>Cladding</li>
+</ul>
+<ul>
+<li>Framing (i.e. purlins or battens)</li>
+</ul>
+<ul>
+<li>Flashings</li>
+</ul>
+<ul>
+<li>Edge boards (i.e. fascias and barge boards)</li>
+</ul>
+<ul>
+<li>Soffits</li>
+</ul>
+<ul>
+<li>Gutters</li>
+</ul>
+<ul>
+<li>Downpipes</li>
+</ul>
+<ul>
+<li>Gable end cladding</li>
+</ul>
+<ul>
+<li>Frieze & finial</li>
+</ul>
+<p>In any given view, you may want to display all or only a subset of these components. For instance, in a plan view it's usually not helpful to display edge boards or framing. In a 3D view it may also be unhelpful to display framing.</p>
+<p>The <strong>Model View Options</strong> (<strong>MVO</strong>) settings for the <em>Ci Tools Coverings</em> library provide controls to show/hide each of these components.</p>
+<p><img src="img/4407803838863_0.jpg" alt="How to Control Roof Covering Details in Model Views 示意图" loading="lazy"></p>
+<p>There's also a general control to draw the roof covering in a generic or detailed mode. The generic mode reduces the polygon count, so it's a good option for all but presentation views.</p>
+<p>For migration purposes, you can choose to override the <strong>MVO</strong> settings for plan view. In this case the framing is not shown, and visibility of components is controlled in the <strong>Settings</strong> dialog under <strong>Display Options > Symbol</strong>.</p>
+<p><img src="img/4407803838863_1.jpg" alt="How to Control Roof Covering Details in Model Views 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4405523991311">
+  <div class="art-h"><span class="no">16</span>
+    <h3 class="zh-only block">如何显示屋顶坡度与面积</h3>
+    <h3 class="en-only block">How to Display Roof Pitch and Area</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4405523991311-How-to-Display-Roof-Pitch-and-Area" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>使用 <strong>Ci Roof Covering Label</strong>（Ci 屋顶覆面标签）显示屋顶坡度以及可选的面积。</p>
+<h2>在平面视图中为屋顶覆面添加标签</h2>
+<ul>
+<li>打开默认的 <strong>Label Settings</strong>（标签设置）对话框，选择 <strong>Ci Roof Pitch Label</strong>（Ci 屋顶坡度标签）。</li>
+</ul>
+<p><img src="img/4405523991311_0.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>将标签设置为无指示线放置，然后点击 <strong>OK</strong>。</p>
+<ul>
+<li>在 <strong>Info Box</strong>（信息框）中，将标签的 <strong>Geometry Method</strong>（几何方法）设为 <strong>Associative</strong>（关联式）。</li>
+</ul>
+<p><img src="img/4405523991311_1.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>在平面视图中，点击将标签放置到屋顶覆面上。</li>
+</ul>
+<p><img src="img/4405523991311_2.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>标签会以正确的方向放置，并显示坡度角和屋顶面积。</p>
+<p><img src="img/4405523991311_3.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>点击将标签放置到其他屋面上。</li>
+</ul>
+<p><img src="img/4405523991311_4.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<h2>更改箭头尺寸</h2>
+<p>如果你想更改箭头尺寸：</p>
+<ul>
+<li>在平面视图中选择标签。</li>
+</ul>
+<ul>
+<li>打开它们的 <strong>Settings</strong> 对话框。</li>
+</ul>
+<p><img src="img/4405523991311_5.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>将 <strong>Arrow</strong>（箭头）设为 <strong>Custom Size</strong>（自定义尺寸），并设置 <strong>Arrowhead Size</strong>（箭头尺寸）。</li>
+</ul>
+<p><img src="img/4405523991311_6.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<h2>移除屋顶面积文字</h2>
+<p>如果你只想显示屋顶坡度：</p>
+<ul>
+<li>转到 <strong>Document</strong>（文档）菜单，选择 <strong>Model View</strong> > <strong>Model View Options</strong>（模型视图 > 模型视图选项）。</li>
+</ul>
+<ul>
+<li>打开 <strong>Ci Coverings</strong> 选项卡。</li>
+</ul>
+<ul>
+<li>将 <strong>Roof > Label > Show Area</strong>（屋顶 > 标签 > 显示面积）设置为 <strong>Off</strong>（关闭）。</li>
+</ul>
+<p><img src="img/4405523991311_7.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>在平面视图中，标签将更新为仅显示屋顶坡度。</p>
+<p><img src="img/4405523991311_8.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<h2>在剖面/立面视图中为屋顶覆面添加标签</h2>
+<p>在 <strong>Section/Elevation</strong>（剖面/立面）视图中，使用同一标签来标示屋顶坡度。</p>
+<ul>
+<li>打开默认的 <strong>Label Settings</strong> 对话框，选择 <strong>Ci Roof Pitch Label</strong>。将标签设置为无指示线放置，然后点击 <strong>OK</strong>。</li>
+</ul>
+<ul>
+<li>在 <strong>Info Box</strong> 中，将标签的 <strong>Geometry Method</strong> 设为 <strong>Associative</strong>。</li>
+</ul>
+<p><img src="img/4405523991311_9.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>在剖面/立面视图中，点击将标签放置到屋顶覆面上。</li>
+</ul>
+<p><img src="img/4405523991311_10.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>标签会被放置在距你点击处一定距离的位置。</p>
+<p><img src="img/4405523991311_11.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>将标签拖动到所需位置。</li>
+</ul>
+<p><img src="img/4405523991311_12.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>%%IMG13%%</p></div>
+  <div class="en-only"><p>Use the <strong>Ci Roof Covering Label</strong> to display the roof pitch and optional area.</p>
+<h2>Label Roof Coverings in Plan View</h2>
+<ul>
+<li>Open the default <strong>Label Settings</strong> dialog, and select the <strong>Ci Roof Pitch Label</strong>.</li>
+</ul>
+<p><img src="img/4405523991311_0.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>Set the label to place with no pointer, and click <strong>OK</strong>.</p>
+<ul>
+<li>In the <strong>Info Box</strong>, set the label <strong>Geometry Method</strong> to <strong>Associative</strong>.</li>
+</ul>
+<p><img src="img/4405523991311_1.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>In plan view, click to place the label onto a roof covering.</li>
+</ul>
+<p><img src="img/4405523991311_2.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>The label is placed at the correct orientation, and displays the pitch angle and roof area.</p>
+<p><img src="img/4405523991311_3.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>Click to place labels onto other roof planes.</li>
+</ul>
+<p><img src="img/4405523991311_4.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<h2>Change the Arrowhead Size</h2>
+<p>If you want to change the arrowhead size:</p>
+<ul>
+<li>Select the labels in plan view.</li>
+</ul>
+<ul>
+<li>Open their <strong>Settings</strong> dialog.</li>
+</ul>
+<p><img src="img/4405523991311_5.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>Set the <strong>Arrow</strong> to have <strong>Custom Size,</strong> and set the <strong>Arrowhead Size</strong>.</li>
+</ul>
+<p><img src="img/4405523991311_6.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<h2>Remove the Roof Area Text</h2>
+<p>If you want to display the roof pitch only:</p>
+<ul>
+<li>Go to the <strong>Document</strong> menu and choose <strong>Model View</strong> > <strong>Model View Options</strong>.</li>
+</ul>
+<ul>
+<li>Open the <strong>Ci Coverings</strong> tab.</li>
+</ul>
+<ul>
+<li>Set the <strong>Roof > Label > Show Area</strong> setting to <strong>Off</strong>.</li>
+</ul>
+<p><img src="img/4405523991311_7.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>In plan view, the labels will update to display the roof pitch only.</p>
+<p><img src="img/4405523991311_8.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<h2>Label Roof Coverings in Section/Elevation Views</h2>
+<p>In <strong>Section/Elevation</strong> views, use the same label to indicate the roof pitch.</p>
+<ul>
+<li>Open the default <strong>Label Settings</strong> dialog, and select the <strong>Ci Roof Pitch Label</strong>. Set the label to place with no pointer, and click <strong>OK</strong>.</li>
+</ul>
+<ul>
+<li>In the <strong>Info Box</strong>, set the label <strong>Geometry Method</strong> to <strong>Associative</strong>.</li>
+</ul>
+<p><img src="img/4405523991311_9.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>In section/elevation view, click to place the label onto a roof covering.</li>
+</ul>
+<p><img src="img/4405523991311_10.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>The label will be placed at some distance from the point you clicked.</p>
+<p><img src="img/4405523991311_11.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>Drag the label to the desired location.</li>
+</ul>
+<p><img src="img/4405523991311_12.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>%%IMG13%%</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Use the <strong>Ci Roof Covering Label</strong> to display the roof pitch and optional area.</p>
+<h2>Label Roof Coverings in Plan View</h2>
+<ul>
+<li>Open the default <strong>Label Settings</strong> dialog, and select the <strong>Ci Roof Pitch Label</strong>.</li>
+</ul>
+<p><img src="img/4405523991311_0.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>Set the label to place with no pointer, and click <strong>OK</strong>.</p>
+<ul>
+<li>In the <strong>Info Box</strong>, set the label <strong>Geometry Method</strong> to <strong>Associative</strong>.</li>
+</ul>
+<p><img src="img/4405523991311_1.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>In plan view, click to place the label onto a roof covering.</li>
+</ul>
+<p><img src="img/4405523991311_2.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>The label is placed at the correct orientation, and displays the pitch angle and roof area.</p>
+<p><img src="img/4405523991311_3.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>Click to place labels onto other roof planes.</li>
+</ul>
+<p><img src="img/4405523991311_4.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<h2>Change the Arrowhead Size</h2>
+<p>If you want to change the arrowhead size:</p>
+<ul>
+<li>Select the labels in plan view.</li>
+</ul>
+<ul>
+<li>Open their <strong>Settings</strong> dialog.</li>
+</ul>
+<p><img src="img/4405523991311_5.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>Set the <strong>Arrow</strong> to have <strong>Custom Size,</strong> and set the <strong>Arrowhead Size</strong>.</li>
+</ul>
+<p><img src="img/4405523991311_6.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<h2>Remove the Roof Area Text</h2>
+<p>If you want to display the roof pitch only:</p>
+<ul>
+<li>Go to the <strong>Document</strong> menu and choose <strong>Model View</strong> > <strong>Model View Options</strong>.</li>
+</ul>
+<ul>
+<li>Open the <strong>Ci Coverings</strong> tab.</li>
+</ul>
+<ul>
+<li>Set the <strong>Roof > Label > Show Area</strong> setting to <strong>Off</strong>.</li>
+</ul>
+<p><img src="img/4405523991311_7.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>In plan view, the labels will update to display the roof pitch only.</p>
+<p><img src="img/4405523991311_8.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<h2>Label Roof Coverings in Section/Elevation Views</h2>
+<p>In <strong>Section/Elevation</strong> views, use the same label to indicate the roof pitch.</p>
+<ul>
+<li>Open the default <strong>Label Settings</strong> dialog, and select the <strong>Ci Roof Pitch Label</strong>. Set the label to place with no pointer, and click <strong>OK</strong>.</li>
+</ul>
+<ul>
+<li>In the <strong>Info Box</strong>, set the label <strong>Geometry Method</strong> to <strong>Associative</strong>.</li>
+</ul>
+<p><img src="img/4405523991311_9.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>In section/elevation view, click to place the label onto a roof covering.</li>
+</ul>
+<p><img src="img/4405523991311_10.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>The label will be placed at some distance from the point you clicked.</p>
+<p><img src="img/4405523991311_11.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<ul>
+<li>Drag the label to the desired location.</li>
+</ul>
+<p><img src="img/4405523991311_12.jpg" alt="How to Display Roof Pitch and Area 示意图" loading="lazy"></p>
+<p>%%IMG13%%</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4406722282639">
+  <div class="art-h"><span class="no">17</span>
+    <h3 class="zh-only block">如何制作自定义顶饰</h3>
+    <h3 class="en-only block">How to Make a Custom Finial</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4406722282639-How-to-Make-a-Custom-Finial" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在 Archicad <strong>Toolbox</strong>（工具箱）中双击 <strong>Object</strong>（对象）工具，然后浏览 <strong>Coverings</strong> 库以选择 <em>Cadimage Finial Designer</em> 对象。你可以使用该对象为 <em>Ci Tools Roof Covering</em> 的顶饰设计自定义的<strong>顶部尖顶</strong>（<strong>Top Spindle</strong>）或<strong>底部尖顶</strong>（<strong>Bottom Spindle</strong>）。</p>
+<p>在 <strong>Post</strong>（柱身）页面上，设置顶饰柱身的尺寸。此项仅用于可视化显示。</p>
+<p><img src="img/4406722282639_0.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<h2>设计自定义顶部尖顶</h2>
+<p>使用 <strong>Top Spindle</strong>（顶部尖顶）页面上的控件设计自定义顶部尖顶：</p>
+<ul>
+<li>将 Style（样式）设为 Custom Settings（自定义设置），并使用 Components（组件）控件添加和移除尖顶的组件、设置每个组件的尺寸，以及上下移动组件。</li>
+</ul>
+<p><img src="img/4406722282639_1.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<ul>
+<li>从列表中选择一个组件以编辑其设置。</li>
+</ul>
+<p><img src="img/4406722282639_2.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<p> 点击 + 和 - 按钮复制或移除该组件。</p>
+<ul>
+<li>点击箭头按钮将组件上移或下移。</li>
+</ul>
+<ul>
+<li>点击 Copy（复制）按钮创建顶部尖顶的临时副本。</li>
+</ul>
+<h2>设计自定义底部尖顶</h2>
+<p>在 <strong>Bottom Spindle</strong>（底部尖顶）页面上，定义自定义的底部尖顶：</p>
+<ul>
+<li>使用列表选择组件。</li>
+</ul>
+<p><img src="img/4406722282639_3.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<ul>
+<li>使用 + 按钮复制组件，或使用 - 按钮移除组件。</li>
+</ul>
+<ul>
+<li>使用箭头按钮将组件上移或下移。</li>
+</ul>
+<p><img src="img/4406722282639_4.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<ul>
+<li>点击 Copy（复制）按钮创建底部尖顶的临时副本。</li>
+</ul>
+<h2>使用自定义顶部和底部尖顶</h2>
+<p>要将自定义顶部和底部尖顶应用到屋顶覆面：</p>
+<ul>
+<li>按上述方式设计顶部和底部尖顶，并分别为每个尖顶点击 Copy 按钮以创建临时副本。</li>
+</ul>
+<ul>
+<li>在 Ci Tools Roof Covering 对象中，为顶部和底部尖顶选择 Custom（自定义），然后点击 Paste（粘贴）按钮以粘贴上一步中保存的设置。</li>
+</ul></div>
+  <div class="en-only"><p>Double-click on the <strong>Object</strong> tool in the Archicad <strong>Toolbox</strong>, and browse the <strong>Coverings</strong> library to select the <em>Cadimage Finial Designer</em> object. You can use this object to design a custom<strong>Top Spindle</strong>or <strong>Bottom Spindle</strong> for use by the finial in the <em>Ci Tools Roof Covering</em>.</p>
+<p>On the <strong>Post</strong> page, set the dimensions of the finial post. This is only used for visualization.</p>
+<p><img src="img/4406722282639_0.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<h2>Design a Custom Top Spindle</h2>
+<p>Use the controls on the <strong>Top Spindle</strong> page to design a custom top spindle:</p>
+<ul>
+<li>Set the Style to Custom Settings, and use the Components controls to add and remove components from the spindle, set the dimensions of each component, and move the components up or down.</li>
+</ul>
+<p><img src="img/4406722282639_1.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<ul>
+<li>Select a component from the list to edit its settings.</li>
+</ul>
+<p><img src="img/4406722282639_2.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<p> Click the + and - buttons to duplicate or remove the component.</p>
+<ul>
+<li>Click the arrow buttons to move the component up or down.</li>
+</ul>
+<ul>
+<li>Click on the Copy button to make a temporary copy of the top spindle.</li>
+</ul>
+<h2>Design a Custom Bottom Spindle</h2>
+<p>On the <strong>Bottom Spindle</strong> page, define a custom bottom spindle:</p>
+<ul>
+<li>Use the list to select a component.</li>
+</ul>
+<p><img src="img/4406722282639_3.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<ul>
+<li>Use the + button to duplicate the component, or the - button to remove the component.</li>
+</ul>
+<ul>
+<li>Use the arrow buttons to move the component up or down.</li>
+</ul>
+<p><img src="img/4406722282639_4.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the Copy button to make a temporary copy of the bottom spindle.</li>
+</ul>
+<h2>Use the Custom Top and Bottom Spindles</h2>
+<p>To apply the custom top and bottom spindles to a roof covering:</p>
+<ul>
+<li>Design the top and bottom spindles as above, and click the Copy button for each to make a temporary copy.</li>
+</ul>
+<ul>
+<li>In the Ci Tools Roof Covering object, choose Custom for the top and bottom spindles, and click the Paste button to paste the settings you stored in the previous step.</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Double-click on the <strong>Object</strong> tool in the Archicad <strong>Toolbox</strong>, and browse the <strong>Coverings</strong> library to select the <em>Cadimage Finial Designer</em> object. You can use this object to design a custom<strong>Top Spindle</strong>or <strong>Bottom Spindle</strong> for use by the finial in the <em>Ci Tools Roof Covering</em>.</p>
+<p>On the <strong>Post</strong> page, set the dimensions of the finial post. This is only used for visualization.</p>
+<p><img src="img/4406722282639_0.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<h2>Design a Custom Top Spindle</h2>
+<p>Use the controls on the <strong>Top Spindle</strong> page to design a custom top spindle:</p>
+<ul>
+<li>Set the Style to Custom Settings, and use the Components controls to add and remove components from the spindle, set the dimensions of each component, and move the components up or down.</li>
+</ul>
+<p><img src="img/4406722282639_1.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<ul>
+<li>Select a component from the list to edit its settings.</li>
+</ul>
+<p><img src="img/4406722282639_2.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<p> Click the + and - buttons to duplicate or remove the component.</p>
+<ul>
+<li>Click the arrow buttons to move the component up or down.</li>
+</ul>
+<ul>
+<li>Click on the Copy button to make a temporary copy of the top spindle.</li>
+</ul>
+<h2>Design a Custom Bottom Spindle</h2>
+<p>On the <strong>Bottom Spindle</strong> page, define a custom bottom spindle:</p>
+<ul>
+<li>Use the list to select a component.</li>
+</ul>
+<p><img src="img/4406722282639_3.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<ul>
+<li>Use the + button to duplicate the component, or the - button to remove the component.</li>
+</ul>
+<ul>
+<li>Use the arrow buttons to move the component up or down.</li>
+</ul>
+<p><img src="img/4406722282639_4.jpg" alt="How to Make a Custom Finial 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the Copy button to make a temporary copy of the bottom spindle.</li>
+</ul>
+<h2>Use the Custom Top and Bottom Spindles</h2>
+<p>To apply the custom top and bottom spindles to a roof covering:</p>
+<ul>
+<li>Design the top and bottom spindles as above, and click the Copy button for each to make a temporary copy.</li>
+</ul>
+<ul>
+<li>In the Ci Tools Roof Covering object, choose Custom for the top and bottom spindles, and click the Paste button to paste the settings you stored in the previous step.</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4405529371151">
+  <div class="art-h"><span class="no">18</span>
+    <h3 class="zh-only block">如何将覆面放置到屋顶上</h3>
+    <h3 class="en-only block">How to Place a Covering onto a Roof</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4405529371151-How-to-Place-a-Covering-onto-a-Roof" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在平面视图中，选择你想要覆盖的屋顶。</p>
+<p><img src="img/4405529371151_0.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>从 <strong>Ci Tools</strong> 菜单中，选择 <strong>Coverings > Roof Covering</strong>（覆面 > 屋顶覆面）。</p>
+<p><img src="img/4405529371151_1.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p><strong>Roof Covering Settings</strong>（屋顶覆面设置）对话框将弹出。</p>
+<p>在 <strong>Configuration</strong>（配置）页面上，为覆面几何体选择一些基本设置。</p>
+<p><img src="img/4405529371151_2.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>在 <strong>Cladding</strong>（挂板）页面上，选择要应用到屋顶的挂板类型。</p>
+<p><img src="img/4405529371151_3.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>在 <strong>Edge Boards</strong>（边板）页面上，设置封檐板、博风板和屋脊板的尺寸。</p>
+<p><img src="img/4405529371151_4.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>在 <strong>Gutters</strong>（檐沟）页面上，选择檐沟断面。</p>
+<p><img src="img/4405529371151_5.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>点击 <strong>OK</strong>。每个屋顶多边形都将应用一个屋顶覆面。</p>
+<p><img src="img/4405529371151_6.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>三维模型与平面图符号一致。</p>
+<p><img src="img/4405529371151_7.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>In plan view, select the roof that you want to cover.</p>
+<p><img src="img/4405529371151_0.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>From the <strong>Ci Tools</strong> menu, choose <strong>Coverings > Roof Covering</strong>.</p>
+<p><img src="img/4405529371151_1.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>The<strong>Roof Covering Settings</strong> dialog will come up.</p>
+<p>On the <strong>Configuration</strong> page, choose some basic settings for the covering geometry.</p>
+<p><img src="img/4405529371151_2.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>On the <strong>Cladding</strong> page, choose the type of cladding you want to apply to the roof.</p>
+<p><img src="img/4405529371151_3.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>On the <strong>Edge Boards</strong> page, set the dimensions of the fascia, barge and ridge boards.</p>
+<p><img src="img/4405529371151_4.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>On the <strong>Gutters</strong> page, choose a gutter profile.</p>
+<p><img src="img/4405529371151_5.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>Click <strong>OK</strong>. A roof covering will be applied to each roof polygon.</p>
+<p><img src="img/4405529371151_6.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>The 3D model matches the plan view symbol.</p>
+<p><img src="img/4405529371151_7.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In plan view, select the roof that you want to cover.</p>
+<p><img src="img/4405529371151_0.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>From the <strong>Ci Tools</strong> menu, choose <strong>Coverings > Roof Covering</strong>.</p>
+<p><img src="img/4405529371151_1.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>The<strong>Roof Covering Settings</strong> dialog will come up.</p>
+<p>On the <strong>Configuration</strong> page, choose some basic settings for the covering geometry.</p>
+<p><img src="img/4405529371151_2.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>On the <strong>Cladding</strong> page, choose the type of cladding you want to apply to the roof.</p>
+<p><img src="img/4405529371151_3.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>On the <strong>Edge Boards</strong> page, set the dimensions of the fascia, barge and ridge boards.</p>
+<p><img src="img/4405529371151_4.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>On the <strong>Gutters</strong> page, choose a gutter profile.</p>
+<p><img src="img/4405529371151_5.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>Click <strong>OK</strong>. A roof covering will be applied to each roof polygon.</p>
+<p><img src="img/4405529371151_6.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+<p>The 3D model matches the plan view symbol.</p>
+<p><img src="img/4405529371151_7.jpg" alt="How to Place a Covering onto a Roof 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206271403">
+  <div class="art-h"><span class="no">19</span>
+    <h3 class="zh-only block">如何为木平台添加边板</h3>
+    <h3 class="en-only block">How to add Edge Boards to a Timber Deck</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206271403-How-to-add-Edge-Boards-to-a-Timber-Deck" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>如果你使用 Cadimage Coverings 工具创建木平台，你会注意到边缘未做收边（如下图）。这样你可以选择哪些边（如果有）需要收边。</p>
+<p><img src="img/206271403_0.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<p>要为已应用铺板的楼板周边添加边板，你需要为每条边开启 'Edge Board'（边板）条件：</p>
+<ul>
+<li>在二维平面视图中<strong>选择楼板</strong>对象</li>
+</ul>
+<p><em>你会注意到每条边的中点出现热点（如下图）。每个热点都允许你设置 'Edge Board' 条件（'On' 开启或 'Off' 关闭）</em>：</p>
+<p><img src="img/206271403_1.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<ul>
+<li><strong>点击</strong>其中一个热点</li>
+</ul>
+<ul>
+<li><strong>将鼠标朝向平台中心移动</strong></li>
+</ul>
+<p><em>你应当会看到预览线出现，同时 Tracker（追踪器）中显示 'Full Board'（整板）信息：</em></p>
+<p><img src="img/206271403_2.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<ul>
+<li>一旦看到 'Full Board' 信息，<strong>点击以添加边板</strong>。</li>
+</ul>
+<p><strong>提示</strong>：如果你把鼠标停留在热点上或从铺板上移开，你会在 Tracker 中看到 <strong>No Edge Board</strong>（无边板）信息：</p>
+<p><img src="img/206271403_3.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<p>为每条边添加边板后，你的平台应当类似于这样：</p>
+<p><img src="img/206271403_4.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>If you use the Cadimage Coverings tool to create a timber deck, you'll notice that the edges are left unfinished (like in the image below). This lets you choose which (if any) edges have a finish.</p>
+<p><img src="img/206271403_0.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<p>To apply an edge around a Slab with Decking applied you'll need to turn on the 'Edge Board' condition for each edge:</p>
+<p>1.<strong>Select the slab</strong> object in your 2D plan view</p>
+<p><em>You'll notice hotspots appear at the midpoint of each edge (as shown below). Each hotspot allows you to set the 'Edge Board' condition (either 'On' or 'Off')</em>:</p>
+<p><img src="img/206271403_1.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Click</strong> on one of these hotspots</li>
+</ul>
+<ul>
+<li><strong>Move your mouse toward the center</strong> of the deck</li>
+</ul>
+<p><em>You should see a preview line appear along with the 'Full Board' message in the Tracker:</em></p>
+<p><img src="img/206271403_2.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<ul>
+<li>Once you see the 'Full Board' message, <strong>click to add the Edge Board</strong>.</li>
+</ul>
+<p><strong>TIP</strong>: If you leave the mouse on the hotspot or move <em>away</em> from the decking you will see the <strong>No Edge Board</strong> message appear in the Tracker:</p>
+<p><img src="img/206271403_3.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<p>After adding Edge Boards to each edge, your deck should look similar to this:</p>
+<p><img src="img/206271403_4.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>If you use the Cadimage Coverings tool to create a timber deck, you'll notice that the edges are left unfinished (like in the image below). This lets you choose which (if any) edges have a finish.</p>
+<p><img src="img/206271403_0.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<p>To apply an edge around a Slab with Decking applied you'll need to turn on the 'Edge Board' condition for each edge:</p>
+<p>1.<strong>Select the slab</strong> object in your 2D plan view</p>
+<p><em>You'll notice hotspots appear at the midpoint of each edge (as shown below). Each hotspot allows you to set the 'Edge Board' condition (either 'On' or 'Off')</em>:</p>
+<p><img src="img/206271403_1.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<ul>
+<li><strong>Click</strong> on one of these hotspots</li>
+</ul>
+<ul>
+<li><strong>Move your mouse toward the center</strong> of the deck</li>
+</ul>
+<p><em>You should see a preview line appear along with the 'Full Board' message in the Tracker:</em></p>
+<p><img src="img/206271403_2.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<ul>
+<li>Once you see the 'Full Board' message, <strong>click to add the Edge Board</strong>.</li>
+</ul>
+<p><strong>TIP</strong>: If you leave the mouse on the hotspot or move <em>away</em> from the decking you will see the <strong>No Edge Board</strong> message appear in the Tracker:</p>
+<p><img src="img/206271403_3.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+<p>After adding Edge Boards to each edge, your deck should look similar to this:</p>
+<p><img src="img/206271403_4.jpg" alt="How to add Edge Boards to a Timber Deck 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205939656">
+  <div class="art-h"><span class="no">20</span>
+    <h3 class="zh-only block">如何为楼板添加覆面</h3>
+    <h3 class="en-only block">How to add a Covering to a Slab</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205939656-How-to-add-a-Covering-to-a-Slab" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>使用 Cadimage Covering 工具，你可以为 ARCHICAD 楼板应用两种类型的覆面，分别是：</p>
+<ul>
+<li>铺板（Decking）</li>
+</ul>
+<ul>
+<li>预制楼板（Pre-Cast Slab）</li>
+</ul>
+<p>要应用其中任一种覆面类型：</p>
+<ul>
+<li>在平面视图中选择任意楼板</li>
+</ul>
+<ul>
+<li>转到 Cadimage > Coverings > Slab Coverings...（Cadimage > 覆面 > 楼板覆面）</li>
+</ul>
+<p>**</p>
+<p><img src="img/205939656_0.jpg" alt="How to add a Covering to a Slab 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>在出现的对话框中，选择要添加的覆面类型（Decking 铺板或 Pre-Cast Slab 预制楼板）：</li>
+</ul>
+<p><img src="img/205939656_1.jpg" alt="How to add a Covering to a Slab 示意图" loading="lazy"></p>
+<ul>
+<li>从菜单下拉列表的 Configuration（配置）页面编辑覆面设置：</li>
+</ul>
+<p><img src="img/205939656_2.jpg" alt="How to add a Covering to a Slab 示意图" loading="lazy"></p>
+<ul>
+<li>点击 OK 关闭对话框并将设置应用到你的楼板。</li>
+</ul></div>
+  <div class="en-only"><p>Using the Cadimage Covering Tool you can apply two kinds of covering to your ARCHICAD slab, which are:</p>
+<ul>
+<li>Decking</li>
+</ul>
+<ul>
+<li>Pre-Cast Slab</li>
+</ul>
+<p>To apply either of these Covering types:</p>
+<ul>
+<li>Select any Slab in plan view</li>
+</ul>
+<ul>
+<li>Go to Cadimage > Coverings > Slab Coverings...</li>
+</ul>
+<p>**</p>
+<p><img src="img/205939656_0.jpg" alt="How to add a Covering to a Slab 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>In the dialogue that appears, choose the type of Covering that you want to add (either Decking or Pre-Cast Slab):</li>
+</ul>
+<p><img src="img/205939656_1.jpg" alt="How to add a Covering to a Slab 示意图" loading="lazy"></p>
+<ul>
+<li>Edit the Covering settings in the Configuration  page from the menu Drop-down:</li>
+</ul>
+<p><img src="img/205939656_2.jpg" alt="How to add a Covering to a Slab 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK to close the dialogue and apply the settings to your Slab.</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Using the Cadimage Covering Tool you can apply two kinds of covering to your ARCHICAD slab, which are:</p>
+<ul>
+<li>Decking</li>
+</ul>
+<ul>
+<li>Pre-Cast Slab</li>
+</ul>
+<p>To apply either of these Covering types:</p>
+<ul>
+<li>Select any Slab in plan view</li>
+</ul>
+<ul>
+<li>Go to Cadimage > Coverings > Slab Coverings...</li>
+</ul>
+<p>**</p>
+<p><img src="img/205939656_0.jpg" alt="How to add a Covering to a Slab 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>In the dialogue that appears, choose the type of Covering that you want to add (either Decking or Pre-Cast Slab):</li>
+</ul>
+<p><img src="img/205939656_1.jpg" alt="How to add a Covering to a Slab 示意图" loading="lazy"></p>
+<ul>
+<li>Edit the Covering settings in the Configuration  page from the menu Drop-down:</li>
+</ul>
+<p><img src="img/205939656_2.jpg" alt="How to add a Covering to a Slab 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK to close the dialogue and apply the settings to your Slab.</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205940756">
+  <div class="art-h"><span class="no">21</span>
+    <h3 class="zh-only block">如何为柱添加凹槽</h3>
+    <h3 class="en-only block">How to add a Flute to a Column</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205940756-How-to-add-a-Flute-to-a-Column" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>下面是已应用柱身包覆的柱的示例。</p>
+<p><img src="img/205940756_0.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<p>要为柱添加包覆：</p>
+<ul>
+<li>转到你的<strong>平面视图（Plan View）</strong></li>
+</ul>
+<ul>
+<li><strong>选择柱</strong></li>
+</ul>
+<ul>
+<li>转到 <strong>Cadimage > Coverings > Column Coverings...</strong>（Cadimage > 覆面 > 柱身覆面）</li>
+</ul>
+<p>**</p>
+<p><img src="img/205940756_1.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>选择 <strong>Cadimage Column Fluting Object</strong>（Cadimage 柱身凹槽对象）：</li>
+</ul>
+<p><img src="img/205940756_2.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>在 <strong>Configuration</strong>（配置）下，你应当可以根据想要的效果更改设置。</li>
+</ul>
+<p><img src="img/205940756_3.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>点击菜单下拉列表转到 <strong>Attributes</strong>（属性），在那里你可以更改柱身覆面的<strong>表面和其他属性</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205940756_4.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>点击 <strong>OK</strong> 放置柱身包覆。</li>
+</ul></div>
+  <div class="en-only"><p>Below is an example of a column which has a Column Wrap applied.</p>
+<p><img src="img/205940756_0.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<p>To add a Wrap to a Column:</p>
+<ul>
+<li>Go to your<strong>Plan View</strong></li>
+</ul>
+<ul>
+<li><strong>Select the column</strong>(s)</li>
+</ul>
+<ul>
+<li>Go to <strong>Cadimage > Coverings > Column Coverings...</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205940756_1.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Select the <strong>Cadimage Column Fluting Object:</strong></li>
+</ul>
+<p><img src="img/205940756_2.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Under <strong>Configuration</strong>, you should be able to change the settings according to the results you are after.</li>
+</ul>
+<p><img src="img/205940756_3.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the Menu drop-down to go to <strong>Attributes</strong> where you can change the Column covering <strong>Surfaces and other attributes</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205940756_4.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Click <strong>OK</strong> to place the Column Wrapping.</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Below is an example of a column which has a Column Wrap applied.</p>
+<p><img src="img/205940756_0.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<p>To add a Wrap to a Column:</p>
+<ul>
+<li>Go to your<strong>Plan View</strong></li>
+</ul>
+<ul>
+<li><strong>Select the column</strong>(s)</li>
+</ul>
+<ul>
+<li>Go to <strong>Cadimage > Coverings > Column Coverings...</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205940756_1.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Select the <strong>Cadimage Column Fluting Object:</strong></li>
+</ul>
+<p><img src="img/205940756_2.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Under <strong>Configuration</strong>, you should be able to change the settings according to the results you are after.</li>
+</ul>
+<p><img src="img/205940756_3.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Click on the Menu drop-down to go to <strong>Attributes</strong> where you can change the Column covering <strong>Surfaces and other attributes</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205940756_4.jpg" alt="How to add a Flute to a Column 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Click <strong>OK</strong> to place the Column Wrapping.</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206272293">
+  <div class="art-h"><span class="no">22</span>
+    <h3 class="zh-only block">如何为柱添加柱脚</h3>
+    <h3 class="en-only block">How to add a Footing to a Column</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206272293-How-to-add-a-Footing-to-a-Column" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>你可以使用 Cadimage Coverings 工具为你的柱添加圆形或矩形柱脚。结果将类似于下图（取决于你的设置）：</p>
+<p><img src="img/206272293_0.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<p>要为你的柱添加柱脚：</p>
+<ul>
+<li>转到你的<strong>平面视图（Plan View）</strong></li>
+</ul>
+<ul>
+<li><strong>选择你的柱</strong></li>
+</ul>
+<ul>
+<li>转到 <strong>Cadimage > Coverings > Column Coverings</strong>（Cadimage > 覆面 > 柱身覆面）</li>
+</ul>
+<p>**</p>
+<p><img src="img/206272293_1.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li><strong>选择</strong> <strong>Cadimage Column Footing</strong>（Cadimage 柱脚）项：</li>
+</ul>
+<p><img src="img/206272293_2.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>现在你应该能在对话框右侧看到 <strong>Cadimage Footing Settings</strong>（Cadimage 柱脚设置）区域</li>
+</ul>
+<ul>
+<li>选择你的 <strong>柱脚设置</strong>（Rectangular 矩形或 Round 圆形），如下图所示：</li>
+</ul>
+<p><em>在此示例中我们选择了 Round（圆形）选项。</em></p>
+<p><img src="img/206272293_3.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>应用柱脚尺寸设置。</li>
+</ul>
+<ul>
+<li>在菜单下拉列表中选择 <strong>Attribute</strong>（属性）选项，以在 Cadimage 对话框中更改表面和其他属性：</li>
+</ul>
+<p><img src="img/206272293_4.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>点击 <strong>OK</strong> 应用柱脚</li>
+</ul></div>
+  <div class="en-only"><p>You can add a round or rectangular footing your column using the Cadimage Coverings Tool. The result will look similar to the image below (depending on your settings):</p>
+<p><img src="img/206272293_0.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<p>To add a Footing to your column:</p>
+<ul>
+<li>Go to your P<strong>lan View</strong></li>
+</ul>
+<ul>
+<li><strong>Select your column</strong></li>
+</ul>
+<ul>
+<li>Go to <strong>Cadimage > Coverings > Column Coverings</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/206272293_1.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<p>**</p>
+<p>4.<strong>Select</strong>the<strong>Cadimage Column Footing</strong> item:</p>
+<p><img src="img/206272293_2.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>You should now see the <strong>Cadimage Footing Settings</strong> area on the right side of the dialogue</li>
+</ul>
+<ul>
+<li>Choose your <strong>Footing settings</strong> (either Rectangular or Round) as shown below:</li>
+</ul>
+<p><em>In this example we have chosen the Round option.</em></p>
+<p><img src="img/206272293_3.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Apply the Footing size settings.</li>
+</ul>
+<ul>
+<li>Select the <strong>Attribute</strong> option on the menu drop-down to change the Surfaces and other attributes. in the Cadimage dialogue:</li>
+</ul>
+<p><img src="img/206272293_4.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Click <strong>OK</strong> to apply the Column Footing</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>You can add a round or rectangular footing your column using the Cadimage Coverings Tool. The result will look similar to the image below (depending on your settings):</p>
+<p><img src="img/206272293_0.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<p>To add a Footing to your column:</p>
+<ul>
+<li>Go to your P<strong>lan View</strong></li>
+</ul>
+<ul>
+<li><strong>Select your column</strong></li>
+</ul>
+<ul>
+<li>Go to <strong>Cadimage > Coverings > Column Coverings</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/206272293_1.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<p>**</p>
+<p>4.<strong>Select</strong>the<strong>Cadimage Column Footing</strong> item:</p>
+<p><img src="img/206272293_2.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>You should now see the <strong>Cadimage Footing Settings</strong> area on the right side of the dialogue</li>
+</ul>
+<ul>
+<li>Choose your <strong>Footing settings</strong> (either Rectangular or Round) as shown below:</li>
+</ul>
+<p><em>In this example we have chosen the Round option.</em></p>
+<p><img src="img/206272293_3.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Apply the Footing size settings.</li>
+</ul>
+<ul>
+<li>Select the <strong>Attribute</strong> option on the menu drop-down to change the Surfaces and other attributes. in the Cadimage dialogue:</li>
+</ul>
+<p><img src="img/206272293_4.jpg" alt="How to add a Footing to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Click <strong>OK</strong> to apply the Column Footing</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205940796">
+  <div class="art-h"><span class="no">23</span>
+    <h3 class="zh-only block">如何添加屋顶覆面</h3>
+    <h3 class="en-only block">How to add a Roof Covering</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205940796-How-to-add-a-Roof-Covering" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>本文介绍如何为我们的立缝金属屋面应用覆面，最终效果如下所示：</p>
+<p><img src="img/205940796_0.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>转到你的 <strong>平面视图（Plan View）</strong></li>
+</ul>
+<ul>
+<li><strong>选择你的屋顶</strong>（或屋顶构件，因为覆面工具同时支持单坡面和多坡面屋顶类型）</li>
+</ul>
+<ul>
+<li>转到 <strong>Cadimage > Coverings > Roof Coverings...</strong>（Cadimage > 覆面 > 屋顶覆面）</li>
+</ul>
+<p>**</p>
+<p><img src="img/205940796_1.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>现在你应该能看到 <strong>Cadimage Roof Covering Settings</strong>（Cadimage 屋顶覆面设置）对话框（如下图所示）：</li>
+</ul>
+<p>点击菜单下拉箭头，你会看到所有可用的界面页面。</p>
+<p><img src="img/205940796_2.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<p><strong>提示</strong>：<em>如果对话框中的文本字段显示为灰色且无法编辑，这是因为正在使用 <strong>Preset</strong>（预设）。要激活设置并使其可编辑，请点击对话框左下角的 <strong>Use Custom Setting button</strong>（使用自定义设置按钮）。</em></p>
+<ul>
+<li>点击下拉菜单中的不同选项以访问不同页面：</li>
+</ul>
+<p>你可以开始设置挂板类型、框架选项、板材尺寸、檐沟样式等</p>
+<p><img src="img/205940796_3.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li><strong>选择</strong> Attributes（属性）以更改表面：</li>
+</ul>
+<p><img src="img/205940796_4.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>现在你可以<strong>点击 OK</strong> 退出并应用设置。</li>
+</ul></div>
+  <div class="en-only"><p>In this article we show you how to apply a Covering to our standing seam roof, with the final result shown below:</p>
+<p><img src="img/205940796_0.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Go to your <strong>Plan View</strong></li>
+</ul>
+<ul>
+<li><strong>Select your Roof</strong> (or Roof components, as the Coverings Tool works with both single-plane and multi-plane Roof types)</li>
+</ul>
+<ul>
+<li>Go to <strong>Cadimage > Coverings > Roof Coverings...</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205940796_1.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>You should now see the <strong>Cadimage Roof Covering Settings</strong> dialogue box (shown below):</li>
+</ul>
+<p>By clicking on the menu drop down, you will see all the available interface pages.</p>
+<p><img src="img/205940796_2.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<p><strong>TIP</strong><strong>:</strong> <em>If the text fields in the dialogue appear to be greyed out and non-editable, this will be because a <strong>Preset</strong> is being used. To activate the settings and make them editable, click on <strong>Use Custom Setting button</strong> at the bottom left of the dialogue.</em></p>
+<ul>
+<li>Click on the different options on the drop down menu to access the different pages:</li>
+</ul>
+<p>You can start setting the Cladding type, framing options, board dimensions, gutter style, etc</p>
+<p><img src="img/205940796_3.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<p>8.<strong>Choose</strong> Attributes to change Surfaces:</p>
+<p><img src="img/205940796_4.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>You can now <strong>click OK</strong> to exit to apply the settings.</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this article we show you how to apply a Covering to our standing seam roof, with the final result shown below:</p>
+<p><img src="img/205940796_0.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Go to your <strong>Plan View</strong></li>
+</ul>
+<ul>
+<li><strong>Select your Roof</strong> (or Roof components, as the Coverings Tool works with both single-plane and multi-plane Roof types)</li>
+</ul>
+<ul>
+<li>Go to <strong>Cadimage > Coverings > Roof Coverings...</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/205940796_1.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>You should now see the <strong>Cadimage Roof Covering Settings</strong> dialogue box (shown below):</li>
+</ul>
+<p>By clicking on the menu drop down, you will see all the available interface pages.</p>
+<p><img src="img/205940796_2.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<p><strong>TIP</strong><strong>:</strong> <em>If the text fields in the dialogue appear to be greyed out and non-editable, this will be because a <strong>Preset</strong> is being used. To activate the settings and make them editable, click on <strong>Use Custom Setting button</strong> at the bottom left of the dialogue.</em></p>
+<ul>
+<li>Click on the different options on the drop down menu to access the different pages:</li>
+</ul>
+<p>You can start setting the Cladding type, framing options, board dimensions, gutter style, etc</p>
+<p><img src="img/205940796_3.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<p>8.<strong>Choose</strong> Attributes to change Surfaces:</p>
+<p><img src="img/205940796_4.jpg" alt="How to add a Roof Covering 示意图" loading="lazy"></p>
+<ul>
+<li>You can now <strong>click OK</strong> to exit to apply the settings.</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206272133">
+  <div class="art-h"><span class="no">24</span>
+    <h3 class="zh-only block">如何为柱添加包覆</h3>
+    <h3 class="en-only block">How to add a Wrap to a Column</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206272133-How-to-add-a-Wrap-to-a-Column" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><ul>
+<li>转到<strong>平面视图（Plan View）</strong></li>
+</ul>
+<ul>
+<li><strong>选择你的柱</strong></li>
+</ul>
+<ul>
+<li>转到 <strong>Cadimage > Coverings > Column Coverings…</strong>（Cadimage > 覆面 > 柱身覆面）</li>
+</ul>
+<ul>
+<li>选择 <strong>Cadimage Column Wrap</strong>（Cadimage 柱身包覆）对象：</li>
+</ul>
+<p><img src="img/206272133_0.jpg" alt="How to add a Wrap to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>在菜单下拉列表中选择 <strong>Configuration</strong>（配置）以修改设置：</li>
+</ul>
+<p><img src="img/206272133_1.jpg" alt="How to add a Wrap to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>要更改 <strong>Wrap Attributes</strong>（包覆属性），从菜单下拉列表中选择 <strong>Attributes</strong>：</li>
+</ul>
+<p><img src="img/206272133_2.jpg" alt="How to add a Wrap to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>点击 <strong>OK</strong> 应用柱身包覆。</li>
+</ul></div>
+  <div class="en-only"><ul>
+<li>Go to<strong>Plan View</strong></li>
+</ul>
+<ul>
+<li><strong>Select your column(s)</strong></li>
+</ul>
+<ul>
+<li>Go to <strong>Cadimage> Coverings> Column Coverings…</strong></li>
+</ul>
+<ul>
+<li>Select the <strong>Cadimage Column Wrap</strong> object:</li>
+</ul>
+<p><img src="img/206272133_0.jpg" alt="How to add a Wrap to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Select <strong>Configuration</strong> on the menu drop down to modify the settings:</li>
+</ul>
+<p><img src="img/206272133_1.jpg" alt="How to add a Wrap to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>To change the <strong>Wrap Attributes</strong>, select <strong>Attributes</strong> from the menu drop-down:</li>
+</ul>
+<p><img src="img/206272133_2.jpg" alt="How to add a Wrap to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Click <strong>OK</strong> to apply the Column Wrap.</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <ul>
+<li>Go to<strong>Plan View</strong></li>
+</ul>
+<ul>
+<li><strong>Select your column(s)</strong></li>
+</ul>
+<ul>
+<li>Go to <strong>Cadimage> Coverings> Column Coverings…</strong></li>
+</ul>
+<ul>
+<li>Select the <strong>Cadimage Column Wrap</strong> object:</li>
+</ul>
+<p><img src="img/206272133_0.jpg" alt="How to add a Wrap to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Select <strong>Configuration</strong> on the menu drop down to modify the settings:</li>
+</ul>
+<p><img src="img/206272133_1.jpg" alt="How to add a Wrap to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>To change the <strong>Wrap Attributes</strong>, select <strong>Attributes</strong> from the menu drop-down:</li>
+</ul>
+<p><img src="img/206272133_2.jpg" alt="How to add a Wrap to a Column 示意图" loading="lazy"></p>
+<ul>
+<li>Click <strong>OK</strong> to apply the Column Wrap.</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205940156">
+  <div class="art-h"><span class="no">25</span>
+    <h3 class="zh-only block">如何更改铺板的原点和方向</h3>
+    <h3 class="en-only block">How to change the Origin and Orientation of Decking Boards</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205940156-How-to-change-the-Origin-and-Orientation-of-Decking-Boards" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>当你将 Cadimage Coverings 的铺板应用到楼板时，你会注意到铺板是从楼板中心放样布置的，并且平行于其最长边，样式如下：</p>
+<p><img src="img/205940156_0.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<p>要更改板材的方向以及原点：</p>
+<ul>
+<li>转到你的<strong>平面视图（Plan view）</strong></li>
+</ul>
+<ul>
+<li><strong>选择</strong>铺板</li>
+</ul>
+<ul>
+<li>你会看到一个<strong>大箭头</strong>，如下图所示：</li>
+</ul>
+<p><img src="img/205940156_1.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<p>箭头指示铺板的<strong>原点</strong>（上图第 1 项）和<strong>方向</strong>（上图第 2 项）。</p>
+<p>要移动原点：</p>
+<ul>
+<li><strong>点击箭头的起点</strong>（上图中的第 1 项）</li>
+</ul>
+<ul>
+<li>将箭头起点移动到你想要的原点位置（此处我们使用开洞的角点）：</li>
+</ul>
+<p><img src="img/205940156_2.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<ul>
+<li>你应当会注意到板材已更新并反映出新原点的位置</li>
+</ul>
+<p>要更改板材的方向：</p>
+<ul>
+<li><strong>点击箭头头部</strong></li>
+</ul>
+<ul>
+<li><strong>旋转</strong>箭头至所需角度</li>
+</ul>
+<p><em>你会看到铺板线条更新，显示新的角度和位置：</em></p>
+<p><img src="img/205940156_3.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<p>本示例中所用平台更新后的渲染效果如下：</p>
+<p><img src="img/205940156_4.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>When you apply the Cadimage Coverings Decking to a slab, you'll notice that the decking is set out from the center of the Slab, and oriented parallel to its longest edge, just like this:</p>
+<p><img src="img/205940156_0.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<p>To change the orientation of the boards as well as the origin:</p>
+<ul>
+<li>Go to your <strong>Plan view</strong></li>
+</ul>
+<p>2.<strong>Select</strong> the Decking</p>
+<ul>
+<li>You will see a<strong>large arrow</strong> as shown below:</li>
+</ul>
+<p><img src="img/205940156_1.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<p>The arrow indicates the <strong>origin</strong> (item #1 above) and <strong>orientation</strong>(item #2 above) of the decking.</p>
+<p>To move the Origin:</p>
+<ul>
+<li><strong>Click on the start of the arrow</strong> (item #1 in the image above)</li>
+</ul>
+<ul>
+<li>Move the start of the arrow to your desired Origin point (here we will use the corner of the cut out):</li>
+</ul>
+<p><img src="img/205940156_2.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<ul>
+<li>You should notice the boards update to show reflect the position of the new Origin point</li>
+</ul>
+<p>To change the Orientation of the boards:</p>
+<ul>
+<li><strong>Click on the arrow head</strong></li>
+</ul>
+<p>8.<strong>Rotate</strong> the arrow to the angle you require</p>
+<p><em>You will see the decking lines update, showing the new angle and positioning:</em></p>
+<p><img src="img/205940156_3.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<p>The updated render of the deck used in this example looks like this:</p>
+<p><img src="img/205940156_4.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>When you apply the Cadimage Coverings Decking to a slab, you'll notice that the decking is set out from the center of the Slab, and oriented parallel to its longest edge, just like this:</p>
+<p><img src="img/205940156_0.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<p>To change the orientation of the boards as well as the origin:</p>
+<ul>
+<li>Go to your <strong>Plan view</strong></li>
+</ul>
+<p>2.<strong>Select</strong> the Decking</p>
+<ul>
+<li>You will see a<strong>large arrow</strong> as shown below:</li>
+</ul>
+<p><img src="img/205940156_1.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<p>The arrow indicates the <strong>origin</strong> (item #1 above) and <strong>orientation</strong>(item #2 above) of the decking.</p>
+<p>To move the Origin:</p>
+<ul>
+<li><strong>Click on the start of the arrow</strong> (item #1 in the image above)</li>
+</ul>
+<ul>
+<li>Move the start of the arrow to your desired Origin point (here we will use the corner of the cut out):</li>
+</ul>
+<p><img src="img/205940156_2.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<ul>
+<li>You should notice the boards update to show reflect the position of the new Origin point</li>
+</ul>
+<p>To change the Orientation of the boards:</p>
+<ul>
+<li><strong>Click on the arrow head</strong></li>
+</ul>
+<p>8.<strong>Rotate</strong> the arrow to the angle you require</p>
+<p><em>You will see the decking lines update, showing the new angle and positioning:</em></p>
+<p><img src="img/205940156_3.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+<p>The updated render of the deck used in this example looks like this:</p>
+<p><img src="img/205940156_4.jpg" alt="How to change the Origin and Orientation of Decking Boards 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-4407803904527">
+  <div class="art-h"><span class="no">26</span>
+    <h3 class="zh-only block">如何设置封檐板与博风板的尺寸</h3>
+    <h3 class="en-only block">How to set Fascia and Barge Board Dimensions</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/4407803904527-How-to-set-Fascia-and-Barge-Board-Dimensions" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在 <em>Roof Covering</em>（屋顶覆面）的 <strong>Settings</strong>（设置）对话框中的 <strong>Edge Boards</strong>（边板）下，设置封檐板和博风板的厚度、宽度与偏移量。</p>
+<p><img src="img/4407803904527_0.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>如果所有边板都是垂直的，你可以直接输入尺寸。但如果边板各自处于不同角度，你可能需要考虑如何最好地表达它们。</p>
+<p>要绘制非垂直的边板，你需先在 <strong>Settings</strong> 对话框的 <strong>Configuration</strong>（配置）页面上，将 <strong>Roof Polygon Edges > Angles</strong>（屋顶多边形边 > 角度）设为 <strong>Match Roof Edges</strong>（匹配屋顶边）。</p>
+<p><img src="img/4407803904527_1.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>完成后，在 <strong>Edge Boards</strong> 页面上，你可以将 <strong>Board Width</strong>（板材宽度）设置为以下选项之一：</p>
+<ul>
+<li>Measure vertically（垂直测量）</li>
+</ul>
+<ul>
+<li>Measure perpendicular to the roof surface（垂直于屋面测量）</li>
+</ul>
+<ul>
+<li>As entered（按输入值）</li>
+</ul>
+<ul>
+<li>Roof thickness + framing（屋面厚度 + 框架）</li>
+</ul>
+<p>若希望所有封檐板和博风板无论与屋面成何种角度都保持你输入的完全相同宽度，请选择 <strong>As entered</strong>。这可能导致两块边板交接处出现错位。</p>
+<p><img src="img/4407803904527_2.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>若大多数板材是垂直的，仅少数与屋面成不同角度，请选择 <strong>Measure vertically</strong>。此时非垂直板材的宽度将被调整，以便在视觉上与其他板材一致。</p>
+<p><img src="img/4407803904527_3.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>若大多数板材与屋面垂直，请选择 <strong>Measure perpendicular to roof surface</strong>。此时非垂直板材的宽度将被调整，以便在视觉上与其他板材一致。</p>
+<p><img src="img/4407803904527_4.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>若希望封檐板与屋面以及檩条/挂瓦条厚度相匹配，请选择 <strong>Roof thickness + framing</strong>。此时封檐底面（Soffit）将贴合至屋面底部，而边板将以给定余量向下延伸出屋面底部。</p>
+<p><img src="img/4407803904527_5.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>Set fascia and barge board thickness, width and offsets, in the <em>Roof Covering</em>'s <strong>Settings</strong> dialog under <strong>Edge Boards</strong>.</p>
+<p><img src="img/4407803904527_0.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>If all the edge boards are vertical, you can just enter the dimensions directly. However, if the edge boards are all at different angles, you might want to consider how best to represent them.</p>
+<p>To draw non-vertical edge boards, you need to first set <strong>Roof Polygon Edges > Angles</strong> to <strong>Match Roof Edges</strong> on the <strong>Configuration</strong> page of the <strong>Settings</strong> dialog.</p>
+<p><img src="img/4407803904527_1.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>Having done so, on the <strong>Edge Boards</strong> page you can set the <strong>Board Width</strong> to one of these options:</p>
+<ul>
+<li>Measure vertically</li>
+</ul>
+<ul>
+<li>Measure perpendicular to the roof surface</li>
+</ul>
+<ul>
+<li>As entered</li>
+</ul>
+<ul>
+<li>Roof thickness + framing</li>
+</ul>
+<p>Choose <strong>As entered</strong> if you want all the fascia and barge boards to remain the exact same width that you entered, no matter what angle they are to the roof plane. This can result in a mismatch where two edge boards meet.</p>
+<p><img src="img/4407803904527_2.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>Choose <strong>Measure vertically</strong> if most of the boards are vertical, and a few are at a different angle from the roof plane. In this case the width of non-vertical boards will be adjusted to visually match the other boards.</p>
+<p><img src="img/4407803904527_3.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>Choose <strong>Measure perpendicular to roof surface</strong> if most of the boards are perpendicular to the roof surface. In this case the width of non-perpendicular boards will be adjusted to visually match the other boards.</p>
+<p><img src="img/4407803904527_4.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>Choose <strong>Roof thickness + framing</strong> if you want the fascia to match the roof and purlin/batten thickness. Soffits will be placed to the roof base, and edge boards will extend by a given margin below the roof base.</p>
+<p><img src="img/4407803904527_5.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Set fascia and barge board thickness, width and offsets, in the <em>Roof Covering</em>'s <strong>Settings</strong> dialog under <strong>Edge Boards</strong>.</p>
+<p><img src="img/4407803904527_0.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>If all the edge boards are vertical, you can just enter the dimensions directly. However, if the edge boards are all at different angles, you might want to consider how best to represent them.</p>
+<p>To draw non-vertical edge boards, you need to first set <strong>Roof Polygon Edges > Angles</strong> to <strong>Match Roof Edges</strong> on the <strong>Configuration</strong> page of the <strong>Settings</strong> dialog.</p>
+<p><img src="img/4407803904527_1.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>Having done so, on the <strong>Edge Boards</strong> page you can set the <strong>Board Width</strong> to one of these options:</p>
+<ul>
+<li>Measure vertically</li>
+</ul>
+<ul>
+<li>Measure perpendicular to the roof surface</li>
+</ul>
+<ul>
+<li>As entered</li>
+</ul>
+<ul>
+<li>Roof thickness + framing</li>
+</ul>
+<p>Choose <strong>As entered</strong> if you want all the fascia and barge boards to remain the exact same width that you entered, no matter what angle they are to the roof plane. This can result in a mismatch where two edge boards meet.</p>
+<p><img src="img/4407803904527_2.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>Choose <strong>Measure vertically</strong> if most of the boards are vertical, and a few are at a different angle from the roof plane. In this case the width of non-vertical boards will be adjusted to visually match the other boards.</p>
+<p><img src="img/4407803904527_3.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>Choose <strong>Measure perpendicular to roof surface</strong> if most of the boards are perpendicular to the roof surface. In this case the width of non-perpendicular boards will be adjusted to visually match the other boards.</p>
+<p><img src="img/4407803904527_4.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+<p>Choose <strong>Roof thickness + framing</strong> if you want the fascia to match the roof and purlin/batten thickness. Soffits will be placed to the roof base, and edge boards will extend by a given margin below the roof base.</p>
+<p><img src="img/4407803904527_5.jpg" alt="How to set Fascia and Barge Board Dimensions 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000866515">
+  <div class="art-h"><span class="no">27</span>
+    <h3 class="zh-only block">如何分割墙体覆面</h3>
+    <h3 class="en-only block">How to split a Wall Covering</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000866515-How-to-split-a-Wall-Covering" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><ul>
+<li>转到平面视图</li>
+</ul>
+<ul>
+<li>选择你的墙体</li>
+</ul>
+<ul>
+<li>转到 Cadimage > Coverings > Wall Coverings…（Cadimage > 覆面 > 墙体覆面）</li>
+</ul>
+<ul>
+<li>在下拉菜单中选择 Configuration（配置）以修改设置：</li>
+</ul>
+<p><img src="img/360000866515_0.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<ul>
+<li>选择一种分割方式，并在需要时自定义尺寸。</li>
+</ul>
+<p><img src="img/360000866515_1.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<ul>
+<li>从可用的覆面部件中选出需要单独定制的部分。</li>
+</ul>
+<p><img src="img/360000866515_2.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<p><img src="img/360000866515_3.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<ul>
+<li>点击 OK 应用覆面。</li>
+</ul>
+<p><img src="img/360000866515_4.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p></div>
+  <div class="en-only"><ul>
+<li>Go to Plan View</li>
+</ul>
+<ul>
+<li>Select your wall(s)</li>
+</ul>
+<ul>
+<li>Go to Cadimage> Coverings> Wall Coverings…</li>
+</ul>
+<ul>
+<li>Select Configuration on the drop-down menu to modify the settings:</li>
+</ul>
+<p><img src="img/360000866515_0.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Select a splitting method and customize the sizing if needed.</li>
+</ul>
+<p><img src="img/360000866515_1.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Select out of the available Coverings parts to individually customize them.</li>
+</ul>
+<p><img src="img/360000866515_2.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<p><img src="img/360000866515_3.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK to apply the Covering.</li>
+</ul>
+<p><img src="img/360000866515_4.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <ul>
+<li>Go to Plan View</li>
+</ul>
+<ul>
+<li>Select your wall(s)</li>
+</ul>
+<ul>
+<li>Go to Cadimage> Coverings> Wall Coverings…</li>
+</ul>
+<ul>
+<li>Select Configuration on the drop-down menu to modify the settings:</li>
+</ul>
+<p><img src="img/360000866515_0.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Select a splitting method and customize the sizing if needed.</li>
+</ul>
+<p><img src="img/360000866515_1.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Select out of the available Coverings parts to individually customize them.</li>
+</ul>
+<p><img src="img/360000866515_2.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<p><img src="img/360000866515_3.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+<ul>
+<li>Click OK to apply the Covering.</li>
+</ul>
+<p><img src="img/360000866515_4.jpg" alt="How to split a Wall Covering 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205298160">
+  <div class="art-h"><span class="no">28</span>
+    <h3 class="zh-only block">概述</h3>
+    <h3 class="en-only block">Overview</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205298160-Overview" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Cadimage Coverings 让你可以为通常在 ARCHICAD 中创建的标准建筑构件（即墙体、屋顶、柱或楼板）添加深度与真实感。</p>
+<p>除了提升模型的三维表现之外，这些构件在二维视图中同样可见，无论是平面图、剖面图、立面图还是其他视图。</p>
+<p>Cadimage Coverings 与其基构件关联，因此在上例中，如果窗被修改或删除，Wall Covering（墙体覆面）就会相应更新</p></div>
+  <div class="en-only"><p>Cadimage Coverings allows you to add depth and realism to the standard architectural elements (namely walls, roofs, columns or slabs) usually created in ARCHICAD.</p>
+<p>As well as enhancing the 3D presentation of the model, the elements are also visible in 2D whether that is plan, section, elevation or elsewhere.</p>
+<p> Cadimage Coverings are associated with their base elements, so in the example above, if the window was to be edited or removed the Wall Covering would update accordingly</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Cadimage Coverings allows you to add depth and realism to the standard architectural elements (namely walls, roofs, columns or slabs) usually created in ARCHICAD.</p>
+<p>As well as enhancing the 3D presentation of the model, the elements are also visible in 2D whether that is plan, section, elevation or elsewhere.</p>
+<p> Cadimage Coverings are associated with their base elements, so in the example above, if the window was to be edited or removed the Wall Covering would update accordingly</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-17876461016975">
+  <div class="art-h"><span class="no">29</span>
+    <h3 class="zh-only block">ProKit Coverings - 从这里开始</h3>
+    <h3 class="en-only block">ProKit Coverings - Start here</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/17876461016975-ProKit-Coverings-Start-here" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>ProKit Coverings 让你可以为 ARCHICAD 原生创建的标准建筑构件（即墙体、屋顶、柱或楼板）添加深度与真实感。</p>
+<p>除了提升模型的三维表现之外，这些构件在二维视图中同样可见，无论是平面图、剖面图、立面图还是其他视图，都能让图纸更加真实。</p>
+<p>ProKit Coverings 与其基构件关联，因此在上例中，如果窗被修改或删除，相应的覆面也会随之更新。</p>
+<p><strong>Libpack 加载（自 ARCHICAD 29 起）</strong></p>
+<p>需要特别注意的是，ProKit Coverings 工具要求手动将 Coverings Libpack 加载到项目中。</p>
+<p>与所有库一样，此操作通过库管理器完成。请注意，所加载的 Libpack 需在单个文件层级上选择，而非像早期 Archicad 版本那样在文件夹层级上选择。</p>
+<p>库管理器可通过 <strong>File > Library Manager</strong> 下拉菜单打开。</p>
+<p><img src="img/17876461016975_0.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>进入库管理器后，我们将使用“Add”按钮添加 Coverings Libpack。</p>
+<p><img src="img/17876461016975_1.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>这允许你定位到 ARCHICAD 安装文件夹中的 ProKit Libpack 文件夹。</p>
+<p><img src="img/17876461016975_2.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>这将加载 Coverings Libpack 及其关联的宏。</p>
+<p>Coverings 对象现在可在相应的 Coverings 工具中使用。</p>
+<p><strong>添加覆面</strong></p>
+<p>请注意，所有 Coverings 都附着于以下 ARCHICAD 构件之一：</p>
+<ul>
+<li>墙体</li>
+</ul>
+<ul>
+<li>屋顶</li>
+</ul>
+<ul>
+<li>楼板</li>
+</ul>
+<ul>
+<li>柱</li>
+</ul>
+<p>必须先存在该基构件，才能应用 Covering，我们以墙体覆面为例说明。</p>
+<p>要添加 Covering，请先选择希望添加覆面的构件。</p>
+<p><img src="img/17876461016975_3.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>然后点击 ProKit 下拉菜单，选择与所选构件关联的 Covering。</p>
+<p><img src="img/17876461016975_4.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>这将弹出 Wall Coverings 工具，可在应用之前微调墙体覆面的设置。</p>
+<p><img src="img/17876461016975_5.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>点击 OK 后，系统会提示你希望将覆面添加到墙体的哪一侧。（此提示仅适用于 Wall Covering 工具）</p>
+<p><img src="img/17876461016975_6.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>这会将 Wall Covering 应用到所选的一侧。</p>
+<p><img src="img/17876461016975_7.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>Roof Covering 的应用方式完全相同。</p>
+<p><img src="img/17876461016975_8.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>Slab Covering 的应用方式同样完全相同。</p>
+<p><img src="img/17876461016975_9.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>Column Covering 的应用方式也完全相同。</p>
+<p><img src="img/17876461016975_10.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>关于各个 Covering 工具的更多详细信息，请参阅知识库中的相关文章。</p></div>
+  <div class="en-only"><p>ProKit Coverings allows you to add depth and realism to the standard architectural elements (namely walls, roofs, columns or slabs) natively created in ARCHICAD.</p>
+<p>As well as enhancing the 3D presentation of the model, the elements are also visible in 2D whether that is plan, section, elevation or elsewhere, adding more realism to drawings.</p>
+<p>ProKit Coverings are associated with their base elements, so in the example above, if the window was to be edited or removed the associated Covering would update accordingly.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Coverings Tool requires the Coverings Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier Archicad versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17876461016975_0.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Coverings Libpack.</p>
+<p><img src="img/17876461016975_1.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17876461016975_2.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>This will load the Coverings Libpack and associated Macros.</p>
+<p>The Coverings objects will now be available in the respective Coverings Tools.</p>
+<p><strong>Adding a Covering</strong></p>
+<p>Please note that all Coverings attach to one of the following ARCHICAD elements;</p>
+<ul>
+<li>Wall</li>
+</ul>
+<ul>
+<li>Roof</li>
+</ul>
+<ul>
+<li>Slab</li>
+</ul>
+<ul>
+<li>Column</li>
+</ul>
+<p>This base element needs to exist first for a Covering to be applied, let’s use a wall Covering as and example.</p>
+<p>To add a Covering select the Elements that You would like to add a Covering to.</p>
+<p><img src="img/17876461016975_3.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>By then clicking on the ProKit dropdown and selecting the Covering that associates with the selected Elements.</p>
+<p><img src="img/17876461016975_4.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>This will bring up the Wall Coverings Tool where it is possible to fine tune the settings of the Wall covering before it is applied.</p>
+<p><img src="img/17876461016975_5.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>By clicking OK you will be prompted on which side of the wall you would like to add the Covering. (This only applies to the Wall Covering Tool)</p>
+<p><img src="img/17876461016975_6.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>This applies the Wall Covering to the Selected side.</p>
+<p><img src="img/17876461016975_7.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>In exactly the same way a Roof Covering can be applied.</p>
+<p><img src="img/17876461016975_8.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>In exactly the same way a Slab Covering can be applied.</p>
+<p><img src="img/17876461016975_9.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>In exactly the same way a Column Covering can be applied.</p>
+<p><img src="img/17876461016975_10.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on each separate  Covering Tool please see the articles on the Knowledge-base.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>ProKit Coverings allows you to add depth and realism to the standard architectural elements (namely walls, roofs, columns or slabs) natively created in ARCHICAD.</p>
+<p>As well as enhancing the 3D presentation of the model, the elements are also visible in 2D whether that is plan, section, elevation or elsewhere, adding more realism to drawings.</p>
+<p>ProKit Coverings are associated with their base elements, so in the example above, if the window was to be edited or removed the associated Covering would update accordingly.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Coverings Tool requires the Coverings Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier Archicad versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17876461016975_0.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Coverings Libpack.</p>
+<p><img src="img/17876461016975_1.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17876461016975_2.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>This will load the Coverings Libpack and associated Macros.</p>
+<p>The Coverings objects will now be available in the respective Coverings Tools.</p>
+<p><strong>Adding a Covering</strong></p>
+<p>Please note that all Coverings attach to one of the following ARCHICAD elements;</p>
+<ul>
+<li>Wall</li>
+</ul>
+<ul>
+<li>Roof</li>
+</ul>
+<ul>
+<li>Slab</li>
+</ul>
+<ul>
+<li>Column</li>
+</ul>
+<p>This base element needs to exist first for a Covering to be applied, let’s use a wall Covering as and example.</p>
+<p>To add a Covering select the Elements that You would like to add a Covering to.</p>
+<p><img src="img/17876461016975_3.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>By then clicking on the ProKit dropdown and selecting the Covering that associates with the selected Elements.</p>
+<p><img src="img/17876461016975_4.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>This will bring up the Wall Coverings Tool where it is possible to fine tune the settings of the Wall covering before it is applied.</p>
+<p><img src="img/17876461016975_5.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>By clicking OK you will be prompted on which side of the wall you would like to add the Covering. (This only applies to the Wall Covering Tool)</p>
+<p><img src="img/17876461016975_6.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>This applies the Wall Covering to the Selected side.</p>
+<p><img src="img/17876461016975_7.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>In exactly the same way a Roof Covering can be applied.</p>
+<p><img src="img/17876461016975_8.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>In exactly the same way a Slab Covering can be applied.</p>
+<p><img src="img/17876461016975_9.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>In exactly the same way a Column Covering can be applied.</p>
+<p><img src="img/17876461016975_10.jpg" alt="ProKit Coverings - Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on each separate  Covering Tool please see the articles on the Knowledge-base.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-8620456412559">
+  <div class="art-h"><span class="no">30</span>
+    <h3 class="zh-only block">发布说明 - Coverings - 4.31</h3>
+    <h3 class="en-only block">Release Notes - Coverings</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8620456412559-Release-Notes-Coverings" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h1>发布说明 - Coverings - 4.31</h1>
+<h3>缺陷</h3>
+<p>COV-341 覆面应用于三向墙体交叉处时发生重叠或错位</p>
+<p>COV-380 使用「覆面高于洞口」时，表面纹理方向未与挂板方向关联</p>
+<p>COV-513 墙体覆面无法处理某些墙体交叉情况</p>
+<p>COV-526 在「编辑屋檐边」对话框中需要双击才能选中一条边</p>
+<p>COV-554 存在天沟（谷沟）时，24 与 25 版本之间的迁移问题及封檐板差异</p>
+<p>COV-559 缺陷 - 博风板尺寸设置出现故障</p>
+<p>COV-562 窗台设置值 'C' 不起作用</p>
+<p>COV-563 屋脊泛水偏移不起作用</p>
+<p>COV-566 缺陷 - 落水管接入四分之一圆弧和自定义断面檐沟时出现问题</p>
+<p>COV-577 檐沟交接处问题</p>
+<p>COV-585 檐沟的裁切面设置似乎未生效</p>
+<p>COV-589 Coverings - 覆面对话框中的取消按钮也会给出创建覆面的选项</p>
+<p>COV-591 即使设置为不同表面，箱形端头仍显示为与封檐底面相同的表面</p>
+<p>COV-592 屋脊起算的框架偏移不起作用</p>
+<p>COV-605 立面图上的屋顶坡度标签不透明设置不起作用</p>
+<p>COV-612 屋脊泛水在立面图中不显示基线</p>
+<p>COV-620 在 ac26 和 25 中，覆面下方的泛水不起作用</p>
+<p>COV-621 Cadimage 封檐底面端头无法独立于封檐底面更改表面材质</p>
+<p>COV-623 「洞口以下」或「窗台以下」的挂板被屋顶裁剪时，表面显示不正确</p>
+<p>COV-625 当封檐底面线条不同时，多节点边上的封檐底面无法接合</p>
+<p>COV-629 墙体挂板需要错误处理</p>
+<p>COV-630 企口型（Shiplap）断面的尺寸与所标示的尺寸不一致</p>
+<p>COV-632 引入天窗后屋顶挂板无法生成</p>
+<p>COV-633 墙体覆面在二维和三维中未正确生成</p>
+<p>COV-634 博风板与屋脊盖板无法无缝接合</p>
+<p>COV-637 AC27 在附着覆面的情况下使用动态辅助线移动墙体时，Archicad 崩溃</p>
+<p>COV-647 v27：修改屋顶后屋顶覆面不更新形状</p>
+<h3>改进</h3>
+<p>COV-371 希望墙体覆面上能显示平面图符号</p>
+<p>COV-497 屋顶覆面的落水管底部（toe）</p>
+<p>COV-509 更改屋顶坡度标签的尺寸（长度）</p>
+<p>COV-539 屋顶覆面的泛水也支持通用显示</p>
+<p>COV-543 某客户不希望看到博风板连接处的竖向边（AC25）</p>
+<p>COV-558 屋顶覆面提供无封檐底面（None Soffits）选项</p>
+<p>COV-564 屋顶覆面向两侧偏移</p>
+<p>COV-574 需要在屋顶另一条（与枢轴线平行的）边的对侧设置檐沟</p>
+<p>COV-609 允许独立于博风板表面控制顶饰表面</p>
+<p>COV-619 覆面偏移为负值</p>
+<p>COV-626 需求：为落水管底部中心添加热点，以便进行尺寸标注</p>
+<h3>新功能</h3>
+<p>COV-52 手动编辑屋顶框架起始点</p>
+<h3>任务</h3>
+<p>COV-613 Coverings 需要为 macos ARM 构建</p>
+<h3>需求</h3>
+<p>COV-622 博风板与屋脊盖板无法正确接合</p></div>
+  <div class="en-only"><h1>Release notes - Coverings - 4.31</h1>
+<h3>Bug</h3>
+<p>COV-341 Coverings Overlap or are offset when applied to 3-way wall intersects</p>
+<p>COV-380 Surface Texture Orientation not Linked to Cladding Orientation when using Covering Above Openings</p>
+<p>COV-513 Wall covering can't deal with certain Wall intersection</p>
+<p>COV-526 Need to double-click to select an edge in the Edit Roof Edges dialog</p>
+<p>COV-554 Migration issuse and Fascia board differences in 24 and 25 when there is a valley gutter</p>
+<p>COV-559 Bug - Glitch with Barge board size settings</p>
+<p>COV-562 Sill setting value 'C' doesn't work</p>
+<p>COV-563 ridge flashing offset doesn't work</p>
+<p>COV-566 BUG - problem with downpipes joining into Quarter round and Custom profile gutters</p>
+<p>COV-577 gutter junction issue</p>
+<p>COV-585 Cut Surfaces for Gutters settings seem not to be applied</p>
+<p>COV-589 Coverings - Cancel button from coverings dialog is also giving the option to create the coverings</p>
+<p>COV-591 Boxed Ends show with same Surface as Soffits even when set to something different</p>
+<p>COV-592 framing offset from ridge doesn't work</p>
+<p>COV-605 Roof pitch label opaque doesn't work on the elevation</p>
+<p>COV-612 Ridge flashing doesn't show base line in elevation</p>
+<p>COV-620 flashings under covering doesn't work in ac26 and 25</p>
+<p>COV-621 Cadimage soffit ends cannot change surface material independently of soffits</p>
+<p>COV-623 "Below Opening" or "Below Sill" claddings don't display surface correctly when trimmed by Roof</p>
+<p>COV-625 Soffits on multi-node edges do not join when soffit lines are different</p>
+<p>COV-629 Wall claddings need error handling</p>
+<p>COV-630 The Dimensions of Shiplap profile is inconsistent with the Dimensions indicated</p>
+<p>COV-632 Roof Cladding not generating when Skylight is introduced</p>
+<p>COV-633 Wall Coverings not generating correctly inn 2D and 3D</p>
+<p>COV-634 Barges and Ridge capping fail to join seamlessly</p>
+<p>COV-637 AC27 Moving a Wall using Dynamic Guides while a Covering is attached crashes Archicad</p>
+<p>COV-647 v27: Roof Coverings don't update shape when Roof is changed</p>
+<h3>Improvement</h3>
+<p>COV-371 Wish plan Symbol display on wall coverings</p>
+<p>COV-497 downpipe toe for the roof covering</p>
+<p>COV-509 change the size (length) of the roof pitch label</p>
+<p>COV-539 Roof covering Generic display for Flashing as well</p>
+<p>COV-543 A client doesn't want to see the vertical edge at the barge boards connections AC25</p>
+<p>COV-558 None Soffits option for roof covering</p>
+<p>COV-564 Roof covering offset to the sides</p>
+<p>COV-574 Need a gutter at the other edge of the roof than the one which is parallel with the pivot line</p>
+<p>COV-609 Allow to control finial surface independently of barge board surface</p>
+<p>COV-619 Covering offset to negative</p>
+<p>COV-626 Request: add a hotspot to the Centre of the Downpipe Base so it can be dimensioned</p>
+<h3>New Feature</h3>
+<p>COV-52 Edit roof framing start point manually</p>
+<h3>Task</h3>
+<p>COV-613 Coverings needs to be built for macos ARM</p>
+<h3>Story</h3>
+<p>COV-622 Barges and Ridge Capping do not Join correctly</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h1>Release notes - Coverings - 4.31</h1>
+<h3>Bug</h3>
+<p>COV-341 Coverings Overlap or are offset when applied to 3-way wall intersects</p>
+<p>COV-380 Surface Texture Orientation not Linked to Cladding Orientation when using Covering Above Openings</p>
+<p>COV-513 Wall covering can't deal with certain Wall intersection</p>
+<p>COV-526 Need to double-click to select an edge in the Edit Roof Edges dialog</p>
+<p>COV-554 Migration issuse and Fascia board differences in 24 and 25 when there is a valley gutter</p>
+<p>COV-559 Bug - Glitch with Barge board size settings</p>
+<p>COV-562 Sill setting value 'C' doesn't work</p>
+<p>COV-563 ridge flashing offset doesn't work</p>
+<p>COV-566 BUG - problem with downpipes joining into Quarter round and Custom profile gutters</p>
+<p>COV-577 gutter junction issue</p>
+<p>COV-585 Cut Surfaces for Gutters settings seem not to be applied</p>
+<p>COV-589 Coverings - Cancel button from coverings dialog is also giving the option to create the coverings</p>
+<p>COV-591 Boxed Ends show with same Surface as Soffits even when set to something different</p>
+<p>COV-592 framing offset from ridge doesn't work</p>
+<p>COV-605 Roof pitch label opaque doesn't work on the elevation</p>
+<p>COV-612 Ridge flashing doesn't show base line in elevation</p>
+<p>COV-620 flashings under covering doesn't work in ac26 and 25</p>
+<p>COV-621 Cadimage soffit ends cannot change surface material independently of soffits</p>
+<p>COV-623 "Below Opening" or "Below Sill" claddings don't display surface correctly when trimmed by Roof</p>
+<p>COV-625 Soffits on multi-node edges do not join when soffit lines are different</p>
+<p>COV-629 Wall claddings need error handling</p>
+<p>COV-630 The Dimensions of Shiplap profile is inconsistent with the Dimensions indicated</p>
+<p>COV-632 Roof Cladding not generating when Skylight is introduced</p>
+<p>COV-633 Wall Coverings not generating correctly inn 2D and 3D</p>
+<p>COV-634 Barges and Ridge capping fail to join seamlessly</p>
+<p>COV-637 AC27 Moving a Wall using Dynamic Guides while a Covering is attached crashes Archicad</p>
+<p>COV-647 v27: Roof Coverings don't update shape when Roof is changed</p>
+<h3>Improvement</h3>
+<p>COV-371 Wish plan Symbol display on wall coverings</p>
+<p>COV-497 downpipe toe for the roof covering</p>
+<p>COV-509 change the size (length) of the roof pitch label</p>
+<p>COV-539 Roof covering Generic display for Flashing as well</p>
+<p>COV-543 A client doesn't want to see the vertical edge at the barge boards connections AC25</p>
+<p>COV-558 None Soffits option for roof covering</p>
+<p>COV-564 Roof covering offset to the sides</p>
+<p>COV-574 Need a gutter at the other edge of the roof than the one which is parallel with the pivot line</p>
+<p>COV-609 Allow to control finial surface independently of barge board surface</p>
+<p>COV-619 Covering offset to negative</p>
+<p>COV-626 Request: add a hotspot to the Centre of the Downpipe Base so it can be dimensioned</p>
+<h3>New Feature</h3>
+<p>COV-52 Edit roof framing start point manually</p>
+<h3>Task</h3>
+<p>COV-613 Coverings needs to be built for macos ARM</p>
+<h3>Story</h3>
+<p>COV-622 Barges and Ridge Capping do not Join correctly</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205940316">
+  <div class="art-h"><span class="no">31</span>
+    <h3 class="zh-only block">柱身覆面疑难解答</h3>
+    <h3 class="en-only block">Troubleshooting Column Coverings</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205940316-Troubleshooting-Column-Coverings" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>如果你在柱上使用 Cadimage Covering 工具时遇到问题，请检查：</p>
+<ul>
+<li>必须至少有一个 ARCHICAD 柱，覆面才能应用其上。</li>
+</ul>
+<ul>
+<li>确保基几何体尽可能完整（尽管在应用覆面之后你仍可更改柱的高度、宽度和位置）。</li>
+</ul>
+<ul>
+<li>确保你的柱不是使用复杂断面（Complex Profiles）创建的（标准矩形柱和圆柱均可）。</li>
+</ul></div>
+  <div class="en-only"><p>If you have trouble using the Cadimage Covering tool on a Column, please check:</p>
+<ul>
+<li>There must be at least on ARCHICAD Column that the Covering is being applied to.</li>
+</ul>
+<ul>
+<li>Make sure the base geometry is as complete as possible (although you can change the height, width and position of the column after the covering has been applied).</li>
+</ul>
+<ul>
+<li>Make sure your column has not been created using Complex Profiles (standard rectangular and circular columns are OK).</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>If you have trouble using the Cadimage Covering tool on a Column, please check:</p>
+<ul>
+<li>There must be at least on ARCHICAD Column that the Covering is being applied to.</li>
+</ul>
+<ul>
+<li>Make sure the base geometry is as complete as possible (although you can change the height, width and position of the column after the covering has been applied).</li>
+</ul>
+<ul>
+<li>Make sure your column has not been created using Complex Profiles (standard rectangular and circular columns are OK).</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205217374">
+  <div class="art-h"><span class="no">32</span>
+    <h3 class="zh-only block">观看：给屋顶应用覆面和檐沟</h3>
+    <h3 class="en-only block">Watch: Apply a Covering and Gutter to a Roof</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205217374-Watch-Apply-a-Covering-and-Gutter-to-a-Roof" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在这段短视频中，查看如何在 ARCHICAD 中为屋顶应用逼真的覆面和檐沟系统。</p></div>
+  <div class="en-only"><p>In this short video, see how to apply a realistic covering and guttering to a roof in ARCHICAD.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this short video, see how to apply a realistic covering and guttering to a roof in ARCHICAD.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-213785003">
+  <div class="art-h"><span class="no">33</span>
+    <h3 class="zh-only block">观看：6 分钟快速上手</h3>
+    <h3 class="en-only block">Watch: Get Started in 6 minutes</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/213785003-Watch-Get-Started-in-6-minutes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在这段短片中，Ralph 演示如何使用 Coverings 工具应用墙体覆面：</p></div>
+  <div class="en-only"><p>In this short clip, Ralph shows you how to apply wall coverings using the Coverings Tool:</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this short clip, Ralph shows you how to apply wall coverings using the Coverings Tool:</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205217384">
+  <div class="art-h"><span class="no">34</span>
+    <h3 class="zh-only block">观看：如何添加落水管</h3>
+    <h3 class="en-only block">Watch: How to add a Downpipe</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205217384-Watch-How-to-add-a-Downpipe" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在这段视频中，Ken 演示如何使用 Cadimage Coverings 工具为屋顶添加落水管。</p></div>
+  <div class="en-only"><p>In this video, Ken shows you how to add a downpipe to a roof using the Cadimage Coverings tool.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this video, Ken shows you how to add a downpipe to a roof using the Cadimage Coverings tool.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205217364">
+  <div class="art-h"><span class="no">35</span>
+    <h3 class="zh-only block">观看：如何应用墙体覆面</h3>
+    <h3 class="en-only block">Watch: How to apply a Wall Covering</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205217364-Watch-How-to-apply-a-Wall-Covering" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>查看如何使用 Coverings 工具应用逼真且技术正确的墙体覆面。</p></div>
+  <div class="en-only"><p>See how to apply a realistic, technically correct wall covering using the Coverings Tool.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>See how to apply a realistic, technically correct wall covering using the Coverings Tool.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-206075886">
+  <div class="art-h"><span class="no">36</span>
+    <h3 class="zh-only block">观看：Coverings 入门（网络研讨会录像，基于 ARCHICAD 19 演示）<span class="vb vb-old" title="该文基于旧版界面，操作路径可能已变">AC19</span></h3>
+    <h3 class="en-only block">Watch: Intro to Coverings (webinar recording, demonstrated in ARCHICAD 19) <span class="vb" title="基于该版本的界面编写">AC19</span></h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/206075886-Watch-Intro-to-Coverings-webinar-recording-demonstrated-in-ARCHICAD-19" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在这段 25 分钟的视频中，Ken 演示如何在 ARCHICAD 中使用 Cadimage Coverings 工具为墙体、屋顶和平台应用覆面。此外，他还将演示如何使用该工具为你的项目添加落水管。</p></div>
+  <div class="en-only"><p>In this 25-minute video, Ken shows you how to apply coverings to walls, roofs and decks in ARCHICAD, using the Cadimage Coverings Tool. Plus, he will also demonstrate how to use the tool to add Downpipes to your project.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this 25-minute video, Ken shows you how to apply coverings to walls, roofs and decks in ARCHICAD, using the Cadimage Coverings Tool. Plus, he will also demonstrate how to use the tool to add Downpipes to your project.</p>
+    </div>
+  </details>
+</div>
+</article>
+
+<footer class="foot">
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
+})();
+</script>
+<script src="search-index.js"></script>
+<script src="search.js"></script>
+</body>
+</html>

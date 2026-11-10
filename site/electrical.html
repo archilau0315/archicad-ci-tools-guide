@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Electrical（电气）完整中文教程：智能符号、回路与明细表">
+<title>Electrical · 电气 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+
+.vb{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;
+  background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba;
+  font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle;
+  letter-spacing:.02em;white-space:nowrap}
+.vb-old{background:#f7e3e3;color:#9a3b3b;border-color:#e6c6c6}
+.vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
+  background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
+.vb-note b{color:#8a5a1e}
+</style>
+<link rel="stylesheet" href="search.css">
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
+<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class=" on" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
+<a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
+</aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></div>
+<div class="hero">
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>Electrical · <span class="zh-only">电气</span></h1>
+  <p class="zh-only">智能符号、回路与明细表</p>
+  <p class="en-only">Smart electrical symbols, circuits and schedules</p>
+  <div class="meta">
+    <span><b>9</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>0.7</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>27</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
+  </div>
+</div>
+<article>
+
+<div class="art" id="a-360000896116">
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">创建回路</h3>
+    <h3 class="en-only block">Creating Circuits</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000896116-Creating-Circuits" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>通过在平面图中选中任意数量的对象（手动布线时则不选），然后点击菜单项 CI Tools > Electrical > Add Wiring...（添加布线）来创建回路。</p>
+<p><img src="img/360000896116_0.jpg" alt="Creating Circuits 示意图" loading="lazy"></p>
+<p>在布线 <strong>New Wire Settings</strong>（新建布线设置）对话框中：</p>
+<p><img src="img/360000896116_1.jpg" alt="Creating Circuits 示意图" loading="lazy"></p>
+<p>按需设置参数，点击 OK 后回路即被创建。</p>
+<p>以下是对话框各部分的说明，与插图一一对应：</p>
+<h3>布线路径</h3>
+<p>回路的布线路径（从一个对象到另一个对象）既可以由 Electrical 工具自动计算，也可以由用户手动描摹。若未选中任何对象，则自动方式不可用。开启 Automatic（自动）时，还可以指定角度，让回路优先在沿该角度对齐的构件之间建立连接，例如灯具矩阵。</p>
+<p>###</p>
+<h3>布线弯曲</h3>
+<p>弯曲可以是自动或手动。开启 Automatic 时，旁边的长度字段会启用，输入的值将用于回路中的每根导线。设为 Manual（手动）时，用户需要为每根导线额外点击一次，以指明所需的弯曲度。</p>
+<p>该数值决定样条曲线在延伸过程中的弯曲幅度，数值为零时即为直线。</p>
+<p><img src="img/360000896116_2.jpg" alt="Creating Circuits 示意图" loading="lazy"></p>
+<p>每根导线都会以样条曲线形式放置，使用所选方式（自然样条或贝塞尔样条）。</p>
+<p>###</p>
+<h3>样式</h3>
+<p>布线样式部分定义了新回路中每根导线的属性（线型、画笔和图层）。用户可以使用旁边的下拉菜单保存并复用样式组合：</p>
+<p><img src="img/360000896116_3.jpg" alt="Creating Circuits 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>Create a circuit by selecting any number of objects in the floor plan (none for manual paths) and clicking the menu item Ci Tools > Electrical > Add Wiring...</p>
+<p><img src="img/360000896116_0.jpg" alt="Creating Circuits 示意图" loading="lazy"></p>
+<p>In the wiring <strong>New Wire Settings</strong> dialog:</p>
+<p><img src="img/360000896116_1.jpg" alt="Creating Circuits 示意图" loading="lazy"></p>
+<p>Set your desired settings, the circuit will be created once you've clicked OK.</p>
+<p>A description of the dialog keyed from the illustration follows below:</p>
+<h3>Wiring Path</h3>
+<p>The path of the circuit wiring (from object to object) can either be calculated automatically by the electrical tool or manually traced by the user. Automatic will be disabled if no objects are selected. When on Automatic, an angle can optionally be specified if the circuit should prioritise connections between elements aligned along that angle, e.g. a matrix of light fixtures.</p>
+<p>###</p>
+<h3>Wiring Bending</h3>
+<p>The bending can be automatic or manual. When on Automatic, the adjacent length field will be enabled and the entered value used for every wire in the circuit. When on Manual, the user will be prompted to make an additional click for every wire to indicate the required curvature.</p>
+<p>The number value determines how far the spline will bend as it travels, where zero would result in a straight line.</p>
+<p><img src="img/360000896116_2.jpg" alt="Creating Circuits 示意图" loading="lazy"></p>
+<p>Every wire will be placed as a spline using the selected method (natural or bezier).</p>
+<p>###</p>
+<h3>Style</h3>
+<p>The wire style section defines the attributes (line-type, pen and layer) for every wire in the new circuit. The user can capture and reuse style combinations using the adjacent pulldown menu:</p>
+<p><img src="img/360000896116_3.jpg" alt="Creating Circuits 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Create a circuit by selecting any number of objects in the floor plan (none for manual paths) and clicking the menu item Ci Tools > Electrical > Add Wiring...</p>
+<p><img src="img/360000896116_0.jpg" alt="Creating Circuits 示意图" loading="lazy"></p>
+<p>In the wiring <strong>New Wire Settings</strong> dialog:</p>
+<p><img src="img/360000896116_1.jpg" alt="Creating Circuits 示意图" loading="lazy"></p>
+<p>Set your desired settings, the circuit will be created once you've clicked OK.</p>
+<p>A description of the dialog keyed from the illustration follows below:</p>
+<h3>Wiring Path</h3>
+<p>The path of the circuit wiring (from object to object) can either be calculated automatically by the electrical tool or manually traced by the user. Automatic will be disabled if no objects are selected. When on Automatic, an angle can optionally be specified if the circuit should prioritise connections between elements aligned along that angle, e.g. a matrix of light fixtures.</p>
+<p>###</p>
+<h3>Wiring Bending</h3>
+<p>The bending can be automatic or manual. When on Automatic, the adjacent length field will be enabled and the entered value used for every wire in the circuit. When on Manual, the user will be prompted to make an additional click for every wire to indicate the required curvature.</p>
+<p>The number value determines how far the spline will bend as it travels, where zero would result in a straight line.</p>
+<p><img src="img/360000896116_2.jpg" alt="Creating Circuits 示意图" loading="lazy"></p>
+<p>Every wire will be placed as a spline using the selected method (natural or bezier).</p>
+<p>###</p>
+<h3>Style</h3>
+<p>The wire style section defines the attributes (line-type, pen and layer) for every wire in the new circuit. The user can capture and reuse style combinations using the adjacent pulldown menu:</p>
+<p><img src="img/360000896116_3.jpg" alt="Creating Circuits 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-7848540053903">
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">自定义 CI Electrical 符号标签 —— 为标签添加额外一行</h3>
+    <h3 class="en-only block">Customise CI Electrical Symbol Labels - Adding extra line to label</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/7848540053903-Customise-CI-Electrical-Symbol-Labels-Adding-extra-line-to-label" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h3>要在电气符号标签中添加额外一行，请转到符号的 Settings > Labels（设置 > 标签）</h3>
+<p><img src="img/7848540053903_0.jpg" alt="Customise CI Electrical Symbol Labels - Adding extra line to label 示意图" loading="lazy"></p>
+<p>1.- 要让标签分成 2 行，请在标签中包含文本 \n。这会提示其创建一个新行。</p>
+<p><div class="missing">▢ 该图在官方源站已失效</div></p>
+<p><div class="missing">▢ 该图在官方源站已失效</div></p>
+<ul>
+<li>移动符号以在视觉上区分它们，同时保持它们的原点相同。可以把符号看作标签，指向电气面板所在的位置。</li>
+</ul>
+<p><div class="missing">▢ 该图在官方源站已失效</div></p>
+<p>你还可以在标签属性设置中设置引线的画笔（Pen）和线型。</p>
+<p><img src="img/7848540053903_4.jpg" alt="Customise CI Electrical Symbol Labels - Adding extra line to label 示意图" loading="lazy"></p>
+<p><div class="missing">▢ 该图在官方源站已失效</div></p></div>
+  <div class="en-only"><h3>To add an extra line into the electrical symbol label, please go to the symbol' settings> Labels</h3>
+<p><img src="img/7848540053903_0.jpg" alt="Customise CI Electrical Symbol Labels - Adding extra line to label 示意图" loading="lazy"></p>
+<p>1.- To split the label over 2 lines, include the text \n in the label. This will prompt it to create a new line.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<ul>
+<li>Move the symbols to separate them visually, while leaving their origin the same. Think of the symbols as labels, with pointers to the locations of the electrical plates.</li>
+</ul>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>You can also set the pen and line type for the leader lines in the label attributes settings.</p>
+<p><img src="img/7848540053903_4.jpg" alt="Customise CI Electrical Symbol Labels - Adding extra line to label 示意图" loading="lazy"></p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h3>To add an extra line into the electrical symbol label, please go to the symbol' settings> Labels</h3>
+<p><img src="img/7848540053903_0.jpg" alt="Customise CI Electrical Symbol Labels - Adding extra line to label 示意图" loading="lazy"></p>
+<p>1.- To split the label over 2 lines, include the text \n in the label. This will prompt it to create a new line.</p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<ul>
+<li>Move the symbols to separate them visually, while leaving their origin the same. Think of the symbols as labels, with pointers to the locations of the electrical plates.</li>
+</ul>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+<p>You can also set the pen and line type for the leader lines in the label attributes settings.</p>
+<p><img src="img/7848540053903_4.jpg" alt="Customise CI Electrical Symbol Labels - Adding extra line to label 示意图" loading="lazy"></p>
+<p><div class="missing">▢ 该图在官方源站已失效（原始链接 404）</div></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360001042455">
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">如何控制电气构件的模型视图</h3>
+    <h3 class="en-only block">How to control the Model View of your Electrical Components</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001042455-How-to-control-the-Model-View-of-your-Electrical-Components" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>你可以从 Document/Model View/Model View Options（文档/模型视图/模型视图选项）打开“Model View Options”，操作如下：</p>
+<p><img src="img/360001042455_0.jpg" alt="How to control the Model View of your Electrical Components 示意图" loading="lazy"></p>
+<p>你可以设置模型视图选项，将模型显示为标准或详细。你还可以将符号设置为面板（plate）或模块（module）。</p>
+<p><img src="img/360001042455_1.jpg" alt="How to control the Model View of your Electrical Components 示意图" loading="lazy"></p>
+<p>构件本身并不自带面板，面板本身也不包含构件 —— 两者必须由插件相互关联 —— 但插件必须维持它们是同一个东西的假象。通过 Model View Options，你可以在面板和构件之间切换。例如，如果 Model View Options 设置为显示面板，插件必须确保构件无法被选中。</p></div>
+  <div class="en-only"><p>You can open the “Model View Options” from Document/Model View/ Model View Options as follows:</p>
+<p><img src="img/360001042455_0.jpg" alt="How to control the Model View of your Electrical Components 示意图" loading="lazy"></p>
+<p>You can set the model view option to show the model as standard or detailed. Also, you can set the symbol as a plate or module.</p>
+<p><img src="img/360001042455_1.jpg" alt="How to control the Model View of your Electrical Components 示意图" loading="lazy"></p>
+<p>A component does not inherently have a plate, nor does a plate have components – the two have to be linked by the add-on – but the add-on has to maintain an illusion that they are the same thing. From Model View Options, you are able to switch between a plate and component. For example, if the Model View Options are set to show plates, the add-on has to ensure the components cannot be selected.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>You can open the “Model View Options” from Document/Model View/ Model View Options as follows:</p>
+<p><img src="img/360001042455_0.jpg" alt="How to control the Model View of your Electrical Components 示意图" loading="lazy"></p>
+<p>You can set the model view option to show the model as standard or detailed. Also, you can set the symbol as a plate or module.</p>
+<p><img src="img/360001042455_1.jpg" alt="How to control the Model View of your Electrical Components 示意图" loading="lazy"></p>
+<p>A component does not inherently have a plate, nor does a plate have components – the two have to be linked by the add-on – but the add-on has to maintain an illusion that they are the same thing. From Model View Options, you are able to switch between a plate and component. For example, if the Model View Options are set to show plates, the add-on has to ensure the components cannot be selected.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360001042435">
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">如何放置 3D 墙面板</h3>
+    <h3 class="en-only block">How to place 3D Wall Plates</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001042435-How-to-place-3D-Wall-Plates" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>使用 Electrical 工具，你可以自定义 3D 面板的设置。你可以更改面板的尺寸或位置，并且可以对 3D 中面板的构件和属性进行可配置设置。</p>
+<p><img src="img/360001042435_0.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p>
+<ul>
+<li>点击模块设置（module setting）以查看各个模块的设置，</li>
+</ul>
+<p><img src="img/360001042435_1.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p>
+<ul>
+<li>若要更改面板的属性，需要点击“all attribute”（全部属性）。</li>
+</ul>
+<p><img src="img/360001042435_2.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p>
+<ul>
+<li>在“measure height”（测量高度）中，有三个选项，包括“Top”（顶部）、“Centre”（居中）和“Base”（底部）。你还可以更改模块数量和行数。</li>
+</ul>
+<p><img src="img/360001042435_3.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>Using electrical Tool, you are able to customise the setting of 3D plates. You can change the size or position of the plates and you also have configurable options for the components and attribute of plates in 3D.</p>
+<p><img src="img/360001042435_0.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p>
+<ul>
+<li>Click on module setting to view the individual module setting,</li>
+</ul>
+<p><img src="img/360001042435_1.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p>
+<ul>
+<li>For changing the attribute of plates, you need to click on “all attribute”.</li>
+</ul>
+<p><img src="img/360001042435_2.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p>
+<ul>
+<li>In “measure height”, you have three options including “Top”, “Centre” and “Base”. You can aslo change the number of module and number of rows.</li>
+</ul>
+<p><img src="img/360001042435_3.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Using electrical Tool, you are able to customise the setting of 3D plates. You can change the size or position of the plates and you also have configurable options for the components and attribute of plates in 3D.</p>
+<p><img src="img/360001042435_0.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p>
+<ul>
+<li>Click on module setting to view the individual module setting,</li>
+</ul>
+<p><img src="img/360001042435_1.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p>
+<ul>
+<li>For changing the attribute of plates, you need to click on “all attribute”.</li>
+</ul>
+<p><img src="img/360001042435_2.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p>
+<ul>
+<li>In “measure height”, you have three options including “Top”, “Centre” and “Base”. You can aslo change the number of module and number of rows.</li>
+</ul>
+<p><img src="img/360001042435_3.jpg" alt="How to place 3D Wall Plates 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205030704">
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">概述</h3>
+    <h3 class="en-only block">Overview</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205030704-Overview" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Cadimage Electrical 工具旨在简化电气布局的创建过程，让您能够放置电气符号、创建回路并生成明细表。</p>
+<p>Cadimage Coverings 让您能够为通常在 ARCHICAD 中创建的标准建筑构件（即墙体、屋顶、柱或楼板）增添厚度与真实感。</p></div>
+  <div class="en-only"><p>The Cadimage Electrical Tool aims to simplify the process of creating electrical layouts by allowing you to place electrical symbols, create circuits and schedule the content.</p>
+<p>Cadimage Coverings allows you to add depth and realism to the standard architectural elements (namely walls, roofs, columns or slabs) usually created in ARCHICAD.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Cadimage Electrical Tool aims to simplify the process of creating electrical layouts by allowing you to place electrical symbols, create circuits and schedule the content.</p>
+<p>Cadimage Coverings allows you to add depth and realism to the standard architectural elements (namely walls, roofs, columns or slabs) usually created in ARCHICAD.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-17875896492559">
+  <div class="art-h"><span class="no">06</span>
+    <h3 class="zh-only block">ProKit Electrical —— 从这里开始</h3>
+    <h3 class="en-only block">ProKit Electrical – Start here</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/17875896492559-ProKit-Electrical-Start-here" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Electrical 工具可快速放置针对你所在地区量身定制的 3D 电气构件。该工具尤其适合用于放置墙壁插座、开关以及其他各种类型的插座。</p>
+<p>它内置了一个内容丰富且功能强大的构件库，涵盖以下国家和地区的常用做法：</p>
+<p>European Union（欧盟）</p>
+<p>India（印度）</p>
+<p>Sub Saharan Africa（撒哈拉以南非洲）</p>
+<p>United Kingdom（英国）</p>
+<p>United States of America（美国）</p>
+<p>以上内容可通过 ProKit 专用的 Electrical 工具访问。</p>
+<p><strong>Libpack 加载（自 ARCHICAD 29 起）</strong></p>
+<p>需要注意的是，ProKit Electrical 工具要求将 Electrical Libpack 手动加载到项目中。</p>
+<p>与所有库一样，此操作通过库管理器（Library Manager）完成。请注意，所加载的 Libpack 必须在单个文件层级上选中，而不能像早期 ARCHICAD 版本那样在文件夹层级上选中。</p>
+<p>库管理器（Library Manager）通过 File > Library Manager 下拉菜单打开。</p>
+<p><img src="img/17875896492559_0.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>进入库管理器后，我们将使用“Add”按钮添加 Electricals Libpack。</p>
+<p><img src="img/17875896492559_1.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>这可以导航到位于 ARCHICAD 安装文件夹中的 ProKit Libpack 文件夹。</p>
+<p><img src="img/17875896492559_2.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>这将加载 Electrical Libpack 及相关的宏（Macros）。</p>
+<p>此后 Electrical 构件即可在 Electrical 工具中使用。</p>
+<p>重要：</p>
+<p>如果 Electrical 工具未显示在默认 ARCHICAD 工作环境左侧的工具箱中，可以通过在工具箱上右键单击将其添加。工具箱会弹出一个对话框，用于添加 Electrical 工具。</p>
+<p><img src="img/17875896492559_3.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>这样即可将 Electrical 工具添加到工具箱中。</p>
+<p><img src="img/17875896492559_4.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>Electrical 工具现在就会显示出来，建议保存工作环境（Work Environment）以免每次都要重新添加，不过 ARCHICAD 通常会保留这些设置。</p>
+<p><img src="img/17875896492559_5.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p><strong>放置 Electrical 构件</strong></p>
+<p>在 Archicad 中，Electrical 库构件通过 ProKit Electrical 工具放置。</p>
+<p>选中该工具后，即可打开设置面板并放置任意 Electrical 构件。</p>
+<p><img src="img/17875896492559_6.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>Electrical 工具还可以自动为选定的 ARCHICAD 或 Electrical 构件添加布线。</p>
+<p><img src="img/17875896492559_7.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>这样可以设置布线样式（Wiring Style），并放置相应的布线。</p>
+<p><img src="img/17875896492559_8.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p><img src="img/17875896492559_9.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>关于 Electrical 工具各项功能的更多信息，请参阅知识库文章。</p></div>
+  <div class="en-only"><p>The Electrical Tool allows for very quick placement 3D Electrical components tailor made to your region. This Tool is especially effective where to place Wall-sockets, switches and any other type of outlets.</p>
+<p>It contains an extensive sophisticated library of Components as used in the following Countries and Regions:</p>
+<p>European Union</p>
+<p>India</p>
+<p>Sub Saharan Africa</p>
+<p>United Kingdom</p>
+<p>United States of America</p>
+<p>These are accessible through the ProKit Specific Electrical Tool.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Electrical Tool requires the Electrical Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier ARCHICAD versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17875896492559_0.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Electricals Libpack.</p>
+<p><img src="img/17875896492559_1.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17875896492559_2.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>This will load the Electrical Libpack and associated Macros.</p>
+<p>The Electrical Objects will now be available in the Electrical Tool.</p>
+<p>IMPORTANT:</p>
+<p>If the Electrical Tool is not showing in the toolbox on the left in the default ARCHICAD work environment, they can be added by right clicking on in the Toolbox. The Toolbox will bring up a dialog to add the Electrical Tool.</p>
+<p><img src="img/17875896492559_3.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>This will allow adding the Electrical Tool to the Toolbox.</p>
+<p><img src="img/17875896492559_4.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>The Electrical Tool will now show up, it is recommended to save the Work Environment to avoid having to add this, although ARCHICAD should retain them.</p>
+<p><img src="img/17875896492559_5.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p><strong>Placing an Electrical Object</strong></p>
+<p>The Electrical library objects are placed with the Prokit Electrical Tool in Archicad.</p>
+<p>Once the tool is selected, the settings can be opened and any Electrical Object placed.</p>
+<p><img src="img/17875896492559_6.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>The Electrical Tool can also automatically add wiring to selected ARCHICAD or Electrical Objects.</p>
+<p><img src="img/17875896492559_7.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>This will allow the Setting of Wiring Style and an associated wiring will be placed.</p>
+<p><img src="img/17875896492559_8.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p><img src="img/17875896492559_9.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on the different Electrical Tool features please see the Knowledge-base articles.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Electrical Tool allows for very quick placement 3D Electrical components tailor made to your region. This Tool is especially effective where to place Wall-sockets, switches and any other type of outlets.</p>
+<p>It contains an extensive sophisticated library of Components as used in the following Countries and Regions:</p>
+<p>European Union</p>
+<p>India</p>
+<p>Sub Saharan Africa</p>
+<p>United Kingdom</p>
+<p>United States of America</p>
+<p>These are accessible through the ProKit Specific Electrical Tool.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Electrical Tool requires the Electrical Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier ARCHICAD versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17875896492559_0.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Electricals Libpack.</p>
+<p><img src="img/17875896492559_1.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17875896492559_2.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>This will load the Electrical Libpack and associated Macros.</p>
+<p>The Electrical Objects will now be available in the Electrical Tool.</p>
+<p>IMPORTANT:</p>
+<p>If the Electrical Tool is not showing in the toolbox on the left in the default ARCHICAD work environment, they can be added by right clicking on in the Toolbox. The Toolbox will bring up a dialog to add the Electrical Tool.</p>
+<p><img src="img/17875896492559_3.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>This will allow adding the Electrical Tool to the Toolbox.</p>
+<p><img src="img/17875896492559_4.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>The Electrical Tool will now show up, it is recommended to save the Work Environment to avoid having to add this, although ARCHICAD should retain them.</p>
+<p><img src="img/17875896492559_5.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p><strong>Placing an Electrical Object</strong></p>
+<p>The Electrical library objects are placed with the Prokit Electrical Tool in Archicad.</p>
+<p>Once the tool is selected, the settings can be opened and any Electrical Object placed.</p>
+<p><img src="img/17875896492559_6.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>The Electrical Tool can also automatically add wiring to selected ARCHICAD or Electrical Objects.</p>
+<p><img src="img/17875896492559_7.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>This will allow the Setting of Wiring Style and an associated wiring will be placed.</p>
+<p><img src="img/17875896492559_8.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p><img src="img/17875896492559_9.jpg" alt="ProKit Electrical – Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on the different Electrical Tool features please see the Knowledge-base articles.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-8620637331855">
+  <div class="art-h"><span class="no">07</span>
+    <h3 class="zh-only block">更新日志 —— Electrical</h3>
+    <h3 class="en-only block">Release Notes - Electrical</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8620637331855-Release-Notes-Electrical" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h1>更新日志 —— Electrical —— 5.12</h1>
+<h3>缺陷</h3>
+<p>ELE-113 使用空格键放置按钮时未跳转到与墙体的对齐位置（AC23 mac）</p>
+<p>ELE-128 插件获取到的点击点坐标有误</p>
+<p>ELE-142 在 v26 中，某些情况下空格键点击放置模式无法正常工作</p>
+<p>ELE-143 可设置填充的符号实际上没有显示任何填充</p>
+<h3>改进</h3>
+<p>ELE-111 在 AC23 中允许为符号添加填充</p>
+<h3>任务</h3>
+<p>ELE-139 Electrical 需要针对 macos ARM 进行构建</p></div>
+  <div class="en-only"><h1>Release notes - Electrical - 5.12</h1>
+<h3>Bug</h3>
+<p>ELE-113 place with space button not jump align position to the wall AC23 mac</p>
+<p>ELE-128 The add-on is getting the wrong co-ordinates for the clicked point</p>
+<p>ELE-142 The spacebar-click placement mode doesn't work in v26 in certain cases</p>
+<p>ELE-143 Symbols where Fill can be set do not actually show any fill</p>
+<h3>Improvement</h3>
+<p>ELE-111 Allow to add fills to symbols in AC23</p>
+<h3>Task</h3>
+<p>ELE-139 Electrical needs to be built for macos ARM</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h1>Release notes - Electrical - 5.12</h1>
+<h3>Bug</h3>
+<p>ELE-113 place with space button not jump align position to the wall AC23 mac</p>
+<p>ELE-128 The add-on is getting the wrong co-ordinates for the clicked point</p>
+<p>ELE-142 The spacebar-click placement mode doesn't work in v26 in certain cases</p>
+<p>ELE-143 Symbols where Fill can be set do not actually show any fill</p>
+<h3>Improvement</h3>
+<p>ELE-111 Allow to add fills to symbols in AC23</p>
+<h3>Task</h3>
+<p>ELE-139 Electrical needs to be built for macos ARM</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-205298180">
+  <div class="art-h"><span class="no">08</span>
+    <h3 class="zh-only block">观看：概述网络研讨会录像（23 分钟）</h3>
+    <h3 class="en-only block">Watch: Overview webinar recording (23 mins)</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/205298180-Watch-Overview-webinar-recording-23-mins" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在这场网络研讨会中，Josh 向您展示如何开始使用 CI Electrical 工具。具体而言，他演示了如何：</p>
+<ul>
+<li>单击即可放置电气符号</li>
+</ul>
+<ul>
+<li>创建动态关联的回路</li>
+</ul></div>
+  <div class="en-only"><p>In this webinar, Josh shows you how to get started with the Ci Electrical Tool. Specifically, he shows you how to:</p>
+<ul>
+<li>Place electrical symbols with a single click</li>
+</ul>
+<ul>
+<li>Create dynamic, linked circuits</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this webinar, Josh shows you how to get started with the Ci Electrical Tool. Specifically, he shows you how to:</p>
+<ul>
+<li>Place electrical symbols with a single click</li>
+</ul>
+<ul>
+<li>Create dynamic, linked circuits</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000888275">
+  <div class="art-h"><span class="no">09</span>
+    <h3 class="zh-only block">布线样式管理器</h3>
+    <h3 class="en-only block">Wire Style Manager</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000888275-Wire-Style-Manager" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>点击菜单 Cadimage > Electrical > Manage Wire Style（管理布线样式）即可管理属性样式。</p>
+<p><img src="img/360000888275_0.jpg" alt="Wire Style Manager 示意图" loading="lazy"></p>
+<p>以下是对话框各部分的说明，与插图一一对应：</p>
+<ul>
+<li>布线样式列表。其工作方式与上面的构件样式管理器（Component Styles Manager）相同，用于创建、编辑或删除条目。名称可以直接在列表中编辑，也可以一次编辑多个条目。选中多个条目时，下方显示的是第一个条目的详细信息，但所做的修改将应用于所有选中的样式。</li>
+</ul>
+<ul>
+<li>所选样式的布线属性，包括线型和画笔（Pen）。</li>
+</ul></div>
+  <div class="en-only"><p>You can manage the attribute styles by clicking the menu Cadimage > Electrical > Manage Wire Style</p>
+<p><img src="img/360000888275_0.jpg" alt="Wire Style Manager 示意图" loading="lazy"></p>
+<p>A description of the dialog keyed from the illustration follows below:</p>
+<ul>
+<li>The list of wire styles. This works in the same way as the Component Styles Manager above for creating, editing or deleting items. The name can be directly edited in the list, and multiple items can be edited at once. When multiple items are selected, the details of the first will be displayed below, but any changes will apply to all selected styles.</li>
+</ul>
+<ul>
+<li>The wire attributes for the selected style, including the line style and pen.</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>You can manage the attribute styles by clicking the menu Cadimage > Electrical > Manage Wire Style</p>
+<p><img src="img/360000888275_0.jpg" alt="Wire Style Manager 示意图" loading="lazy"></p>
+<p>A description of the dialog keyed from the illustration follows below:</p>
+<ul>
+<li>The list of wire styles. This works in the same way as the Component Styles Manager above for creating, editing or deleting items. The name can be directly edited in the list, and multiple items can be edited at once. When multiple items are selected, the details of the first will be displayed below, but any changes will apply to all selected styles.</li>
+</ul>
+<ul>
+<li>The wire attributes for the selected style, including the line style and pen.</li>
+</ul>
+    </div>
+  </details>
+</div>
+</article>
+
+<footer class="foot">
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
+})();
+</script>
+<script src="search-index.js"></script>
+<script src="search.js"></script>
+</body>
+</html>

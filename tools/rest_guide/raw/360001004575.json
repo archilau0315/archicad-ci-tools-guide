@@ -1,0 +1,9 @@
+{
+ "id": "360001004575",
+ "title": "Updating the Tools",
+ "cat": "Getting Started",
+ "html": "<p>If you already have the tools installed, you can update them by simply running the Ci Tool Installer.</p>\n<p>Login into the Ci Tool Installer and then click on the Update button in the upper row of the interface. You will then see a list of updates that are available for you.</p>\n<p><img src=\"img/360001004575_0.jpg\"></p>\n<p> </p>\n<p>Similarly to the install process, you can then press the <strong>Update</strong> button to install any updates that you want, or hit the <strong>Update All</strong> button to install them all in one go.</p>\n<p>Once the process is complete, just exit the installer by clicking the <strong>Close</strong> button.</p>",
+ "created_at": "2019-06-18T22:03:52Z",
+ "updated_at": "2024-08-22T09:27:26Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001004575"
+}

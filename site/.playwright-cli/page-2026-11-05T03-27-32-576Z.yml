@@ -1,0 +1,2078 @@
+- generic [ref=f1e2]:
+  - complementary [ref=f1e3]:
+    - link "CI Tools Handbook Archicad Plugin Manual" [ref=f1e5] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=f1e6]: CI Tools Handbook
+      - generic [ref=f1e8]: Archicad Plugin Manual
+    - generic [ref=f1e9]: Start
+    - link "◈ Overview" [ref=f1e10] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=f1e11]: ◈
+      - generic [ref=f1e12]: Overview
+    - link "☰ All Articles" [ref=f1e13] [cursor=pointer]:
+      - /url: all.html
+      - generic [ref=f1e14]: ☰
+      - generic [ref=f1e15]: All Articles
+    - link "★ Quick Guide" [ref=f1e16] [cursor=pointer]:
+      - /url: guide.html
+      - generic [ref=f1e17]: ★
+      - generic [ref=f1e18]: Quick Guide
+    - generic [ref=f1e19]: 16 Tools
+    - link "Aa Annotate" [ref=f1e20] [cursor=pointer]:
+      - /url: annotate.html
+      - generic [ref=f1e21]: Aa
+      - generic [ref=f1e22]: Annotate
+    - link "⇄ Transformer" [ref=f1e23] [cursor=pointer]:
+      - /url: transformer.html
+      - generic [ref=f1e24]: ⇄
+      - generic [ref=f1e25]: Transformer
+    - link "◷ Time Tracker" [ref=f1e26] [cursor=pointer]:
+      - /url: timetracker.html
+      - generic [ref=f1e27]: ◷
+      - generic [ref=f1e28]: Time Tracker
+    - link "▤ Detail Elements" [ref=f1e29] [cursor=pointer]:
+      - /url: detail.html
+      - generic [ref=f1e30]: ▤
+      - generic [ref=f1e31]: Detail Elements
+    - link "❝ Keynotes" [ref=f1e32] [cursor=pointer]:
+      - /url: keynotes.html
+      - generic [ref=f1e33]: ❝
+      - generic [ref=f1e34]: Keynotes
+    - link "◈ MetaData" [ref=f1e35] [cursor=pointer]:
+      - /url: metadata.html
+      - generic [ref=f1e36]: ◈
+      - generic [ref=f1e37]: MetaData
+    - link "∑ Quantities" [ref=f1e38] [cursor=pointer]:
+      - /url: quantities.html
+      - generic [ref=f1e39]: ∑
+      - generic [ref=f1e40]: Quantities
+    - link "▦ Cabinets" [ref=f1e41] [cursor=pointer]:
+      - /url: cabinets.html
+      - generic [ref=f1e42]: ▦
+      - generic [ref=f1e43]: Cabinets
+    - link "⌸ Doors+Windows" [ref=f1e44] [cursor=pointer]:
+      - /url: doors.html
+      - generic [ref=f1e45]: ⌸
+      - generic [ref=f1e46]: Doors+Windows
+    - link "▨ Coverings" [ref=f1e47] [cursor=pointer]:
+      - /url: coverings.html
+      - generic [ref=f1e48]: ▨
+      - generic [ref=f1e49]: Coverings
+    - link "⚡ Electrical" [ref=f1e50] [cursor=pointer]:
+      - /url: electrical.html
+      - generic [ref=f1e51]: ⚡
+      - generic [ref=f1e52]: Electrical
+    - link "⇱ Stairs" [ref=f1e53] [cursor=pointer]:
+      - /url: stairs.html
+      - generic [ref=f1e54]: ⇱
+      - generic [ref=f1e55]: Stairs
+    - link "⌗ Structural" [ref=f1e56] [cursor=pointer]:
+      - /url: structural.html
+      - generic [ref=f1e57]: ⌗
+      - generic [ref=f1e58]: Structural
+    - link "⛿ Sites" [ref=f1e59] [cursor=pointer]:
+      - /url: sites.html
+      - generic [ref=f1e60]: ⛿
+      - generic [ref=f1e61]: Sites
+    - link "⌸ Fitout" [ref=f1e62] [cursor=pointer]:
+      - /url: fitout.html
+      - generic [ref=f1e63]: ⌸
+      - generic [ref=f1e64]: Fitout
+    - generic [ref=f1e65]: About
+    - link "ⓘ Sources" [ref=f1e66] [cursor=pointer]:
+      - /url: about.html
+      - generic [ref=f1e67]: ⓘ
+      - generic [ref=f1e68]: Sources
+  - group "Language" [ref=f1e69]:
+    - button "中文" [ref=f1e70] [cursor=pointer]
+    - button "EN" [pressed] [ref=f1e71] [cursor=pointer]
+  - main [ref=f1e72]:
+    - generic [ref=f1e73]:
+      - generic [ref=f1e74]: Archicad Plugin Toolkit · Complete Manual
+      - heading "CI Tools Complete Handbook" [level=1] [ref=f1e76]
+      - paragraph [ref=f1e78]: The complete bilingual edition of the official Central Innovation CI Tools (renamed Graphisoft ProKit in 2026) manual — 357 articles, 1208 interface screenshots, covering every feature across all 16 tools.
+      - generic [ref=f1e79]:
+        - generic [ref=f1e80]:
+          - text: "357"
+          - generic [ref=f1e81]: articles
+        - generic [ref=f1e82]:
+          - text: "1208"
+          - generic [ref=f1e83]: screenshots
+        - generic [ref=f1e84]:
+          - text: "42.3"
+          - generic [ref=f1e85]: 10k words
+        - generic [ref=f1e86]:
+          - text: "16"
+          - generic [ref=f1e87]: tools
+    - heading "3 steps for every new project" [level=2] [ref=f1e88]
+    - generic [ref=f1e90]:
+      - generic [ref=f1e91]:
+        - generic [ref=f1e92]: STEP 01
+        - heading "Load Work Environment" [level=4] [ref=f1e93]
+        - paragraph [ref=f1e95]: Makes the CI Tools entries appear in the menu and toolbox
+        - code [ref=f1e96]: File > Work Environment > Ci Tools Profile XX
+      - generic [ref=f1e97]:
+        - generic [ref=f1e98]: STEP 02
+        - heading "Load Library Packs" [level=4] [ref=f1e99]
+        - paragraph [ref=f1e101]: From AC29 library packs must be loaded manually, or tools appear empty
+        - code [ref=f1e102]: File > Library Manager > Add > Ci Tools Macros.libpack
+      - generic [ref=f1e103]:
+        - generic [ref=f1e104]: STEP 03
+        - heading "Add to Toolbox" [level=4] [ref=f1e105]
+        - paragraph [ref=f1e107]: Remember to save the work environment, or it resets next launch
+        - code [ref=f1e108]: Right-click Toolbox > Toolbox Settings > tick > Save Work Environment
+    - heading "16 个工具" [level=2] [ref=f1e109]
+    - generic [ref=f1e110]:
+      - link "Aa Annotate Batch text case and font formatting across the whole project 4 articles · 23 images" [ref=f1e112] [cursor=pointer]:
+        - /url: annotate.html
+        - generic [ref=f1e113]:
+          - generic [ref=f1e114]: Aa
+          - generic [ref=f1e115]: Annotate
+        - paragraph [ref=f1e116]: Batch text case and font formatting across the whole project
+        - generic [ref=f1e117]: 4 articles · 23 images
+      - link "⇄ Transformer Mirror an entire project in one click, 2D annotations included 5 articles · 1 images" [ref=f1e120] [cursor=pointer]:
+        - /url: transformer.html
+        - generic [ref=f1e121]:
+          - generic [ref=f1e122]: ⇄
+          - generic [ref=f1e123]: Transformer
+        - paragraph [ref=f1e124]: Mirror an entire project in one click, 2D annotations included
+        - generic [ref=f1e125]: 5 articles · 1 images
+      - link "◷ Time Tracker Log time per task and compare against quoted hours 1 articles · 4 images" [ref=f1e128] [cursor=pointer]:
+        - /url: timetracker.html
+        - generic [ref=f1e129]:
+          - generic [ref=f1e130]: ◷
+          - generic [ref=f1e131]: Time Tracker
+        - paragraph [ref=f1e132]: Log time per task and compare against quoted hours
+        - generic [ref=f1e133]: 1 articles · 4 images
+      - link "▤ Detail Elements Drag-and-drop parametric 2D detail component library 5 articles · 19 images" [ref=f1e136] [cursor=pointer]:
+        - /url: detail.html
+        - generic [ref=f1e137]:
+          - generic [ref=f1e138]: ▤
+          - generic [ref=f1e139]: Detail Elements
+        - paragraph [ref=f1e140]: Drag-and-drop parametric 2D detail component library
+        - generic [ref=f1e141]: 5 articles · 19 images
+      - link "❝ Keynotes Note database auto-attached by element attributes, with schedules 24 articles · 104 images" [ref=f1e144] [cursor=pointer]:
+        - /url: keynotes.html
+        - generic [ref=f1e145]:
+          - generic [ref=f1e146]: ❝
+          - generic [ref=f1e147]: Keynotes
+        - paragraph [ref=f1e148]: Note database auto-attached by element attributes, with schedules
+        - generic [ref=f1e149]: 24 articles · 104 images
+      - link "◈ MetaData Palette for bulk editing properties and classifications 27 articles · 61 images" [ref=f1e152] [cursor=pointer]:
+        - /url: metadata.html
+        - generic [ref=f1e153]:
+          - generic [ref=f1e154]: ◈
+          - generic [ref=f1e155]: MetaData
+        - paragraph [ref=f1e156]: Palette for bulk editing properties and classifications
+        - generic [ref=f1e157]: 27 articles · 61 images
+      - link "∑ Quantities Bill of quantities from a live model, recipes auto-assign values 100 articles · 28 images" [ref=f1e160] [cursor=pointer]:
+        - /url: quantities.html
+        - generic [ref=f1e161]:
+          - generic [ref=f1e162]: ∑
+          - generic [ref=f1e163]: Quantities
+        - paragraph [ref=f1e164]: Bill of quantities from a live model, recipes auto-assign values
+        - generic [ref=f1e165]: 100 articles · 28 images
+      - link "▦ Cabinets One configurable object covers every cabinet type 49 articles · 353 images" [ref=f1e168] [cursor=pointer]:
+        - /url: cabinets.html
+        - generic [ref=f1e169]:
+          - generic [ref=f1e170]: ▦
+          - generic [ref=f1e171]: Cabinets
+        - paragraph [ref=f1e172]: One configurable object covers every cabinet type
+        - generic [ref=f1e173]: 49 articles · 353 images
+      - link "⌸ Doors+Windows Non-standard door and window styles with size snapping 48 articles · 243 images" [ref=f1e176] [cursor=pointer]:
+        - /url: doors.html
+        - generic [ref=f1e177]:
+          - generic [ref=f1e178]: ⌸
+          - generic [ref=f1e179]: Doors+Windows
+        - paragraph [ref=f1e180]: Non-standard door and window styles with size snapping
+        - generic [ref=f1e181]: 48 articles · 243 images
+      - link "▨ Coverings 3D surface skins on walls, slabs, columns and roofs 36 articles · 160 images" [ref=f1e184] [cursor=pointer]:
+        - /url: coverings.html
+        - generic [ref=f1e185]:
+          - generic [ref=f1e186]: ▨
+          - generic [ref=f1e187]: Coverings
+        - paragraph [ref=f1e188]: 3D surface skins on walls, slabs, columns and roofs
+        - generic [ref=f1e189]: 36 articles · 160 images
+      - link "⚡ Electrical Smart electrical symbols, circuits and schedules 9 articles · 27 images" [ref=f1e192] [cursor=pointer]:
+        - /url: electrical.html
+        - generic [ref=f1e193]:
+          - generic [ref=f1e194]: ⚡
+          - generic [ref=f1e195]: Electrical
+        - paragraph [ref=f1e196]: Smart electrical symbols, circuits and schedules
+        - generic [ref=f1e197]: 9 articles · 27 images
+      - link "⇱ Stairs Free-form stair design with associative railings 13 articles · 30 images" [ref=f1e200] [cursor=pointer]:
+        - /url: stairs.html
+        - generic [ref=f1e201]:
+          - generic [ref=f1e202]: ⇱
+          - generic [ref=f1e203]: Stairs
+        - paragraph [ref=f1e204]: Free-form stair design with associative railings
+        - generic [ref=f1e205]: 13 articles · 30 images
+      - 'link "⌗ Structural 3D structural components: trusses, frames and fixings 16 articles · 26 images" [ref=f1e208] [cursor=pointer]':
+        - /url: structural.html
+        - generic [ref=f1e209]:
+          - generic [ref=f1e210]: ⌗
+          - generic [ref=f1e211]: Structural
+        - paragraph [ref=f1e212]: "3D structural components: trusses, frames and fixings"
+        - generic [ref=f1e213]: 16 articles · 26 images
+      - link "⛿ Sites Site boundaries, recession planes and plant placement 15 articles · 89 images" [ref=f1e216] [cursor=pointer]:
+        - /url: sites.html
+        - generic [ref=f1e217]:
+          - generic [ref=f1e218]: ⛿
+          - generic [ref=f1e219]: Sites
+        - paragraph [ref=f1e220]: Site boundaries, recession planes and plant placement
+        - generic [ref=f1e221]: 15 articles · 89 images
+      - link "⌸ Fitout Furnish a room in one click from a saved set 5 articles · 40 images" [ref=f1e224] [cursor=pointer]:
+        - /url: fitout.html
+        - generic [ref=f1e225]:
+          - generic [ref=f1e226]: ⌸
+          - generic [ref=f1e227]: Fitout
+        - paragraph [ref=f1e228]: Furnish a room in one click from a saved set
+        - generic [ref=f1e229]: 5 articles · 40 images
+    - heading "全量文章目录" [level=2] [ref=f1e231]
+    - paragraph [ref=f1e232]: 共 357 篇，点标题直达对应分册的具体文章。
+    - heading "Annotate · 4 articles" [level=2] [ref=f1e233]:
+      - text: Annotate ·
+      - generic [ref=f1e234]: 4 articles
+    - list [ref=f1e236]:
+      - listitem [ref=f1e237]:
+        - link "01 1.1 Convert Text Case" [ref=f1e238] [cursor=pointer]:
+          - /url: annotate.html#a-360001692315
+          - text: "01"
+          - generic [ref=f1e239]: 1.1 Convert Text Case
+      - listitem [ref=f1e240]:
+        - link "02 1.2 Manage Case Exceptions" [ref=f1e241] [cursor=pointer]:
+          - /url: annotate.html#a-360001694896
+          - text: "02"
+          - generic [ref=f1e242]: 1.2 Manage Case Exceptions
+      - listitem [ref=f1e243]:
+        - link "03 Attribute Replacement using Ci Tools Annotate" [ref=f1e244] [cursor=pointer]:
+          - /url: annotate.html#a-14260201378447
+          - text: "03"
+          - generic [ref=f1e245]: Attribute Replacement using Ci Tools Annotate
+      - listitem [ref=f1e246]:
+        - link "04 Replacing Fonts using Ci Tools Annotate" [ref=f1e247] [cursor=pointer]:
+          - /url: annotate.html#a-14260464417679
+          - text: "04"
+          - generic [ref=f1e248]: Replacing Fonts using Ci Tools Annotate
+    - heading "Transformer · 5 articles" [level=2] [ref=f1e249]:
+      - text: Transformer ·
+      - generic [ref=f1e250]: 5 articles
+    - list [ref=f1e252]:
+      - listitem [ref=f1e253]:
+        - link "01 1.1 Why?" [ref=f1e254] [cursor=pointer]:
+          - /url: transformer.html#a-360001695256
+          - text: "01"
+          - generic [ref=f1e255]: 1.1 Why?
+      - listitem [ref=f1e256]:
+        - link "02 1.2 Mirroring a Project" [ref=f1e257] [cursor=pointer]:
+          - /url: transformer.html#a-360001695276
+          - text: "02"
+          - generic [ref=f1e258]: 1.2 Mirroring a Project
+      - listitem [ref=f1e259]:
+        - link "03 1.3 Mirroring Notes" [ref=f1e260] [cursor=pointer]:
+          - /url: transformer.html#a-360001695296
+          - text: "03"
+          - generic [ref=f1e261]: 1.3 Mirroring Notes
+      - listitem [ref=f1e262]:
+        - link "04 Getting Started" [ref=f1e263] [cursor=pointer]:
+          - /url: transformer.html#a-9245907340175
+          - text: "04"
+          - generic [ref=f1e264]: Getting Started
+      - listitem [ref=f1e265]:
+        - link "05 Release Notes - Transformer" [ref=f1e266] [cursor=pointer]:
+          - /url: transformer.html#a-8620665767311
+          - text: "05"
+          - generic [ref=f1e267]: Release Notes - Transformer
+    - heading "Time Tracker · 1 articles" [level=2] [ref=f1e268]:
+      - text: Time Tracker ·
+      - generic [ref=f1e269]: 1 articles
+    - list [ref=f1e271]:
+      - listitem [ref=f1e272]:
+        - link "01 How to use the Time Tracker" [ref=f1e273] [cursor=pointer]:
+          - /url: timetracker.html#a-8351466344719
+          - text: "01"
+          - generic [ref=f1e274]: How to use the Time Tracker
+    - heading "Detail Elements · 5 articles" [level=2] [ref=f1e275]:
+      - text: Detail Elements ·
+      - generic [ref=f1e276]: 5 articles
+    - list [ref=f1e278]:
+      - listitem [ref=f1e279]:
+        - link "01 Add Nails to a Detail Drawing" [ref=f1e280] [cursor=pointer]:
+          - /url: detail.html#a-115002744746
+          - text: "01"
+          - generic [ref=f1e281]: Add Nails to a Detail Drawing
+      - listitem [ref=f1e282]:
+        - link "02 Add a Corner Break Line" [ref=f1e283] [cursor=pointer]:
+          - /url: detail.html#a-115002645843
+          - text: "02"
+          - generic [ref=f1e284]: Add a Corner Break Line
+      - listitem [ref=f1e285]:
+        - link "03 How to Manually add the Detail Element tool to the Toolbox" [ref=f1e286] [cursor=pointer]:
+          - /url: detail.html#a-115002672786
+          - text: "03"
+          - generic [ref=f1e287]: How to Manually add the Detail Element tool to the Toolbox
+      - listitem [ref=f1e288]:
+        - link "04 ProKit Detail Elements – Start here" [ref=f1e289] [cursor=pointer]:
+          - /url: detail.html#a-17875844347023
+          - text: "04"
+          - generic [ref=f1e290]: ProKit Detail Elements – Start here
+      - listitem [ref=f1e291]:
+        - link "05 Release Notes - Detail Elements" [ref=f1e292] [cursor=pointer]:
+          - /url: detail.html#a-8620555913231
+          - text: "05"
+          - generic [ref=f1e293]: Release Notes - Detail Elements
+    - heading "Keynotes · 24 articles" [level=2] [ref=f1e294]:
+      - text: Keynotes ·
+      - generic [ref=f1e295]: 24 articles
+    - list [ref=f1e297]:
+      - listitem [ref=f1e298]:
+        - link "01 \"refer spec\" is coming in from master spec on all notes" [ref=f1e299] [cursor=pointer]:
+          - /url: keynotes.html#a-5179283986447
+          - text: "01"
+          - generic [ref=f1e300]: "\"refer spec\" is coming in from master spec on all notes"
+      - listitem [ref=f1e301]:
+        - link "02 Creating Keynotes" [ref=f1e302] [cursor=pointer]:
+          - /url: keynotes.html#a-206313576
+          - text: "02"
+          - generic [ref=f1e303]: Creating Keynotes
+      - listitem [ref=f1e304]:
+        - link "03 Creating Multiple Page Keynote Schedules" [ref=f1e305] [cursor=pointer]:
+          - /url: keynotes.html#a-208014116
+          - text: "03"
+          - generic [ref=f1e306]: Creating Multiple Page Keynote Schedules
+      - listitem [ref=f1e307]:
+        - link "04 Editing a Keynote" [ref=f1e308] [cursor=pointer]:
+          - /url: keynotes.html#a-206315166
+          - text: "04"
+          - generic [ref=f1e309]: Editing a Keynote
+      - listitem [ref=f1e310]:
+        - link "05 Getting to know the Keynote Palette." [ref=f1e311] [cursor=pointer]:
+          - /url: keynotes.html#a-206662343
+          - text: "05"
+          - generic [ref=f1e312]: Getting to know the Keynote Palette.
+      - listitem [ref=f1e313]:
+        - link "06 How to Replace Labels in Keynote" [ref=f1e314] [cursor=pointer]:
+          - /url: keynotes.html#a-9527090906127
+          - text: "06"
+          - generic [ref=f1e315]: How to Replace Labels in Keynote
+      - listitem [ref=f1e316]:
+        - link "07 How to configure your Keynote Label" [ref=f1e317] [cursor=pointer]:
+          - /url: keynotes.html#a-206033156
+          - text: "07"
+          - generic [ref=f1e318]: How to configure your Keynote Label
+      - listitem [ref=f1e319]:
+        - link "08 How to delete a Keynote" [ref=f1e320] [cursor=pointer]:
+          - /url: keynotes.html#a-206315936
+          - text: "08"
+          - generic [ref=f1e321]: How to delete a Keynote
+      - listitem [ref=f1e322]:
+        - link "09 Import a Sample Database" [ref=f1e323] [cursor=pointer]:
+          - /url: keynotes.html#a-205941046
+          - text: "09"
+          - generic [ref=f1e324]: Import a Sample Database
+      - listitem [ref=f1e325]:
+        - link "10 Keynote Label Types" [ref=f1e326] [cursor=pointer]:
+          - /url: keynotes.html#a-206382383
+          - text: "10"
+          - generic [ref=f1e327]: Keynote Label Types
+      - listitem [ref=f1e328]:
+        - link "11 Keynotes Text Case Settings" [ref=f1e329] [cursor=pointer]:
+          - /url: keynotes.html#a-207356153
+          - text: "11"
+          - generic [ref=f1e330]: Keynotes Text Case Settings
+      - listitem [ref=f1e331]:
+        - link "12 Keynotes in Teamwork" [ref=f1e332] [cursor=pointer]:
+          - /url: keynotes.html#a-8295619172751
+          - text: "12"
+          - generic [ref=f1e333]: Keynotes in Teamwork
+      - listitem [ref=f1e334]:
+        - link "13 Manually start a Keynotes Database" [ref=f1e335] [cursor=pointer]:
+          - /url: keynotes.html#a-205941056
+          - text: "13"
+          - generic [ref=f1e336]: Manually start a Keynotes Database
+      - listitem [ref=f1e337]:
+        - link "14 Masterspec’s MasterKey Keynote" [ref=f1e338] [cursor=pointer]:
+          - /url: keynotes.html#a-360000875896
+          - text: "14"
+          - generic [ref=f1e339]: Masterspec’s MasterKey Keynote
+      - listitem [ref=f1e340]:
+        - link "15 Overview" [ref=f1e341] [cursor=pointer]:
+          - /url: keynotes.html#a-205030754
+          - text: "15"
+          - generic [ref=f1e342]: Overview
+      - listitem [ref=f1e343]:
+        - link "16 ProKit Keynotes - Start here" [ref=f1e344] [cursor=pointer]:
+          - /url: keynotes.html#a-17891545541263
+          - text: "16"
+          - generic [ref=f1e345]: ProKit Keynotes - Start here
+      - listitem [ref=f1e346]:
+        - link "17 Release Notes - Keynotes" [ref=f1e347] [cursor=pointer]:
+          - /url: keynotes.html#a-8620640312847
+          - text: "17"
+          - generic [ref=f1e348]: Release Notes - Keynotes
+      - listitem [ref=f1e349]:
+        - link "18 Restore Keynotes Database" [ref=f1e350] [cursor=pointer]:
+          - /url: keynotes.html#a-14065806570255
+          - text: "18"
+          - generic [ref=f1e351]: Restore Keynotes Database
+      - listitem [ref=f1e352]:
+        - link "19 Restore a deleted Keynote in ARCHICAD 19 and previous versions." [ref=f1e353] [cursor=pointer]:
+          - /url: keynotes.html#a-206315806
+          - text: "19"
+          - generic [ref=f1e354]: Restore a deleted Keynote in ARCHICAD 19 and previous versions.
+      - listitem [ref=f1e355]:
+        - link "20 Using Master Schedules to define and sync Keynote Schedule Settings" [ref=f1e356] [cursor=pointer]:
+          - /url: keynotes.html#a-13262869869583
+          - text: "20"
+          - generic [ref=f1e357]: Using Master Schedules to define and sync Keynote Schedule Settings
+      - listitem [ref=f1e358]:
+        - 'link "21 Watch: Get started in 10 minutes!" [ref=f1e359] [cursor=pointer]':
+          - /url: keynotes.html#a-213785123
+          - text: "21"
+          - generic [ref=f1e360]: "Watch: Get started in 10 minutes!"
+      - listitem [ref=f1e361]:
+        - 'link "22 Watch: Introduction to the Keynotes Tool (webinar recording)" [ref=f1e362] [cursor=pointer]':
+          - /url: keynotes.html#a-206441843
+          - text: "22"
+          - generic [ref=f1e363]: "Watch: Introduction to the Keynotes Tool (webinar recording)"
+      - listitem [ref=f1e364]:
+        - link "23 Working with Attribute linked Keynotes" [ref=f1e365] [cursor=pointer]:
+          - /url: keynotes.html#a-9100895723663
+          - text: "23"
+          - generic [ref=f1e366]: Working with Attribute linked Keynotes
+      - listitem [ref=f1e367]:
+        - link "24 Working with Categories in Keynotes" [ref=f1e368] [cursor=pointer]:
+          - /url: keynotes.html#a-206313746
+          - text: "24"
+          - generic [ref=f1e369]: Working with Categories in Keynotes
+    - heading "MetaData · 27 articles" [level=2] [ref=f1e370]:
+      - text: MetaData ·
+      - generic [ref=f1e371]: 27 articles
+    - list [ref=f1e373]:
+      - listitem [ref=f1e374]:
+        - link "01 3.1 Reviewing Element Metadata" [ref=f1e375] [cursor=pointer]:
+          - /url: metadata.html#a-360001692375
+          - text: "01"
+          - generic [ref=f1e376]: 3.1 Reviewing Element Metadata
+      - listitem [ref=f1e377]:
+        - link "02 3.2 Managing Traits" [ref=f1e378] [cursor=pointer]:
+          - /url: metadata.html#a-360001692435
+          - text: "02"
+          - generic [ref=f1e379]: 3.2 Managing Traits
+      - listitem [ref=f1e380]:
+        - link "03 3.2.1 How to add Traits" [ref=f1e381] [cursor=pointer]:
+          - /url: metadata.html#a-360001692455
+          - text: "03"
+          - generic [ref=f1e382]: 3.2.1 How to add Traits
+      - listitem [ref=f1e383]:
+        - link "04 3.2.2 How to remove Traits" [ref=f1e384] [cursor=pointer]:
+          - /url: metadata.html#a-360001692475
+          - text: "04"
+          - generic [ref=f1e385]: 3.2.2 How to remove Traits
+      - listitem [ref=f1e386]:
+        - link "05 3.2.3 How to set or transfer selected traits into elements" [ref=f1e387] [cursor=pointer]:
+          - /url: metadata.html#a-360001692595
+          - text: "05"
+          - generic [ref=f1e388]: 3.2.3 How to set or transfer selected traits into elements
+      - listitem [ref=f1e389]:
+        - link "06 3.2.4 How to select elements matching specified traits" [ref=f1e390] [cursor=pointer]:
+          - /url: metadata.html#a-360001692615
+          - text: "06"
+          - generic [ref=f1e391]: 3.2.4 How to select elements matching specified traits
+      - listitem [ref=f1e392]:
+        - link "07 3.2.5 How to filter selected elements to those matching selected traits" [ref=f1e393] [cursor=pointer]:
+          - /url: metadata.html#a-360001695056
+          - text: "07"
+          - generic [ref=f1e394]: 3.2.5 How to filter selected elements to those matching selected traits
+      - listitem [ref=f1e395]:
+        - link "08 3.2.6 How to quickly spot anomalies or problems in selected elements" [ref=f1e396] [cursor=pointer]:
+          - /url: metadata.html#a-360001695076
+          - text: "08"
+          - generic [ref=f1e397]: 3.2.6 How to quickly spot anomalies or problems in selected elements
+      - listitem [ref=f1e398]:
+        - link "09 3.2.7 How to automatically add traits to new elements" [ref=f1e399] [cursor=pointer]:
+          - /url: metadata.html#a-360001692635
+          - text: "09"
+          - generic [ref=f1e400]: 3.2.7 How to automatically add traits to new elements
+      - listitem [ref=f1e401]:
+        - link "10 3.3 Managing Properties" [ref=f1e402] [cursor=pointer]:
+          - /url: metadata.html#a-360001695096
+          - text: "10"
+          - generic [ref=f1e403]: 3.3 Managing Properties
+      - listitem [ref=f1e404]:
+        - link "11 3.3.1 Performance Notes" [ref=f1e405] [cursor=pointer]:
+          - /url: metadata.html#a-360001692655
+          - text: "11"
+          - generic [ref=f1e406]: 3.3.1 Performance Notes
+      - listitem [ref=f1e407]:
+        - link "12 3.3.2 How to edit a single property value" [ref=f1e408] [cursor=pointer]:
+          - /url: metadata.html#a-360001695116
+          - text: "12"
+          - generic [ref=f1e409]: 3.3.2 How to edit a single property value
+      - listitem [ref=f1e410]:
+        - link "13 3.3.3 How to view different values for the same property" [ref=f1e411] [cursor=pointer]:
+          - /url: metadata.html#a-360001692695
+          - text: "13"
+          - generic [ref=f1e412]: 3.3.3 How to view different values for the same property
+      - listitem [ref=f1e413]:
+        - link "14 3.3.4 How to edit multiple property values simultaneously" [ref=f1e414] [cursor=pointer]:
+          - /url: metadata.html#a-360001695136
+          - text: "14"
+          - generic [ref=f1e415]: 3.3.4 How to edit multiple property values simultaneously
+      - listitem [ref=f1e416]:
+        - link "15 3.3.5 How to add a property to an element" [ref=f1e417] [cursor=pointer]:
+          - /url: metadata.html#a-360001695156
+          - text: "15"
+          - generic [ref=f1e418]: 3.3.5 How to add a property to an element
+      - listitem [ref=f1e419]:
+        - link "16 3.3.6 How to delete a property from an element" [ref=f1e420] [cursor=pointer]:
+          - /url: metadata.html#a-360001695176
+          - text: "16"
+          - generic [ref=f1e421]: 3.3.6 How to delete a property from an element
+      - listitem [ref=f1e422]:
+        - link "17 3.3.7 How to select elements with specific property values" [ref=f1e423] [cursor=pointer]:
+          - /url: metadata.html#a-360001692715
+          - text: "17"
+          - generic [ref=f1e424]: 3.3.7 How to select elements with specific property values
+      - listitem [ref=f1e425]:
+        - link "18 3.3.8 How to filter an element selection for those matching specific property values" [ref=f1e426] [cursor=pointer]:
+          - /url: metadata.html#a-360001692755
+          - text: "18"
+          - generic [ref=f1e427]: 3.3.8 How to filter an element selection for those matching specific property values
+      - listitem [ref=f1e428]:
+        - link "19 3.3.9 How to inject a property with a specific value into selected elements" [ref=f1e429] [cursor=pointer]:
+          - /url: metadata.html#a-360001695216
+          - text: "19"
+          - generic [ref=f1e430]: 3.3.9 How to inject a property with a specific value into selected elements
+      - listitem [ref=f1e431]:
+        - link "20 Bulk Editing with Metadata Palette" [ref=f1e432] [cursor=pointer]:
+          - /url: metadata.html#a-16173485834895
+          - text: "20"
+          - generic [ref=f1e433]: Bulk Editing with Metadata Palette
+      - listitem [ref=f1e434]:
+        - link "21 Definitions" [ref=f1e435] [cursor=pointer]:
+          - /url: metadata.html#a-360001694996
+          - text: "21"
+          - generic [ref=f1e436]: Definitions
+      - listitem [ref=f1e437]:
+        - link "22 Metadata - Filtering and Selecting" [ref=f1e438] [cursor=pointer]:
+          - /url: metadata.html#a-16173477300879
+          - text: "22"
+          - generic [ref=f1e439]: Metadata - Filtering and Selecting
+      - listitem [ref=f1e440]:
+        - link "23 Overview" [ref=f1e441] [cursor=pointer]:
+          - /url: metadata.html#a-360001694976
+          - text: "23"
+          - generic [ref=f1e442]: Overview
+      - listitem [ref=f1e443]:
+        - link "24 Release Notes - Metadata" [ref=f1e444] [cursor=pointer]:
+          - /url: metadata.html#a-8620586027919
+          - text: "24"
+          - generic [ref=f1e445]: Release Notes - Metadata
+      - listitem [ref=f1e446]:
+        - link "25 Using Metadata to transfer Properties" [ref=f1e447] [cursor=pointer]:
+          - /url: metadata.html#a-16173522114063
+          - text: "25"
+          - generic [ref=f1e448]: Using Metadata to transfer Properties
+      - listitem [ref=f1e449]:
+        - link "26 Using the Metadata Tool to input Properties 'on the fly'" [ref=f1e450] [cursor=pointer]:
+          - /url: metadata.html#a-16173542333967
+          - text: "26"
+          - generic [ref=f1e451]: Using the Metadata Tool to input Properties 'on the fly'
+      - listitem [ref=f1e452]:
+        - link "27 What does the Metadata tool do?" [ref=f1e453] [cursor=pointer]:
+          - /url: metadata.html#a-16173433012751
+          - text: "27"
+          - generic [ref=f1e454]: What does the Metadata tool do?
+    - heading "Quantities · 100 articles" [level=2] [ref=f1e455]:
+      - text: Quantities ·
+      - generic [ref=f1e456]: 100 articles
+    - list [ref=f1e458]:
+      - listitem [ref=f1e459]:
+        - link "01 2.4.7 How to filter an element selection for those matching specific property values" [ref=f1e460] [cursor=pointer]:
+          - /url: quantities.html#a-360001393635
+          - text: "01"
+          - generic [ref=f1e461]: 2.4.7 How to filter an element selection for those matching specific property values
+      - listitem [ref=f1e462]:
+        - link "02 2.4.8 How to inject a property with a specific value into selected elements" [ref=f1e463] [cursor=pointer]:
+          - /url: quantities.html#a-360001393655
+          - text: "02"
+          - generic [ref=f1e464]: 2.4.8 How to inject a property with a specific value into selected elements
+      - listitem [ref=f1e465]:
+        - link "03 3.1 Background" [ref=f1e466] [cursor=pointer]:
+          - /url: quantities.html#a-360001393675
+          - text: "03"
+          - generic [ref=f1e467]: 3.1 Background
+      - listitem [ref=f1e468]:
+        - link "04 3.2 Bill structure" [ref=f1e469] [cursor=pointer]:
+          - /url: quantities.html#a-360001393695
+          - text: "04"
+          - generic [ref=f1e470]: 3.2 Bill structure
+      - listitem [ref=f1e471]:
+        - link "05 3.3 Creating and managing a Bill structure" [ref=f1e472] [cursor=pointer]:
+          - /url: quantities.html#a-360001401136
+          - text: "05"
+          - generic [ref=f1e473]: 3.3 Creating and managing a Bill structure
+      - listitem [ref=f1e474]:
+        - link "06 3.3.1 How to create a bill item" [ref=f1e475] [cursor=pointer]:
+          - /url: quantities.html#a-360001393755
+          - text: "06"
+          - generic [ref=f1e476]: 3.3.1 How to create a bill item
+      - listitem [ref=f1e477]:
+        - link "07 3.3.2 How to organise bill items into a heirarchy of categories" [ref=f1e478] [cursor=pointer]:
+          - /url: quantities.html#a-360001393775
+          - text: "07"
+          - generic [ref=f1e479]: 3.3.2 How to organise bill items into a heirarchy of categories
+      - listitem [ref=f1e480]:
+        - link "08 3.3.3 How to delete bill items" [ref=f1e481] [cursor=pointer]:
+          - /url: quantities.html#a-360001393795
+          - text: "08"
+          - generic [ref=f1e482]: 3.3.3 How to delete bill items
+      - listitem [ref=f1e483]:
+        - link "09 3.3.4 How to view and restore deleted bill items" [ref=f1e484] [cursor=pointer]:
+          - /url: quantities.html#a-360001401156
+          - text: "09"
+          - generic [ref=f1e485]: 3.3.4 How to view and restore deleted bill items
+      - listitem [ref=f1e486]:
+        - link "10 3.3.5 How to edit the units of measurement" [ref=f1e487] [cursor=pointer]:
+          - /url: quantities.html#a-360001401176
+          - text: "10"
+          - generic [ref=f1e488]: 3.3.5 How to edit the units of measurement
+      - listitem [ref=f1e489]:
+        - link "11 3.3.6 How to import an external bill" [ref=f1e490] [cursor=pointer]:
+          - /url: quantities.html#a-360001393855
+          - text: "11"
+          - generic [ref=f1e491]: 3.3.6 How to import an external bill
+      - listitem [ref=f1e492]:
+        - link "12 3.3.7 How to link to an external bill" [ref=f1e493] [cursor=pointer]:
+          - /url: quantities.html#a-360001393875
+          - text: "12"
+          - generic [ref=f1e494]: 3.3.7 How to link to an external bill
+      - listitem [ref=f1e495]:
+        - link "13 3.3.8 How to use a 3rd party bill structure" [ref=f1e496] [cursor=pointer]:
+          - /url: quantities.html#a-360001401236
+          - text: "13"
+          - generic [ref=f1e497]: 3.3.8 How to use a 3rd party bill structure
+      - listitem [ref=f1e498]:
+        - link "14 3.3.9 How to export the bill structure" [ref=f1e499] [cursor=pointer]:
+          - /url: quantities.html#a-360001393895
+          - text: "14"
+          - generic [ref=f1e500]: 3.3.9 How to export the bill structure
+      - listitem [ref=f1e501]:
+        - link "15 4.1 Overview" [ref=f1e502] [cursor=pointer]:
+          - /url: quantities.html#a-360001401256
+          - text: "15"
+          - generic [ref=f1e503]: 4.1 Overview
+      - listitem [ref=f1e504]:
+        - link "16 4.2 Measurement Recipes" [ref=f1e505] [cursor=pointer]:
+          - /url: quantities.html#a-360001393915
+          - text: "16"
+          - generic [ref=f1e506]: 4.2 Measurement Recipes
+      - listitem [ref=f1e507]:
+        - link "17 4.2.1 How to create a recipe" [ref=f1e508] [cursor=pointer]:
+          - /url: quantities.html#a-360001393935
+          - text: "17"
+          - generic [ref=f1e509]: 4.2.1 How to create a recipe
+      - listitem [ref=f1e510]:
+        - link "18 4.2.2 How to delete a recipe" [ref=f1e511] [cursor=pointer]:
+          - /url: quantities.html#a-360001393955
+          - text: "18"
+          - generic [ref=f1e512]: 4.2.2 How to delete a recipe
+      - listitem [ref=f1e513]:
+        - link "19 4.2.3 How to view and restore deleted recipes" [ref=f1e514] [cursor=pointer]:
+          - /url: quantities.html#a-360001393975
+          - text: "19"
+          - generic [ref=f1e515]: 4.2.3 How to view and restore deleted recipes
+      - listitem [ref=f1e516]:
+        - link "20 4.2.4 How to prevent a recipe from being used in the project" [ref=f1e517] [cursor=pointer]:
+          - /url: quantities.html#a-360001393995
+          - text: "20"
+          - generic [ref=f1e518]: 4.2.4 How to prevent a recipe from being used in the project
+      - listitem [ref=f1e519]:
+        - link "21 4.2.5 How to import recipes" [ref=f1e520] [cursor=pointer]:
+          - /url: quantities.html#a-360001394015
+          - text: "21"
+          - generic [ref=f1e521]: 4.2.5 How to import recipes
+      - listitem [ref=f1e522]:
+        - link "22 4.2.6 How to export recipes" [ref=f1e523] [cursor=pointer]:
+          - /url: quantities.html#a-360001394035
+          - text: "22"
+          - generic [ref=f1e524]: 4.2.6 How to export recipes
+      - listitem [ref=f1e525]:
+        - link "23 4.3 Recipe Basics" [ref=f1e526] [cursor=pointer]:
+          - /url: quantities.html#a-360001394055
+          - text: "23"
+          - generic [ref=f1e527]: 4.3 Recipe Basics
+      - listitem [ref=f1e528]:
+        - link "24 4.3.1 How to create a simple 'counting' recipe" [ref=f1e529] [cursor=pointer]:
+          - /url: quantities.html#a-360001394075
+          - text: "24"
+          - generic [ref=f1e530]: 4.3.1 How to create a simple 'counting' recipe
+      - listitem [ref=f1e531]:
+        - link "25 4.3.2 How to manually attach a recipe to an element" [ref=f1e532] [cursor=pointer]:
+          - /url: quantities.html#a-360001394095
+          - text: "25"
+          - generic [ref=f1e533]: 4.3.2 How to manually attach a recipe to an element
+      - listitem [ref=f1e534]:
+        - link "26 4.3.3 How to view the scheduled result" [ref=f1e535] [cursor=pointer]:
+          - /url: quantities.html#a-360001401696
+          - text: "26"
+          - generic [ref=f1e536]: 4.3.3 How to view the scheduled result
+      - listitem [ref=f1e537]:
+        - link "27 4.34 How to automatically attach a recipe to elements" [ref=f1e538] [cursor=pointer]:
+          - /url: quantities.html#a-360001401716
+          - text: "27"
+          - generic [ref=f1e539]: 4.34 How to automatically attach a recipe to elements
+      - listitem [ref=f1e540]:
+        - link "28 4.4 Calculated Measurements" [ref=f1e541] [cursor=pointer]:
+          - /url: quantities.html#a-360001401736
+          - text: "28"
+          - generic [ref=f1e542]: 4.4 Calculated Measurements
+      - listitem [ref=f1e543]:
+        - link "29 4.4.1 What happens if a calculation relies on data that doesn't exist in the project?" [ref=f1e544] [cursor=pointer]:
+          - /url: quantities.html#a-360001401756
+          - text: "29"
+          - generic [ref=f1e545]: 4.4.1 What happens if a calculation relies on data that doesn't exist in the project?
+      - listitem [ref=f1e546]:
+        - link "30 4.4.10 How to use object parameters" [ref=f1e547] [cursor=pointer]:
+          - /url: quantities.html#a-360004150515
+          - text: "30"
+          - generic [ref=f1e548]: 4.4.10 How to use object parameters
+      - listitem [ref=f1e549]:
+        - link "31 4.4.11 How to use IFC properties and attributes" [ref=f1e550] [cursor=pointer]:
+          - /url: quantities.html#a-360004150535
+          - text: "31"
+          - generic [ref=f1e551]: 4.4.11 How to use IFC properties and attributes
+      - listitem [ref=f1e552]:
+        - link "32 4.4.2 Does the data type matter?" [ref=f1e553] [cursor=pointer]:
+          - /url: quantities.html#a-360001401776
+          - text: "32"
+          - generic [ref=f1e554]: 4.4.2 Does the data type matter?
+      - listitem [ref=f1e555]:
+        - link "33 4.4.3 What units are used for numeric values?" [ref=f1e556] [cursor=pointer]:
+          - /url: quantities.html#a-360001394355
+          - text: "33"
+          - generic [ref=f1e557]: 4.4.3 What units are used for numeric values?
+      - listitem [ref=f1e558]:
+        - link "34 4.4.4 How to measure basic element geometry" [ref=f1e559] [cursor=pointer]:
+          - /url: quantities.html#a-360004150435
+          - text: "34"
+          - generic [ref=f1e560]: 4.4.4 How to measure basic element geometry
+      - listitem [ref=f1e561]:
+        - link "35 4.4.5 How to measure the geometry of specific elements" [ref=f1e562] [cursor=pointer]:
+          - /url: quantities.html#a-360004150455
+          - text: "35"
+          - generic [ref=f1e563]: 4.4.5 How to measure the geometry of specific elements
+      - listitem [ref=f1e564]:
+        - link "36 4.4.6 How to use a list of values" [ref=f1e565] [cursor=pointer]:
+          - /url: quantities.html#a-360004150475
+          - text: "36"
+          - generic [ref=f1e566]: 4.4.6 How to use a list of values
+      - listitem [ref=f1e567]:
+        - link "37 4.4.7 How to use properties" [ref=f1e568] [cursor=pointer]:
+          - /url: quantities.html#a-360004057096
+          - text: "37"
+          - generic [ref=f1e569]: 4.4.7 How to use properties
+      - listitem [ref=f1e570]:
+        - link "38 4.4.8 How to use materials" [ref=f1e571] [cursor=pointer]:
+          - /url: quantities.html#a-360004057116
+          - text: "38"
+          - generic [ref=f1e572]: 4.4.8 How to use materials
+      - listitem [ref=f1e573]:
+        - link "39 4.4.9 How to use finishes" [ref=f1e574] [cursor=pointer]:
+          - /url: quantities.html#a-360004150495
+          - text: "39"
+          - generic [ref=f1e575]: 4.4.9 How to use finishes
+      - listitem [ref=f1e576]:
+        - link "40 4.5 Automatic Measurements" [ref=f1e577] [cursor=pointer]:
+          - /url: quantities.html#a-360004150555
+          - text: "40"
+          - generic [ref=f1e578]: 4.5 Automatic Measurements
+      - listitem [ref=f1e579]:
+        - link "41 4.5.1 How to automatically link a recipe to an element" [ref=f1e580] [cursor=pointer]:
+          - /url: quantities.html#a-360004150575
+          - text: "41"
+          - generic [ref=f1e581]: 4.5.1 How to automatically link a recipe to an element
+      - listitem [ref=f1e582]:
+        - link "42 4.5.2 How to identify an element (type, name, ID)" [ref=f1e583] [cursor=pointer]:
+          - /url: quantities.html#a-360004057136
+          - text: "42"
+          - generic [ref=f1e584]: 4.5.2 How to identify an element (type, name, ID)
+      - listitem [ref=f1e585]:
+        - link "43 4.5.3 How to reference recipes" [ref=f1e586] [cursor=pointer]:
+          - /url: quantities.html#a-360004150595
+          - text: "43"
+          - generic [ref=f1e587]: 4.5.3 How to reference recipes
+      - listitem [ref=f1e588]:
+        - link "44 4.5.4 How to use other element attributes (layer, storey, renovation status)" [ref=f1e589] [cursor=pointer]:
+          - /url: quantities.html#a-360004057156
+          - text: "44"
+          - generic [ref=f1e590]: 4.5.4 How to use other element attributes (layer, storey, renovation status)
+      - listitem [ref=f1e591]:
+        - link "45 4.5.5 How to use classifications" [ref=f1e592] [cursor=pointer]:
+          - /url: quantities.html#a-360004057176
+          - text: "45"
+          - generic [ref=f1e593]: 4.5.5 How to use classifications
+      - listitem [ref=f1e594]:
+        - link "46 4.5.6 Example expressions for automatic linking" [ref=f1e595] [cursor=pointer]:
+          - /url: quantities.html#a-360004150615
+          - text: "46"
+          - generic [ref=f1e596]: 4.5.6 Example expressions for automatic linking
+      - listitem [ref=f1e597]:
+        - link "47 4.6 Optional Measurements" [ref=f1e598] [cursor=pointer]:
+          - /url: quantities.html#a-360004150635
+          - text: "47"
+          - generic [ref=f1e599]: 4.6 Optional Measurements
+      - listitem [ref=f1e600]:
+        - link "48 4.7 Measurement Questions" [ref=f1e601] [cursor=pointer]:
+          - /url: quantities.html#a-360004057236
+          - text: "48"
+          - generic [ref=f1e602]: 4.7 Measurement Questions
+      - listitem [ref=f1e603]:
+        - link "49 4.7.1 How can quantities be aligned to modular/incremental value?" [ref=f1e604] [cursor=pointer]:
+          - /url: quantities.html#a-360004057256
+          - text: "49"
+          - generic [ref=f1e605]: 4.7.1 How can quantities be aligned to modular/incremental value?
+      - listitem [ref=f1e606]:
+        - link "50 4.7.2 What happens when a calculation uses data an element doesn’t have?" [ref=f1e607] [cursor=pointer]:
+          - /url: quantities.html#a-360004150655
+          - text: "50"
+          - generic [ref=f1e608]: 4.7.2 What happens when a calculation uses data an element doesn’t have?
+      - listitem [ref=f1e609]:
+        - link "51 5.1 Overview" [ref=f1e610] [cursor=pointer]:
+          - /url: quantities.html#a-360004150675
+          - text: "51"
+          - generic [ref=f1e611]: 5.1 Overview
+      - listitem [ref=f1e612]:
+        - link "52 5.2 Scheduling Quantities" [ref=f1e613] [cursor=pointer]:
+          - /url: quantities.html#a-360004057296
+          - text: "52"
+          - generic [ref=f1e614]: 5.2 Scheduling Quantities
+      - listitem [ref=f1e615]:
+        - link "53 5.2.1 How to schedule the bill of quantities" [ref=f1e616] [cursor=pointer]:
+          - /url: quantities.html#a-360004057316
+          - text: "53"
+          - generic [ref=f1e617]: 5.2.1 How to schedule the bill of quantities
+      - listitem [ref=f1e618]:
+        - link "54 5.2.2 How to limit the bill calculation to selected elements" [ref=f1e619] [cursor=pointer]:
+          - /url: quantities.html#a-360004057336
+          - text: "54"
+          - generic [ref=f1e620]: 5.2.2 How to limit the bill calculation to selected elements
+      - listitem [ref=f1e621]:
+        - link "55 5.2.3 How to filter the scheduled quantities to specific bill items or categories" [ref=f1e622] [cursor=pointer]:
+          - /url: quantities.html#a-360004150695
+          - text: "55"
+          - generic [ref=f1e623]: 5.2.3 How to filter the scheduled quantities to specific bill items or categories
+      - listitem [ref=f1e624]:
+        - link "56 5.2.4 How to filter the bill for specific items" [ref=f1e625] [cursor=pointer]:
+          - /url: quantities.html#a-360004057356
+          - text: "56"
+          - generic [ref=f1e626]: 5.2.4 How to filter the bill for specific items
+      - listitem [ref=f1e627]:
+        - link "57 5.2.5 How to export the bill with calculated quantities" [ref=f1e628] [cursor=pointer]:
+          - /url: quantities.html#a-360004150715
+          - text: "57"
+          - generic [ref=f1e629]: 5.2.5 How to export the bill with calculated quantities
+      - listitem [ref=f1e630]:
+        - link "58 5.2.6 How to discover where calculated quantities came from" [ref=f1e631] [cursor=pointer]:
+          - /url: quantities.html#a-360004057376
+          - text: "58"
+          - generic [ref=f1e632]: 5.2.6 How to discover where calculated quantities came from
+      - listitem [ref=f1e633]:
+        - link "59 5.2.7 How to audit correct bill item usage" [ref=f1e634] [cursor=pointer]:
+          - /url: quantities.html#a-360004150795
+          - text: "59"
+          - generic [ref=f1e635]: 5.2.7 How to audit correct bill item usage
+      - listitem [ref=f1e636]:
+        - link "60 6.1 Overview" [ref=f1e637] [cursor=pointer]:
+          - /url: quantities.html#a-360004057516
+          - text: "60"
+          - generic [ref=f1e638]: 6.1 Overview
+      - listitem [ref=f1e639]:
+        - link "61 6.2 Auditing Element Data" [ref=f1e640] [cursor=pointer]:
+          - /url: quantities.html#a-360004057536
+          - text: "61"
+          - generic [ref=f1e641]: 6.2 Auditing Element Data
+      - listitem [ref=f1e642]:
+        - link "62 6.3 Auditing Recipe Completion" [ref=f1e643] [cursor=pointer]:
+          - /url: quantities.html#a-360004057556
+          - text: "62"
+          - generic [ref=f1e644]: 6.3 Auditing Recipe Completion
+      - listitem [ref=f1e645]:
+        - link "63 6.4 Auditing Unmeasured Elements" [ref=f1e646] [cursor=pointer]:
+          - /url: quantities.html#a-360004150815
+          - text: "63"
+          - generic [ref=f1e647]: 6.4 Auditing Unmeasured Elements
+      - listitem [ref=f1e648]:
+        - link "64 6.5 Auditing the Bill of Quantities" [ref=f1e649] [cursor=pointer]:
+          - /url: quantities.html#a-360004150835
+          - text: "64"
+          - generic [ref=f1e650]: 6.5 Auditing the Bill of Quantities
+      - listitem [ref=f1e651]:
+        - link "65 7.1 Overview" [ref=f1e652] [cursor=pointer]:
+          - /url: quantities.html#a-360004151015
+          - text: "65"
+          - generic [ref=f1e653]: 7.1 Overview
+      - listitem [ref=f1e654]:
+        - link "66 7.10 Zone Attributes" [ref=f1e655] [cursor=pointer]:
+          - /url: quantities.html#a-360004151295
+          - text: "66"
+          - generic [ref=f1e656]: 7.10 Zone Attributes
+      - listitem [ref=f1e657]:
+        - link "67 7.11 Wall Geometry" [ref=f1e658] [cursor=pointer]:
+          - /url: quantities.html#a-360004058056
+          - text: "67"
+          - generic [ref=f1e659]: 7.11 Wall Geometry
+      - listitem [ref=f1e660]:
+        - link "68 7.12 Wall Attributes" [ref=f1e661] [cursor=pointer]:
+          - /url: quantities.html#a-360004058076
+          - text: "68"
+          - generic [ref=f1e662]: 7.12 Wall Attributes
+      - listitem [ref=f1e663]:
+        - link "69 7.13 Opening Geometry" [ref=f1e664] [cursor=pointer]:
+          - /url: quantities.html#a-360004058096
+          - text: "69"
+          - generic [ref=f1e665]: 7.13 Opening Geometry
+      - listitem [ref=f1e666]:
+        - link "70 7.14 Column Segment Geometry" [ref=f1e667] [cursor=pointer]:
+          - /url: quantities.html#a-360004058116
+          - text: "70"
+          - generic [ref=f1e668]: 7.14 Column Segment Geometry
+      - listitem [ref=f1e669]:
+        - link "71 7.15 Column Segment Attributes" [ref=f1e670] [cursor=pointer]:
+          - /url: quantities.html#a-360004058136
+          - text: "71"
+          - generic [ref=f1e671]: 7.15 Column Segment Attributes
+      - listitem [ref=f1e672]:
+        - link "72 7.16 Column Assembly Geometry" [ref=f1e673] [cursor=pointer]:
+          - /url: quantities.html#a-360004151355
+          - text: "72"
+          - generic [ref=f1e674]: 7.16 Column Assembly Geometry
+      - listitem [ref=f1e675]:
+        - link "73 7.17 Beam Segment Geometry" [ref=f1e676] [cursor=pointer]:
+          - /url: quantities.html#a-360004058156
+          - text: "73"
+          - generic [ref=f1e677]: 7.17 Beam Segment Geometry
+      - listitem [ref=f1e678]:
+        - link "74 7.18 Beam Segment Attributes" [ref=f1e679] [cursor=pointer]:
+          - /url: quantities.html#a-360004151395
+          - text: "74"
+          - generic [ref=f1e680]: 7.18 Beam Segment Attributes
+      - listitem [ref=f1e681]:
+        - link "75 7.19 Beam Assembly Geometry" [ref=f1e682] [cursor=pointer]:
+          - /url: quantities.html#a-360004058176
+          - text: "75"
+          - generic [ref=f1e683]: 7.19 Beam Assembly Geometry
+      - listitem [ref=f1e684]:
+        - link "76 7.2 Element Geometry" [ref=f1e685] [cursor=pointer]:
+          - /url: quantities.html#a-360004057876
+          - text: "76"
+          - generic [ref=f1e686]: 7.2 Element Geometry
+      - listitem [ref=f1e687]:
+        - link "77 7.20 Mesh Geometry" [ref=f1e688] [cursor=pointer]:
+          - /url: quantities.html#a-360004058196
+          - text: "77"
+          - generic [ref=f1e689]: 7.20 Mesh Geometry
+      - listitem [ref=f1e690]:
+        - link "78 7.21 Mesh Attributes" [ref=f1e691] [cursor=pointer]:
+          - /url: quantities.html#a-360004151415
+          - text: "78"
+          - generic [ref=f1e692]: 7.21 Mesh Attributes
+      - listitem [ref=f1e693]:
+        - link "79 7.22 Slab Geometry" [ref=f1e694] [cursor=pointer]:
+          - /url: quantities.html#a-360004058216
+          - text: "79"
+          - generic [ref=f1e695]: 7.22 Slab Geometry
+      - listitem [ref=f1e696]:
+        - link "80 7.23 Slab Attributes" [ref=f1e697] [cursor=pointer]:
+          - /url: quantities.html#a-360004058236
+          - text: "80"
+          - generic [ref=f1e698]: 7.23 Slab Attributes
+      - listitem [ref=f1e699]:
+        - link "81 7.24 Roof Geometry" [ref=f1e700] [cursor=pointer]:
+          - /url: quantities.html#a-360004058296
+          - text: "81"
+          - generic [ref=f1e701]: 7.24 Roof Geometry
+      - listitem [ref=f1e702]:
+        - link "82 7.25 Roof Attributes" [ref=f1e703] [cursor=pointer]:
+          - /url: quantities.html#a-360004151435
+          - text: "82"
+          - generic [ref=f1e704]: 7.25 Roof Attributes
+      - listitem [ref=f1e705]:
+        - link "83 7.3 Element Identification" [ref=f1e706] [cursor=pointer]:
+          - /url: quantities.html#a-360004151255
+          - text: "83"
+          - generic [ref=f1e707]: 7.3 Element Identification
+      - listitem [ref=f1e708]:
+        - link "84 7.4 Element Attributes" [ref=f1e709] [cursor=pointer]:
+          - /url: quantities.html#a-360004057896
+          - text: "84"
+          - generic [ref=f1e710]: 7.4 Element Attributes
+      - listitem [ref=f1e711]:
+        - link "85 7.5 Element Properties" [ref=f1e712] [cursor=pointer]:
+          - /url: quantities.html#a-360004151275
+          - text: "85"
+          - generic [ref=f1e713]: 7.5 Element Properties
+      - listitem [ref=f1e714]:
+        - link "86 7.6 Element Parameters" [ref=f1e715] [cursor=pointer]:
+          - /url: quantities.html#a-360004057916
+          - text: "86"
+          - generic [ref=f1e716]: 7.6 Element Parameters
+      - listitem [ref=f1e717]:
+        - link "87 7.7 Element Organisation" [ref=f1e718] [cursor=pointer]:
+          - /url: quantities.html#a-360004057936
+          - text: "87"
+          - generic [ref=f1e719]: 7.7 Element Organisation
+      - listitem [ref=f1e720]:
+        - link "88 7.8 Zone Identification" [ref=f1e721] [cursor=pointer]:
+          - /url: quantities.html#a-360004057956
+          - text: "88"
+          - generic [ref=f1e722]: 7.8 Zone Identification
+      - listitem [ref=f1e723]:
+        - link "89 7.9 Zone Geometry" [ref=f1e724] [cursor=pointer]:
+          - /url: quantities.html#a-360004058016
+          - text: "89"
+          - generic [ref=f1e725]: 7.9 Zone Geometry
+      - listitem [ref=f1e726]:
+        - link "90 8.1 Overview" [ref=f1e727] [cursor=pointer]:
+          - /url: quantities.html#a-360004151455
+          - text: "90"
+          - generic [ref=f1e728]: 8.1 Overview
+      - listitem [ref=f1e729]:
+        - link "91 8.2 Not" [ref=f1e730] [cursor=pointer]:
+          - /url: quantities.html#a-360004058316
+          - text: "91"
+          - generic [ref=f1e731]: 8.2 Not
+      - listitem [ref=f1e732]:
+        - link "92 8.3 Rounding Quantities" [ref=f1e733] [cursor=pointer]:
+          - /url: quantities.html#a-360004155435
+          - text: "92"
+          - generic [ref=f1e734]: 8.3 Rounding Quantities
+      - listitem [ref=f1e735]:
+        - link "93 8.4 Max/Min Quantity" [ref=f1e736] [cursor=pointer]:
+          - /url: quantities.html#a-360004061676
+          - text: "93"
+          - generic [ref=f1e737]: 8.4 Max/Min Quantity
+      - listitem [ref=f1e738]:
+        - link "94 9.1 Overview" [ref=f1e739] [cursor=pointer]:
+          - /url: quantities.html#a-360004155475
+          - text: "94"
+          - generic [ref=f1e740]: 9.1 Overview
+      - listitem [ref=f1e741]:
+        - link "95 9.2 Mathematical Operators" [ref=f1e742] [cursor=pointer]:
+          - /url: quantities.html#a-360004155495
+          - text: "95"
+          - generic [ref=f1e743]: 9.2 Mathematical Operators
+      - listitem [ref=f1e744]:
+        - link "96 9.3 Relational Operators" [ref=f1e745] [cursor=pointer]:
+          - /url: quantities.html#a-360004155515
+          - text: "96"
+          - generic [ref=f1e746]: 9.3 Relational Operators
+      - listitem [ref=f1e747]:
+        - link "97 9.4 Logical Operators" [ref=f1e748] [cursor=pointer]:
+          - /url: quantities.html#a-360004155555
+          - text: "97"
+          - generic [ref=f1e749]: 9.4 Logical Operators
+      - listitem [ref=f1e750]:
+        - link "98 9.5 Text Operators" [ref=f1e751] [cursor=pointer]:
+          - /url: quantities.html#a-360004061716
+          - text: "98"
+          - generic [ref=f1e752]: 9.5 Text Operators
+      - listitem [ref=f1e753]:
+        - link "99 9.6 List Operators" [ref=f1e754] [cursor=pointer]:
+          - /url: quantities.html#a-360004155575
+          - text: "99"
+          - generic [ref=f1e755]: 9.6 List Operators
+      - listitem [ref=f1e756]:
+        - link "100 Release Notes - Quantities" [ref=f1e757] [cursor=pointer]:
+          - /url: quantities.html#a-8620654984719
+          - text: "100"
+          - generic [ref=f1e758]: Release Notes - Quantities
+    - heading "Cabinets · 49 articles" [level=2] [ref=f1e759]:
+      - text: Cabinets ·
+      - generic [ref=f1e760]: 49 articles
+    - list [ref=f1e762]:
+      - listitem [ref=f1e763]:
+        - link "01 (ARCHICAD 22) How to Create a Custom Knob" [ref=f1e764] [cursor=pointer]:
+          - /url: cabinets.html#a-360000558536
+          - text: "01"
+          - generic [ref=f1e765]: (ARCHICAD 22) How to Create a Custom Knob
+      - listitem [ref=f1e766]:
+        - link "02 (ARCHICAD 22) How to choose the Face Mounting type for Doors and Drawers" [ref=f1e767] [cursor=pointer]:
+          - /url: cabinets.html#a-204957686
+          - text: "02"
+          - generic [ref=f1e768]: (ARCHICAD 22) How to choose the Face Mounting type for Doors and Drawers
+      - listitem [ref=f1e769]:
+        - link "03 (ARCHICAD 22) How to configure Cabinet Display Options" [ref=f1e770] [cursor=pointer]:
+          - /url: cabinets.html#a-205218106
+          - text: "03"
+          - generic [ref=f1e771]: (ARCHICAD 22) How to configure Cabinet Display Options
+      - listitem [ref=f1e772]:
+        - link "04 (ARCHICAD 22) How to configure Cabinet Door Panels" [ref=f1e773] [cursor=pointer]:
+          - /url: cabinets.html#a-204957716
+          - text: "04"
+          - generic [ref=f1e774]: (ARCHICAD 22) How to configure Cabinet Door Panels
+      - listitem [ref=f1e775]:
+        - link "05 (ARCHICAD 22) How to configure Cabinet Drawer Fronts" [ref=f1e776] [cursor=pointer]:
+          - /url: cabinets.html#a-204957726
+          - text: "05"
+          - generic [ref=f1e777]: (ARCHICAD 22) How to configure Cabinet Drawer Fronts
+      - listitem [ref=f1e778]:
+        - link "06 (ARCHICAD 22) How to configure Cabinet handles" [ref=f1e779] [cursor=pointer]:
+          - /url: cabinets.html#a-205264303
+          - text: "06"
+          - generic [ref=f1e780]: (ARCHICAD 22) How to configure Cabinet handles
+      - listitem [ref=f1e781]:
+        - link "07 (ARCHICAD 22) How to configure a Counter top" [ref=f1e782] [cursor=pointer]:
+          - /url: cabinets.html#a-205216066
+          - text: "07"
+          - generic [ref=f1e783]: (ARCHICAD 22) How to configure a Counter top
+      - listitem [ref=f1e784]:
+        - link "08 (ARCHICAD 22) How to create Drawers in your Cadimage Cabinet" [ref=f1e785] [cursor=pointer]:
+          - /url: cabinets.html#a-205263323
+          - text: "08"
+          - generic [ref=f1e786]: (ARCHICAD 22) How to create Drawers in your Cadimage Cabinet
+      - listitem [ref=f1e787]:
+        - link "09 (ARCHICAD 22) How to create a Corner Cabinet" [ref=f1e788] [cursor=pointer]:
+          - /url: cabinets.html#a-205263233
+          - text: "09"
+          - generic [ref=f1e789]: (ARCHICAD 22) How to create a Corner Cabinet
+      - listitem [ref=f1e790]:
+        - link "10 (ARCHICAD 22) How to create a Double Cabinet" [ref=f1e791] [cursor=pointer]:
+          - /url: cabinets.html#a-204956676
+          - text: "10"
+          - generic [ref=f1e792]: (ARCHICAD 22) How to create a Double Cabinet
+      - listitem [ref=f1e793]:
+        - link "11 (ARCHICAD 22) How to create a Set of Drawers" [ref=f1e794] [cursor=pointer]:
+          - /url: cabinets.html#a-204957456
+          - text: "11"
+          - generic [ref=f1e795]: (ARCHICAD 22) How to create a Set of Drawers
+      - listitem [ref=f1e796]:
+        - link "12 (ARCHICAD 22) How to create a Tambour Door Panel" [ref=f1e797] [cursor=pointer]:
+          - /url: cabinets.html#a-205264283
+          - text: "12"
+          - generic [ref=f1e798]: (ARCHICAD 22) How to create a Tambour Door Panel
+      - listitem [ref=f1e799]:
+        - link "13 (ARCHICAD 22) How to create an End Panel for a cabinet" [ref=f1e800] [cursor=pointer]:
+          - /url: cabinets.html#a-205226656
+          - text: "13"
+          - generic [ref=f1e801]: (ARCHICAD 22) How to create an End Panel for a cabinet
+      - listitem [ref=f1e802]:
+        - link "14 (ARCHICAD 22) Overview" [ref=f1e803] [cursor=pointer]:
+          - /url: cabinets.html#a-205298090
+          - text: "14"
+          - generic [ref=f1e804]: (ARCHICAD 22) Overview
+      - listitem [ref=f1e805]:
+        - 'link "15 (ARCHICAD 22) Watch: Get started in 6 minutes!" [ref=f1e806] [cursor=pointer]':
+          - /url: cabinets.html#a-205030544
+          - text: "15"
+          - generic [ref=f1e807]: "(ARCHICAD 22) Watch: Get started in 6 minutes!"
+      - listitem [ref=f1e808]:
+        - 'link "16 (ARCHICAD 22) Watch: How to create a Cabinet" [ref=f1e809] [cursor=pointer]':
+          - /url: cabinets.html#a-206647023
+          - text: "16"
+          - generic [ref=f1e810]: "(ARCHICAD 22) Watch: How to create a Cabinet"
+      - listitem [ref=f1e811]:
+        - 'link "17 (ARCHICAD 22) Watch: Overview webinar (17 mins)" [ref=f1e812] [cursor=pointer]':
+          - /url: cabinets.html#a-205030564
+          - text: "17"
+          - generic [ref=f1e813]: "(ARCHICAD 22) Watch: Overview webinar (17 mins)"
+      - listitem [ref=f1e814]:
+        - link "18 Curved Cabinet placement and basic editing" [ref=f1e815] [cursor=pointer]:
+          - /url: cabinets.html#a-15879753509135
+          - text: "18"
+          - generic [ref=f1e816]: Curved Cabinet placement and basic editing
+      - listitem [ref=f1e817]:
+        - link "19 How to Add Shelves and Dividers" [ref=f1e818] [cursor=pointer]:
+          - /url: cabinets.html#a-4404280900623
+          - text: "19"
+          - generic [ref=f1e819]: How to Add Shelves and Dividers
+      - listitem [ref=f1e820]:
+        - link "20 How to Add a Bench Top" [ref=f1e821] [cursor=pointer]:
+          - /url: cabinets.html#a-360001009115
+          - text: "20"
+          - generic [ref=f1e822]: How to Add a Bench Top
+      - listitem [ref=f1e823]:
+        - link "21 How to Add a Cornice Moulding" [ref=f1e824] [cursor=pointer]:
+          - /url: cabinets.html#a-4404565022095
+          - text: "21"
+          - generic [ref=f1e825]: How to Add a Cornice Moulding
+      - listitem [ref=f1e826]:
+        - link "22 How to Add a Wine Rack" [ref=f1e827] [cursor=pointer]:
+          - /url: cabinets.html#a-4404288114703
+          - text: "22"
+          - generic [ref=f1e828]: How to Add a Wine Rack
+      - listitem [ref=f1e829]:
+        - link "23 How to Change Module Settings" [ref=f1e830] [cursor=pointer]:
+          - /url: cabinets.html#a-360001018136
+          - text: "23"
+          - generic [ref=f1e831]: How to Change Module Settings
+      - listitem [ref=f1e832]:
+        - link "24 How to Change Shelf and Divider Settings" [ref=f1e833] [cursor=pointer]:
+          - /url: cabinets.html#a-360001018596
+          - text: "24"
+          - generic [ref=f1e834]: How to Change Shelf and Divider Settings
+      - listitem [ref=f1e835]:
+        - link "25 How to Create an Inner Drawer" [ref=f1e836] [cursor=pointer]:
+          - /url: cabinets.html#a-6569472190991
+          - text: "25"
+          - generic [ref=f1e837]: How to Create an Inner Drawer
+      - listitem [ref=f1e838]:
+        - link "26 How to Create and Use Custom Muntins" [ref=f1e839] [cursor=pointer]:
+          - /url: cabinets.html#a-360001018896
+          - text: "26"
+          - generic [ref=f1e840]: How to Create and Use Custom Muntins
+      - listitem [ref=f1e841]:
+        - link "27 How to Create and Use a Custom Front" [ref=f1e842] [cursor=pointer]:
+          - /url: cabinets.html#a-360001018656
+          - text: "27"
+          - generic [ref=f1e843]: How to Create and Use a Custom Front
+      - listitem [ref=f1e844]:
+        - link "28 How to Create and Use a Custom Handle" [ref=f1e845] [cursor=pointer]:
+          - /url: cabinets.html#a-360001018716
+          - text: "28"
+          - generic [ref=f1e846]: How to Create and Use a Custom Handle
+      - listitem [ref=f1e847]:
+        - link "29 How to Create and Use a Custom Space Filler" [ref=f1e848] [cursor=pointer]:
+          - /url: cabinets.html#a-4405455066767
+          - text: "29"
+          - generic [ref=f1e849]: How to Create and Use a Custom Space Filler
+      - listitem [ref=f1e850]:
+        - link "30 How to Define a Plan View" [ref=f1e851] [cursor=pointer]:
+          - /url: cabinets.html#a-360001008435
+          - text: "30"
+          - generic [ref=f1e852]: How to Define a Plan View
+      - listitem [ref=f1e853]:
+        - link "31 How to Define a Section, Elevation or 3D View" [ref=f1e854] [cursor=pointer]:
+          - /url: cabinets.html#a-360001017816
+          - text: "31"
+          - generic [ref=f1e855]: How to Define a Section, Elevation or 3D View
+      - listitem [ref=f1e856]:
+        - link "32 How to Define the Cabinet Structure" [ref=f1e857] [cursor=pointer]:
+          - /url: cabinets.html#a-360001017836
+          - text: "32"
+          - generic [ref=f1e858]: How to Define the Cabinet Structure
+      - listitem [ref=f1e859]:
+        - link "33 How to Fill a Cabinet" [ref=f1e860] [cursor=pointer]:
+          - /url: cabinets.html#a-4404558405391
+          - text: "33"
+          - generic [ref=f1e861]: How to Fill a Cabinet
+      - listitem [ref=f1e862]:
+        - link "34 How to Partition a Cabinet Graphically" [ref=f1e863] [cursor=pointer]:
+          - /url: cabinets.html#a-360001017896
+          - text: "34"
+          - generic [ref=f1e864]: How to Partition a Cabinet Graphically
+      - listitem [ref=f1e865]:
+        - link "35 How to Partition a Cabinet in the Settings Dialog" [ref=f1e866] [cursor=pointer]:
+          - /url: cabinets.html#a-4404256585615
+          - text: "35"
+          - generic [ref=f1e867]: How to Partition a Cabinet in the Settings Dialog
+      - listitem [ref=f1e868]:
+        - link "36 How to create a custom door for your CI tools Cabinet" [ref=f1e869] [cursor=pointer]:
+          - /url: cabinets.html#a-9276900771983
+          - text: "36"
+          - generic [ref=f1e870]: How to create a custom door for your CI tools Cabinet
+      - listitem [ref=f1e871]:
+        - link "37 Overview" [ref=f1e872] [cursor=pointer]:
+          - /url: cabinets.html#a-360001017756
+          - text: "37"
+          - generic [ref=f1e873]: Overview
+      - listitem [ref=f1e874]:
+        - link "38 Placing a Benchtop" [ref=f1e875] [cursor=pointer]:
+          - /url: cabinets.html#a-15879765706127
+          - text: "38"
+          - generic [ref=f1e876]: Placing a Benchtop
+      - listitem [ref=f1e877]:
+        - link "39 Placing a hole in a Benchtop" [ref=f1e878] [cursor=pointer]:
+          - /url: cabinets.html#a-15879813550095
+          - text: "39"
+          - generic [ref=f1e879]: Placing a hole in a Benchtop
+      - listitem [ref=f1e880]:
+        - link "40 ProKit Cabinets – Start here" [ref=f1e881] [cursor=pointer]:
+          - /url: cabinets.html#a-17876187425167
+          - text: "40"
+          - generic [ref=f1e882]: ProKit Cabinets – Start here
+      - listitem [ref=f1e883]:
+        - link "41 Reference Guide - Available Fronts" [ref=f1e884] [cursor=pointer]:
+          - /url: cabinets.html#a-11755959840143
+          - text: "41"
+          - generic [ref=f1e885]: Reference Guide - Available Fronts
+      - listitem [ref=f1e886]:
+        - link "42 Reference Guide - Available Handles" [ref=f1e887] [cursor=pointer]:
+          - /url: cabinets.html#a-11729566274191
+          - text: "42"
+          - generic [ref=f1e888]: Reference Guide - Available Handles
+      - listitem [ref=f1e889]:
+        - link "43 Reference Guide - Available Module Types" [ref=f1e890] [cursor=pointer]:
+          - /url: cabinets.html#a-11755939741455
+          - text: "43"
+          - generic [ref=f1e891]: Reference Guide - Available Module Types
+      - listitem [ref=f1e892]:
+        - link "44 Reference Guide - Cabinet Configuration" [ref=f1e893] [cursor=pointer]:
+          - /url: cabinets.html#a-11733463596815
+          - text: "44"
+          - generic [ref=f1e894]: Reference Guide - Cabinet Configuration
+      - listitem [ref=f1e895]:
+        - link "45 Reference Guide - Modules" [ref=f1e896] [cursor=pointer]:
+          - /url: cabinets.html#a-11733472767759
+          - text: "45"
+          - generic [ref=f1e897]: Reference Guide - Modules
+      - listitem [ref=f1e898]:
+        - link "46 Reference Guide - Spaces" [ref=f1e899] [cursor=pointer]:
+          - /url: cabinets.html#a-11756064005647
+          - text: "46"
+          - generic [ref=f1e900]: Reference Guide - Spaces
+      - listitem [ref=f1e901]:
+        - link "47 Release Notes - Cabinets" [ref=f1e902] [cursor=pointer]:
+          - /url: cabinets.html#a-8620453763215
+          - text: "47"
+          - generic [ref=f1e903]: Release Notes - Cabinets
+      - listitem [ref=f1e904]:
+        - 'link "48 Watch: Add a sink object to a Cabinet" [ref=f1e905] [cursor=pointer]':
+          - /url: cabinets.html#a-205030554
+          - text: "48"
+          - generic [ref=f1e906]: "Watch: Add a sink object to a Cabinet"
+      - listitem [ref=f1e907]:
+        - 'link "49 Watch: Update overview for AC23" [ref=f1e908] [cursor=pointer]':
+          - /url: cabinets.html#a-360001317095
+          - text: "49"
+          - generic [ref=f1e909]: "Watch: Update overview for AC23"
+    - heading "Doors+Windows · 48 articles" [level=2] [ref=f1e910]:
+      - text: Doors+Windows ·
+      - generic [ref=f1e911]: 48 articles
+    - list [ref=f1e913]:
+      - listitem [ref=f1e914]:
+        - link "01 How to configure composite wall returns for Doors" [ref=f1e915] [cursor=pointer]:
+          - /url: doors.html#a-206169140
+          - text: "01"
+          - generic [ref=f1e916]: How to configure composite wall returns for Doors
+      - listitem [ref=f1e917]:
+        - link "02 'Autotext' schedule notes" [ref=f1e918] [cursor=pointer]:
+          - /url: doors.html#a-360001469116
+          - text: "02"
+          - generic [ref=f1e919]: "'Autotext' schedule notes"
+      - listitem [ref=f1e920]:
+        - link "03 Convert a Sketch door to a full parametric door" [ref=f1e921] [cursor=pointer]:
+          - /url: doors.html#a-204861534
+          - text: "03"
+          - generic [ref=f1e922]: Convert a Sketch door to a full parametric door
+      - listitem [ref=f1e923]:
+        - link "04 Designing a Window Layout" [ref=f1e924] [cursor=pointer]:
+          - /url: doors.html#a-213650106
+          - text: "04"
+          - generic [ref=f1e925]: Designing a Window Layout
+      - listitem [ref=f1e926]:
+        - link "05 Door Leaves" [ref=f1e927] [cursor=pointer]:
+          - /url: doors.html#a-213652226
+          - text: "05"
+          - generic [ref=f1e928]: Door Leaves
+      - listitem [ref=f1e929]:
+        - link "06 Door Sidelights and Overlights" [ref=f1e930] [cursor=pointer]:
+          - /url: doors.html#a-213858026
+          - text: "06"
+          - generic [ref=f1e931]: Door Sidelights and Overlights
+      - listitem [ref=f1e932]:
+        - link "07 Door and Window Visibility Strips" [ref=f1e933] [cursor=pointer]:
+          - /url: doors.html#a-12045881656463
+          - text: "07"
+          - generic [ref=f1e934]: Door and Window Visibility Strips
+      - listitem [ref=f1e935]:
+        - link "08 Door and Window showing uniform surfaces" [ref=f1e936] [cursor=pointer]:
+          - /url: doors.html#a-360001792036
+          - text: "08"
+          - generic [ref=f1e937]: Door and Window showing uniform surfaces
+      - listitem [ref=f1e938]:
+        - link "09 How to Create a Bifold Door using the Ci Tools Doors+Windows add-on" [ref=f1e939] [cursor=pointer]:
+          - /url: doors.html#a-6531849730319
+          - text: "09"
+          - generic [ref=f1e940]: How to Create a Bifold Door using the Ci Tools Doors+Windows add-on
+      - listitem [ref=f1e941]:
+        - link "10 How to Create a Custom Door Leaf" [ref=f1e942] [cursor=pointer]:
+          - /url: doors.html#a-360000559415
+          - text: "10"
+          - generic [ref=f1e943]: How to Create a Custom Door Leaf
+      - listitem [ref=f1e944]:
+        - link "11 How to Create a Sliding Corner Door" [ref=f1e945] [cursor=pointer]:
+          - /url: doors.html#a-7433027969807
+          - text: "11"
+          - generic [ref=f1e946]: How to Create a Sliding Corner Door
+      - listitem [ref=f1e947]:
+        - link "12 How to add Handles to a Door" [ref=f1e948] [cursor=pointer]:
+          - /url: doors.html#a-206169320
+          - text: "12"
+          - generic [ref=f1e949]: How to add Handles to a Door
+      - listitem [ref=f1e950]:
+        - link "13 How to add Trims to the exterior of a Door" [ref=f1e951] [cursor=pointer]:
+          - /url: doors.html#a-205611614
+          - text: "13"
+          - generic [ref=f1e952]: How to add Trims to the exterior of a Door
+      - listitem [ref=f1e953]:
+        - link "14 How to add Trims to the interior of a Door" [ref=f1e954] [cursor=pointer]:
+          - /url: doors.html#a-205611584
+          - text: "14"
+          - generic [ref=f1e955]: How to add Trims to the interior of a Door
+      - listitem [ref=f1e956]:
+        - link "15 How to change a Garage Door opening type" [ref=f1e957] [cursor=pointer]:
+          - /url: doors.html#a-205610204
+          - text: "15"
+          - generic [ref=f1e958]: How to change a Garage Door opening type
+      - listitem [ref=f1e959]:
+        - link "16 How to change the Attributes of a Door or Window" [ref=f1e960] [cursor=pointer]:
+          - /url: doors.html#a-205350034
+          - text: "16"
+          - generic [ref=f1e961]: How to change the Attributes of a Door or Window
+      - listitem [ref=f1e962]:
+        - link "17 How to change the Panel Layout of a Tilt Panel Door" [ref=f1e963] [cursor=pointer]:
+          - /url: doors.html#a-205610224
+          - text: "17"
+          - generic [ref=f1e964]: How to change the Panel Layout of a Tilt Panel Door
+      - listitem [ref=f1e965]:
+        - link "18 How to change the Symbolic view of a door" [ref=f1e966] [cursor=pointer]:
+          - /url: doors.html#a-205611504
+          - text: "18"
+          - generic [ref=f1e967]: How to change the Symbolic view of a door
+      - listitem [ref=f1e968]:
+        - link "19 How to create a 2x double hung window with independent panels" [ref=f1e969] [cursor=pointer]:
+          - /url: doors.html#a-205920790
+          - text: "19"
+          - generic [ref=f1e970]: How to create a 2x double hung window with independent panels
+      - listitem [ref=f1e971]:
+        - link "20 How to create a Garage Door" [ref=f1e972] [cursor=pointer]:
+          - /url: doors.html#a-206167740
+          - text: "20"
+          - generic [ref=f1e973]: How to create a Garage Door
+      - listitem [ref=f1e974]:
+        - link "21 How to create a Window with two panels" [ref=f1e975] [cursor=pointer]:
+          - /url: doors.html#a-205920710
+          - text: "21"
+          - generic [ref=f1e976]: How to create a Window with two panels
+      - listitem [ref=f1e977]:
+        - link "22 How to customise Window Frame settings" [ref=f1e978] [cursor=pointer]:
+          - /url: doors.html#a-205931760
+          - text: "22"
+          - generic [ref=f1e979]: How to customise Window Frame settings
+      - listitem [ref=f1e980]:
+        - link "23 How to include Autotexts in the Ci Tools Schedule Notes" [ref=f1e981] [cursor=pointer]:
+          - /url: doors.html#a-5779508625167
+          - text: "23"
+          - generic [ref=f1e982]: How to include Autotexts in the Ci Tools Schedule Notes
+      - listitem [ref=f1e983]:
+        - link "24 How to make a Pivot Door" [ref=f1e984] [cursor=pointer]:
+          - /url: doors.html#a-218314143
+          - text: "24"
+          - generic [ref=f1e985]: How to make a Pivot Door
+      - listitem [ref=f1e986]:
+        - link "25 How to model a Corner Door/ Window" [ref=f1e987] [cursor=pointer]:
+          - /url: doors.html#a-360000572296
+          - text: "25"
+          - generic [ref=f1e988]: How to model a Corner Door/ Window
+      - listitem [ref=f1e989]:
+        - link "26 How to model a Pocket Slider Door" [ref=f1e990] [cursor=pointer]:
+          - /url: doors.html#a-205081810
+          - text: "26"
+          - generic [ref=f1e991]: How to model a Pocket Slider Door
+      - listitem [ref=f1e992]:
+        - link "27 How to modify the Glass Dimensions on Windows" [ref=f1e993] [cursor=pointer]:
+          - /url: doors.html#a-205356174
+          - text: "27"
+          - generic [ref=f1e994]: How to modify the Glass Dimensions on Windows
+      - listitem [ref=f1e995]:
+        - link "28 How to modify the Head Shape of a Door" [ref=f1e996] [cursor=pointer]:
+          - /url: doors.html#a-206169120
+          - text: "28"
+          - generic [ref=f1e997]: How to modify the Head Shape of a Door
+      - listitem [ref=f1e998]:
+        - link "29 How to modify the Shape of a Window" [ref=f1e999] [cursor=pointer]:
+          - /url: doors.html#a-205920830
+          - text: "29"
+          - generic [ref=f1e1000]: How to modify the Shape of a Window
+      - listitem [ref=f1e1001]:
+        - link "30 How to modify the appearance of a Door or Window in 2D views" [ref=f1e1002] [cursor=pointer]:
+          - /url: doors.html#a-206168880
+          - text: "30"
+          - generic [ref=f1e1003]: How to modify the appearance of a Door or Window in 2D views
+      - listitem [ref=f1e1004]:
+        - link "31 How to use Schedule Notes in ARCHICAD 20" [ref=f1e1005] [cursor=pointer]:
+          - /url: doors.html#a-218367803
+          - text: "31"
+          - generic [ref=f1e1006]: How to use Schedule Notes in ARCHICAD 20
+      - listitem [ref=f1e1007]:
+        - link "32 Migrating to ARCHICAD 19" [ref=f1e1008] [cursor=pointer]:
+          - /url: doors.html#a-205820370
+          - text: "32"
+          - generic [ref=f1e1009]: Migrating to ARCHICAD 19
+      - listitem [ref=f1e1010]:
+        - link "33 Missing Panels in Ci Tools Door or Window" [ref=f1e1011] [cursor=pointer]:
+          - /url: doors.html#a-6576268083727
+          - text: "33"
+          - generic [ref=f1e1012]: Missing Panels in Ci Tools Door or Window
+      - listitem [ref=f1e1013]:
+        - link "34 Model View Options relating to Visibility strips." [ref=f1e1014] [cursor=pointer]:
+          - /url: doors.html#a-12045960172815
+          - text: "34"
+          - generic [ref=f1e1015]: Model View Options relating to Visibility strips.
+      - listitem [ref=f1e1016]:
+        - link "35 New Door and Window Model View Options" [ref=f1e1017] [cursor=pointer]:
+          - /url: doors.html#a-12074438498703
+          - text: "35"
+          - generic [ref=f1e1018]: New Door and Window Model View Options
+      - listitem [ref=f1e1019]:
+        - link "36 Overview" [ref=f1e1020] [cursor=pointer]:
+          - /url: doors.html#a-205297630
+          - text: "36"
+          - generic [ref=f1e1021]: Overview
+      - listitem [ref=f1e1022]:
+        - link "37 ProKit Doors and Windows - Start here" [ref=f1e1023] [cursor=pointer]:
+          - /url: doors.html#a-17773638083215
+          - text: "37"
+          - generic [ref=f1e1024]: ProKit Doors and Windows - Start here
+      - listitem [ref=f1e1025]:
+        - link "38 Release Notes - Doors + Windows" [ref=f1e1026] [cursor=pointer]:
+          - /url: doors.html#a-8620559991439
+          - text: "38"
+          - generic [ref=f1e1027]: Release Notes - Doors + Windows
+      - listitem [ref=f1e1028]:
+        - link "39 Schedule Doors + Windows" [ref=f1e1029] [cursor=pointer]:
+          - /url: doors.html#a-205081820
+          - text: "39"
+          - generic [ref=f1e1030]: Schedule Doors + Windows
+      - listitem [ref=f1e1031]:
+        - link "40 Schedule notes' box sizes" [ref=f1e1032] [cursor=pointer]:
+          - /url: doors.html#a-360003648656
+          - text: "40"
+          - generic [ref=f1e1033]: Schedule notes' box sizes
+      - listitem [ref=f1e1034]:
+        - link "41 Sketch a 900x2100 single swing door" [ref=f1e1035] [cursor=pointer]:
+          - /url: doors.html#a-204861524
+          - text: "41"
+          - generic [ref=f1e1036]: Sketch a 900x2100 single swing door
+      - listitem [ref=f1e1037]:
+        - link "42 Styles and Snap Sizes features in the CI Tools Doors+Windows tool for AC23" [ref=f1e1038] [cursor=pointer]:
+          - /url: doors.html#a-360001317075
+          - text: "42"
+          - generic [ref=f1e1039]: Styles and Snap Sizes features in the CI Tools Doors+Windows tool for AC23
+      - listitem [ref=f1e1040]:
+        - link "43 Using preset \"Snap Sizes\" in Windows and Doors" [ref=f1e1041] [cursor=pointer]:
+          - /url: doors.html#a-13505952418703
+          - text: "43"
+          - generic [ref=f1e1042]: Using preset "Snap Sizes" in Windows and Doors
+      - listitem [ref=f1e1043]:
+        - 'link "44 Watch: Add a simple window" [ref=f1e1044] [cursor=pointer]':
+          - /url: doors.html#a-205030474
+          - text: "44"
+          - generic [ref=f1e1045]: "Watch: Add a simple window"
+      - listitem [ref=f1e1046]:
+        - 'link "45 Watch: Get started in 6 minutes!" [ref=f1e1047] [cursor=pointer]':
+          - /url: doors.html#a-213785063
+          - text: "45"
+          - generic [ref=f1e1048]: "Watch: Get started in 6 minutes!"
+      - listitem [ref=f1e1049]:
+        - 'link "46 Watch: How to add a complex door and window unit" [ref=f1e1050] [cursor=pointer]':
+          - /url: doors.html#a-205761370
+          - text: "46"
+          - generic [ref=f1e1051]: "Watch: How to add a complex door and window unit"
+      - listitem [ref=f1e1052]:
+        - 'link "47 Watch: How to design a Door" [ref=f1e1053] [cursor=pointer]':
+          - /url: doors.html#a-205761680
+          - text: "47"
+          - generic [ref=f1e1054]: "Watch: How to design a Door"
+      - listitem [ref=f1e1055]:
+        - link "48 Work Environment Setup" [ref=f1e1056] [cursor=pointer]:
+          - /url: doors.html#a-205081830
+          - text: "48"
+          - generic [ref=f1e1057]: Work Environment Setup
+    - heading "Coverings · 36 articles" [level=2] [ref=f1e1058]:
+      - text: Coverings ·
+      - generic [ref=f1e1059]: 36 articles
+    - list [ref=f1e1061]:
+      - listitem [ref=f1e1062]:
+        - link "01 Cadimage Coverings - Edit Roof Edges" [ref=f1e1063] [cursor=pointer]:
+          - /url: coverings.html#a-360000559435
+          - text: "01"
+          - generic [ref=f1e1064]: Cadimage Coverings - Edit Roof Edges
+      - listitem [ref=f1e1065]:
+        - link "02 Considerations for Coverings in Archicad 27" [ref=f1e1066] [cursor=pointer]:
+          - /url: coverings.html#a-8295697342223
+          - text: "02"
+          - generic [ref=f1e1067]: Considerations for Coverings in Archicad 27
+      - listitem [ref=f1e1068]:
+        - link "03 Covering Shadows" [ref=f1e1069] [cursor=pointer]:
+          - /url: coverings.html#a-360000558556
+          - text: "03"
+          - generic [ref=f1e1070]: Covering Shadows
+      - listitem [ref=f1e1071]:
+        - link "04 Coverings 4.42 Update Notes" [ref=f1e1072] [cursor=pointer]:
+          - /url: coverings.html#a-9474329110671
+          - text: "04"
+          - generic [ref=f1e1073]: Coverings 4.42 Update Notes
+      - listitem [ref=f1e1074]:
+        - link "05 Flat roof covering in the 3D" [ref=f1e1075] [cursor=pointer]:
+          - /url: coverings.html#a-360003693315
+          - text: "05"
+          - generic [ref=f1e1076]: Flat roof covering in the 3D
+      - listitem [ref=f1e1077]:
+        - link "06 Having problems adding a Roof Covering?" [ref=f1e1078] [cursor=pointer]:
+          - /url: coverings.html#a-206271113
+          - text: "06"
+          - generic [ref=f1e1079]: Having problems adding a Roof Covering?
+      - listitem [ref=f1e1080]:
+        - link "07 How to Add Downpipes to a Roof Covering" [ref=f1e1081] [cursor=pointer]:
+          - /url: coverings.html#a-4406494280591
+          - text: "07"
+          - generic [ref=f1e1082]: How to Add Downpipes to a Roof Covering
+      - listitem [ref=f1e1083]:
+        - link "08 How to Add Frieze and Finial to a Gable" [ref=f1e1084] [cursor=pointer]:
+          - /url: coverings.html#a-4406712929295
+          - text: "08"
+          - generic [ref=f1e1085]: How to Add Frieze and Finial to a Gable
+      - listitem [ref=f1e1086]:
+        - link "09 How to Add Wall Cladding under Gables" [ref=f1e1087] [cursor=pointer]:
+          - /url: coverings.html#a-4406720738447
+          - text: "09"
+          - generic [ref=f1e1088]: How to Add Wall Cladding under Gables
+      - listitem [ref=f1e1089]:
+        - link "10 How to Add a Custom Gutter to a Roof Covering" [ref=f1e1090] [cursor=pointer]:
+          - /url: coverings.html#a-4405506731407
+          - text: "10"
+          - generic [ref=f1e1091]: How to Add a Custom Gutter to a Roof Covering
+      - listitem [ref=f1e1092]:
+        - link "11 How to Add a Wall Covering to a Wall" [ref=f1e1093] [cursor=pointer]:
+          - /url: coverings.html#a-4405748515855
+          - text: "11"
+          - generic [ref=f1e1094]: How to Add a Wall Covering to a Wall
+      - listitem [ref=f1e1095]:
+        - link "12 How to Adjust Roof Covering Edge Angles" [ref=f1e1096] [cursor=pointer]:
+          - /url: coverings.html#a-4405799579663
+          - text: "12"
+          - generic [ref=f1e1097]: How to Adjust Roof Covering Edge Angles
+      - listitem [ref=f1e1098]:
+        - link "13 How to Align Claddings on Different Roof Planes" [ref=f1e1099] [cursor=pointer]:
+          - /url: coverings.html#a-4406075025167
+          - text: "13"
+          - generic [ref=f1e1100]: How to Align Claddings on Different Roof Planes
+      - listitem [ref=f1e1101]:
+        - link "14 How to Change Roof Covering Edge Types" [ref=f1e1102] [cursor=pointer]:
+          - /url: coverings.html#a-4405748424207
+          - text: "14"
+          - generic [ref=f1e1103]: How to Change Roof Covering Edge Types
+      - listitem [ref=f1e1104]:
+        - link "15 How to Control Roof Covering Details in Model Views" [ref=f1e1105] [cursor=pointer]:
+          - /url: coverings.html#a-4407803838863
+          - text: "15"
+          - generic [ref=f1e1106]: How to Control Roof Covering Details in Model Views
+      - listitem [ref=f1e1107]:
+        - link "16 How to Display Roof Pitch and Area" [ref=f1e1108] [cursor=pointer]:
+          - /url: coverings.html#a-4405523991311
+          - text: "16"
+          - generic [ref=f1e1109]: How to Display Roof Pitch and Area
+      - listitem [ref=f1e1110]:
+        - link "17 How to Make a Custom Finial" [ref=f1e1111] [cursor=pointer]:
+          - /url: coverings.html#a-4406722282639
+          - text: "17"
+          - generic [ref=f1e1112]: How to Make a Custom Finial
+      - listitem [ref=f1e1113]:
+        - link "18 How to Place a Covering onto a Roof" [ref=f1e1114] [cursor=pointer]:
+          - /url: coverings.html#a-4405529371151
+          - text: "18"
+          - generic [ref=f1e1115]: How to Place a Covering onto a Roof
+      - listitem [ref=f1e1116]:
+        - link "19 How to add Edge Boards to a Timber Deck" [ref=f1e1117] [cursor=pointer]:
+          - /url: coverings.html#a-206271403
+          - text: "19"
+          - generic [ref=f1e1118]: How to add Edge Boards to a Timber Deck
+      - listitem [ref=f1e1119]:
+        - link "20 How to add a Covering to a Slab" [ref=f1e1120] [cursor=pointer]:
+          - /url: coverings.html#a-205939656
+          - text: "20"
+          - generic [ref=f1e1121]: How to add a Covering to a Slab
+      - listitem [ref=f1e1122]:
+        - link "21 How to add a Flute to a Column" [ref=f1e1123] [cursor=pointer]:
+          - /url: coverings.html#a-205940756
+          - text: "21"
+          - generic [ref=f1e1124]: How to add a Flute to a Column
+      - listitem [ref=f1e1125]:
+        - link "22 How to add a Footing to a Column" [ref=f1e1126] [cursor=pointer]:
+          - /url: coverings.html#a-206272293
+          - text: "22"
+          - generic [ref=f1e1127]: How to add a Footing to a Column
+      - listitem [ref=f1e1128]:
+        - link "23 How to add a Roof Covering" [ref=f1e1129] [cursor=pointer]:
+          - /url: coverings.html#a-205940796
+          - text: "23"
+          - generic [ref=f1e1130]: How to add a Roof Covering
+      - listitem [ref=f1e1131]:
+        - link "24 How to add a Wrap to a Column" [ref=f1e1132] [cursor=pointer]:
+          - /url: coverings.html#a-206272133
+          - text: "24"
+          - generic [ref=f1e1133]: How to add a Wrap to a Column
+      - listitem [ref=f1e1134]:
+        - link "25 How to change the Origin and Orientation of Decking Boards" [ref=f1e1135] [cursor=pointer]:
+          - /url: coverings.html#a-205940156
+          - text: "25"
+          - generic [ref=f1e1136]: How to change the Origin and Orientation of Decking Boards
+      - listitem [ref=f1e1137]:
+        - link "26 How to set Fascia and Barge Board Dimensions" [ref=f1e1138] [cursor=pointer]:
+          - /url: coverings.html#a-4407803904527
+          - text: "26"
+          - generic [ref=f1e1139]: How to set Fascia and Barge Board Dimensions
+      - listitem [ref=f1e1140]:
+        - link "27 How to split a Wall Covering" [ref=f1e1141] [cursor=pointer]:
+          - /url: coverings.html#a-360000866515
+          - text: "27"
+          - generic [ref=f1e1142]: How to split a Wall Covering
+      - listitem [ref=f1e1143]:
+        - link "28 Overview" [ref=f1e1144] [cursor=pointer]:
+          - /url: coverings.html#a-205298160
+          - text: "28"
+          - generic [ref=f1e1145]: Overview
+      - listitem [ref=f1e1146]:
+        - link "29 ProKit Coverings - Start here" [ref=f1e1147] [cursor=pointer]:
+          - /url: coverings.html#a-17876461016975
+          - text: "29"
+          - generic [ref=f1e1148]: ProKit Coverings - Start here
+      - listitem [ref=f1e1149]:
+        - link "30 Release Notes - Coverings" [ref=f1e1150] [cursor=pointer]:
+          - /url: coverings.html#a-8620456412559
+          - text: "30"
+          - generic [ref=f1e1151]: Release Notes - Coverings
+      - listitem [ref=f1e1152]:
+        - link "31 Troubleshooting Column Coverings" [ref=f1e1153] [cursor=pointer]:
+          - /url: coverings.html#a-205940316
+          - text: "31"
+          - generic [ref=f1e1154]: Troubleshooting Column Coverings
+      - listitem [ref=f1e1155]:
+        - 'link "32 Watch: Apply a Covering and Gutter to a Roof" [ref=f1e1156] [cursor=pointer]':
+          - /url: coverings.html#a-205217374
+          - text: "32"
+          - generic [ref=f1e1157]: "Watch: Apply a Covering and Gutter to a Roof"
+      - listitem [ref=f1e1158]:
+        - 'link "33 Watch: Get Started in 6 minutes" [ref=f1e1159] [cursor=pointer]':
+          - /url: coverings.html#a-213785003
+          - text: "33"
+          - generic [ref=f1e1160]: "Watch: Get Started in 6 minutes"
+      - listitem [ref=f1e1161]:
+        - 'link "34 Watch: How to add a Downpipe" [ref=f1e1162] [cursor=pointer]':
+          - /url: coverings.html#a-205217384
+          - text: "34"
+          - generic [ref=f1e1163]: "Watch: How to add a Downpipe"
+      - listitem [ref=f1e1164]:
+        - 'link "35 Watch: How to apply a Wall Covering" [ref=f1e1165] [cursor=pointer]':
+          - /url: coverings.html#a-205217364
+          - text: "35"
+          - generic [ref=f1e1166]: "Watch: How to apply a Wall Covering"
+      - listitem [ref=f1e1167]:
+        - 'link "36 Watch: Intro to Coverings (webinar recording, demonstrated in ARCHICAD 19)" [ref=f1e1168] [cursor=pointer]':
+          - /url: coverings.html#a-206075886
+          - text: "36"
+          - generic [ref=f1e1169]: "Watch: Intro to Coverings (webinar recording, demonstrated in ARCHICAD 19)"
+    - heading "Electrical · 9 articles" [level=2] [ref=f1e1170]:
+      - text: Electrical ·
+      - generic [ref=f1e1171]: 9 articles
+    - list [ref=f1e1173]:
+      - listitem [ref=f1e1174]:
+        - link "01 Creating Circuits" [ref=f1e1175] [cursor=pointer]:
+          - /url: electrical.html#a-360000896116
+          - text: "01"
+          - generic [ref=f1e1176]: Creating Circuits
+      - listitem [ref=f1e1177]:
+        - link "02 Customise CI Electrical Symbol Labels - Adding extra line to label" [ref=f1e1178] [cursor=pointer]:
+          - /url: electrical.html#a-7848540053903
+          - text: "02"
+          - generic [ref=f1e1179]: Customise CI Electrical Symbol Labels - Adding extra line to label
+      - listitem [ref=f1e1180]:
+        - link "03 How to control the Model View of your Electrical Components" [ref=f1e1181] [cursor=pointer]:
+          - /url: electrical.html#a-360001042455
+          - text: "03"
+          - generic [ref=f1e1182]: How to control the Model View of your Electrical Components
+      - listitem [ref=f1e1183]:
+        - link "04 How to place 3D Wall Plates" [ref=f1e1184] [cursor=pointer]:
+          - /url: electrical.html#a-360001042435
+          - text: "04"
+          - generic [ref=f1e1185]: How to place 3D Wall Plates
+      - listitem [ref=f1e1186]:
+        - link "05 Overview" [ref=f1e1187] [cursor=pointer]:
+          - /url: electrical.html#a-205030704
+          - text: "05"
+          - generic [ref=f1e1188]: Overview
+      - listitem [ref=f1e1189]:
+        - link "06 ProKit Electrical – Start here" [ref=f1e1190] [cursor=pointer]:
+          - /url: electrical.html#a-17875896492559
+          - text: "06"
+          - generic [ref=f1e1191]: ProKit Electrical – Start here
+      - listitem [ref=f1e1192]:
+        - link "07 Release Notes - Electrical" [ref=f1e1193] [cursor=pointer]:
+          - /url: electrical.html#a-8620637331855
+          - text: "07"
+          - generic [ref=f1e1194]: Release Notes - Electrical
+      - listitem [ref=f1e1195]:
+        - 'link "08 Watch: Overview webinar recording (23 mins)" [ref=f1e1196] [cursor=pointer]':
+          - /url: electrical.html#a-205298180
+          - text: "08"
+          - generic [ref=f1e1197]: "Watch: Overview webinar recording (23 mins)"
+      - listitem [ref=f1e1198]:
+        - link "09 Wire Style Manager" [ref=f1e1199] [cursor=pointer]:
+          - /url: electrical.html#a-360000888275
+          - text: "09"
+          - generic [ref=f1e1200]: Wire Style Manager
+    - heading "Stairs · 13 articles" [level=2] [ref=f1e1201]:
+      - text: Stairs ·
+      - generic [ref=f1e1202]: 13 articles
+    - list [ref=f1e1204]:
+      - listitem [ref=f1e1205]:
+        - link "01 Available Stair Types" [ref=f1e1206] [cursor=pointer]:
+          - /url: stairs.html#a-206038096
+          - text: "01"
+          - generic [ref=f1e1207]: Available Stair Types
+      - listitem [ref=f1e1208]:
+        - link "02 How to create an L-shaped stair case with landing" [ref=f1e1209] [cursor=pointer]:
+          - /url: stairs.html#a-206075106
+          - text: "02"
+          - generic [ref=f1e1210]: How to create an L-shaped stair case with landing
+      - listitem [ref=f1e1211]:
+        - link "03 How to place a straight stair using the Polystair" [ref=f1e1212] [cursor=pointer]:
+          - /url: stairs.html#a-206045686
+          - text: "03"
+          - generic [ref=f1e1213]: How to place a straight stair using the Polystair
+      - listitem [ref=f1e1214]:
+        - link "04 Overview" [ref=f1e1215] [cursor=pointer]:
+          - /url: stairs.html#a-205030904
+          - text: "04"
+          - generic [ref=f1e1216]: Overview
+      - listitem [ref=f1e1217]:
+        - link "05 ProKit Stair - Start here" [ref=f1e1218] [cursor=pointer]:
+          - /url: stairs.html#a-17891871502095
+          - text: "05"
+          - generic [ref=f1e1219]: ProKit Stair - Start here
+      - listitem [ref=f1e1220]:
+        - link "06 Using the Polystair - advanced shapes" [ref=f1e1221] [cursor=pointer]:
+          - /url: stairs.html#a-206075076
+          - text: "06"
+          - generic [ref=f1e1222]: Using the Polystair - advanced shapes
+      - listitem [ref=f1e1223]:
+        - 'link "07 Watch: Create railings using the dialogue" [ref=f1e1224] [cursor=pointer]':
+          - /url: stairs.html#a-205298320
+          - text: "07"
+          - generic [ref=f1e1225]: "Watch: Create railings using the dialogue"
+      - listitem [ref=f1e1226]:
+        - 'link "08 Watch: Draw Stairs directly onto your ARCHICAD plan" [ref=f1e1227] [cursor=pointer]':
+          - /url: stairs.html#a-205030934
+          - text: "08"
+          - generic [ref=f1e1228]: "Watch: Draw Stairs directly onto your ARCHICAD plan"
+      - listitem [ref=f1e1229]:
+        - 'link "09 Watch: Draw Stairs to fit a space" [ref=f1e1230] [cursor=pointer]':
+          - /url: stairs.html#a-205030944
+          - text: "09"
+          - generic [ref=f1e1231]: "Watch: Draw Stairs to fit a space"
+      - listitem [ref=f1e1232]:
+        - 'link "10 Watch: Get started in 6 minutes!" [ref=f1e1233] [cursor=pointer]':
+          - /url: stairs.html#a-213785163
+          - text: "10"
+          - generic [ref=f1e1234]: "Watch: Get started in 6 minutes!"
+      - listitem [ref=f1e1235]:
+        - 'link "11 Watch: Graphically add and modify railings" [ref=f1e1236] [cursor=pointer]':
+          - /url: stairs.html#a-205298300
+          - text: "11"
+          - generic [ref=f1e1237]: "Watch: Graphically add and modify railings"
+      - listitem [ref=f1e1238]:
+        - 'link "12 Watch: Graphically edit existing stairs" [ref=f1e1239] [cursor=pointer]':
+          - /url: stairs.html#a-205030924
+          - text: "12"
+          - generic [ref=f1e1240]: "Watch: Graphically edit existing stairs"
+      - listitem [ref=f1e1241]:
+        - 'link "13 Watch: Overview webinar (21 mins)" [ref=f1e1242] [cursor=pointer]':
+          - /url: stairs.html#a-205030914
+          - text: "13"
+          - generic [ref=f1e1243]: "Watch: Overview webinar (21 mins)"
+    - heading "Structural · 16 articles" [level=2] [ref=f1e1244]:
+      - text: Structural ·
+      - generic [ref=f1e1245]: 16 articles
+    - list [ref=f1e1247]:
+      - listitem [ref=f1e1248]:
+        - link "01 How to Add Edges to a slab" [ref=f1e1249] [cursor=pointer]:
+          - /url: structural.html#a-206663513
+          - text: "01"
+          - generic [ref=f1e1250]: How to Add Edges to a slab
+      - listitem [ref=f1e1251]:
+        - link "02 How to Rotate an object using Objective" [ref=f1e1252] [cursor=pointer]:
+          - /url: structural.html#a-206663953
+          - text: "02"
+          - generic [ref=f1e1253]: How to Rotate an object using Objective
+      - listitem [ref=f1e1254]:
+        - link "03 How to Split an Object using Objective" [ref=f1e1255] [cursor=pointer]:
+          - /url: structural.html#a-206316446
+          - text: "03"
+          - generic [ref=f1e1256]: How to Split an Object using Objective
+      - listitem [ref=f1e1257]:
+        - link "04 How to access the Objective Libraries" [ref=f1e1258] [cursor=pointer]:
+          - /url: structural.html#a-206035796
+          - text: "04"
+          - generic [ref=f1e1259]: How to access the Objective Libraries
+      - listitem [ref=f1e1260]:
+        - link "05 How to use the Split to create mitered corners" [ref=f1e1261] [cursor=pointer]:
+          - /url: structural.html#a-206316466
+          - text: "05"
+          - generic [ref=f1e1262]: How to use the Split to create mitered corners
+      - listitem [ref=f1e1263]:
+        - link "06 Introducing the Ci Structural Tool" [ref=f1e1264] [cursor=pointer]:
+          - /url: structural.html#a-11404990776335
+          - text: "06"
+          - generic [ref=f1e1265]: Introducing the Ci Structural Tool
+      - listitem [ref=f1e1266]:
+        - link "07 Overview" [ref=f1e1267] [cursor=pointer]:
+          - /url: structural.html#a-205298210
+          - text: "07"
+          - generic [ref=f1e1268]: Overview
+      - listitem [ref=f1e1269]:
+        - link "08 ProKit Structural – Start here" [ref=f1e1270] [cursor=pointer]:
+          - /url: structural.html#a-17919869075471
+          - text: "08"
+          - generic [ref=f1e1271]: ProKit Structural – Start here
+      - listitem [ref=f1e1272]:
+        - 'link "09 Watch: Get started in 8 minutes!" [ref=f1e1273] [cursor=pointer]':
+          - /url: structural.html#a-213785143
+          - text: "09"
+          - generic [ref=f1e1274]: "Watch: Get started in 8 minutes!"
+      - listitem [ref=f1e1275]:
+        - 'link "10 Watch: How to Bend shapes in ARCHICAD" [ref=f1e1276] [cursor=pointer]':
+          - /url: structural.html#a-205030814
+          - text: "10"
+          - generic [ref=f1e1277]: "Watch: How to Bend shapes in ARCHICAD"
+      - listitem [ref=f1e1278]:
+        - 'link "11 Watch: How to align objects and shapes using the Objective Tool" [ref=f1e1279] [cursor=pointer]':
+          - /url: structural.html#a-205298260
+          - text: "11"
+          - generic [ref=f1e1280]: "Watch: How to align objects and shapes using the Objective Tool"
+      - listitem [ref=f1e1281]:
+        - 'link "12 Watch: How to create Extrusions in under 5 minutes" [ref=f1e1282] [cursor=pointer]':
+          - /url: structural.html#a-205030784
+          - text: "12"
+          - generic [ref=f1e1283]: "Watch: How to create Extrusions in under 5 minutes"
+      - listitem [ref=f1e1284]:
+        - 'link "13 Watch: How to rotate objects using the Objective tool" [ref=f1e1285] [cursor=pointer]':
+          - /url: structural.html#a-205298250
+          - text: "13"
+          - generic [ref=f1e1286]: "Watch: How to rotate objects using the Objective tool"
+      - listitem [ref=f1e1287]:
+        - 'link "14 Watch: How to use the Split function of the Objective Tool" [ref=f1e1288] [cursor=pointer]':
+          - /url: structural.html#a-205030824
+          - text: "14"
+          - generic [ref=f1e1289]: "Watch: How to use the Split function of the Objective Tool"
+      - listitem [ref=f1e1290]:
+        - 'link "15 Watch: Overview webinar recording (27 mins)" [ref=f1e1291] [cursor=pointer]':
+          - /url: structural.html#a-205298230
+          - text: "15"
+          - generic [ref=f1e1292]: "Watch: Overview webinar recording (27 mins)"
+      - listitem [ref=f1e1293]:
+        - link "16 What can be edited with the Objective Tool" [ref=f1e1294] [cursor=pointer]:
+          - /url: structural.html#a-206315976
+          - text: "16"
+          - generic [ref=f1e1295]: What can be edited with the Objective Tool
+    - heading "Sites · 15 articles" [level=2] [ref=f1e1296]:
+      - text: Sites ·
+      - generic [ref=f1e1297]: 15 articles
+    - list [ref=f1e1299]:
+      - listitem [ref=f1e1300]:
+        - link "01 Step 2 - Site Boundary" [ref=f1e1301] [cursor=pointer]:
+          - /url: sites.html#a-360000573295
+          - text: "01"
+          - generic [ref=f1e1302]: Step 2 - Site Boundary
+      - listitem [ref=f1e1303]:
+        - link "02 CI Sites Tool - Creating a Curved Boundary" [ref=f1e1304] [cursor=pointer]:
+          - /url: sites.html#a-8174847123471
+          - text: "02"
+          - generic [ref=f1e1305]: CI Sites Tool - Creating a Curved Boundary
+      - listitem [ref=f1e1306]:
+        - link "03 Distributing and Aligning Plant Labels" [ref=f1e1307] [cursor=pointer]:
+          - /url: sites.html#a-12954335262607
+          - text: "03"
+          - generic [ref=f1e1308]: Distributing and Aligning Plant Labels
+      - listitem [ref=f1e1309]:
+        - link "04 How to selecting your Cadimage Boundary Objects" [ref=f1e1310] [cursor=pointer]:
+          - /url: sites.html#a-360000558616
+          - text: "04"
+          - generic [ref=f1e1311]: How to selecting your Cadimage Boundary Objects
+      - listitem [ref=f1e1312]:
+        - link "05 Labelling Plants" [ref=f1e1313] [cursor=pointer]:
+          - /url: sites.html#a-12951246482959
+          - text: "05"
+          - generic [ref=f1e1314]: Labelling Plants
+      - listitem [ref=f1e1315]:
+        - link "06 Placing an Area Stamp" [ref=f1e1316] [cursor=pointer]:
+          - /url: sites.html#a-14173627813647
+          - text: "06"
+          - generic [ref=f1e1317]: Placing an Area Stamp
+      - listitem [ref=f1e1318]:
+        - link "07 Plant Placement onto a Fill" [ref=f1e1319] [cursor=pointer]:
+          - /url: sites.html#a-12942757470351
+          - text: "07"
+          - generic [ref=f1e1320]: Plant Placement onto a Fill
+      - listitem [ref=f1e1321]:
+        - link "08 Plant placement along Lines" [ref=f1e1322] [cursor=pointer]:
+          - /url: sites.html#a-12931967859215
+          - text: "08"
+          - generic [ref=f1e1323]: Plant placement along Lines
+      - listitem [ref=f1e1324]:
+        - link "09 ProKit Sites – Start here" [ref=f1e1325] [cursor=pointer]:
+          - /url: sites.html#a-17876291829775
+          - text: "09"
+          - generic [ref=f1e1326]: ProKit Sites – Start here
+      - listitem [ref=f1e1327]:
+        - link "10 Shifting Plants on to the Surface of a Mesh" [ref=f1e1328] [cursor=pointer]:
+          - /url: sites.html#a-12944231912207
+          - text: "10"
+          - generic [ref=f1e1329]: Shifting Plants on to the Surface of a Mesh
+      - listitem [ref=f1e1330]:
+        - link "11 Sites - Model View Options" [ref=f1e1331] [cursor=pointer]:
+          - /url: sites.html#a-13020422396943
+          - text: "11"
+          - generic [ref=f1e1332]: Sites - Model View Options
+      - listitem [ref=f1e1333]:
+        - link "12 Step 1 - North Point" [ref=f1e1334] [cursor=pointer]:
+          - /url: sites.html#a-360000572076
+          - text: "12"
+          - generic [ref=f1e1335]: Step 1 - North Point
+      - listitem [ref=f1e1336]:
+        - link "13 Swapping out Random selections of Plants to others" [ref=f1e1337] [cursor=pointer]:
+          - /url: sites.html#a-12945729353743
+          - text: "13"
+          - generic [ref=f1e1338]: Swapping out Random selections of Plants to others
+      - listitem [ref=f1e1339]:
+        - link "14 Using the \"Cutout\" tree objects" [ref=f1e1340] [cursor=pointer]:
+          - /url: sites.html#a-12897833228559
+          - text: "14"
+          - generic [ref=f1e1341]: Using the "Cutout" tree objects
+      - listitem [ref=f1e1342]:
+        - 'link "15 Watch: Get started in 3 minutes!" [ref=f1e1343] [cursor=pointer]':
+          - /url: sites.html#a-360000573095
+          - text: "15"
+          - generic [ref=f1e1344]: "Watch: Get started in 3 minutes!"
+    - heading "Fitout · 5 articles" [level=2] [ref=f1e1345]:
+      - text: Fitout ·
+      - generic [ref=f1e1346]: 5 articles
+    - list [ref=f1e1348]:
+      - listitem [ref=f1e1349]:
+        - link "01 Ci Fitout Tool Released" [ref=f1e1350] [cursor=pointer]:
+          - /url: fitout.html#a-10897513971471
+          - text: "01"
+          - generic [ref=f1e1351]: Ci Fitout Tool Released
+      - listitem [ref=f1e1352]:
+        - link "02 Fitout - Window Treatments and Door Circulation" [ref=f1e1353] [cursor=pointer]:
+          - /url: fitout.html#a-13992052507023
+          - text: "02"
+          - generic [ref=f1e1354]: Fitout - Window Treatments and Door Circulation
+      - listitem [ref=f1e1355]:
+        - link "03 How to Place a Fitout" [ref=f1e1356] [cursor=pointer]:
+          - /url: fitout.html#a-13991958051983
+          - text: "03"
+          - generic [ref=f1e1357]: How to Place a Fitout
+      - listitem [ref=f1e1358]:
+        - link "04 Introduction to Fitout" [ref=f1e1359] [cursor=pointer]:
+          - /url: fitout.html#a-13992048044687
+          - text: "04"
+          - generic [ref=f1e1360]: Introduction to Fitout
+      - listitem [ref=f1e1361]:
+        - link "05 ProKit Fitout – Start here" [ref=f1e1362] [cursor=pointer]:
+          - /url: fitout.html#a-17876153803919
+          - text: "05"
+          - generic [ref=f1e1363]: ProKit Fitout – Start here
+    - generic [ref=f1e1364]: CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05

@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Sites（场地景观）完整中文教程：边界、退让与植物布置">
+<title>Sites · 场地景观 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+
+.vb{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;
+  background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba;
+  font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle;
+  letter-spacing:.02em;white-space:nowrap}
+.vb-old{background:#f7e3e3;color:#9a3b3b;border-color:#e6c6c6}
+.vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
+  background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
+.vb-note b{color:#8a5a1e}
+</style>
+<link rel="stylesheet" href="search.css">
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
+<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class=" on" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
+<a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
+</aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></div>
+<div class="hero">
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>Sites · <span class="zh-only">场地景观</span></h1>
+  <p class="zh-only">边界、退让与植物布置</p>
+  <p class="en-only">Site boundaries, recession planes and plant placement</p>
+  <div class="meta">
+    <span><b>15</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>2.6</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>89</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
+  </div>
+</div>
+<article>
+
+<div class="art" id="a-360000573295">
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">步骤 2 - 场地边界</h3>
+    <h3 class="en-only block"> Step 2 - Site Boundary</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000573295--Step-2-Site-Boundary" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>接下来，我们将创建场地的边界线。要输入边界线，我们需要能够以度、分、秒输入角度，而不是仅以度输入。</p>
+<ul>
+<li>转到 Options > Project Preferences > Working Units…（选项 > 项目偏好设置 > 工作单位）。这些是输入所用的单位，而 Dimensions（尺寸标注）则是单位的显示方式。</li>
+</ul>
+<ul>
+<li>将 Model Units（模型单位）设为米（meter）并保留 2 位小数</li>
+</ul>
+<p>将 <strong>Angle Unit</strong>（角度单位）设为 <strong>degrees, minutes, seconds</strong>（度、分、秒），然后点击 <strong>OK</strong></p>
+<p>**</p>
+<p><img src="img/360000573295_0.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<p>**</p>
+<p>现在我们开始创建边界线。</p>
+<p>我们复现的是常见的典型工作流程 —— 即假设我们收到了一份地契（Certificate of Title）作为场地信息。</p>
+<ul>
+<li>转到 <strong>Cadimage > Sites > Site Boundary Editor</strong>（场地边界编辑器）</li>
+</ul>
+<p>**</p>
+<p><img src="img/360000573295_1.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>我们的起点是项目左下角的 <strong>Project Origin</strong>（项目原点）。点击 <strong>此处</strong>。</li>
+</ul>
+<p><img src="img/360000573295_2.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<ul>
+<li>现在系统会要求你输入边界线的方位角和长度。在我们的示例中，第一条边界长 <strong>27.93m</strong>，方位角为 <strong>1° 28' 49"</strong></li>
+</ul>
+<ul>
+<li>在 Length（长度）字段中输入长度，即 27.93（我们以米为单位工作）</li>
+</ul>
+<ul>
+<li>在 Bearing（方位角）字段中输入方位角，即 1 <空格> 28 <空格> 49   请在度、分、秒之间加空格，例如：</li>
+</ul>
+<ul>
+<li>沿场地顺时针方向依次输入相关信息 <strong>（长度与方位角）</strong></li>
+</ul>
+<ul>
+<li>第二条边界长 26.45m，方位角为 83° 1' 6"</li>
+</ul>
+<ul>
+<li>第三条边界长 35.57m，方位角为 4° 8' 3"</li>
+</ul>
+<p><strong>注意：</strong> 对于某些边界，边界方向可能并非你所需要的方向。该边界相对预期方向旋转了 180 度；点击 <strong>Flip</strong>（翻转）可将边界翻转 180°。</p>
+<p><img src="img/360000573295_3.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<ul>
+<li>第四条边界长 24.78m，方位角为 100° 5' 4"  这一条也可能需要翻转。</li>
+</ul>
+<ul>
+<li>我们很少遇到方位角和长度恰好构成完美闭合形状的情况。Sites 工具允许你点击 Close Boundary（闭合边界）按钮，但前提是首尾两点之间的间隙大于 50mm，<strong>此处并非如此。</strong></li>
+</ul>
+<p><img src="img/360000573295_4.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<p>完成。</p>
+<p><img src="img/360000573295_5.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>Next, we will create the Boundary lines of our site. To input Boundary Lines we need to be able to input angles as degrees minutes and seconds instead of Degrees.</p>
+<ul>
+<li>Go to Options > Project Preferences > Working Units… These are the units of input as opposed to Dimensions which is the display of units.</li>
+</ul>
+<ul>
+<li>Set the Model Units to meter and 2 decimal places</li>
+</ul>
+<p>Set the <strong>Angle Unit</strong>: to <strong>degrees, minutes, seconds</strong> and click <strong>OK</strong></p>
+<p>**</p>
+<p><img src="img/360000573295_0.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<p>**</p>
+<p>Now we will start creating our boundary lines.</p>
+<p>We are replicating the typical workflow of if we had received a Certificate of Title as our Site Information.</p>
+<ul>
+<li>Go to <strong>Cadimage > Sites > Site Boundary Editor</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/360000573295_1.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Our start point is <strong>Project Origin</strong> down the bottom left of our project. Click <strong>here</strong>.</li>
+</ul>
+<p><img src="img/360000573295_2.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<ul>
+<li>Now you will be asked for the Bearing and Length of the Boundary Lines. In our exmaple, the first Boundary is <strong>27.93m</strong> with a bearing of <strong>1° 28' 49"</strong></li>
+</ul>
+<ul>
+<li>Length field and type the length ie 27.93 (we are working in Meters)</li>
+</ul>
+<ul>
+<li>Bearing field and the bearing ie  1 <space> 28 <space> 49   Add a space between the Degrees and Minutes and Seconds i.e.</li>
+</ul>
+<ul>
+<li>Working in a Clockwise direction around the site enter in the relevant information <strong>(Length & Bearing)</strong></li>
+</ul>
+<ul>
+<li>The second Boundary is 26.45m with a bearing of 83° 1' 6"</li>
+</ul>
+<ul>
+<li>The third Boundary is 35.57m  with a bearing of  4° 8' 3"</li>
+</ul>
+<p><strong>NOTE:</strong>With some boundaries, the direction of the boundary may not go in the direction you require. This boundary has placed 180 degrees from our intended direction; click <strong>Flip</strong> to flip the Boundary 180°</p>
+<p><img src="img/360000573295_3.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<ul>
+<li>The fourth Boundary is 24.78m  with a bearing of  100° 5' 4"  This may need to be Flipped also</li>
+</ul>
+<ul>
+<li>We rarely find that the bearings and lengths form a perfect closed shape so even. The Sites tool allows you to click a Close Boundary button if the gap between the first point and the last point is longer than 50mm, <strong>which is not the case here.</strong></li>
+</ul>
+<p><img src="img/360000573295_4.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<p>Finished.</p>
+<p><img src="img/360000573295_5.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Next, we will create the Boundary lines of our site. To input Boundary Lines we need to be able to input angles as degrees minutes and seconds instead of Degrees.</p>
+<ul>
+<li>Go to Options > Project Preferences > Working Units… These are the units of input as opposed to Dimensions which is the display of units.</li>
+</ul>
+<ul>
+<li>Set the Model Units to meter and 2 decimal places</li>
+</ul>
+<p>Set the <strong>Angle Unit</strong>: to <strong>degrees, minutes, seconds</strong> and click <strong>OK</strong></p>
+<p>**</p>
+<p><img src="img/360000573295_0.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<p>**</p>
+<p>Now we will start creating our boundary lines.</p>
+<p>We are replicating the typical workflow of if we had received a Certificate of Title as our Site Information.</p>
+<ul>
+<li>Go to <strong>Cadimage > Sites > Site Boundary Editor</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/360000573295_1.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Our start point is <strong>Project Origin</strong> down the bottom left of our project. Click <strong>here</strong>.</li>
+</ul>
+<p><img src="img/360000573295_2.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<ul>
+<li>Now you will be asked for the Bearing and Length of the Boundary Lines. In our exmaple, the first Boundary is <strong>27.93m</strong> with a bearing of <strong>1° 28' 49"</strong></li>
+</ul>
+<ul>
+<li>Length field and type the length ie 27.93 (we are working in Meters)</li>
+</ul>
+<ul>
+<li>Bearing field and the bearing ie  1 <space> 28 <space> 49   Add a space between the Degrees and Minutes and Seconds i.e.</li>
+</ul>
+<ul>
+<li>Working in a Clockwise direction around the site enter in the relevant information <strong>(Length & Bearing)</strong></li>
+</ul>
+<ul>
+<li>The second Boundary is 26.45m with a bearing of 83° 1' 6"</li>
+</ul>
+<ul>
+<li>The third Boundary is 35.57m  with a bearing of  4° 8' 3"</li>
+</ul>
+<p><strong>NOTE:</strong>With some boundaries, the direction of the boundary may not go in the direction you require. This boundary has placed 180 degrees from our intended direction; click <strong>Flip</strong> to flip the Boundary 180°</p>
+<p><img src="img/360000573295_3.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<ul>
+<li>The fourth Boundary is 24.78m  with a bearing of  100° 5' 4"  This may need to be Flipped also</li>
+</ul>
+<ul>
+<li>We rarely find that the bearings and lengths form a perfect closed shape so even. The Sites tool allows you to click a Close Boundary button if the gap between the first point and the last point is longer than 50mm, <strong>which is not the case here.</strong></li>
+</ul>
+<p><img src="img/360000573295_4.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+<p>Finished.</p>
+<p><img src="img/360000573295_5.jpg" alt=" Step 2 - Site Boundary 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-8174847123471">
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">CI Sites 工具 - 创建曲线边界</h3>
+    <h3 class="en-only block">CI Sites Tool - Creating a Curved Boundary</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8174847123471-CI-Sites-Tool-Creating-a-Curved-Boundary" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>如何使用 Sites 工具创建曲线边界（Curved Boundaries）</p>
+<p><a href="<div%20style=%22padding:62.5%%200%200%200;position:relative;%22><iframe%20src=%22https://player.vimeo.com/video/876211335?h=5e417fe017&amp;badge=0&amp;autopause=0&amp;quality_selector=1&amp;progress_bar=1&amp;player_id=0&amp;app_id=58479%22%20frameborder=%220%22%20allow=%22autoplay;%20fullscreen;%20picture-in-picture%22%20style=%22position:absolute;top:0;left:0;width:100%;height:100%;%22%20title=%22Curved%20Boundary%22></iframe></div><script%20src=%22https://player.vimeo.com/api/player.js%22></script>" target="_blank" rel="noopener"><div%20style=%22padding:62.5%%200%200%200;position:relative;%22><iframe%20src=%22https:</a></p></div>
+  <div class="en-only"><p>How to create Curved Boundaries with the Site Tool</p>
+<p><a href="<div%20style=%22padding:62.5%%200%200%200;position:relative;%22><iframe%20src=%22https://player.vimeo.com/video/876211335?h=5e417fe017&amp;badge=0&amp;autopause=0&amp;quality_selector=1&amp;progress_bar=1&amp;player_id=0&amp;app_id=58479%22%20frameborder=%220%22%20allow=%22autoplay;%20fullscreen;%20picture-in-picture%22%20style=%22position:absolute;top:0;left:0;width:100%;height:100%;%22%20title=%22Curved%20Boundary%22></iframe></div><script%20src=%22https://player.vimeo.com/api/player.js%22></script>" target="_blank" rel="noopener"><div%20style=%22padding:62.5%%200%200%200;position:relative;%22><iframe%20src=%22https:</a></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>How to create Curved Boundaries with the Site Tool</p>
+<p><a href="<div%20style=%22padding:62.5%%200%200%200;position:relative;%22><iframe%20src=%22https://player.vimeo.com/video/876211335?h=5e417fe017&amp;badge=0&amp;autopause=0&amp;quality_selector=1&amp;progress_bar=1&amp;player_id=0&amp;app_id=58479%22%20frameborder=%220%22%20allow=%22autoplay;%20fullscreen;%20picture-in-picture%22%20style=%22position:absolute;top:0;left:0;width:100%;height:100%;%22%20title=%22Curved%20Boundary%22></iframe></div><script%20src=%22https://player.vimeo.com/api/player.js%22></script>" target="_blank" rel="noopener"><div%20style=%22padding:62.5%%200%200%200;position:relative;%22><iframe%20src=%22https:</a></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-12954335262607">
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">分布并对齐植物标签</h3>
+    <h3 class="en-only block">Distributing and Aligning Plant Labels</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/12954335262607-Distributing-and-Aligning-Plant-Labels" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在放置标签之后（<a href="https://cadimage.zendesk.com/hc/en-us/articles/12951246482959" target="_blank" rel="noopener">参见此处文章</a>），可以用更有条理的方式分布标签。在下图中，标签已放置在植物上：</p>
+<p><img src="img/12954335262607_0.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>不过，为了让标签更整洁并彼此对齐，请选择要分布的标签，然后点击 <strong>Ci Tools</strong> 菜单 - <strong>Sites</strong>（场地） - <strong>Distribute Selected Plant Labels</strong>（分布所选植物标签）：</p>
+<p><img src="img/12954335262607_1.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>系统会提示你选择对齐位置 —— 点击一次开始对齐线，再次点击结束对齐线：</p>
+<p><img src="img/12954335262607_2.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>现在标签将被分布并对齐：</p>
+<p><img src="img/12954335262607_3.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>如果你想重新分布或重新对齐标签，可以按需重复执行同一流程，直到获得想要的效果。</p></div>
+  <div class="en-only"><p>Once Labels have been placed (<a href="https://cadimage.zendesk.com/hc/en-us/articles/12951246482959" target="_blank" rel="noopener">see article here</a>), it is possible to Distribute Labels in a more orderly way. In the image below, labels have been placed on Plants:</p>
+<p><img src="img/12954335262607_0.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>To tidy up the labels a bit though, and align them with each other, Select the labels you want to distribute, and then click on the <strong>Ci Tools</strong> menu - <strong>Sites</strong> - <strong>Distribute Selected Plant Labels:</strong></p>
+<p><img src="img/12954335262607_1.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>You will be prompted to choose the Alignment Position - click once to start the alignment line, and a second time to finish it:</p>
+<p><img src="img/12954335262607_2.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>And now, the labels will be distributed and aligned:</p>
+<p><img src="img/12954335262607_3.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>If you ever want to redistribute or re-align the labels, you can run the same process again, as many times as you need, to get the result you want</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Once Labels have been placed (<a href="https://cadimage.zendesk.com/hc/en-us/articles/12951246482959" target="_blank" rel="noopener">see article here</a>), it is possible to Distribute Labels in a more orderly way. In the image below, labels have been placed on Plants:</p>
+<p><img src="img/12954335262607_0.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>To tidy up the labels a bit though, and align them with each other, Select the labels you want to distribute, and then click on the <strong>Ci Tools</strong> menu - <strong>Sites</strong> - <strong>Distribute Selected Plant Labels:</strong></p>
+<p><img src="img/12954335262607_1.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>You will be prompted to choose the Alignment Position - click once to start the alignment line, and a second time to finish it:</p>
+<p><img src="img/12954335262607_2.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>And now, the labels will be distributed and aligned:</p>
+<p><img src="img/12954335262607_3.jpg" alt="Distributing and Aligning Plant Labels 示意图" loading="lazy"></p>
+<p>If you ever want to redistribute or re-align the labels, you can run the same process again, as many times as you need, to get the result you want</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000558616">
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">如何选择你的 Cadimage 边界对象</h3>
+    <h3 class="en-only block">How to selecting your Cadimage Boundary Objects</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000558616-How-to-selecting-your-Cadimage-Boundary-Objects" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>新西兰模板中提供了一个条件集（Criteria Set），便于一次性选中所有场地边界对象。</p>
+<p>转到 Edit > Find and Select（编辑 > 查找并选择）</p>
+<p><img src="img/360000558616_0.jpg" alt="How to selecting your Cadimage Boundary Objects 示意图" loading="lazy"></p>
+<p>然后选择 Cadimage Boundary +North 选项，再点击“+”。</p>
+<p><img src="img/360000558616_1.jpg" alt="How to selecting your Cadimage Boundary Objects 示意图" loading="lazy"></p>
+<p>这将选中该楼层中可见的所有边界以及指北针。</p></div>
+  <div class="en-only"><p>The New Zealand template has a Criteria Set that makes it easy to select all your Site Boundary objects at once.</p>
+<p>Go to Edit>Find and Select</p>
+<p><img src="img/360000558616_0.jpg" alt="How to selecting your Cadimage Boundary Objects 示意图" loading="lazy"></p>
+<p>and select the option Cadimage Boundary +North and then '+'.</p>
+<p><img src="img/360000558616_1.jpg" alt="How to selecting your Cadimage Boundary Objects 示意图" loading="lazy"></p>
+<p>This will select all Boundaries plus the North arrow visible in that Story.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The New Zealand template has a Criteria Set that makes it easy to select all your Site Boundary objects at once.</p>
+<p>Go to Edit>Find and Select</p>
+<p><img src="img/360000558616_0.jpg" alt="How to selecting your Cadimage Boundary Objects 示意图" loading="lazy"></p>
+<p>and select the option Cadimage Boundary +North and then '+'.</p>
+<p><img src="img/360000558616_1.jpg" alt="How to selecting your Cadimage Boundary Objects 示意图" loading="lazy"></p>
+<p>This will select all Boundaries plus the North arrow visible in that Story.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-12951246482959">
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">为植物添加标签</h3>
+    <h3 class="en-only block">Labelling Plants</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/12951246482959-Labelling-Plants" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Sites 工具能够为植物添加标签 —— 既可以<a href="#h_01JXE78MZF0BJG4T1JZV6EC2PZ" target="_blank" rel="noopener">为一组所选植物添加标签</a>，也可以<a href="#h_01JXE79Q51PWCVM9YH9XVT40PZ" target="_blank" rel="noopener">为包含植物的填充区域添加标签</a>。添加标签之后，你还可以<a href="#h_01JXE7HH5M5S47X4CX3QJ5WW7S" target="_blank" rel="noopener">按需更改标签的显示方式</a>。</p>
+<p><img src="img/12951246482959_0.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<h2>为一组所选植物添加标签</h2>
+<p>要为所选植物添加标签，首先选择想要包含的植物。</p>
+<p>注意：你的选择可以包含同一种植物，也可以包含多种不同植物 —— 标签会根据所选内容相应地应用。</p>
+<p>接下来，点击 Ci Tools 菜单 - Sites - Label Selected Plants（为所选植物添加标签）：</p>
+<p><img src="img/12951246482959_1.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>对话框会打开，询问你希望使用 Group Contiguous（分组连续）还是 Group All（全部分组）</p>
+<p><img src="img/12951246482959_2.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>Group Contiguous 选项会为每一“簇”植物创建一个独立标签 —— 即彼此靠近的植物组：</p>
+<p><img src="img/12951246482959_3.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>而 Group All 选项则把所有已选的同类植物视为一个完整的组：</p>
+<p><img src="img/12951246482959_4.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<h2>为填充区域中的植物添加标签</h2>
+<p>首先，选择要添加标签的填充区域（Fill），然后点击 <strong>Ci Tools</strong> 菜单 - <strong>Sites</strong> - <strong>Label Plants in Selected Fills</strong>（为所选填充区域中的植物添加标签）：</p>
+<p><img src="img/12951246482959_5.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>这会为每个填充区域附加一个标签，列出其中包含的植物：</p>
+<p><img src="img/12951246482959_6.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<h2>控制标签的显示</h2>
+<p>标签放置之后，可以修改标签设置以适应你的需要。你可以在此设置画笔颜色和线型、边框尺寸，以及是否要在已标注的构件周围显示气泡（Bubbles）：</p>
+<p><img src="img/12951246482959_7.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>字体样式和尺寸的设置以及标签内容，可在 Sites 的模型视图选项中 Labels（标签）下找到：</p>
+<p><img src="img/12951246482959_8.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>与 Ci Tools Sites 镂空植物配合使用时，标签默认依次显示编号（Code）、数量、植物学名称和通用名称。</p></div>
+  <div class="en-only"><p>The Sites tool has the ability to Label plants - either by <a href="#h_01JXE78MZF0BJG4T1JZV6EC2PZ" target="_blank" rel="noopener">labelling a Selection of Plants</a>, or by <a href="#h_01JXE79Q51PWCVM9YH9XVT40PZ" target="_blank" rel="noopener">labelling a Fill which contains plants</a>. Once labelled, you can also <a href="#h_01JXE7HH5M5S47X4CX3QJ5WW7S" target="_blank" rel="noopener">change the display of the labels to your preference</a>.</p>
+<p><img src="img/12951246482959_0.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<h2>Labelling a Selection of Plants</h2>
+<p>To label a Selection of plants, start by Selecting the plants you want to include.</p>
+<p>Note: your selection can contain either all the same types of plant, or multiple different plants - the Labels will be applied appropriately based on what is selected</p>
+<p>Next, click on the Ci Tools menu - Sites - Label Selected Plants:</p>
+<p><img src="img/12951246482959_1.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>A dialog will open asking if you want to Group Contiguous, or Group All</p>
+<p><img src="img/12951246482959_2.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>The Group Contiguous option will create a separate label for each "clumped" group of plants - i.e. groups of plants that are close to each other:</p>
+<p><img src="img/12951246482959_3.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>And the Group All option will treat all matching Plants selected as a complete group:</p>
+<p><img src="img/12951246482959_4.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<h2>Labelling Plants in a Fill</h2>
+<p>To start, select the Fill(s) that you want to Label, and then click on the <strong>Ci Tools</strong> menu - <strong>Sites</strong> - <strong>Label Plants in Selected Fills</strong>:</p>
+<p><img src="img/12951246482959_5.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>This will attach a Label to each Fill, listing the Plants they contain:</p>
+<p><img src="img/12951246482959_6.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<h2>Controlling the Display of Labels</h2>
+<p>Once your Labels are placed, the Label Settings can be modified to suit you. You can set the Pen colour and Linetype here, as well as the size of the Frame, and whether you want Bubbles to display around the labelled elements:</p>
+<p><img src="img/12951246482959_7.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>And the settings for the Font style and size, and the contents of the label can be found in the Model View Options for Sites, under Labels:</p>
+<p><img src="img/12951246482959_8.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>When used with Ci Tools Sites Cutout plants, the label will default to display the Code, quantity, Botanical name, and Common name, in that order</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Sites tool has the ability to Label plants - either by <a href="#h_01JXE78MZF0BJG4T1JZV6EC2PZ" target="_blank" rel="noopener">labelling a Selection of Plants</a>, or by <a href="#h_01JXE79Q51PWCVM9YH9XVT40PZ" target="_blank" rel="noopener">labelling a Fill which contains plants</a>. Once labelled, you can also <a href="#h_01JXE7HH5M5S47X4CX3QJ5WW7S" target="_blank" rel="noopener">change the display of the labels to your preference</a>.</p>
+<p><img src="img/12951246482959_0.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<h2>Labelling a Selection of Plants</h2>
+<p>To label a Selection of plants, start by Selecting the plants you want to include.</p>
+<p>Note: your selection can contain either all the same types of plant, or multiple different plants - the Labels will be applied appropriately based on what is selected</p>
+<p>Next, click on the Ci Tools menu - Sites - Label Selected Plants:</p>
+<p><img src="img/12951246482959_1.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>A dialog will open asking if you want to Group Contiguous, or Group All</p>
+<p><img src="img/12951246482959_2.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>The Group Contiguous option will create a separate label for each "clumped" group of plants - i.e. groups of plants that are close to each other:</p>
+<p><img src="img/12951246482959_3.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>And the Group All option will treat all matching Plants selected as a complete group:</p>
+<p><img src="img/12951246482959_4.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<h2>Labelling Plants in a Fill</h2>
+<p>To start, select the Fill(s) that you want to Label, and then click on the <strong>Ci Tools</strong> menu - <strong>Sites</strong> - <strong>Label Plants in Selected Fills</strong>:</p>
+<p><img src="img/12951246482959_5.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>This will attach a Label to each Fill, listing the Plants they contain:</p>
+<p><img src="img/12951246482959_6.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<h2>Controlling the Display of Labels</h2>
+<p>Once your Labels are placed, the Label Settings can be modified to suit you. You can set the Pen colour and Linetype here, as well as the size of the Frame, and whether you want Bubbles to display around the labelled elements:</p>
+<p><img src="img/12951246482959_7.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>And the settings for the Font style and size, and the contents of the label can be found in the Model View Options for Sites, under Labels:</p>
+<p><img src="img/12951246482959_8.jpg" alt="Labelling Plants 示意图" loading="lazy"></p>
+<p>When used with Ci Tools Sites Cutout plants, the label will default to display the Code, quantity, Botanical name, and Common name, in that order</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-14173627813647">
+  <div class="art-h"><span class="no">06</span>
+    <h3 class="zh-only block">放置面积图章</h3>
+    <h3 class="en-only block">Placing an Area Stamp</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/14173627813647-Placing-an-Area-Stamp" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>首先，设置面积图章的 Settings（设置）以匹配你希望测量的区域（Zones）：</p>
+<p><img src="img/14173627813647_0.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p>
+<p><img src="img/14173627813647_1.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p>
+<p>在使用这些类别放置好区域（Zones）之后，运行命令 <strong>Ci Tools - Sites - Update Area Stamps</strong>（更新面积图章），然后点击放置。</p>
+<p><img src="img/14173627813647_2.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p>
+<p>如果图章显示的内容与预期不符，请确保设置中你的区域所对应的改造状态正确 —— 即 Existing（既有）或 Proposed（拟建）。</p>
+<p><img src="img/14173627813647_3.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>First, setup the Area Stamp Settings to match the Zones you want to measure:</p>
+<p><img src="img/14173627813647_0.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p>
+<p><img src="img/14173627813647_1.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p>
+<p>Once you have Zones placed using those Categories, run the command Ci Tools - Sites - Update Area Stamps, and click to place</p>
+<p><img src="img/14173627813647_2.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p>
+<p>If the stamp does not show what you expect, ensure that the settings are set to show the correct renovation status on your Zones - either Existing or Proposed</p>
+<p><img src="img/14173627813647_3.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>First, setup the Area Stamp Settings to match the Zones you want to measure:</p>
+<p><img src="img/14173627813647_0.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p>
+<p><img src="img/14173627813647_1.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p>
+<p>Once you have Zones placed using those Categories, run the command Ci Tools - Sites - Update Area Stamps, and click to place</p>
+<p><img src="img/14173627813647_2.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p>
+<p>If the stamp does not show what you expect, ensure that the settings are set to show the correct renovation status on your Zones - either Existing or Proposed</p>
+<p><img src="img/14173627813647_3.jpg" alt="Placing an Area Stamp 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-12942757470351">
+  <div class="art-h"><span class="no">07</span>
+    <h3 class="zh-only block">在填充区域上放置植物</h3>
+    <h3 class="en-only block">Plant Placement onto a Fill</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/12942757470351-Plant-Placement-onto-a-Fill" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Sites 工具能够快速便捷地沿一条线放置植物或填充一个区域 —— 本页介绍在填充区域（Fill）上放置 —— <a href="https://cadimage.zendesk.com/hc/en-us/articles/12931967859215" target="_blank" rel="noopener">参见此处了解沿线放置</a></p>
+<p>Ci Sites 植物对象或任何其他对象都可以放置以填充一个区域 —— 首先，绘制你希望用植物覆盖的填充区域。</p>
+<p><img src="img/12942757470351_0.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>然后选择该填充区域（一个或多个），点击 <strong>Ci Tools</strong> 菜单，再点击 <strong>Sites</strong>，然后点击 <strong>Place Plants within Selected Fills</strong>（在所选填充区域内放置植物），如下图所示。</p>
+<p><img src="img/12942757470351_1.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>随后会打开对象选择器，你可以在其中选择要放置在线上的植物（或对象）。Ci Tools Sites 植物位于 <strong>Ci Tools Library</strong> 文件夹下，接着是 <strong>Sites</strong>，再接着是 <strong>Plants Cutout</strong>。</p>
+<p><img src="img/12942757470351_2.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>选择你想要的植物或对象，按需更改设置，然后点击 <strong>OK</strong>。完成后，会弹出一个对话框，用于指定你希望如何进行放置：</p>
+<p><img src="img/12942757470351_3.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<ul>
+<li>Grid（网格）部分允许你定义植物在填充区域内部如何交错排布。alpha 值设定网格排布所成的角度，D 值设定网格点之间的间距 —— 即构成放置网格的“行”和“列”的尺寸</li>
+</ul>
+<ul>
+<li>下一项设置允许你 Randomly Adjust the Position（随机调整位置），即在上述网格上随机调整填充区域中植物的放置位置。若 Shift 设为 0，植物将直接放置在网格线交点上；否则，按你在此设置的数值，每株植物都会以距网格线的随机距离放置（该随机距离小于此数值）。你也可以在此设置随机旋转，不过在使用 Ci Tools 植物时该设置不可用。但如果用于其他对象（即设为 0 以外的任何值），它将在默认旋转角度的 X 度范围内随机旋转对象（X 即你在此设置的值）</li>
+</ul>
+<ul>
+<li>接下来几项设置允许你 Randomly Adjust the Size（随机调整尺寸），但与旋转类似，这项设置不适用于 Sites 植物，因为这些设置是在对象自身中定义的（<a href="https://cadimage.zendesk.com/hc/en-us/articles/12897833228559" target="_blank" rel="noopener">详见此处</a>）。要使用它，只需设置你希望随机化应用于对象宽度、深度和高度的百分比变化。设为 0 表示不作随机化。Randomise All Settings（随机化所有设置）选项可在受支持的对象上将尺寸、树龄、枝条分布等相关设置全部随机化。注意，此项仅适用于 Ci Tools Library - Sites - Plants 3D 中的少数几种三维树木，具体为 Ghost Gum 和 Lombardy Poplar。</li>
+</ul>
+<ul>
+<li>最后，对话框会显示当前选中了多少个填充区域和网格 —— 即让你知道该操作将作用于哪些对象。</li>
+</ul>
+<p>按你希望的方式完成这些设置后，点击 OK，工具就会为你放置植物。</p>
+<p><img src="img/12942757470351_4.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<h2>将已放置的植物升至网格表面</h2>
+<p>作为沿线放置植物流程的一部分，你还可以让工具把已放置的构件升至（或降至）网格表面。</p>
+<p>为此，只需在开始操作前同时选中希望升到的网格和那些线：</p>
+<p><img src="img/12942757470351_5.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>结果类似这样：</p>
+<p><img src="img/12942757470351_6.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>The Sites tool includes the ability to quickly and easily place plants along a line or to fill an area - this pages covers placing onto a Fill - <a href="https://cadimage.zendesk.com/hc/en-us/articles/12931967859215" target="_blank" rel="noopener">see here to place along a Line</a></p>
+<p>Ci Sites Plant objects, or any other object, can be placed to fill in an area - to get started, draw the fill (or fills) that you want to cover with plants</p>
+<p><img src="img/12942757470351_0.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>Then select the fill (or fills), and click on the <strong>Ci Tools</strong> menu, then <strong>Sites</strong>, and then <strong>Place Plants within Selected Fills</strong> as shown below</p>
+<p><img src="img/12942757470351_1.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>The object picker will then open, where you can choose the Plant (or object) that you want to place on the line. The Ci Tools Sites plants are located in the <strong>Ci Tools Library</strong> folder, then <strong>Sites</strong>, and <strong>Plants Cutout</strong></p>
+<p><img src="img/12942757470351_2.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>Choose the Plant or object you want, and change any settings as required, and then hit <strong>OK</strong>. Once you do, a dialog to specify how you want the placement to be done will open:</p>
+<p><img src="img/12942757470351_3.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<ul>
+<li>The Grid section allows you to define how the placement will be staggered inside the fill. the alpha value sets the angle that the grid will run across, and the D value sets the spacing between grid points - i.e. the size of the "rows and columns" that will make up the placement grid</li>
+</ul>
+<ul>
+<li>The next setting allows you to Randomly Adjust the Position that Plants will be placed in the fill, on the grid specified above. If the Shift is set to 0, plants will be placed directly on the gridline intersections, otherwise whatever value you set here, each plant will be placed at a random distance below this number away from the lines You can also set a random Rotation here as well, although this setting will not be available when using Ci Tools plants. If you do use it for other objects though (i.e. set it to anything besides 0), it will randomly rotate the objects within X degrees of the default rotation angle (where X is the value you set here)</li>
+</ul>
+<ul>
+<li>The next settings allow you to Randomly Adjust the Size of placed objects, although similar to the rotation, this is not available for Sites Plants, as those settings are defined in the objects themselves (<a href="https://cadimage.zendesk.com/hc/en-us/articles/12897833228559" target="_blank" rel="noopener">see details here</a>). To use this, just set the percentage change you would like the randomisation to apply to the Width Depth and Height of the objects. Setting these to 0 will use no randomisation. The Randomise All Settings option allows you to - on supported objects - randomise all settings to do with sizing, age, branch placement etc. Note this only works on a few of the 3D Trees which are in Ci Tools Library - Sites - Plants 3D. Specifically, the Ghost Gum and Lombardy Poplar</li>
+</ul>
+<ul>
+<li>Finally, the dialog shows how many fills and meshes are currently selected - i.e. to let you know what it is going to run the operation on.</li>
+</ul>
+<p>Once you have set things here the way that you want, hit OK, and the tool will do the placement of your plants.</p>
+<p><img src="img/12942757470351_4.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<h2>Elevating the Placed Plants to a Mesh Surface</h2>
+<p>As part of the process of placing the plants on a line, you can also have the tool elevate (or drop) the placed elements onto the surface of a Mesh.</p>
+<p>To do so, just select the Mesh that you want them to elevate to along with the lines before you begin the operation:</p>
+<p><img src="img/12942757470351_5.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>Results in something like this:</p>
+<p><img src="img/12942757470351_6.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Sites tool includes the ability to quickly and easily place plants along a line or to fill an area - this pages covers placing onto a Fill - <a href="https://cadimage.zendesk.com/hc/en-us/articles/12931967859215" target="_blank" rel="noopener">see here to place along a Line</a></p>
+<p>Ci Sites Plant objects, or any other object, can be placed to fill in an area - to get started, draw the fill (or fills) that you want to cover with plants</p>
+<p><img src="img/12942757470351_0.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>Then select the fill (or fills), and click on the <strong>Ci Tools</strong> menu, then <strong>Sites</strong>, and then <strong>Place Plants within Selected Fills</strong> as shown below</p>
+<p><img src="img/12942757470351_1.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>The object picker will then open, where you can choose the Plant (or object) that you want to place on the line. The Ci Tools Sites plants are located in the <strong>Ci Tools Library</strong> folder, then <strong>Sites</strong>, and <strong>Plants Cutout</strong></p>
+<p><img src="img/12942757470351_2.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>Choose the Plant or object you want, and change any settings as required, and then hit <strong>OK</strong>. Once you do, a dialog to specify how you want the placement to be done will open:</p>
+<p><img src="img/12942757470351_3.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<ul>
+<li>The Grid section allows you to define how the placement will be staggered inside the fill. the alpha value sets the angle that the grid will run across, and the D value sets the spacing between grid points - i.e. the size of the "rows and columns" that will make up the placement grid</li>
+</ul>
+<ul>
+<li>The next setting allows you to Randomly Adjust the Position that Plants will be placed in the fill, on the grid specified above. If the Shift is set to 0, plants will be placed directly on the gridline intersections, otherwise whatever value you set here, each plant will be placed at a random distance below this number away from the lines You can also set a random Rotation here as well, although this setting will not be available when using Ci Tools plants. If you do use it for other objects though (i.e. set it to anything besides 0), it will randomly rotate the objects within X degrees of the default rotation angle (where X is the value you set here)</li>
+</ul>
+<ul>
+<li>The next settings allow you to Randomly Adjust the Size of placed objects, although similar to the rotation, this is not available for Sites Plants, as those settings are defined in the objects themselves (<a href="https://cadimage.zendesk.com/hc/en-us/articles/12897833228559" target="_blank" rel="noopener">see details here</a>). To use this, just set the percentage change you would like the randomisation to apply to the Width Depth and Height of the objects. Setting these to 0 will use no randomisation. The Randomise All Settings option allows you to - on supported objects - randomise all settings to do with sizing, age, branch placement etc. Note this only works on a few of the 3D Trees which are in Ci Tools Library - Sites - Plants 3D. Specifically, the Ghost Gum and Lombardy Poplar</li>
+</ul>
+<ul>
+<li>Finally, the dialog shows how many fills and meshes are currently selected - i.e. to let you know what it is going to run the operation on.</li>
+</ul>
+<p>Once you have set things here the way that you want, hit OK, and the tool will do the placement of your plants.</p>
+<p><img src="img/12942757470351_4.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<h2>Elevating the Placed Plants to a Mesh Surface</h2>
+<p>As part of the process of placing the plants on a line, you can also have the tool elevate (or drop) the placed elements onto the surface of a Mesh.</p>
+<p>To do so, just select the Mesh that you want them to elevate to along with the lines before you begin the operation:</p>
+<p><img src="img/12942757470351_5.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+<p>Results in something like this:</p>
+<p><img src="img/12942757470351_6.jpg" alt="Plant Placement onto a Fill 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-12931967859215">
+  <div class="art-h"><span class="no">08</span>
+    <h3 class="zh-only block">沿线放置植物</h3>
+    <h3 class="en-only block">Plant placement along Lines</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/12931967859215-Plant-placement-along-Lines" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Sites 工具能够快速便捷地沿一条线放置植物或填充一个区域 —— 本页介绍沿线放置 —— <a href="https://cadimage.zendesk.com/hc/en-us/articles/12942757470351" target="_blank" rel="noopener">参见此处了解在填充区域内放置</a></p>
+<p>Ci Sites 植物对象或任何其他对象都可以沿样条曲线、直线或多段线放置。首先，绘制你希望放置植物（或其他对象）的线。</p>
+<p><img src="img/12931967859215_0.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>接下来，选中你已绘制的线，点击 <strong>Ci Tools</strong> 菜单，然后点击 <strong>Sites</strong>，再点击 <strong>Place Plants along a Selected Line or Arc</strong>（沿所选直线或圆弧放置植物），如下图所示。</p>
+<p><img src="img/12931967859215_1.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>随后会打开对象选择器，你可以在其中选择要放置在线上的植物（或对象）。Ci Tools Sites 植物位于 <strong>Ci Tools Library</strong> 文件夹下，接着是 <strong>Sites</strong>，再接着是 <strong>Plants Cutout</strong>。</p>
+<p><img src="img/12931967859215_2.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>选择你想要的植物或对象，按需更改设置，然后点击 <strong>OK</strong>。完成后，会弹出一个对话框，用于指定你希望如何进行放置：</p>
+<p><img src="img/12931967859215_3.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<ul>
+<li>Spacing Type（间距类型）设置用于定义植物间距是沿所选线测量，还是直接从一株植物到下一株植物测量。下面的 Value（数值）可用于设置间距距离，下拉列表则让你选择所给数值是最小间距（ At Least 至少）、最大间距（ No more than 不超过）还是精确值（ Exactly 恰好）。</li>
+</ul>
+<ul>
+<li>Polylines（多段线）设置让你选择间距是按所选线的整体长度计算，还是在每一段线段上独立设置（仅在多段线上放置时适用）</li>
+</ul>
+<ul>
+<li>下一项设置允许你 Randomly Adjust the Position（随机调整位置），即植物在线上的放置位置。若设为 0，植物将直接放置在线上；否则，按你在此设置的数值，每株植物都会以距线的随机距离放置（该随机距离小于此数值）。你也可以在此设置随机旋转，不过在使用 Ci Tools 植物时该设置不可用。但如果用于其他对象（即设为 0 以外的任何值），它将在默认旋转角度的 X 度范围内随机旋转对象（X 即你在此设置的值）</li>
+</ul>
+<ul>
+<li>接下来几项设置允许你 Randomly Adjust the Size（随机调整尺寸），但与旋转类似，这项设置不适用于 Sites 植物，因为这些设置是在对象自身中定义的（<a href="https://cadimage.zendesk.com/hc/en-us/articles/12897833228559" target="_blank" rel="noopener">详见此处</a>）。要使用它，只需设置你希望随机化应用于对象宽度、深度和高度的百分比变化。设为 0 表示不作随机化。Randomise All Settings（随机化所有设置）选项可在受支持的对象上将尺寸、树龄、枝条分布等相关设置全部随机化。注意，此项仅适用于 Ci Tools Library - Sites - Plants 3D 中的少数几种三维树木，具体为 Ghost Gum 和 Lombardy Poplar。</li>
+</ul>
+<ul>
+<li>最后，对话框会显示当前选中了多少条线和网格 —— 即让你知道该操作将作用于哪些对象。</li>
+</ul>
+<p>按你希望的方式完成这些设置后，点击 OK，工具就会为你放置植物。</p>
+<p><img src="img/12931967859215_4.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<h2>将已放置的植物升至网格表面</h2>
+<p>作为沿线放置植物流程的一部分，你还可以让工具把已放置的构件升至（或降至）网格表面。</p>
+<p>为此，只需在开始操作前同时选中希望升到的网格和那些线：</p>
+<p><img src="img/12931967859215_5.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>结果类似这样：</p>
+<p><img src="img/12931967859215_6.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>The Sites tool includes the ability to quickly and easily place plants along a line or to fill an area - this page covers placing along a line - <a href="https://cadimage.zendesk.com/hc/en-us/articles/12942757470351" target="_blank" rel="noopener">see here to place in a Fill</a></p>
+<p>Ci Sites Plant objects, or any other object, can be placed along a Spline, Line, or Polyline. To start, draw the line you would like to place your Plants (or other objects) on.</p>
+<p><img src="img/12931967859215_0.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>Next, select the line you have drawn, click on the <strong>Ci Tools</strong> menu, then <strong>Sites</strong>, and then <strong>Place Plants along a Selected Line or Arc</strong> as shown below</p>
+<p><img src="img/12931967859215_1.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>The object picker will then open, where you can choose the Plant (or object) that you want to place on the line. The Ci Tools Sites plants are located in the <strong>Ci Tools Library</strong> folder, then <strong>Sites</strong>, and <strong>Plants Cutout</strong></p>
+<p><img src="img/12931967859215_2.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>Choose the Plant or object you want, and change any settings as required, and then hit <strong>OK</strong>. Once you do, a dialog to specify how you want the placement to be done will open:</p>
+<p><img src="img/12931967859215_3.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<ul>
+<li>The Spacing Type setting defines whether you want the spacing between Plants to be measured along the selected line, or directly from Plant to Plant. Then the Value below allows you to set the spacing distance, and then the drop-down allows you to choose if the value you give is the minimum spacing ( At Least ), maximum spacing ( No more than ), or Exactly .</li>
+</ul>
+<ul>
+<li>The Polylines setting allows you to choose if the spacing should be calculated over the entire length of the selected line, or if it should be set independently on each line segment (only applies when placing on a Polyline)</li>
+</ul>
+<ul>
+<li>The next setting allows you to Randomly Adjust the Position that Plants will be placed on the line. If this is set to 0, plants will be placed directly on the line, otherwise whatever value you set here, each plant will be placed at a random distance below this number away from the line You can also set a random Rotation here as well, although this setting will not be available when using Ci Tools plants. If you do use it for other objects though (i.e. set it to anything besides 0), it will randomly rotate the objects within X degrees of the default rotation angle (where X is the value you set here)</li>
+</ul>
+<ul>
+<li>The next settings allow you to Randomly Adjust the Size of placed objects, although similar to the rotation, this is not available for Sites Plants, as those settings are defined in the objects themselves (<a href="https://cadimage.zendesk.com/hc/en-us/articles/12897833228559" target="_blank" rel="noopener">see details here</a>). To use this, just set the percentage change you would like the randomisation to apply to the Width Depth and Height of the objects. Setting these to 0 will use no randomisation. The Randomise All Settings option allows you to - on supported objects - randomise all settings to do with sizing, age, branch placement etc. Note this only works on a few of the 3D Trees which are in Ci Tools Library - Sites - Plants 3D. Specifically, the Ghost Gum and Lombardy Poplar</li>
+</ul>
+<ul>
+<li>Finally, the dialog shows how many lines and meshes are currently selected - i.e. to let you know what it is going to run the operation on.</li>
+</ul>
+<p>Once you have set things here the way that you want, hit OK, and the tool will do the placement of your plants.</p>
+<p><img src="img/12931967859215_4.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<h2>Elevating the Placed Plants to a Mesh Surface</h2>
+<p>As part of the process of placing the plants on a line, you can also have the tool elevate (or drop) the placed elements onto the surface of a Mesh.</p>
+<p>To do so, just select the Mesh that you want them to elevate to along with the lines before you begin the operation:</p>
+<p><img src="img/12931967859215_5.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>Results in something like this:</p>
+<p><img src="img/12931967859215_6.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Sites tool includes the ability to quickly and easily place plants along a line or to fill an area - this page covers placing along a line - <a href="https://cadimage.zendesk.com/hc/en-us/articles/12942757470351" target="_blank" rel="noopener">see here to place in a Fill</a></p>
+<p>Ci Sites Plant objects, or any other object, can be placed along a Spline, Line, or Polyline. To start, draw the line you would like to place your Plants (or other objects) on.</p>
+<p><img src="img/12931967859215_0.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>Next, select the line you have drawn, click on the <strong>Ci Tools</strong> menu, then <strong>Sites</strong>, and then <strong>Place Plants along a Selected Line or Arc</strong> as shown below</p>
+<p><img src="img/12931967859215_1.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>The object picker will then open, where you can choose the Plant (or object) that you want to place on the line. The Ci Tools Sites plants are located in the <strong>Ci Tools Library</strong> folder, then <strong>Sites</strong>, and <strong>Plants Cutout</strong></p>
+<p><img src="img/12931967859215_2.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>Choose the Plant or object you want, and change any settings as required, and then hit <strong>OK</strong>. Once you do, a dialog to specify how you want the placement to be done will open:</p>
+<p><img src="img/12931967859215_3.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<ul>
+<li>The Spacing Type setting defines whether you want the spacing between Plants to be measured along the selected line, or directly from Plant to Plant. Then the Value below allows you to set the spacing distance, and then the drop-down allows you to choose if the value you give is the minimum spacing ( At Least ), maximum spacing ( No more than ), or Exactly .</li>
+</ul>
+<ul>
+<li>The Polylines setting allows you to choose if the spacing should be calculated over the entire length of the selected line, or if it should be set independently on each line segment (only applies when placing on a Polyline)</li>
+</ul>
+<ul>
+<li>The next setting allows you to Randomly Adjust the Position that Plants will be placed on the line. If this is set to 0, plants will be placed directly on the line, otherwise whatever value you set here, each plant will be placed at a random distance below this number away from the line You can also set a random Rotation here as well, although this setting will not be available when using Ci Tools plants. If you do use it for other objects though (i.e. set it to anything besides 0), it will randomly rotate the objects within X degrees of the default rotation angle (where X is the value you set here)</li>
+</ul>
+<ul>
+<li>The next settings allow you to Randomly Adjust the Size of placed objects, although similar to the rotation, this is not available for Sites Plants, as those settings are defined in the objects themselves (<a href="https://cadimage.zendesk.com/hc/en-us/articles/12897833228559" target="_blank" rel="noopener">see details here</a>). To use this, just set the percentage change you would like the randomisation to apply to the Width Depth and Height of the objects. Setting these to 0 will use no randomisation. The Randomise All Settings option allows you to - on supported objects - randomise all settings to do with sizing, age, branch placement etc. Note this only works on a few of the 3D Trees which are in Ci Tools Library - Sites - Plants 3D. Specifically, the Ghost Gum and Lombardy Poplar</li>
+</ul>
+<ul>
+<li>Finally, the dialog shows how many lines and meshes are currently selected - i.e. to let you know what it is going to run the operation on.</li>
+</ul>
+<p>Once you have set things here the way that you want, hit OK, and the tool will do the placement of your plants.</p>
+<p><img src="img/12931967859215_4.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<h2>Elevating the Placed Plants to a Mesh Surface</h2>
+<p>As part of the process of placing the plants on a line, you can also have the tool elevate (or drop) the placed elements onto the surface of a Mesh.</p>
+<p>To do so, just select the Mesh that you want them to elevate to along with the lines before you begin the operation:</p>
+<p><img src="img/12931967859215_5.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+<p>Results in something like this:</p>
+<p><img src="img/12931967859215_6.jpg" alt="Plant placement along Lines 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-17876291829775">
+  <div class="art-h"><span class="no">09</span>
+    <h3 class="zh-only block">ProKit Sites – 从这里开始</h3>
+    <h3 class="en-only block">ProKit Sites – Start here</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/17876291829775-ProKit-Sites-Start-here" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Sites 工具可用于精细的景观设计，以及放置诸如建筑退线和三维建筑轮廓包络等场地相关需求。它还包含一个内容广泛的构件库，包括：</p>
+<p>场地开挖机械与瓦砾清除</p>
+<p>排水与给水分配对象</p>
+<p>围挡与围栏</p>
+<p>园林设施与硬质景观，包括公园、游乐场和公共空间设施</p>
+<p>各种可定制的三维和二维镂空植物</p>
+<p>典型运动场地布局</p>
+<p>街道照明与标识标牌</p>
+<p>各种车辆及其行驶轨迹曲线。</p>
+<p>这些都可以通过普通的 ARCHICAD 对象工具访问。</p>
+<p><strong>Libpack 加载（自 ARCHICAD 29 起）</strong></p>
+<p>需要特别注意的是，ProKit Sites 工具要求手动将 Sites Libpack 加载到项目中。</p>
+<p>与所有库一样，此操作通过库管理器完成。请注意，所加载的 Libpack 需在单个文件层级上选择，而非像早期 ARCHICAD 版本那样在文件夹层级上选择。</p>
+<p>库管理器可通过 File > Library Manager 下拉菜单打开。</p>
+<p><img src="img/17876291829775_0.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>进入库管理器后，我们将使用“Add”按钮添加 Sites Libpack。</p>
+<p><img src="img/17876291829775_1.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>这允许你定位到 ARCHICAD 安装文件夹中的 ProKit Libpack 文件夹。</p>
+<p><img src="img/17876291829775_2.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>这将加载 Sites Libpack 及其关联的宏。</p>
+<p>Sites 对象现在可在对象工具中使用。</p>
+<p><strong>放置 Sites 对象</strong></p>
+<p>Sites 对象使用 ARCHCAD 中的对象工具放置。</p>
+<p>选定该工具后，即可打开设置并放置任意 Sites 对象。</p>
+<p><img src="img/17876291829775_3.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>关于不同 Sites 对象和功能的详细信息，请参阅知识库中的其他文章。</p></div>
+  <div class="en-only"><p>The Sites Tool allows for intricate Landscape Design and placement of Site based require,ments such as building lines and 3D Building envelopes. It also contains an extensive library of Components consisting of:</p>
+<p>Site Excavation Machinery and Rubble Removal</p>
+<p>Drainage and Water reticulation objects</p>
+<p>Hoarding and Fencing</p>
+<p>Garden fixtures and Hard Landscaping, including Park, Playground and Public space fittings</p>
+<p>Various customisable 3D and 2D Cutout Plants</p>
+<p>Typical Sports ground layouts</p>
+<p>Street Lighting and Signage</p>
+<p>Various Vehicles and their tracking curves.</p>
+<p>These are accessible through the normal ARCHICAD Object Tool.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Sites Tool requires the Sites Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier ARCHICAD versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17876291829775_0.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Sitess Libpack.</p>
+<p><img src="img/17876291829775_1.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17876291829775_2.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>This will load the Sites Libpack and associated Macros.</p>
+<p>The Sites Objects will now be available in the Object Tool.</p>
+<p><strong>Placing a Sites Object</strong></p>
+<p>The Sites objects are placed with the Object Tool in ARCHCAD.</p>
+<p>Once the tool is selected, the settings can be opened and any Sites Object placed.</p>
+<p><img src="img/17876291829775_3.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on the different Sites objects and features, please see the other articles on the Knowledge-base.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Sites Tool allows for intricate Landscape Design and placement of Site based require,ments such as building lines and 3D Building envelopes. It also contains an extensive library of Components consisting of:</p>
+<p>Site Excavation Machinery and Rubble Removal</p>
+<p>Drainage and Water reticulation objects</p>
+<p>Hoarding and Fencing</p>
+<p>Garden fixtures and Hard Landscaping, including Park, Playground and Public space fittings</p>
+<p>Various customisable 3D and 2D Cutout Plants</p>
+<p>Typical Sports ground layouts</p>
+<p>Street Lighting and Signage</p>
+<p>Various Vehicles and their tracking curves.</p>
+<p>These are accessible through the normal ARCHICAD Object Tool.</p>
+<p><strong>Libpack loading (since ARCHICAD 29)</strong></p>
+<p>It is important to note that the ProKit Sites Tool requires the Sites Libpack to be manually loaded into the project.</p>
+<p>As with all Libraries this is done through the Library Manager. Please note that the Libpacks that are loaded need to be selected at an individual file and not at a folder level as was the case in earlier ARCHICAD versions.</p>
+<p>The Library Manager is accessed through the File>Library Manager dropdown.</p>
+<p><img src="img/17876291829775_0.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>Once in the Library Manager we will use the “Add” button to add the Sitess Libpack.</p>
+<p><img src="img/17876291829775_1.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>This allows navigation to the ProKit Libpack folder located in the ARCHICAD installation folder.</p>
+<p><img src="img/17876291829775_2.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>This will load the Sites Libpack and associated Macros.</p>
+<p>The Sites Objects will now be available in the Object Tool.</p>
+<p><strong>Placing a Sites Object</strong></p>
+<p>The Sites objects are placed with the Object Tool in ARCHCAD.</p>
+<p>Once the tool is selected, the settings can be opened and any Sites Object placed.</p>
+<p><img src="img/17876291829775_3.jpg" alt="ProKit Sites – Start here 示意图" loading="lazy"></p>
+<p>For more detailed information on the different Sites objects and features, please see the other articles on the Knowledge-base.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-12944231912207">
+  <div class="art-h"><span class="no">10</span>
+    <h3 class="zh-only block">将植物移动到网格表面</h3>
+    <h3 class="en-only block">Shifting Plants on to the Surface of a Mesh</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/12944231912207-Shifting-Plants-on-to-the-Surface-of-a-Mesh" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Sites 工具能够将任意对象的基座（向上或向下）移动到网格表面上。</p>
+<p>因此，你可以使用 Sites 工具提供的任一种方法放置植物（无论是<a href="https://cadimage.zendesk.com/hc/en-us/articles/12931967859215" target="_blank" rel="noopener">沿线放置</a>还是<a href="https://cadimage.zendesk.com/hc/en-us/articles/12942757470351" target="_blank" rel="noopener">在填充区域上放置</a>），或仅仅手动放置它们，然后事后将它们移到网格表面上，而不必逐个手动调整。</p>
+<p>要运行该功能，只需选择要移动的植物（或对象），然后转到 <strong>Ci Tools</strong> 菜单 - <strong>Sites</strong> - <strong>Elevate Plants to Mesh Surface</strong>（将植物升至网格表面）：</p>
+<p><img src="img/12944231912207_0.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p>
+<p>这会将所有所选对象移动，使其位于其上方或下方任何网格的表面上：</p>
+<p><img src="img/12944231912207_1.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p>
+<p>如果你的项目有多个网格，而你希望植物或对象移动到其中某一个特定网格的表面，只需在运行功能前同时选中该网格和所有对象，它将忽略其他所有网格。</p>
+<p>例如，运行该功能并选中这个网格时：</p>
+<p><img src="img/12944231912207_2.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p>
+<p>植物将上移至该网格的表面，而不是下方网格的表面，而所有不在所选网格上方或下方的其他植物则保持不变：</p>
+<p><img src="img/12944231912207_3.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>The Sites tool has the ability to shift (upward or downward) the base of any Objects to sit on the surface of a mesh</p>
+<p>So you can place Plants using either one of the methods the Site tool provides (either <a href="https://cadimage.zendesk.com/hc/en-us/articles/12931967859215" target="_blank" rel="noopener">along a Line</a> or <a href="https://cadimage.zendesk.com/hc/en-us/articles/12942757470351" target="_blank" rel="noopener">on a Fill</a>), or just by manually placing them, and then move them later on to sit on the mesh surface instead of having to adjust them all manually</p>
+<p>To run the function, jest select the Plants (or objects) that you want to shift, and go to the <strong>Ci Tools</strong> menu - <strong>Sites</strong> - <strong>Elevate Plants to Mesh Surface</strong>:</p>
+<p><img src="img/12944231912207_0.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p>
+<p>This will shift to all selected objects to sit on the surface of any mesh that is above or below them:</p>
+<p><img src="img/12944231912207_1.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p>
+<p>If your project has multiple Meshes, and you want the Plants or objects to shift to the surface of a specific one, simply select the mesh you want along with all the objects before you run the function, and it will ignore all other meshes</p>
+<p>For example, when running the function and selecting this mesh:</p>
+<p><img src="img/12944231912207_2.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p>
+<p>the Plants will shift up to that mesh's surface, instead of the mesh below, while all the other plants that are not above or below the selected mesh will be unchanged:</p>
+<p><img src="img/12944231912207_3.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Sites tool has the ability to shift (upward or downward) the base of any Objects to sit on the surface of a mesh</p>
+<p>So you can place Plants using either one of the methods the Site tool provides (either <a href="https://cadimage.zendesk.com/hc/en-us/articles/12931967859215" target="_blank" rel="noopener">along a Line</a> or <a href="https://cadimage.zendesk.com/hc/en-us/articles/12942757470351" target="_blank" rel="noopener">on a Fill</a>), or just by manually placing them, and then move them later on to sit on the mesh surface instead of having to adjust them all manually</p>
+<p>To run the function, jest select the Plants (or objects) that you want to shift, and go to the <strong>Ci Tools</strong> menu - <strong>Sites</strong> - <strong>Elevate Plants to Mesh Surface</strong>:</p>
+<p><img src="img/12944231912207_0.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p>
+<p>This will shift to all selected objects to sit on the surface of any mesh that is above or below them:</p>
+<p><img src="img/12944231912207_1.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p>
+<p>If your project has multiple Meshes, and you want the Plants or objects to shift to the surface of a specific one, simply select the mesh you want along with all the objects before you run the function, and it will ignore all other meshes</p>
+<p>For example, when running the function and selecting this mesh:</p>
+<p><img src="img/12944231912207_2.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p>
+<p>the Plants will shift up to that mesh's surface, instead of the mesh below, while all the other plants that are not above or below the selected mesh will be unchanged:</p>
+<p><img src="img/12944231912207_3.jpg" alt="Shifting Plants on to the Surface of a Mesh 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-13020422396943">
+  <div class="art-h"><span class="no">11</span>
+    <h3 class="zh-only block">Sites - 模型视图选项</h3>
+    <h3 class="en-only block">Sites - Model View Options</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/13020422396943-Sites-Model-View-Options" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Sites 工具提供若干模型视图选项（Model View Options，MVO），你可以借此让场地构件在各个视图中呈现不同的外观，而不必每次想改变显示方式时都去修改其设置。</p>
+<p>Sites 的 MVO 分为两大类：</p>
+<h2>边界（Boundaries）</h2>
+<p>这一部分涵盖场地边界（Site Boundary）构件的设置，分为 2 组：</p>
+<ul>
+<li>线条（Lines）</li>
+</ul>
+<ul>
+<li>标签（Labels）</li>
+</ul>
+<h2>镂空植物（Cutout Plants）</h2>
+<p>这一部分涵盖镂空植物构件，由 5 个部分组成：</p>
+<ul>
+<li>乔木（Trees）</li>
+</ul>
+<ul>
+<li>灌木（Shrubs）</li>
+</ul>
+<ul>
+<li>地被（Ground Cover）</li>
+</ul>
+<ul>
+<li>保护树木（Protected Trees）</li>
+</ul>
+<ul>
+<li>标签（Labels）</li>
+</ul>
+<p><img src="img/13020422396943_0.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>让我们逐一来看。</p>
+<h2>边界</h2>
+<h3>线条</h3>
+<p>这些线条与使用 Sites 工具创建的场地边界相关。界面设置如下：</p>
+<ul>
+<li>控制是否显示院界退让线（Yard Setback line）</li>
+</ul>
+<ul>
+<li>设置边界是否带标签</li>
+</ul>
+<ul>
+<li>这些设置控制边界线的画笔颜色和线型</li>
+</ul>
+<ul>
+<li>控制退让线的画笔颜色及其线型</li>
+</ul>
+<ul>
+<li>控制边界线末端圆圈的画笔颜色</li>
+</ul>
+<ul>
+<li>这些设置与边界标签内容的设置相关（如果在 (2) 中开启）</li>
+</ul>
+<ul>
+<li>最后，这些设置控制标签文本的格式</li>
+</ul>
+<p><img src="img/13020422396943_1.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_2.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<h3>标签</h3>
+<ul>
+<li>这用于设置直线边界（Straight Boundaries）标签的内容。可用选项为：</li>
+</ul>
+<p> Basic Label（基本标签）—— 仅显示长度、方向和轮廓数据</p>
+<ul>
+<li>Custom Data（自定义数据）—— 允许你自定义要显示的数据。将 Text Lines（文本行数）字段设为你想要的文本行数，Above boundary（边界之上）定义其中有多少行位于边界线之上（其余显示在下方）。然后从下方的下拉列表中选择你想编辑的行，以及该行中应包含多少个数据元素。接着在下方字段中为每个数据元素设置 Prefix（前缀）、Value（值）和 Suffix（后缀）</li>
+</ul>
+<ul>
+<li>或 Listed Data（列表数据）—— 与自定义数据类似，但各元素以列表形式呈现，可拖动到你想要的任意位置，而不是以线为中心居中对齐</li>
+</ul>
+<ul>
+<li>这用于设置任何曲线边界（Curved Boundaries）的自定义数据 —— 可用选项与上文 (1) 相同</li>
+</ul>
+<p><img src="img/13020422396943_3.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_4.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<h2>镂空植物</h2>
+<h3>乔木</h3>
+<p><img src="img/13020422396943_5.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_6.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan View Symbol Preference（平面视图符号偏好）—— 可用选项为：</li>
+</ul>
+<p> Photographic Image（照片图像）—— 显示植物的俯视照片。注意：目前并非所有植物都有俯视照片，没有俯视照片的对象将显示植物形状</p>
+<ul>
+<li>Plant Shape（植物形状）—— 平面视图中植物的剪影：</li>
+</ul>
+<p><img src="img/13020422396943_7.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Circle（圆形）：</li>
+</ul>
+<p><img src="img/13020422396943_8.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>None（无）：</li>
+</ul>
+<p><img src="img/13020422396943_9.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Organic（随机旋转与尺寸变化）—— 按对象设置中指定的百分比偏差施加尺寸变化，并随机旋转，以获得更“自然”的表现</li>
+</ul>
+<ul>
+<li>Shadow Settings（阴影设置）开启或关闭，在平面视图中显示阴影，并设置所用的填充类型和画笔：</li>
+</ul>
+<p> Shadow Off（阴影关闭）：</p>
+<p><img src="img/13020422396943_10.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Shadow On（阴影开启）：</li>
+</ul>
+<p><img src="img/13020422396943_11.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>树干设置（Trunk Settings）</li>
+</ul>
+<ul>
+<li>在平面视图中开启/关闭</li>
+</ul>
+<ul>
+<li>填充选择</li>
+</ul>
+<ul>
+<li>填充前景画笔</li>
+</ul>
+<ul>
+<li>填充背景画笔</li>
+</ul>
+<ul>
+<li>轮廓画笔</li>
+</ul>
+<ul>
+<li>群植的平面符号（Plan Symbol for Massed Planting）</li>
+</ul>
+<p><img src="img/13020422396943_12.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Square Dots（方形点）：</p>
+<p><img src="img/13020422396943_13.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Regular Symbols（规则符号）：</p>
+<p><img src="img/13020422396943_14.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>这允许将散植植物显示为规则符号或方形点。</p>
+<ul>
+<li>模型（三维视图）—— 选项包括</li>
+</ul>
+<ul>
+<li>Photographic Image（照片图像）</li>
+</ul>
+<p><img src="img/13020422396943_15.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plant Shape（植物形状）</li>
+</ul>
+<p><img src="img/13020422396943_16.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Outline only（仅轮廓）</li>
+</ul>
+<p><img src="img/13020422396943_17.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Rectangular billboard（矩形剪影式）</li>
+</ul>
+<p><img src="img/13020422396943_18.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>将镂空显示为剪影（Show Cutouts as Silhouettes）</li>
+</ul>
+<p>在三维中增加一个多边形以投射阴影（在三维中垂直于太阳方向放置）</p>
+<p><img src="img/13020422396943_19.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>灌木</p>
+<p><img src="img/13020422396943_20.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_21.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan View Symbol Preference（平面视图符号偏好）</li>
+</ul>
+<ul>
+<li>Photographic Image（照片图像）</li>
+</ul>
+<ul>
+<li>Plant Shape（植物形状）</li>
+</ul>
+<ul>
+<li>Circle（圆形）</li>
+</ul>
+<ul>
+<li>None（无）</li>
+</ul>
+<p>Organic（随机旋转与尺寸变化）</p>
+<p>按对象设置中指定的百分比偏差施加尺寸变化，并随机旋转，以获得更“自然”的表现。</p>
+<ul>
+<li>Plant Code（植物编号）可开启或关闭。</li>
+</ul>
+<ul>
+<li>Shadow Settings（阴影设置）</li>
+</ul>
+<ul>
+<li>在平面视图中开启/关闭</li>
+</ul>
+<ul>
+<li>填充选择</li>
+</ul>
+<ul>
+<li>阴影轮廓的线型</li>
+</ul>
+<ul>
+<li>群植的平面符号</li>
+</ul>
+<p><img src="img/13020422396943_22.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>这允许将散植植物显示为规则符号或方形点。</p>
+<ul>
+<li>模型（三维视图）。选项包括</li>
+</ul>
+<ul>
+<li>Photographic Image（照片图像）</li>
+</ul>
+<ul>
+<li>Plant Shape（植物形状）</li>
+</ul>
+<ul>
+<li>Outline only（仅轮廓）</li>
+</ul>
+<ul>
+<li>Rectangular billboard（矩形剪影式）</li>
+</ul>
+<ul>
+<li>将镂空显示为剪影</li>
+</ul>
+<p>在三维中增加一个多边形以投射阴影（在三维中垂直于太阳方向放置）</p>
+<p>地被</p>
+<p><img src="img/13020422396943_23.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_24.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan View Symbol Preference（平面视图符号偏好）</li>
+</ul>
+<ul>
+<li>Photographic Image（照片图像）</li>
+</ul>
+<ul>
+<li>Plant Shape（植物形状）</li>
+</ul>
+<ul>
+<li>Circle（圆形）</li>
+</ul>
+<ul>
+<li>None（无）</li>
+</ul>
+<p>Organic（随机旋转与尺寸变化）</p>
+<p>按对象设置中指定的百分比偏差施加尺寸变化，并随机旋转，以获得更“自然”的表现。</p>
+<ul>
+<li>Plant Code（植物编号）可开启或关闭。</li>
+</ul>
+<ul>
+<li>Shadow Settings（阴影设置）</li>
+</ul>
+<ul>
+<li>在平面视图中开启/关闭</li>
+</ul>
+<ul>
+<li>填充选择</li>
+</ul>
+<ul>
+<li>阴影轮廓的线型</li>
+</ul>
+<ul>
+<li>群植的平面符号</li>
+</ul>
+<p><img src="img/13020422396943_25.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>这允许将散植植物显示为规则符号或方形点。</p>
+<ul>
+<li>模型（三维视图）。选项包括</li>
+</ul>
+<ul>
+<li>Photographic Image（照片图像）</li>
+</ul>
+<ul>
+<li>Plant Shape（植物形状）</li>
+</ul>
+<ul>
+<li>Outline only（仅轮廓）</li>
+</ul>
+<ul>
+<li>Rectangular billboard（矩形剪影式）</li>
+</ul>
+<ul>
+<li>将镂空显示为剪影</li>
+</ul>
+<p>在三维中增加一个多边形以投射阴影（在三维中垂直于太阳方向放置）</p>
+<p>保护树木</p>
+<p>如果在设置中将某棵树设为受保护，请参见下图：</p>
+<p><img src="img/13020422396943_26.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>有一个模型视图选项可以全局控制这些设置：</p>
+<p><img src="img/13020422396943_27.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>平面视图设置</li>
+</ul>
+<p><img src="img/13020422396943_28.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>模型视图设置</li>
+</ul>
+<p><img src="img/13020422396943_29.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>标签</p>
+<p><img src="img/13020422396943_30.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>标签的平面视图字体可控制。</li>
+</ul>
+<ul>
+<li>标签的内容可调整。</li>
+</ul>
+<p><img src="img/13020422396943_31.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>The Sites tool has several Model View Options (MVOs) available so that you can set the appearance for Sites Elements to be different in each view, rather than having to change their settings every time you want them to display differently.</p>
+<p>The Sites MVOs are split into two broad Categories:</p>
+<h2>Boundaries</h2>
+<p>This covers settings for the Site Boundary elements, and is split into 2 groups:</p>
+<ul>
+<li>Lines</li>
+</ul>
+<ul>
+<li>Labels</li>
+</ul>
+<h2>Cutout Plants</h2>
+<p>And this area covers the Cutout Plants elements, and is made up of 5 parts:</p>
+<ul>
+<li>Trees</li>
+</ul>
+<ul>
+<li>Shrubs</li>
+</ul>
+<ul>
+<li>Ground Cover</li>
+</ul>
+<ul>
+<li>Protected Trees</li>
+</ul>
+<ul>
+<li>Labels</li>
+</ul>
+<p><img src="img/13020422396943_0.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Let us explore these individually</p>
+<h2>Boundaries</h2>
+<h3>Lines</h3>
+<p>These Lines Relate to the Site Boundaries created with the Sites Tool. The interface is setout as follows:</p>
+<ul>
+<li>Controls if the Yard Setback line should be displayed</li>
+</ul>
+<ul>
+<li>Sets whether the Boundary is labelled</li>
+</ul>
+<ul>
+<li>These settings control the Pen Colour and Linetype of the Boundary Line</li>
+</ul>
+<ul>
+<li>Controls the Pen colour of the Setback line , and the Linetype of it</li>
+</ul>
+<ul>
+<li>Controls the Pen colour of the circles at the end of the boundary lines</li>
+</ul>
+<ul>
+<li>These Settings Relate to the settings for the contents of the Boundary Labels (if turned on in (2))</li>
+</ul>
+<ul>
+<li>And finally these settings control the Formatting of the text for the label</li>
+</ul>
+<p><img src="img/13020422396943_1.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_2.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<h3>Labels</h3>
+<ul>
+<li>This sets the Contents of the Labels for Straight Boundaries . The available options are:</li>
+</ul>
+<p> Basic Label - this shows just the Length , Direction , and Envelope Data</p>
+<ul>
+<li>Custom Data - This lets you customise the data to be displayed. Set the Text Lines field to how many lines of text you want, and Above boundary defines the amount of those lines which are above the boundary line (the rest will display below it). Then Select the line you want to edit from the drop-down below that, and how many data elements should be in it. Then in the fields below, set the Prefix, Value, and Suffix for each data element</li>
+</ul>
+<ul>
+<li>or Listed Data - this works similarly to Custom data, but elements are presented in a list which can be dragged to wherever you want it, rather than centred about the Line itself</li>
+</ul>
+<ul>
+<li>This sets the custom data for any Curved Boundaries - the available options are the same as in (1) above)</li>
+</ul>
+<p><img src="img/13020422396943_3.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_4.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<h2>Cut-out Plants</h2>
+<h3>Trees</h3>
+<p><img src="img/13020422396943_5.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_6.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan View Symbol Preference - the options available are:</li>
+</ul>
+<p> Photographic Image - displays a photo of a top-down view of the plant. Note: currently not all plants have Photographic plan view images, the plant shape will be displayed for any objects which do not have a top-down photo available</p>
+<ul>
+<li>Plant Shape - a silhouette of the plant in plan-view:</li>
+</ul>
+<p><img src="img/13020422396943_7.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Circle:</li>
+</ul>
+<p><img src="img/13020422396943_8.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>None:</li>
+</ul>
+<p><img src="img/13020422396943_9.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Organic (random rotation and varying size) -this applies a percentage deviation in size as specified in the object settings and a random rotation to have a more ‘organic’ representation</li>
+</ul>
+<ul>
+<li>Shadow Settings Toggle On or Off displaying a shadow in Plan view, and set the Fill Type and Pen to use for it:</li>
+</ul>
+<p> Shadow Off:</p>
+<p><img src="img/13020422396943_10.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Shadow On:</li>
+</ul>
+<p><img src="img/13020422396943_11.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Trunk Settings</li>
+</ul>
+<ul>
+<li>Toggle On and Off in plan view</li>
+</ul>
+<ul>
+<li>Fill choice</li>
+</ul>
+<ul>
+<li>Fill Foreground pen</li>
+</ul>
+<ul>
+<li>Fill Background pen</li>
+</ul>
+<ul>
+<li>Outline pen</li>
+</ul>
+<ul>
+<li>Plan Symbol for Massed Planting</li>
+</ul>
+<p><img src="img/13020422396943_12.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Square Dots:</p>
+<p><img src="img/13020422396943_13.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Regular Symbols:</p>
+<p><img src="img/13020422396943_14.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>This allows for place planting to be displayed as regular symbols or as Square dots</p>
+<ul>
+<li>Model (3D view) - options include</li>
+</ul>
+<ul>
+<li>Photographic Image</li>
+</ul>
+<p><img src="img/13020422396943_15.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plant Shape</li>
+</ul>
+<p><img src="img/13020422396943_16.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Outline only</li>
+</ul>
+<p><img src="img/13020422396943_17.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Rectangular billboard</li>
+</ul>
+<p><img src="img/13020422396943_18.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Show Cutouts as Silhouettes</li>
+</ul>
+<p>Extra Polygon in 3D to cast shadows (placed perpendicular to Sun in 3D)</p>
+<p><img src="img/13020422396943_19.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Shrubs</p>
+<p><img src="img/13020422396943_20.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_21.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan View Symbol Preference</li>
+</ul>
+<ul>
+<li>Photographic Image</li>
+</ul>
+<ul>
+<li>Plant Shape</li>
+</ul>
+<ul>
+<li>Circle</li>
+</ul>
+<ul>
+<li>None</li>
+</ul>
+<p>Organic (random rotation and varying size)</p>
+<p>This applies a percentage deviation in size as specified in the object settings and a random rotation to have a more ‘organic’ representation.</p>
+<ul>
+<li>Plant Code can be toggled on or off.</li>
+</ul>
+<ul>
+<li>Shadow Settings</li>
+</ul>
+<ul>
+<li>Toggle On and Off in Plan view</li>
+</ul>
+<ul>
+<li>Fill choice</li>
+</ul>
+<ul>
+<li>Line Type of shadow outline</li>
+</ul>
+<ul>
+<li>Plan Symbol for Massed Planting</li>
+</ul>
+<p><img src="img/13020422396943_22.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>This allows for place planting to be displayed ad regular symbols or as Square dots</p>
+<ul>
+<li>Model (3D view). options include</li>
+</ul>
+<ul>
+<li>Photographic Image</li>
+</ul>
+<ul>
+<li>Plant Shape</li>
+</ul>
+<ul>
+<li>Outline only</li>
+</ul>
+<ul>
+<li>Rectangular billboard</li>
+</ul>
+<ul>
+<li>Show Cutouts as Silhouettes</li>
+</ul>
+<p>Extra Polygon in 3D to cast shadows (placed perpendicular to Sun in 3D)</p>
+<p>Ground Cover</p>
+<p><img src="img/13020422396943_23.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_24.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan View Symbol Preference</li>
+</ul>
+<ul>
+<li>Photographic Image</li>
+</ul>
+<ul>
+<li>Plant Shape</li>
+</ul>
+<ul>
+<li>Circle</li>
+</ul>
+<ul>
+<li>None</li>
+</ul>
+<p>Organic (random rotation and varying size)</p>
+<p>This applies a percentage deviation in size as specified in the object settings and a random rotation to have a more ‘organic’ representation.</p>
+<ul>
+<li>Plant Code can be toggled on or off.</li>
+</ul>
+<ul>
+<li>Shadow Settings</li>
+</ul>
+<ul>
+<li>Toggle On and Off in Plan view</li>
+</ul>
+<ul>
+<li>Fill choice</li>
+</ul>
+<ul>
+<li>Line Type of shadow outline</li>
+</ul>
+<ul>
+<li>Plan Symbol for Massed Planting</li>
+</ul>
+<p><img src="img/13020422396943_25.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>This allows for place planting to be displayed ad regular symbols or as Square dots</p>
+<ul>
+<li>Model (3D view). options include</li>
+</ul>
+<ul>
+<li>Photographic Image</li>
+</ul>
+<ul>
+<li>Plant Shape</li>
+</ul>
+<ul>
+<li>Outline only</li>
+</ul>
+<ul>
+<li>Rectangular billboard</li>
+</ul>
+<ul>
+<li>Show Cutouts as Silhouettes</li>
+</ul>
+<p>Extra Polygon in 3D to cast shadows (placed perpendicular to Sun in 3D)</p>
+<p>Protected Trees</p>
+<p>If a tree is set to be protected in the Settings, see image below:</p>
+<p><img src="img/13020422396943_26.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>There is a Model View option that controls these settings globally:</p>
+<p><img src="img/13020422396943_27.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan view Settings</li>
+</ul>
+<p><img src="img/13020422396943_28.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Model View Settings</li>
+</ul>
+<p><img src="img/13020422396943_29.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Labels</p>
+<p><img src="img/13020422396943_30.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan view Font of Labels can be controlled.</li>
+</ul>
+<ul>
+<li>Content of Label can be adjusted.</li>
+</ul>
+<p><img src="img/13020422396943_31.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Sites tool has several Model View Options (MVOs) available so that you can set the appearance for Sites Elements to be different in each view, rather than having to change their settings every time you want them to display differently.</p>
+<p>The Sites MVOs are split into two broad Categories:</p>
+<h2>Boundaries</h2>
+<p>This covers settings for the Site Boundary elements, and is split into 2 groups:</p>
+<ul>
+<li>Lines</li>
+</ul>
+<ul>
+<li>Labels</li>
+</ul>
+<h2>Cutout Plants</h2>
+<p>And this area covers the Cutout Plants elements, and is made up of 5 parts:</p>
+<ul>
+<li>Trees</li>
+</ul>
+<ul>
+<li>Shrubs</li>
+</ul>
+<ul>
+<li>Ground Cover</li>
+</ul>
+<ul>
+<li>Protected Trees</li>
+</ul>
+<ul>
+<li>Labels</li>
+</ul>
+<p><img src="img/13020422396943_0.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Let us explore these individually</p>
+<h2>Boundaries</h2>
+<h3>Lines</h3>
+<p>These Lines Relate to the Site Boundaries created with the Sites Tool. The interface is setout as follows:</p>
+<ul>
+<li>Controls if the Yard Setback line should be displayed</li>
+</ul>
+<ul>
+<li>Sets whether the Boundary is labelled</li>
+</ul>
+<ul>
+<li>These settings control the Pen Colour and Linetype of the Boundary Line</li>
+</ul>
+<ul>
+<li>Controls the Pen colour of the Setback line , and the Linetype of it</li>
+</ul>
+<ul>
+<li>Controls the Pen colour of the circles at the end of the boundary lines</li>
+</ul>
+<ul>
+<li>These Settings Relate to the settings for the contents of the Boundary Labels (if turned on in (2))</li>
+</ul>
+<ul>
+<li>And finally these settings control the Formatting of the text for the label</li>
+</ul>
+<p><img src="img/13020422396943_1.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_2.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<h3>Labels</h3>
+<ul>
+<li>This sets the Contents of the Labels for Straight Boundaries . The available options are:</li>
+</ul>
+<p> Basic Label - this shows just the Length , Direction , and Envelope Data</p>
+<ul>
+<li>Custom Data - This lets you customise the data to be displayed. Set the Text Lines field to how many lines of text you want, and Above boundary defines the amount of those lines which are above the boundary line (the rest will display below it). Then Select the line you want to edit from the drop-down below that, and how many data elements should be in it. Then in the fields below, set the Prefix, Value, and Suffix for each data element</li>
+</ul>
+<ul>
+<li>or Listed Data - this works similarly to Custom data, but elements are presented in a list which can be dragged to wherever you want it, rather than centred about the Line itself</li>
+</ul>
+<ul>
+<li>This sets the custom data for any Curved Boundaries - the available options are the same as in (1) above)</li>
+</ul>
+<p><img src="img/13020422396943_3.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_4.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<h2>Cut-out Plants</h2>
+<h3>Trees</h3>
+<p><img src="img/13020422396943_5.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_6.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan View Symbol Preference - the options available are:</li>
+</ul>
+<p> Photographic Image - displays a photo of a top-down view of the plant. Note: currently not all plants have Photographic plan view images, the plant shape will be displayed for any objects which do not have a top-down photo available</p>
+<ul>
+<li>Plant Shape - a silhouette of the plant in plan-view:</li>
+</ul>
+<p><img src="img/13020422396943_7.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Circle:</li>
+</ul>
+<p><img src="img/13020422396943_8.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>None:</li>
+</ul>
+<p><img src="img/13020422396943_9.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Organic (random rotation and varying size) -this applies a percentage deviation in size as specified in the object settings and a random rotation to have a more ‘organic’ representation</li>
+</ul>
+<ul>
+<li>Shadow Settings Toggle On or Off displaying a shadow in Plan view, and set the Fill Type and Pen to use for it:</li>
+</ul>
+<p> Shadow Off:</p>
+<p><img src="img/13020422396943_10.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Shadow On:</li>
+</ul>
+<p><img src="img/13020422396943_11.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Trunk Settings</li>
+</ul>
+<ul>
+<li>Toggle On and Off in plan view</li>
+</ul>
+<ul>
+<li>Fill choice</li>
+</ul>
+<ul>
+<li>Fill Foreground pen</li>
+</ul>
+<ul>
+<li>Fill Background pen</li>
+</ul>
+<ul>
+<li>Outline pen</li>
+</ul>
+<ul>
+<li>Plan Symbol for Massed Planting</li>
+</ul>
+<p><img src="img/13020422396943_12.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Square Dots:</p>
+<p><img src="img/13020422396943_13.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Regular Symbols:</p>
+<p><img src="img/13020422396943_14.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>This allows for place planting to be displayed as regular symbols or as Square dots</p>
+<ul>
+<li>Model (3D view) - options include</li>
+</ul>
+<ul>
+<li>Photographic Image</li>
+</ul>
+<p><img src="img/13020422396943_15.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plant Shape</li>
+</ul>
+<p><img src="img/13020422396943_16.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Outline only</li>
+</ul>
+<p><img src="img/13020422396943_17.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Rectangular billboard</li>
+</ul>
+<p><img src="img/13020422396943_18.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Show Cutouts as Silhouettes</li>
+</ul>
+<p>Extra Polygon in 3D to cast shadows (placed perpendicular to Sun in 3D)</p>
+<p><img src="img/13020422396943_19.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Shrubs</p>
+<p><img src="img/13020422396943_20.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_21.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan View Symbol Preference</li>
+</ul>
+<ul>
+<li>Photographic Image</li>
+</ul>
+<ul>
+<li>Plant Shape</li>
+</ul>
+<ul>
+<li>Circle</li>
+</ul>
+<ul>
+<li>None</li>
+</ul>
+<p>Organic (random rotation and varying size)</p>
+<p>This applies a percentage deviation in size as specified in the object settings and a random rotation to have a more ‘organic’ representation.</p>
+<ul>
+<li>Plant Code can be toggled on or off.</li>
+</ul>
+<ul>
+<li>Shadow Settings</li>
+</ul>
+<ul>
+<li>Toggle On and Off in Plan view</li>
+</ul>
+<ul>
+<li>Fill choice</li>
+</ul>
+<ul>
+<li>Line Type of shadow outline</li>
+</ul>
+<ul>
+<li>Plan Symbol for Massed Planting</li>
+</ul>
+<p><img src="img/13020422396943_22.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>This allows for place planting to be displayed ad regular symbols or as Square dots</p>
+<ul>
+<li>Model (3D view). options include</li>
+</ul>
+<ul>
+<li>Photographic Image</li>
+</ul>
+<ul>
+<li>Plant Shape</li>
+</ul>
+<ul>
+<li>Outline only</li>
+</ul>
+<ul>
+<li>Rectangular billboard</li>
+</ul>
+<ul>
+<li>Show Cutouts as Silhouettes</li>
+</ul>
+<p>Extra Polygon in 3D to cast shadows (placed perpendicular to Sun in 3D)</p>
+<p>Ground Cover</p>
+<p><img src="img/13020422396943_23.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p><img src="img/13020422396943_24.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan View Symbol Preference</li>
+</ul>
+<ul>
+<li>Photographic Image</li>
+</ul>
+<ul>
+<li>Plant Shape</li>
+</ul>
+<ul>
+<li>Circle</li>
+</ul>
+<ul>
+<li>None</li>
+</ul>
+<p>Organic (random rotation and varying size)</p>
+<p>This applies a percentage deviation in size as specified in the object settings and a random rotation to have a more ‘organic’ representation.</p>
+<ul>
+<li>Plant Code can be toggled on or off.</li>
+</ul>
+<ul>
+<li>Shadow Settings</li>
+</ul>
+<ul>
+<li>Toggle On and Off in Plan view</li>
+</ul>
+<ul>
+<li>Fill choice</li>
+</ul>
+<ul>
+<li>Line Type of shadow outline</li>
+</ul>
+<ul>
+<li>Plan Symbol for Massed Planting</li>
+</ul>
+<p><img src="img/13020422396943_25.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>This allows for place planting to be displayed ad regular symbols or as Square dots</p>
+<ul>
+<li>Model (3D view). options include</li>
+</ul>
+<ul>
+<li>Photographic Image</li>
+</ul>
+<ul>
+<li>Plant Shape</li>
+</ul>
+<ul>
+<li>Outline only</li>
+</ul>
+<ul>
+<li>Rectangular billboard</li>
+</ul>
+<ul>
+<li>Show Cutouts as Silhouettes</li>
+</ul>
+<p>Extra Polygon in 3D to cast shadows (placed perpendicular to Sun in 3D)</p>
+<p>Protected Trees</p>
+<p>If a tree is set to be protected in the Settings, see image below:</p>
+<p><img src="img/13020422396943_26.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>There is a Model View option that controls these settings globally:</p>
+<p><img src="img/13020422396943_27.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan view Settings</li>
+</ul>
+<p><img src="img/13020422396943_28.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Model View Settings</li>
+</ul>
+<p><img src="img/13020422396943_29.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<p>Labels</p>
+<p><img src="img/13020422396943_30.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+<ul>
+<li>Plan view Font of Labels can be controlled.</li>
+</ul>
+<ul>
+<li>Content of Label can be adjusted.</li>
+</ul>
+<p><img src="img/13020422396943_31.jpg" alt="Sites - Model View Options 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000572076">
+  <div class="art-h"><span class="no">12</span>
+    <h3 class="zh-only block">步骤 1 - 指北针</h3>
+    <h3 class="en-only block">Step 1 - North Point</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000572076-Step-1-North-Point" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>我们在 <strong>Sea Level/Datum</strong>（海平面/基准面）楼层上建立场地信息，以便在项目中提供相对于此的准确标高与尺寸。</p>
+<p>在创建任何边界信息之前，我们需要先向项目中添加指北针（North Pointer）。</p>
+<ul>
+<li>定位到 <strong>Sea Level/Datum</strong>，使用 <strong>Quick Options Bar</strong>（快速选项栏）将 <strong>Layer Combination</strong>（图层组合）设为 <strong>All</strong>（全部）并设置比例。</li>
+</ul>
+<p><img src="img/360000572076_0.jpg" alt="Step 1 - North Point 示意图" loading="lazy"></p>
+<p>现在我们就可以放置指北针了。</p>
+<ul>
+<li>选择 <strong>Cadimage > Sites > Place North Arrow</strong>（放置指北针）</li>
+</ul>
+<ul>
+<li>选择你喜欢的样式，并将符号尺寸调整为 <strong>2500</strong></li>
+</ul>
+<ul>
+<li>在 <strong>Floor Plan and Section</strong>（平面图与剖面图）设置中，将 show on Stories（显示于楼层）设为 <strong>All Stories</strong>（所有楼层）</li>
+</ul>
+<ul>
+<li>将图层设为 <strong>Doc: Site</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/360000572076_1.jpg" alt="Step 1 - North Point 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>将 <strong>North Arrow</strong>（指北针）放置在建筑的右上角。</li>
+</ul></div>
+  <div class="en-only"><p>We model our Site information on the <strong>Sea Level/Datum</strong> Storey so we can provide accurate Levels and Dimensions relative to this in our project.</p>
+<p>Before creating any Boundary information, we need to add a North Pointer to our Project.</p>
+<ul>
+<li>Navigate to the <strong>Sea Level/Datum,</strong>use the <strong>Quick Options Bar</strong> to set the <strong>Layer Combination</strong> to <strong>All</strong> and the scale</li>
+</ul>
+<p><img src="img/360000572076_0.jpg" alt="Step 1 - North Point 示意图" loading="lazy"></p>
+<p>Now we can place our North Arrow</p>
+<ul>
+<li>Choose <strong>Cadimage > Sites > Place North Arrow</strong></li>
+</ul>
+<ul>
+<li>Choose a style you prefer and adjust the size of the symbol to <strong>2500</strong></li>
+</ul>
+<ul>
+<li>In the<strong>Floor Plan and Section</strong>settings set show on Stories to <strong>All Stories</strong></li>
+</ul>
+<ul>
+<li>Set the Layer to <strong>Doc: Site</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/360000572076_1.jpg" alt="Step 1 - North Point 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Place the <strong>North Arrow</strong> in the Top Right of the building.</li>
+</ul></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>We model our Site information on the <strong>Sea Level/Datum</strong> Storey so we can provide accurate Levels and Dimensions relative to this in our project.</p>
+<p>Before creating any Boundary information, we need to add a North Pointer to our Project.</p>
+<ul>
+<li>Navigate to the <strong>Sea Level/Datum,</strong>use the <strong>Quick Options Bar</strong> to set the <strong>Layer Combination</strong> to <strong>All</strong> and the scale</li>
+</ul>
+<p><img src="img/360000572076_0.jpg" alt="Step 1 - North Point 示意图" loading="lazy"></p>
+<p>Now we can place our North Arrow</p>
+<ul>
+<li>Choose <strong>Cadimage > Sites > Place North Arrow</strong></li>
+</ul>
+<ul>
+<li>Choose a style you prefer and adjust the size of the symbol to <strong>2500</strong></li>
+</ul>
+<ul>
+<li>In the<strong>Floor Plan and Section</strong>settings set show on Stories to <strong>All Stories</strong></li>
+</ul>
+<ul>
+<li>Set the Layer to <strong>Doc: Site</strong></li>
+</ul>
+<p>**</p>
+<p><img src="img/360000572076_1.jpg" alt="Step 1 - North Point 示意图" loading="lazy"></p>
+<p>**</p>
+<ul>
+<li>Place the <strong>North Arrow</strong> in the Top Right of the building.</li>
+</ul>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-12945729353743">
+  <div class="art-h"><span class="no">13</span>
+    <h3 class="zh-only block">将随机选择的植物替换为其他植物</h3>
+    <h3 class="en-only block">Swapping out Random selections of Plants to others</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/12945729353743-Swapping-out-Random-selections-of-Plants-to-others" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Ci Sites 工具能够从所选对象中随机取消选择，从而让你轻松地把成组植物中的部分替换为不同的植物。</p>
+<p>该功能适用于以任何方式放置的植物或其他任何对象 —— 即使用 Ci Tools Sites 的 Place along Line（沿线放置）或 Fill（填充放置）命令放置、手动放置、通过分布放置，或任何其他方法。</p>
+<p>要执行此操作，请先选择所有要处理的植物。</p>
+<p><img src="img/12945729353743_0.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>接下来，点击 <strong>Ci Tools</strong> 菜单 - <strong>Sites</strong> - <strong>Randomly Deselect Plants</strong>（随机取消选择植物）</p>
+<p><img src="img/12945729353743_1.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>将弹出一个对话框，你可以在其中选择要随机取消选择的对象数量。</p>
+<p><img src="img/12945729353743_2.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>在此输入你希望使用的百分比，然后点击 OK。</p>
+<p>这将按比例取消选择相应数量的植物，现在你可以打开剩余植物的对象设置，并替换为不同的对象。</p>
+<p><img src="img/12945729353743_3.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>如果你想要更多的随机性或更多的植物，可以继续重复此操作。即再次选中所有植物并运行同样的流程，然后把新的随机集合再次替换为不同的植物。</p>
+<p>在此过程中不会向对象添加任何内容，因此你不必担心模型因使用的种类数量而变慢 —— 你可以随意地反复随机取消选择并替换对象。</p></div>
+  <div class="en-only"><p>The Ci Sites tool has the ability to Randomly deselect items from a Selection so that you can easily switch portions of groups of Plants to different Plants</p>
+<p>This function will work on Plants, or any other objects, that are placed by any means - i.e. using the Ci Tools Sites Place along Line or Fill commands, placed manually, via distribution, or any other method</p>
+<p>To do this, start by Selecting all the plants that you want to work with</p>
+<p><img src="img/12945729353743_0.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>Next, click on the <strong>Ci Tools</strong> menu - <strong>Sites</strong> - <strong>Randomly Deselect Plants</strong></p>
+<p><img src="img/12945729353743_1.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>This will open a dialog where you can select the amount of elements to be randomly deselected</p>
+<p><img src="img/12945729353743_2.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>Enter the percentage that you want to use here, and then hit OK</p>
+<p>This will deselect that proportion of Plants, and you can now open the object settings on the remaining plants, and swap to a different object</p>
+<p><img src="img/12945729353743_3.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>If you want more randomisation, or additional plants, you can keep on doing this. I.e. select all of the plants again and run the same process again, and swap the new random set to a different plant again.</p>
+<p>Nothing is being added to the objects in this process, so you don't need to worry about the model slowing down due to the amount of variety used or anything like that - you can keep randomly deselecting and swapping out objects as much as you like</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Ci Sites tool has the ability to Randomly deselect items from a Selection so that you can easily switch portions of groups of Plants to different Plants</p>
+<p>This function will work on Plants, or any other objects, that are placed by any means - i.e. using the Ci Tools Sites Place along Line or Fill commands, placed manually, via distribution, or any other method</p>
+<p>To do this, start by Selecting all the plants that you want to work with</p>
+<p><img src="img/12945729353743_0.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>Next, click on the <strong>Ci Tools</strong> menu - <strong>Sites</strong> - <strong>Randomly Deselect Plants</strong></p>
+<p><img src="img/12945729353743_1.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>This will open a dialog where you can select the amount of elements to be randomly deselected</p>
+<p><img src="img/12945729353743_2.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>Enter the percentage that you want to use here, and then hit OK</p>
+<p>This will deselect that proportion of Plants, and you can now open the object settings on the remaining plants, and swap to a different object</p>
+<p><img src="img/12945729353743_3.jpg" alt="Swapping out Random selections of Plants to others 示意图" loading="lazy"></p>
+<p>If you want more randomisation, or additional plants, you can keep on doing this. I.e. select all of the plants again and run the same process again, and swap the new random set to a different plant again.</p>
+<p>Nothing is being added to the objects in this process, so you don't need to worry about the model slowing down due to the amount of variety used or anything like that - you can keep randomly deselecting and swapping out objects as much as you like</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-12897833228559">
+  <div class="art-h"><span class="no">14</span>
+    <h3 class="zh-only block">使用“镂空”（Cutout）树木对象</h3>
+    <h3 class="en-only block">Using the "Cutout" tree objects</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/12897833228559-Using-the-Cutout-tree-objects" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Ci Sites 4.26 升级带来了我们三维“镂空”（Cutout）风格树木对象的全面改版。</p>
+<p>这些对象都可以在 Sites 文件夹下的 Plants Cutout 文件夹中找到。</p>
+<p><img src="img/12897833228559_0.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<p>这些植物共用同一套用户界面，因此一旦你了解其中一个的使用方式，就等于了解了全部！</p>
+<h3>配置（Configuration）</h3>
+<p><img src="img/12897833228559_1.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<p><img src="img/12897833228559_2.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<ul>
+<li>植物尺寸 —— A 为宽度/冠幅，B 为高度</li>
+</ul>
+<ul>
+<li>尺寸偏差，以百分比表示。所放置的任何植物，其显示尺寸都会在上述输入尺寸的上下偏差范围内。</li>
+</ul>
+<p> 例如，若你的尺寸为 1000x1000，偏差输入 10%，则使用这些设置放置的所有植物将显示在 900mm 至 1100mm 之间</p>
+<ul>
+<li>若希望植物尺寸始终精确等于你指定的值，只需将偏差设为零</li>
+</ul>
+<ul>
+<li>（仅乔木可用）树干直径设置 —— C 为胸径处的直径，D 为根颈处的直径</li>
+</ul>
+<ul>
+<li>（仅乔木可用）保护设置 —— 指定该树是否受保护，若受保护则指定树木保护半径和结构根系半径</li>
+</ul>
+<ul>
+<li>对象的模型显示设置 —— 为 1 个镂空选择 Silhouette（剪影），或改为任意多个；未应用纹理时，模型颜色用于三维/立面显示。使用更多镂空可能让植物显得更“三维”，但也可能“过头”，因此我们建议对该设置进行尝试，找到能实现你想要效果的数值。</li>
+</ul>
+<ul>
+<li>对象的平面视图显示设置 —— Show as Massed Planting（显示为群植）选项控制该植物是否被视为群植。群植的显示由模型视图选项控制。其余设置控制二维显示的画笔、填充和线型。</li>
+</ul>
+<p><img src="img/12897833228559_3.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<h3>植物数据（Plant Data）</h3>
+<p>本部分包含关于该植物的所有附加数据，均可作为参数获取，因此你可以按需对其进行统计或标注。</p>
+<p>它们默认采用每个镂空所代表植物的设置，但如有需要，你可以在此手动覆盖任何数据。</p></div>
+  <div class="en-only"><p>The Ci Sites 4.26 upgrade brings with it an overhaul of our 3D 'Cutout' style tree objects</p>
+<p>These objects can all be found in our Plants Cutout folder, inside the Sites folder</p>
+<p><img src="img/12897833228559_0.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<p>The plants share a user interface, so once you know how one of them works, you know how all of them work!</p>
+<h3>Configuration</h3>
+<p><img src="img/12897833228559_1.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<p><img src="img/12897833228559_2.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<ul>
+<li>Size of the plant - A for the Width/Spread, and B for Height</li>
+</ul>
+<ul>
+<li>Size variance, as a percentage. Any plant placed will be displayed at a size within the variance entered above or below the Size entered.</li>
+</ul>
+<p> e.g. if your size is 1000x1000, and you enter a variance of 10%, all plants placed using these settings will display between 900mm and 1100mm</p>
+<ul>
+<li>if you want your plants to only ever be exactly the size you tell them, just set the variance to Zero</li>
+</ul>
+<ul>
+<li>(only available on Trees)Trunk Diameter settings - C for diameter at breast height, and D at the root crown</li>
+</ul>
+<ul>
+<li>(only available on Trees) Protection settings - specify if the Tree is protected, and if so, what the Tree Protection and Structural Root radii are</li>
+</ul>
+<ul>
+<li>Settings for the model display of the object - Choose Silhouette for 1 cutout, or change to as many as you want there, and the model colour is used in 3d/Elevation when Texture is not applied. Using More cutouts may make the plant look more "3D", but can also become "too much", so we recommend experimenting with this setting and finding a value that gives you the look you want.</li>
+</ul>
+<ul>
+<li>Settings for the Plan View display of the object - The Show as Massed Planting option controls if this should be considered to be massed planting or not. The display of Massed plants is controlled in Model View Options. The other settings control the pen, fill, and linetype settings for the 2D display</li>
+</ul>
+<p><img src="img/12897833228559_3.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<h3>Plant Data</h3>
+<p>This section includes all the additional Data about the plant, all of which are available as Parameters, so you can Schedule them or Label them as you require.</p>
+<p>They will default to the settings of the plant are representing with each cutout, but you can manually override any of the data here if you need to</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Ci Sites 4.26 upgrade brings with it an overhaul of our 3D 'Cutout' style tree objects</p>
+<p>These objects can all be found in our Plants Cutout folder, inside the Sites folder</p>
+<p><img src="img/12897833228559_0.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<p>The plants share a user interface, so once you know how one of them works, you know how all of them work!</p>
+<h3>Configuration</h3>
+<p><img src="img/12897833228559_1.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<p><img src="img/12897833228559_2.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<ul>
+<li>Size of the plant - A for the Width/Spread, and B for Height</li>
+</ul>
+<ul>
+<li>Size variance, as a percentage. Any plant placed will be displayed at a size within the variance entered above or below the Size entered.</li>
+</ul>
+<p> e.g. if your size is 1000x1000, and you enter a variance of 10%, all plants placed using these settings will display between 900mm and 1100mm</p>
+<ul>
+<li>if you want your plants to only ever be exactly the size you tell them, just set the variance to Zero</li>
+</ul>
+<ul>
+<li>(only available on Trees)Trunk Diameter settings - C for diameter at breast height, and D at the root crown</li>
+</ul>
+<ul>
+<li>(only available on Trees) Protection settings - specify if the Tree is protected, and if so, what the Tree Protection and Structural Root radii are</li>
+</ul>
+<ul>
+<li>Settings for the model display of the object - Choose Silhouette for 1 cutout, or change to as many as you want there, and the model colour is used in 3d/Elevation when Texture is not applied. Using More cutouts may make the plant look more "3D", but can also become "too much", so we recommend experimenting with this setting and finding a value that gives you the look you want.</li>
+</ul>
+<ul>
+<li>Settings for the Plan View display of the object - The Show as Massed Planting option controls if this should be considered to be massed planting or not. The display of Massed plants is controlled in Model View Options. The other settings control the pen, fill, and linetype settings for the 2D display</li>
+</ul>
+<p><img src="img/12897833228559_3.jpg" alt="Using the "Cutout" tree objects 示意图" loading="lazy"></p>
+<h3>Plant Data</h3>
+<p>This section includes all the additional Data about the plant, all of which are available as Parameters, so you can Schedule them or Label them as you require.</p>
+<p>They will default to the settings of the plant are representing with each cutout, but you can manually override any of the data here if you need to</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000573095">
+  <div class="art-h"><span class="no">15</span>
+    <h3 class="zh-only block">观看：3 分钟快速上手！</h3>
+    <h3 class="en-only block">Watch: Get started in 3 minutes!</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000573095-Watch-Get-started-in-3-minutes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>在这段短视频中，Ralph 演示如何开始使用 Sites 工具。</p></div>
+  <div class="en-only"><p>In this short video, Ralph shows you how to get started with the Site Tool.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>In this short video, Ralph shows you how to get started with the Site Tool.</p>
+    </div>
+  </details>
+</div>
+</article>
+
+<footer class="foot">
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
+})();
+</script>
+<script src="search-index.js"></script>
+<script src="search.js"></script>
+</body>
+</html>

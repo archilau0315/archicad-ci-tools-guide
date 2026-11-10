@@ -1,0 +1,9 @@
+{
+ "id": "205332550",
+ "title": "How to check for updates",
+ "cat": "Getting Started",
+ "html": "<p>You may have noticed that the Cadimage Installer has an add-on called ‘Cadimage Update’ which is installed with the rest of your Tools. This allows you to check for updates from within ARCHICAD.</p>\n<p>To do this, go to the <strong>Cadimage Menu</strong> and select <strong>myCadimage&gt;Check for Updates</strong>:</p>\n<p><img src=\"img/205332550_0.png\" alt=\"\"></p>\n<p><strong>If your tools</strong> <strong>are up to date</strong>, you will see the following message:</p>\n<p><img src=\"img/205332550_1.jpg\" alt=\"\"></p>\n<p><strong>If your tools are</strong> <strong>not up to date</strong>, your computer will prompt you to open the Cadimage Installer to search for and install the updates.</p>\n<p><img src=\"img/205332550_2.png\" alt=\"\"></p>",
+ "created_at": "2015-08-04T21:34:37Z",
+ "updated_at": "2024-08-22T09:44:10Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/205332550"
+}

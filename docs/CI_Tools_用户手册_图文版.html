@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-sp-mode="scroll">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archicad CI Tools 完整用户手册</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+
+<style>
+:root {
+  --accent: #2f6f8f; --accent2: #c9622a;
+  --bg: #fbfbfa; --panel: #ffffff; --text: rgba(0,0,0,0.95);
+  --muted: rgba(0,0,0,0.55); --line: rgba(0,0,0,0.10);
+  --ink: #1c1c1a; --paper: #f3f2ee;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; color: var(--text); line-height: 1.72;
+  font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 15px;
+  background:
+    radial-gradient(ellipse 70% 42% at 12% -8%, rgba(47,111,143,0.10), transparent),
+    radial-gradient(ellipse 56% 44% at 88% 4%, rgba(201,98,42,0.07), transparent),
+    var(--bg);
+  background-attachment: fixed;
+}
+h1, h2, h3, h4 { font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, Georgia, serif; color: var(--ink); letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 48px); font-weight: 700; line-height: 1.14; margin: 0 0 16px; }
+h2 { font-size: clamp(22px, 3vw, 29px); font-weight: 700; line-height: 1.24; margin: 0 0 18px; padding-top: 8px; }
+h3 { font-size: 17px; font-weight: 600; margin: 26px 0 10px; }
+p { margin: 0 0 14px; }
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(47,111,143,0.3); }
+a:hover { border-bottom-color: var(--accent); }
+strong { color: var(--ink); font-weight: 600; }
+code { font-family: "Geist Mono", ui-monospace, "Cascadia Code", Consolas, "Microsoft YaHei", monospace;
+  font-size: 0.88em; background: rgba(47,111,143,0.08); padding: 2px 6px; border-radius: 4px;
+  color: #1d4d63; font-variant-numeric: tabular-nums; }
+ul, ol { margin: 0 0 16px; padding-left: 22px; }
+li { margin-bottom: 7px; }
+li::marker { color: var(--accent); }
+blockquote {
+  margin: 0 0 20px; padding: 14px 18px; background: var(--paper);
+  border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; color: var(--muted);
+}
+blockquote p:last-child { margin-bottom: 0; }
+.hero {
+  max-width: 1080px; margin: 0 auto; padding: 88px 24px 56px;
+  border-bottom: 1px solid var(--line);
+}
+.hero h1 { max-width: 17ch; }
+.hero-summary { font-size: 17px; color: var(--muted); max-width: 62ch; margin: 0; line-height: 1.68; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
+.block-card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 32px; margin: 0 0 24px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.05);
+}
+.block-card > h2:first-child {
+  padding-bottom: 14px; margin-bottom: 20px; border-bottom: 1px solid var(--line);
+}
+figure { margin: 22px 0; }
+figure img {
+  width: 100%; max-width: 100%; height: auto; display: block;
+  border-radius: 8px; border: 1px solid var(--line); background: var(--paper);
+}
+figcaption { margin-top: 9px; font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+.table-wrap { overflow-x: auto; margin: 18px 0; border-radius: 8px; border: 1px solid var(--line); }
+table { border-collapse: collapse; width: 100%; min-width: 460px; background: var(--panel); }
+th, td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { background: var(--paper); font-weight: 600; font-size: 13px; color: var(--ink); letter-spacing: 0.01em; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: rgba(47,111,143,0.035); }
+hr { border: none; border-top: 1px solid var(--line); margin: 32px 0; }
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s cubic-bezier(0.2,0,0,1), transform 0.55s cubic-bezier(0.2,0,0,1); }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+.toc { position: sticky; top: 0; z-index: 20; background: rgba(251,251,250,0.92);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+.toc-inner { max-width: 1080px; margin: 0 auto; padding: 10px 24px;
+  display: flex; align-items: center; gap: 14px; }
+.toc-label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--muted); text-transform: uppercase; flex-shrink: 0; }
+.toc-list { list-style: none; display: flex; gap: 6px; margin: 0; padding: 0;
+  overflow-x: auto; scrollbar-width: thin; flex: 1; }
+.toc-list li { margin: 0; flex-shrink: 0; }
+.toc-list a { display: inline-block; padding: 7px 12px; font-size: 13px; color: var(--muted);
+  border: 1px solid transparent; border-radius: 9999px; white-space: nowrap;
+  transition: background 0.2s, color 0.2s, border-color 0.2s; }
+.toc-list a:hover { background: rgba(47,111,143,0.09); color: var(--accent);
+  border-color: rgba(47,111,143,0.2); }
+.toc-list a:active { transform: scale(0.97); }
+.toc-toggle { display: none; border: 1px solid var(--line); background: var(--panel);
+  color: var(--muted); font-size: 12px; padding: 7px 13px; border-radius: 9999px;
+  cursor: pointer; font-family: inherit; min-height: 34px; }
+h2 { scroll-margin-top: 78px; }
+@media (max-width: 900px) {
+  .toc-toggle { display: inline-block; }
+  .toc-inner { flex-wrap: wrap; padding: 10px 16px; }
+  .toc-list { width: 100%; display: none; padding-bottom: 6px; }
+  .toc-list.open { display: flex; }
+  h2 { scroll-margin-top: 104px; }
+}
+@media (max-width: 640px) {
+  .hero { padding: 56px 18px 36px; }
+  .wrap { padding: 0 16px 64px; }
+  .block-card { padding: 20px; border-radius: 10px; }
+  .block-card > h2:first-child { margin-bottom: 16px; }
+  figure { margin: 18px 0; }
+  .hero-summary { font-size: 15.5px; }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>Archicad CI Tools 完整用户手册</h1>
+  <p class="hero-summary">CI Tools 是 Central Innovation（新西兰）为 Archicad 开发的效率插件包，2026 年起被 Graphisoft 收进自有产品线并改名 <strong>ProKit</strong>。</p>
+</header>
+<nav class="toc" aria-label="目录"><div class="toc-inner"><span class="toc-label">目录</span>
+<button class="toc-toggle" aria-expanded="false" aria-controls="toc-list">展开全部</button>
+<ol class="toc-list" id="toc-list">
+<li><a href="#这套工具是什么">这套工具是什么</a></li>
+<li><a href="#先自查-你装了哪些">先自查：你装了哪些</a></li>
+<li><a href="#每次新项目的三步启动">每次新项目的三步启动</a></li>
+<li><a href="#Annotate-文字大小写批量转换">Annotate — 文字大小写批量转换</a></li>
+<li><a href="#Transformer-一键镜像整个项目">Transformer — 一键镜像整个项目</a></li>
+<li><a href="#Time-Tracker-项目工时记录">Time Tracker — 项目工时记录</a></li>
+<li><a href="#Detail-Elements-智能二维详图构件库">Detail Elements — 智能二维详图构件库</a></li>
+<li><a href="#Keynotes-规范注释自动化">Keynotes — 规范注释自动化</a></li>
+<li><a href="#MetaData-属性与分类批量操作">MetaData — 属性与分类批量操作</a></li>
+<li><a href="#Quantities-工程量清单与算量">Quantities — 工程量清单与算量</a></li>
+<li><a href="#Cabinets-高度可配置的橱柜">Cabinets — 高度可配置的橱柜</a></li>
+<li><a href="#Coverings-3D-覆面层">Coverings — 3D 覆面层</a></li>
+<li><a href="#Electrical-智能电气符号与回路">Electrical — 智能电气符号与回路</a></li>
+<li><a href="#Stairs-灵活楼梯设计">Stairs — 灵活楼梯设计</a></li>
+<li><a href="#Structural-结构构件库">Structural — 结构构件库</a></li>
+<li><a href="#Sites-场地与景观-仅澳新">Sites — 场地与景观（仅澳新）</a></li>
+<li><a href="#Fitout-一键布置房间">Fitout — 一键布置房间</a></li>
+<li><a href="#Bracing-NZ-木结构支撑-仅新西兰">Bracing — NZ 木结构支撑（仅新西兰）</a></li>
+<li><a href="#场景速查">场景速查</a></li>
+<li><a href="#故障排查">故障排查</a></li>
+<li><a href="#上手建议">上手建议</a></li>
+<li><a href="#官方资源">官方资源</a></li>
+<li><a href="#附录-A-安装与补装">附录 A · 安装与补装</a></li>
+<li><a href="#附录-B-libpack-全量加载顺序">附录 B · libpack 全量加载顺序</a></li>
+</ol></div></nav></main>
+<section class="reveal block-card">
+<blockquote><p>16 个工具逐个拆解 · 官方界面截图对照 · 适用于 Archicad 24 及以上版本</p><p>编制：2026-11-05 ｜ 团队通用版</p></blockquote>
+<figure><img width="655" height="431" src="..\assets\img\PAGMYNzGdDvbM6kvzaPq2c.jpg" alt="CI Tools 菜单全景：菜单栏展开后可见 Quantities、Transformer、Annotate、Metadata、Shortcut、Sites、Coverings、Detail Elements、Stairs、Keynotes、Doors+Windows、Electrical、Cabinets、Bracing 等全部工具入口" loading="lazy"><figcaption>CI Tools 菜单全景：菜单栏展开后可见 Quantities、Transformer、Annotate、Metadata、Shortcut、Sites、Coverings、Detail Elements、Stairs、Keynotes、Doors+Windows、Electrical、Cabinets、Bracing 等全部工具入口</figcaption></figure>
+</section>
+<section class="reveal block-card">
+<h2 id="这套工具是什么">这套工具是什么</h2>
+<p>CI Tools 是 Central Innovation（新西兰）为 Archicad 开发的效率插件包，2026 年起被 Graphisoft 收进自有产品线并改名 <strong>ProKit</strong>。</p>
+<p>同一套东西，两个名字。搜老教程用 &quot;CI Tools&quot;，搜新文档用 &quot;ProKit&quot;，内容对得上。</p>
+<div class="table-wrap"><table><thead><tr><th></th><th>ProKit Core</th><th>ProKit Suite</th></tr></thead><tbody><tr><td>包含</td><td>Annotate、Transformer、Time Tracker、Detail Elements</td><td>Cabinets、Coverings、Doors+Windows、Electrical、Fitout、Keynotes、MetaData、Quantities、Site、Stairs、Structure</td></tr><tr><td>解决什么</td><td>出图提速、改图安全、计工时</td><td>建模提速、数据管理、算量出图</td></tr><tr><td>适用</td><td>所有项目</td><td>室内、电气、算量类项目</td></tr></tbody></table></div>
+<p><strong>免费试用</strong>：任何工具都可申请 30 天试用 → https://myci.centralinnovation.com/freetrial</p>
+</section>
+<section class="reveal block-card">
+<h2 id="先自查-你装了哪些">先自查：你装了哪些</h2>
+<p>不同机器、不同 Archicad 版本，CI Tools 的安装情况不一样。开始用之前，先花一分钟确认自己这台机器的状态。</p>
+<h3>查插件装没装</h3>
+<p>看 Archicad 安装目录下的 Add-Ons 文件夹：</p>
+<div class="table-wrap"><table><thead><tr><th>平台</th><th>路径</th></tr></thead><tbody><tr><td>Windows</td><td><code>C:\Program Files\Graphisoft\Archicad XX\Add-Ons\CI Tools\</code></td></tr><tr><td>macOS</td><td><code>/Applications/Graphisoft/ARCHICAD XX/Add-Ons/CI Tools/</code></td></tr></tbody></table></div>
+<p>里面是 <code>CI Tools XXX.apx</code> 格式的插件文件。每个 <code>.apx</code> 对应一个工具（Annotate、Transformer、Keynotes……）。</p>
+<h3>查工作环境有没有</h3>
+<p>Archicad 菜单 <strong>文件 → 工作环境</strong>，列表里找 <strong>Ci Tools Profile</strong> 开头的条目。有这一项说明工作环境文件已就位。</p>
+<h3>三种常见状态</h3>
+<div class="table-wrap"><table><thead><tr><th>状态</th><th>判断依据</th><th>怎么办</th></tr></thead><tbody><tr><td><strong>全新安装</strong></td><td>Add-Ons 里没有 CI Tools 文件夹</td><td>装 CI Tools 或 ProKit 安装包</td></tr><tr><td><strong>插件在但没加载</strong></td><td>有 <code>.apx</code> 文件，但工具箱和菜单栏看不到入口</td><td>走下面「三步启动」，八成是缺工作环境或图库包</td></tr><tr><td><strong>一切就绪</strong></td><td>菜单栏有 CI Tools 菜单，工具箱有对应工具</td><td>直接用，遇到问题查第 5 章故障排查</td></tr></tbody></table></div>
+<blockquote><p><strong>版本差异提示</strong></p><p>- <strong>Archicad 24 及以上</strong>支持 CI Tools</p><p>- <strong>Archicad 29 起</strong>，库包（libpack）不再自动挂载，<strong>必须手动加载</strong>，这是&quot;装了却用不了&quot;的头号原因</p><p>- <strong>Archicad 30</strong> 起工具包改名为 <strong>ProKit</strong>，安装包从 Graphisoft 官网下载，不再走 MyCi</p><p>- 各版本包含的工具数量不同，缺失的工具需单独补装</p></blockquote>
+</section>
+<section class="reveal block-card">
+<h2 id="每次新项目的三步启动">每次新项目的三步启动</h2>
+<p>Archicad 启动后按顺序做完这三步，就能正常用所有工具。</p>
+<h3>第一步 · 加载工作环境</h3>
+<p>菜单 <strong>文件 → 工作环境</strong>，列表里找 <strong>Ci Tools Profile</strong>（版本号对应你的 Archicad，如 <code>Ci Tools Profile 28</code>）选中并应用。</p>
+<p>找不到就点「浏览」，路径：</p>
+<pre><code>Windows: %APPDATA%\Graphisoft\Archicad XX.0.0 CHI R1\工作环境\配置文件\Ci Tools Profile XX.xml
+macOS:   ~/Library/Preferences/Graphisoft/Archicad XX.0.0 CHI R1/工作环境/配置文件/Ci Tools Profile XX.xml</code></pre>
+<p>加载后左侧工具箱会出现 CI Tools 专属工具条。</p>
+<h3>第二步 · 加载图库包</h3>
+<p><strong>这是 90% 「装了却用不了」的原因。</strong> 从 Archicad 29 起，CI Tools 的库包不再自动挂载，必须手动加载进项目。</p>
+<figure><img width="1100" height="811" src="..\assets\img\8Z2fPwMtj2xTvb80XCrR4w.jpg" alt="库管理器菜单路径与添加按钮位置" loading="lazy"><figcaption>库管理器菜单路径与添加按钮位置</figcaption></figure>
+<p>菜单 <strong>文件 → 库管理器（Library Manager）</strong>，点「添加 / Add」，定位到：</p>
+<pre><code>C:\Program Files\Graphisoft\Archicad XX\Archicad 图库包\Ci Tools Library Packages\</code></pre>
+<p><strong>关键</strong>：选中具体的 <code>.libpack</code> 文件（如 <code>Ci Tools Detail Elements.libpack</code>），<strong>不要选文件夹层级</strong> —— 选文件夹只会挂载一层，导致内容找不到。这是官方明确警告的坑。</p>
+<p><strong>优先加载 <code>Ci Tools Macros.libpack</code></strong>，它承载各工具的自动化宏，很多功能依赖它。</p>
+<h3>第三步 · 把工具加进工具箱</h3>
+<p>有些插件装上了但工具箱里没图标：</p>
+<ol><li>在左侧工具箱空白处<strong>右键</strong></li><li>选 <strong>工具箱设置 / Toolbox Settings</strong></li><li>勾选对应插件（如 ProKit Detail Elements、ProKit Electrical）</li><li><strong>保存工作环境</strong> ← 不保存下次开 Archicad 又没了</li></ol>
+</section>
+<section class="reveal block-card">
+<h2 id="Annotate-文字大小写批量转换">Annotate — 文字大小写批量转换</h2>
+<p>全项目文字格式统一。CAD 里从别处粘来的文字大小写乱成一片，手改能改到下班 —— 这是出图前最省时间的工具。</p>
+<figure><img width="450" height="681" src="..\assets\img\MJdBzyIkH0S62lDIWUAcmr.jpg" alt="Annotate 二级菜单：Convert、Merge Text、Manage Attribute Replacements、Manage Case Standards、Manage Font Replacements" loading="lazy"><figcaption>Annotate 二级菜单：Convert、Merge Text、Manage Attribute Replacements、Manage Case Standards、Manage Font Replacements</figcaption></figure>
+<p><strong>入口</strong>：CI Tools → Annotate → Convert Case…</p>
+<figure><img width="447" height="678" src="..\assets\img\ID0xZA2T8ugupyY3Oe1mNp.jpg" alt="Annotation Conversion Options 对话框" loading="lazy"><figcaption>Annotation Conversion Options 对话框</figcaption></figure>
+<h3>对话框三栏设置</h3>
+<p><strong>Case（格式）</strong> — 选目标格式，并可勾选 Observe case exceptions 让某些词保持固定格式：</p>
+<div class="table-wrap"><table><thead><tr><th>选项</th><th>效果</th></tr></thead><tbody><tr><td>Sentence case</td><td>句首大写</td></tr><tr><td>UPPER CASE</td><td>全大写</td></tr><tr><td>lower case</td><td>全小写</td></tr><tr><td>Title Case</td><td>标题式大写</td></tr></tbody></table></div>
+<p>勾选 Observe case exceptions 后出现「编辑」按钮，可把 iPhone、BIM、m² 这类词锁定不变。</p>
+<p><strong>Scope（范围）</strong> — 决定改多少，防手滑的关键：</p>
+<div class="table-wrap"><table><thead><tr><th>选项</th><th>作用范围</th></tr></thead><tbody><tr><td>Selected items only</td><td>只改选中项（没选中时该选项变灰）</td></tr><tr><td>Text in the current drawing</td><td>只改当前视图；平面图激活时即当前楼层</td></tr><tr><td>Text in floor plan (all storeys)</td><td>平面图全部楼层</td></tr><tr><td>Text in all drawings</td><td>全部图纸，含剖面、详图、图表</td></tr></tbody></table></div>
+<ul><li>勾 <strong>String properties</strong> 同时转换字符串属性值（不影响下拉预设菜单选出的值，那种要用属性管理器改）</li><li>勾 <strong>String parameters</strong> 同时转换参数文字（锁定或隐藏的参数不会被改；选 &quot;If displayed&quot; 只转换与 2D 显示完全一致的参数值，<strong>更安全，推荐</strong>）</li></ul>
+<p><strong>Ignore（忽略）</strong> — 勾选要跳过的项：</p>
+<div class="table-wrap"><table><thead><tr><th>选项</th><th>跳过什么</th></tr></thead><tbody><tr><td>Hidden items</td><td>隐藏图层上的全部</td></tr><tr><td>Locked items</td><td>被显式锁定的构件</td></tr><tr><td>Locked layers</td><td>锁定的图层</td></tr><tr><td>Possible changes to associative labels</td><td>可能引起关联标签变化的内容</td></tr></tbody></table></div>
+<p><strong>Notify（通知）</strong> — 同在 Application to Project 区，勾选后会提示可能的关联标签变更。</p>
+<p>点 OK 执行。</p>
+<h3>换字体与属性替换</h3>
+<figure><img width="968" height="681" src="..\assets\img\7p3xnpWi8YFuiGXwXFmtWl.jpg" alt="字体替换界面" loading="lazy"><figcaption>字体替换界面</figcaption></figure>
+<ul><li><strong>替换字体</strong>：CI Tools → Annotate → Replace Fonts</li><li><strong>批量替换属性值</strong>：CI Tools → Annotate → Attribute Replacement</li><li><strong>合并文本框</strong>：把多个独立文本框合并成一个可编辑文本框</li></ul>
+<blockquote><p><strong>实战建议</strong>：跑 Annotate 前先 Ctrl+Z 备份，或先用「Selected items only」试手。勾 &quot;If displayed&quot; 是最保险的选项。</p></blockquote>
+</section>
+<section class="reveal block-card">
+<h2 id="Transformer-一键镜像整个项目">Transformer — 一键镜像整个项目</h2>
+<p>整个项目（含模型、标记、标签、2D 文字）沿轴线镜像。适合对称建筑、重复户型、批量复制改朝向。</p>
+<p>手动旋转 3D 模型后，剖面、立面、标注、房间标签全得跟着改，极易漏 —— 这就是它的价值。</p>
+<p><strong>入口</strong>：CI Tools → Transformer → Mirror Project…</p>
+<figure><img width="975" height="451" src="..\assets\img\qB9ADtqgLxZT0Orx0Gtml1.jpg" alt="镜像轴线选择" loading="lazy"><figcaption>镜像轴线选择</figcaption></figure>
+<p><strong>操作</strong>：</p>
+<ol><li>点击镜像轴线的起点</li><li>屏幕上出现预览线，随鼠标在<strong>水平 / 垂直</strong>之间自动切换（目前只支持这两种角度）</li><li>方向满意 → 单击确认；想取消 → 按 ESC</li></ol>
+<blockquote><p>破坏性操作，镜像后元素 ID 会变、原位置对象被替换。建议先另存一份再试。</p></blockquote>
+</section>
+<section class="reveal block-card">
+<h2 id="Time-Tracker-项目工时记录">Time Tracker — 项目工时记录</h2>
+<p>记录在各个任务上花的时间，和报价、预期工时对比。<strong>接活报价场景直接相关</strong>。</p>
+<figure><img width="560" height="206" src="..\assets\img\aJFtCGlJaKVAcI8QX5hZSR.jpg" alt="Time Tracker 面板：Job 与 Task 下拉、存档文件按钮、播放键与计时读数" loading="lazy"><figcaption>Time Tracker 面板：Job 与 Task 下拉、存档文件按钮、播放键与计时读数</figcaption></figure>
+<figure><img width="696" height="788" src="..\assets\img\PQQjJkMvL0kRvvNArS3iMi.jpg" alt="CI Tools → Time Tracker → Open Time Tracker 菜单路径" loading="lazy"><figcaption>CI Tools → Time Tracker → Open Time Tracker 菜单路径</figcaption></figure>
+<p><strong>入口</strong>：CI Tools → Time Tracker → Open Time Tracker</p>
+<p>三步：</p>
+<ol><li>点文件夹图标，选择存档位置（时间数据存在你指定的文件里）</li><li>指定 <strong>Job（项目）</strong> 和 <strong>Task（任务）</strong></li><li>启动计时</li></ol>
+</section>
+<section class="reveal block-card">
+<h2 id="Detail-Elements-智能二维详图构件库">Detail Elements — 智能二维详图构件库</h2>
+<p>拖拽式参数化 2D 详图对象库，大幅加速详图绘制（平面、剖面、立面、详图视图都能用）。</p>
+<figure><img width="1100" height="1072" src="..\assets\img\nv9sSOFyXPRwQqGGsuX6GD.jpg" alt="Detail Elements 构件分类列表" loading="lazy"><figcaption>Detail Elements 构件分类列表</figcaption></figure>
+<figure><img width="1100" height="1072" src="..\assets\img\nv9sSOFyXPRwQqGGsuX6GD.jpg" alt="Detail Elements 工具设置面板" loading="lazy"><figcaption>Detail Elements 工具设置面板</figcaption></figure>
+<p><strong>10 个分类</strong>：</p>
+<div class="table-wrap"><table><thead><tr><th>分类</th><th>内容</th></tr></thead><tbody><tr><td>General Objects</td><td>通用构件</td></tr><tr><td>Floor Objects</td><td>地面构件</td></tr><tr><td>Wall Objects</td><td>墙体构件</td></tr><tr><td>Roof Objects</td><td>屋面构件</td></tr><tr><td>Ceiling Objects</td><td>顶棚构件</td></tr><tr><td>Door and Window Objects</td><td>门窗构件</td></tr><tr><td>Interior Trim Objects</td><td>室内收边构件</td></tr><tr><td>Fastening Objects</td><td>连接件</td></tr><tr><td>Reinforcing Objects</td><td>加固件</td></tr><tr><td>2D Symbols</td><td>二维符号</td></tr></tbody></table></div>
+<p><strong>前置</strong>：手动加载 <code>Ci Tools Detail Elements.libpack</code></p>
+<p><strong>操作</strong>：工具箱选中 ProKit Detail Elements 工具 → 设置面板里挑构件 → 在图纸上放置。对象是参数化的，双击可参数化编辑。</p>
+</section>
+<section class="reveal block-card">
+<h2 id="Keynotes-规范注释自动化">Keynotes — 规范注释自动化</h2>
+<p>建立注释数据库，按构件属性<strong>自动</strong>挂注释到构件上，避免手工逐个标注的枯燥和错误。</p>
+<figure><img width="1100" height="1072" src="..\assets\img\Yp6Unv8oR8y1oK11AahRqD.jpg" alt="Keynotes Palette 面板" loading="lazy"><figcaption>Keynotes Palette 面板</figcaption></figure>
+<figure><img width="655" height="431" src="..\assets\img\PAGMYNzGdDvbM6kvzaPq2c.jpg" alt="Keynotes 面板" loading="lazy"><figcaption>Keynotes 面板</figcaption></figure>
+<p><strong>入口</strong>：CI Tools → Keynotes → Keynotes Palette</p>
+<p><strong>前置</strong>：手动加载 <code>Ci Tools Keynotes.libpack</code></p>
+<p><strong>操作</strong>：</p>
+<ol><li>打开 Keynotes Palette，点 <strong>A+</strong> 添加 Keynote、编辑内容</li><li><strong>放置</strong> Keynote：用 Archicad 的标签工具，但要选 <strong>ProKit Label</strong></li><li><strong>双击</strong> Palette 里的注释 → 在图纸上定位放置</li><li>也可把 Keynote 关联到 Archicad 属性，自动标注</li></ol>
+<figure><img width="277" height="710" src="..\assets\img\BXcImMPQaavi6RXCDBewdD.jpg" alt="Keynotes 分类管理" loading="lazy"><figcaption>Keynotes 分类管理</figcaption></figure>
+<p><strong>两种用法</strong>：直接在图纸上放完整注释；或只放参考键，由 Keynotes 自动汇总成明细表。</p>
+<p><strong>进阶路径</strong>：</p>
+<ul><li>属性关联：<code>Working with Attribute linked Keynotes</code></li><li>主控明细表同步：<code>Using Master Schedules to define and sync Keynote Schedule Settings</code></li><li>多页明细表：<code>Creating Multiple Page Keynote Schedules</code></li><li><strong>从其他项目导入已有数据库</strong> —— 公司内部复用注释库的关键</li></ul>
+</section>
+<section class="reveal block-card">
+<h2 id="MetaData-属性与分类批量操作">MetaData — 属性与分类批量操作</h2>
+<p>在一个面板里直接改构件属性和分类，不用在各种对话框里来回跳。<strong>做 BIM 数据管理的主力工具</strong>。</p>
+<figure><img width="1100" height="598" src="..\assets\img\3GV8M9JLmorsxWAKCScQXi.jpg" alt="MetaData 筛选与选择面板" loading="lazy"><figcaption>MetaData 筛选与选择面板</figcaption></figure>
+<figure><img width="1100" height="691" src="..\assets\img\bi0yNb2XzrNECRhkXzJGIy.jpg" alt="MetaData 面板" loading="lazy"><figcaption>MetaData 面板</figcaption></figure>
+<p><strong>核心能力</strong>：</p>
+<div class="table-wrap"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>属性视图</td><td>在模型视图里直接看改属性，不用开属性管理器</td></tr><tr><td>批量改属性</td><td>一次改多个选中构件的属性</td></tr><tr><td>筛选与选择</td><td>按条件过滤出目标构件</td></tr><tr><td>属性传递</td><td>在构件之间复制、传递属性</td></tr><tr><td>Traits 管理</td><td>给构件添加、移除、迁移自定义标记</td></tr></tbody></table></div>
+<p><strong>实战路径</strong>：筛选定位 → 批量编辑 → 审计检查。</p>
+</section>
+<section class="reveal block-card">
+<h2 id="Quantities-工程量清单与算量">Quantities — 工程量清单与算量</h2>
+<p>从实时模型出工程量清单，分配单价与数量，可导出 CSV 喂给其他造价软件。</p>
+<figure><img width="371" height="121" src="..\assets\img\McL2RFaiR69xex3OQxQ0CA.jpg" alt="工程量清单排程界面" loading="lazy"><figcaption>工程量清单排程界面</figcaption></figure>
+<p><strong>入口</strong>：CI Tools → Quantities</p>
+<p><strong>工作流（官方 9 章结构）</strong>：</p>
+<div class="table-wrap"><table><thead><tr><th>章节</th><th>内容</th></tr></thead><tbody><tr><td>1 Overview</td><td>总览与术语</td></tr><tr><td>2 Project Data</td><td>构件数据管理（数量 Traits）</td></tr><tr><td>3 Bill of Quantities</td><td>工程量清单结构</td></tr><tr><td>4 Defining Measurements</td><td>测量配方 Recipe</td></tr><tr><td>5 Generating Quantities</td><td>生成工程量</td></tr><tr><td>6 Auditing</td><td>审计核查</td></tr><tr><td>7 Element Calculation</td><td>构件计算表达式</td></tr><tr><td>8 Calculation Functions</td><td>计算函数</td></tr><tr><td>9 Calculation Operators</td><td>计算运算符</td></tr></tbody></table></div>
+<p><strong>三个核心概念</strong>：</p>
+<ul><li><strong>Recipe（配方）</strong> —— 用规则自动给构件分配数量成本，避免手工一个个填</li><li><strong>Bill Structure（清单结构）</strong> —— 分级目录（分类 → 条目），可嵌套</li><li><strong>Traits</strong> —— 挂在构件上的数量成本标记</li></ul>
+<figure><img width="1100" height="734" src="..\assets\img\1IDOMzr44LlBwGfK2s1E5z.jpg" alt="工程量清单结构" loading="lazy"><figcaption>工程量清单结构</figcaption></figure>
+<p><strong>审计是交付前必做</strong>：</p>
+<div class="table-wrap"><table><thead><tr><th>审计项</th><th>作用</th></tr></thead><tbody><tr><td>6.2 审计构件数据</td><td>查数据是否填全</td></tr><tr><td>6.3 审计 Recipe 完成度</td><td>查配方有没有漏</td></tr><tr><td><strong>6.4 审计漏算构件</strong></td><td>查哪些构件根本没进清单</td></tr><tr><td>6.5 审计工程量清单</td><td>查清单本身对不对</td></tr></tbody></table></div>
+<blockquote><p>Quantities 是最容易「看着对其实错」的工具。交付前至少跑 6.4 和 6.5。</p></blockquote>
+</section>
+<section class="reveal block-card">
+<h2 id="Cabinets-高度可配置的橱柜">Cabinets — 高度可配置的橱柜</h2>
+<p><strong>一个</strong>高度可配置的对象搞定所有橱柜类型，不用为每种柜体单独建对象。</p>
+<figure><img width="499" height="335" src="..\assets\img\G4lLKTgFVpyxPMuKZmcgdL.jpg" alt="Cabinets 工具设置面板" loading="lazy"><figcaption>Cabinets 工具设置面板</figcaption></figure>
+<p><strong>能力</strong>：平面和曲面柜门、抽屉面板库；可编辑面板样式与把手类型；自定义门、顶板、酒架、隔板、分隔件；隔板支持三维直接编辑。</p>
+</section>
+<section class="reveal block-card">
+<h2 id="Coverings-3D-覆面层">Coverings — 3D 覆面层</h2>
+<p>给墙、板、柱、屋顶贴 3D 建模的「皮」，2D/3D 视图都能显示，模型立刻有真实感。</p>
+<figure><img width="614" height="332" src="..\assets\img\ALPuKzRUEGTdO0er2iZsTH.jpg" alt="Coverings 覆面设置面板" loading="lazy"><figcaption>Coverings 覆面设置面板</figcaption></figure>
+<p><strong>关键机制</strong>：</p>
+<ul><li>覆面<strong>保持正确比例</strong>，<strong>自动链接到主体构件</strong>，主体改了覆面跟着更新</li><li>预置覆面样式 + 支持自定义</li><li>屋顶覆面可<strong>自动生成排水管</strong></li></ul>
+<blockquote><p>出效果图和汇报模型时性价比很高 —— 比单纯改材质真实得多。</p></blockquote>
+</section>
+<section class="reveal block-card">
+<h2 id="Electrical-智能电气符号与回路">Electrical — 智能电气符号与回路</h2>
+<p><strong>库覆盖区域</strong>：欧盟、印度、撒哈拉以南非洲、英国、美国。<strong>没有中国国标库</strong>，国内项目需自建符号。</p>
+<figure><img width="380" height="264" src="..\assets\img\6XslCiKnyBMGDXp9rElGUB.jpg" alt="Electrical 走线样式管理面板" loading="lazy"><figcaption>Electrical 走线样式管理面板</figcaption></figure>
+<figure><img width="1100" height="811" src="..\assets\img\c4mmOjkHl1lELnPhIQAs5l.jpg" alt="电气符号放置" loading="lazy"><figcaption>电气符号放置</figcaption></figure>
+<p><strong>前置</strong>：手动加载 <code>Ci Tools Electrical.libpack</code></p>
+<p><strong>操作</strong>：</p>
+<ol><li>工具箱选中 ProKit Electrical 工具</li><li>设置里挑符号（插座、开关、插孔、其他面板）</li></ol>
+<ul><li>设置<strong>标高 Elevation</strong> → 符号自动旋转并贴靠墙体</li><li>符号既可显示为整个面板，也可拆成面板内的单个组件</li></ul>
+<ol><li><strong>自动布电线</strong>：选中构件 → 工具自动加走线</li><li>设 Wire Style 走线样式 → 生成关联走线</li><li>建回路、明细表</li></ol>
+</section>
+<section class="reveal block-card">
+<h2 id="Stairs-灵活楼梯设计">Stairs — 灵活楼梯设计</h2>
+<p>直接在模型上自由设计楼梯。</p>
+<figure><img width="1100" height="811" src="..\assets\img\nqzfhzgtt1EpUcYpZWoB2g.jpg" alt="Stairs 楼梯构件工具面板" loading="lazy"><figcaption>Stairs 楼梯构件工具面板</figcaption></figure>
+<p><strong>能力</strong>：各类独立构件，住宅商业都能配；栏杆可关联楼梯、板甚至独立放置，能在不同宽度和高度处转折接平台；楼梯组合可当作单一对象编辑、标注、出图。</p>
+</section>
+<section class="reveal block-card">
+<h2 id="Structural-结构构件库">Structural — 结构构件库</h2>
+<p>创建 3D 结构构件 —— 桁架、框架、连接件。</p>
+<figure><img width="1100" height="811" src="..\assets\img\JiiU4bcweWUJ8EhEz3LQnY.jpg" alt="Structural 结构构件库" loading="lazy"><figcaption>Structural 结构构件库</figcaption></figure>
+</section>
+<section class="reveal block-card">
+<h2 id="Sites-场地与景观-仅澳新">Sites — 场地与景观（仅澳新）</h2>
+<p>可视评估模型与边界、退让高度的关系。<strong>澳洲项目直接相关。</strong></p>
+<p><strong>能力</strong>：边界与高度退让平面；大型剪影式植物对象库；面积图章；边界绘制辅助；建筑包络工具。<strong>早期方案阶段</strong>评价场地关系最有用。</p>
+</section>
+<section class="reveal block-card">
+<h2 id="Fitout-一键布置房间">Fitout — 一键布置房间</h2>
+<p>把空房间一键变成配齐家具的房间。<strong>酒店客房、公寓户型快速布置神器。</strong></p>
+<figure><img width="1100" height="532" src="..\assets\img\cTFDokxDQPfgXHiRkqw3wj.jpg" alt="Fitout 套组与布置配置" loading="lazy"><figcaption>Fitout 套组与布置配置</figcaption></figure>
+<figure><img width="1100" height="811" src="..\assets\img\PSfHjOKuNyhdaYlVncmf38.jpg" alt="Fitout 放置示例" loading="lazy"><figcaption>Fitout 放置示例</figcaption></figure>
+<p><strong>前置</strong>：加载 Ci Tools Profile 工作环境 + <code>Ci Tools Fitout.lcf</code> 图库</p>
+<p><strong>操作</strong>：</p>
+<ol><li>编译 Sets（套组）和 Fitouts（布置），样例在 CI Tools Library → Fitout 文件夹</li><li>在 Fitout 工具里选一个 Example Fitout（如 Bathroom 含浴缸、淋浴、马桶、洗手盆）</li><li><strong>在 Zone 里点击</strong>放置</li></ol>
+<ul><li>工具对光标位置敏感，会优先把重点构件放在离点击点最近处</li><li><strong>可能要试放几次</strong>才满意</li><li>若 Zone 里没有窗扇净空，工具会自动补一个</li></ul>
+<ol><li>放置后是<strong>成组</strong>的 → <code>Alt+G</code> / <code>Cmd+G</code> 切换挂起分组，可单独移动某个物件，移动时自动吸附到靠着的墙</li></ol>
+</section>
+<section class="reveal block-card">
+<h2 id="Bracing-NZ-木结构支撑-仅新西兰">Bracing — NZ 木结构支撑（仅新西兰）</h2>
+<p>新西兰木结构住宅的抗侧力构件计算与布置，符合 NZS 规范。国内和澳洲项目用不上。</p>
+<figure><img width="1100" height="1072" src="..\assets\img\XsZc9AZ3BBggcwOuikXFET.jpg" alt="结构构件对象库界面" loading="lazy"><figcaption>结构构件对象库界面</figcaption></figure>
+</section>
+<section class="reveal block-card">
+<h2 id="场景速查">场景速查</h2>
+<div class="table-wrap"><table><thead><tr><th>你要做的事</th><th>用这个</th><th>入口</th></tr></thead><tbody><tr><td>全项目文字大小写统一</td><td>Annotate</td><td>CI Tools → Annotate → Convert Case…</td></tr><tr><td>换字体、批量改属性文字</td><td>Annotate</td><td>CI Tools → Annotate → Replace Fonts</td></tr><tr><td>项目对称镜像</td><td>Transformer</td><td>CI Tools → Transformer → Mirror Project…</td></tr><tr><td>记录工时对报价</td><td>Time Tracker</td><td>CI Tools → Time Tracker → Open Time Tracker</td></tr><tr><td>快速出详图</td><td>Detail Elements</td><td>工具箱 → ProKit Detail Elements</td></tr><tr><td>规范注释自动化</td><td>Keynotes</td><td>CI Tools → Keynotes → Keynotes Palette</td></tr><tr><td>批量改属性、分类</td><td>MetaData</td><td>CI Tools → MetaData</td></tr><tr><td>算量出清单</td><td>Quantities</td><td>CI Tools → Quantities</td></tr><tr><td>定制橱柜木作</td><td>Cabinets</td><td>工具箱 → ProKit Cabinets</td></tr><tr><td>异形门窗</td><td>Doors+Windows</td><td>工具箱 → ProKit Doors+Windows</td></tr><tr><td>模型贴皮提真实感</td><td>Coverings</td><td>工具箱 → ProKit Coverings</td></tr><tr><td>电气点位与回路</td><td>Electrical</td><td>工具箱 → ProKit Electrical</td></tr><tr><td>自由设计楼梯</td><td>Stairs</td><td>工具箱 → ProKit Stairs</td></tr><tr><td>结构构件、桁架、框架</td><td>Structural</td><td>工具箱 → ProKit Structural</td></tr><tr><td>场地边界与退让</td><td>Sites</td><td>工具箱 → ProKit Sites</td></tr><tr><td>房间一键配家具</td><td>Fitout</td><td>工具箱 → ProKit Fitout</td></tr></tbody></table></div>
+</section>
+<section class="reveal block-card">
+<h2 id="故障排查">故障排查</h2>
+<div class="table-wrap"><table><thead><tr><th>症状</th><th>原因</th><th>解决</th></tr></thead><tbody><tr><td>菜单里没有 CI Tools</td><td>工作环境没加载</td><td>文件 → 工作环境 → Ci Tools Profile 28 → 应用</td></tr><tr><td>工具箱里没有某个工具</td><td>插件已装但工具箱没加</td><td>右键工具箱 → 工具箱设置 → 勾选 → <strong>保存工作环境</strong></td></tr><tr><td>工具能开但没内容</td><td><strong>libpack 没加载</strong></td><td>文件 → 库管理器 → Add → 选<strong>具体 .libpack 文件</strong></td></tr><tr><td>AC29/30 上内容为空</td><td>AC29 起必须手动加载库包</td><td>同上</td></tr><tr><td>安装器里看不到 Archicad 版本</td><td>安装器检测不到</td><td>关闭 Archicad；点右上角 Find 手动指到安装目录；确认 Archicad 和安装器是同一 Windows 用户装的</td></tr><tr><td>图库加载了但对象不出现</td><td>选了文件夹层级</td><td>回库管理器，选单个 .libpack 重新加载</td></tr><tr><td>菜单全变英文、找不到某项</td><td>版本不一致</td><td>AC28 用 CI Tools，AC30 用 ProKit</td></tr><tr><td>Detail Elements 拖不出对象</td><td>Macros 没加载</td><td>优先加载 <code>Ci Tools Macros.libpack</code></td></tr><tr><td>Annotate 改错了想回退</td><td>不可逆风险</td><td>执行前 Ctrl+Z；优先用「Selected items only」试手</td></tr><tr><td>Transformer 镜像后元素丢失</td><td>破坏性操作</td><td>提前另存副本</td></tr></tbody></table></div>
+</section>
+<section class="reveal block-card">
+<h2 id="上手建议">上手建议</h2>
+<p>按优先级分三档，别一次学 16 个。</p>
+<p><strong>第一优先 · 立刻见效</strong></p>
+<ol><li><strong>Annotate</strong> — 出图前文字统一，10 分钟上手，省几小时</li><li><strong>MetaData</strong> — 属性批量管理，BIM 交付必用</li><li><strong>Time Tracker</strong> — 算工时对报价，直接对钱</li></ol>
+<p><strong>第二优先 · 项目需要时再学</strong></p>
+<ol><li><strong>Quantities</strong> — 出算量清单</li><li><strong>Keynotes</strong> — 规范注释系统（配数据库前期投入大）</li><li><strong>Transformer</strong> — 偶尔镜像时用</li></ol>
+<p><strong>第三优先 · 特定场景</strong></p>
+<ol><li><strong>Coverings</strong>（汇报模型提质感）、<strong>Fitout</strong>（客房批量布置）、<strong>Sites</strong>（澳洲场地）、<strong>Detail Elements</strong>（详图库）</li></ol>
+<p><strong>暂不建议碰</strong>：Cabinets、Doors+Windows、Electrical（无国标库）、Structural、Bracing（NZ 专用）</p>
+</section>
+<section class="reveal block-card">
+<h2 id="官方资源">官方资源</h2>
+<div class="table-wrap"><table><thead><tr><th>资源</th><th>地址</th></tr></thead><tbody><tr><td>MyCi 知识库（最全）</td><td>https://cadimage.zendesk.com/hc/en-us</td></tr><tr><td>ProKit 官方下载</td><td>https://www.graphisoft.com/en-gs/downloads/prokit</td></tr><tr><td>免费试用申请</td><td>https://myci.centralinnovation.com/freetrial</td></tr><tr><td>Graphisoft Learn 视频课</td><td>https://learn.graphisoft.com/visitor_catalog_class/show/131995</td></tr><tr><td>官方社区</td><td>https://centralinnovation.com/software/ci-tools</td></tr></tbody></table></div>
+<p><strong>最快入门路径</strong>：Graphisoft Learn 上 1 小时视频课 &quot;Getting Started with ProKit Core&quot;，覆盖 Annotate / Detail Elements / Time Tracker / Transformer 四个工具，英文带字幕。</p>
+</section>
+<section class="reveal block-card">
+<h2 id="附录-A-安装与补装">附录 A · 安装与补装</h2>
+<h3>首次安装 CI Tools（Archicad 24 ~ 29）</h3>
+<ol><li>前往 MyCi 知识库下载 CI Tools Installer</li></ol>
+<p>→ https://cadimage.zendesk.com/hc/en-us</p>
+<ol><li>关闭 Archicad，运行安装器，用 <strong>MyCi 账号</strong>登录（注意：不是 Graphisoft ID）</li><li>选择 <strong>Install Ci Tools</strong>，指定目标 Archicad 版本</li><li>列表里勾选需要的工具 → Install</li><li>重启 Archicad，<strong>加载工作环境 + 加载图库包</strong>（见第 2 章三步启动）</li></ol>
+<blockquote><p>若安装器里看不到你的 Archicad 版本：关闭 Archicad，点安装器右上角 <strong>Find</strong> 手动指到安装目录；确认 Archicad 和安装器是同一个系统用户装的。</p></blockquote>
+<h3>安装 ProKit（Archicad 30）</h3>
+<p>2026 起 CI Tools 更名为 ProKit，改为 Graphisoft 官方产品，<strong>无需 MyCi 账号</strong>：</p>
+<ul><li>ProKit Core（Annotate、Transformer、Time Tracker、Detail Elements）</li></ul>
+<p>→ https://www.graphisoft.com/downloads/add-ons/prokit/#Archicad-prokitcore</p>
+<ul><li>ProKit Suite（Cabinets、Coverings、Doors+Windows、Electrical、Fitout、Keynotes、MetaData、Quantities、Site、Stairs、Structure）</li></ul>
+<p>→ https://www.graphisoft.com/downloads/add-ons/prokit/#Archicad-prokitsuite</p>
+<h3>补装缺失的单个工具</h3>
+<p>不同版本随附的工具不同。若发现某个工具没有：</p>
+<ul><li><strong>Archicad 24~29</strong>：在 CI Tools Installer 里勾选该工具单独安装，安装后重新加载工作环境与图库包</li><li><strong>Archicad 30</strong>：ProKit Core 与 Suite 是两个独立安装包，缺哪个装哪个</li></ul>
+<h3>版本与功能对照</h3>
+<div class="table-wrap"><table><thead><tr><th>版本</th><th>工具包名称</th><th>获取方式</th><th>注意</th></tr></thead><tbody><tr><td>24 ~ 29</td><td>CI Tools</td><td>MyCi Installer</td><td>库包需手动加载</td></tr><tr><td>30 及以后</td><td>ProKit Core / Suite</td><td>Graphisoft 官网</td><td>菜单名改为 ProKit</td></tr></tbody></table></div>
+<p><strong>区域限制</strong>：Electrical 库含欧盟、印度、撒哈拉以南非洲、英国、美国，<strong>无中国国标库</strong>；Sites 与 Bracing 为澳新 / 新西兰专属。</p>
+</section>
+<section class="reveal block-card">
+<h2 id="附录-B-libpack-全量加载顺序">附录 B · libpack 全量加载顺序</h2>
+<p>路径：<code>C:\Program Files\Graphisoft\Archicad XX\Archicad 图库包\Ci Tools Library Packages\</code></p>
+<pre><code>1.  Ci Tools Macros.libpack          ← 先加载这个
+2.  Ci Tools Detail Elements.libpack
+3.  Ci Tools Electrical.libpack
+4.  Ci Tools Keynotes.libpack
+5.  Ci Tools Cabinets.libpack
+6.  Ci Tools Coverings.libpack
+7.  Ci Tools Doors+Windows.libpack
+8.  Ci Tools Fitout.libpack
+9.  Ci Tools Stairs.libpack
+10. Ci Tools Structural.libpack
+11. Ci Tools Sites.libpack
+12. Ci Tools Bracing.libpack
+13. Ci Tools Time Tracker.libpack</code></pre>
+</section>
+<section class="reveal block-card">
+<p><em>本手册基于官方 MyCi 知识库（2026-10 更新）编写，界面截图取自官方教程文档，适用于 Archicad 24 及以上版本。各机器安装情况不同，请先按第 1 章自查。</em></p>
+</section>
+<footer>由 WorkBuddy 资料库生成</footer>
+</main>
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
+<script>
+(function () {
+  if (!document.querySelector('.mermaid') || window.__mermaidLoaded) return;
+  window.__mermaidLoaded = true;
+  function fallback() {
+    document.querySelectorAll('.mermaid').forEach(function (el) {
+      if (el.getAttribute('data-mermaid-done')) return;
+      var pre = document.createElement('pre'), code = document.createElement('code');
+      code.textContent = el.getAttribute('data-mermaid-src') || el.textContent;
+      pre.appendChild(code); el.replaceWith(pre);
+    });
+  }
+  window.__mermaidFallback = fallback;
+  var s = document.createElement('script');
+  s.type = 'module';
+  s.textContent =
+    'import("https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs").then(function(mod){'
+    +   'var mermaid = mod.default;'
+    +   'var cs = getComputedStyle(document.documentElement);'
+    +   'function v(n,d){return (cs.getPropertyValue(n).trim()||d);}'
+    +   'mermaid.initialize({startOnLoad:false,theme:"base",themeVariables:{'
+    +     'primaryColor:v("--panel","#1c1c1c"),primaryBorderColor:v("--accent","#8f8f8f"),'
+    +     'primaryTextColor:v("--text","#e9e9e9"),secondaryColor:v("--accent2","#8f8f8f"),'
+    +     'tertiaryColor:v("--bg","#121212"),lineColor:v("--accent2","#8f8f8f"),'
+    +     'textColor:v("--text","#e9e9e9"),mainBkg:v("--panel","#1c1c1c"),'
+    +     'nodeBorder:v("--accent","#8f8f8f"),clusterBkg:v("--bg","#121212"),'
+    +     'clusterBorder:v("--accent","#8f8f8f"),edgeLabelBackground:v("--panel","#1c1c1c"),'
+    +     'fontFamily:"-apple-system, PingFang SC, Microsoft YaHei, Segoe UI, sans-serif"}});'
+    +   'document.querySelectorAll(".mermaid").forEach(function(el){el.textContent=el.getAttribute("data-mermaid-src")||el.textContent;});'
+    +   'return mermaid.run({querySelector:".mermaid"});'
+    + '}).then(function(){'
+    +   'document.querySelectorAll(".mermaid").forEach(function(el){el.setAttribute("data-mermaid-done","1");});'
+    + '}).catch(function(){window.__mermaidFallback&&window.__mermaidFallback();});';
+  document.body.appendChild(s);
+  setTimeout(fallback, 8000);  // CDN 长时间无响应也退回代码块
+})();
+</script>
+
+<script>
+(function(){
+  var btn = document.querySelector('.toc-toggle');
+  var list = document.getElementById('toc-list');
+  if (btn && list) {
+    btn.addEventListener('click', function(){
+      var open = list.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? '收起' : '展开全部';
+    });
+  }
+  var links = document.querySelectorAll('.toc-list a');
+  var secs = [];
+  links.forEach(function(a){
+    var el = document.querySelector(a.getAttribute('href'));
+    if (el) secs.push({a:a, el:el});
+  });
+  if ('IntersectionObserver' in window && secs.length) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          secs.forEach(function(s){ s.a.style.color=''; s.a.style.borderColor=''; });
+          var cur = secs.filter(function(s){ return s.el === e.target; })[0];
+          if (cur) { cur.a.style.color = 'var(--accent)';
+            cur.a.style.borderColor = 'rgba(47,111,143,0.28)'; }
+        }
+      });
+    }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+    secs.forEach(function(s){ io.observe(s.el); });
+  }
+})();
+</script>
+</body>
+</html>

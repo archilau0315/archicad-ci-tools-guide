@@ -1,0 +1,8 @@
+{
+ "id": "360001395036",
+ "title": "2.3.7 How to quickly spot anomalies or problems in selected elements",
+ "html": "<p>The text style of traits listed in the Quantities Info palette provides important feedback about the their status. For example:</p>\n<ul>\n<li>Blue indicates that the trait is not common to the selected elements, which is useful for spotting traits that are supposed to be uniform. ARCHICAD’s Find &amp; Select palette is useful in conjunction with this feature, first finding elements that should be identical and then checking Quantities Info for inconsistencies.</li>\n<li>Red indicates that a manually applied recipe has been deleted, suggesting a mistake.</li>\n<li>A bold face is used wherever a property has multiple values across the selected elements. The values can be viewed by clicking the disclosure triangle.</li>\n</ul>\n<p>When an anomalous trait or property value is spotted, the contributing elements can be isolated by selecting the traits/values in the list and clicking the filter by traits button</p>",
+ "created_at": "2020-02-25T23:20:15Z",
+ "updated_at": "2022-01-20T16:07:33Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/360001395036"
+}

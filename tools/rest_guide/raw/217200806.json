@@ -1,0 +1,9 @@
+{
+ "id": "217200806",
+ "title": "How to manually add Tools to the Toolbox",
+ "cat": "Getting Started",
+ "html": "<p>First <strong>Right-click</strong> on top of <strong>Design</strong> in the Toolbox and select <strong>Toolbox...</strong></p><p><img src=\"https://cadimage.zendesk.com/hc/en-us/article_attachments/211376326/2016-11-29_14-28-46.png\" alt=\"\"></p><p>1. Select <strong>Design</strong> as the Toolbox Group you would like to add the tools to</p><p>2. Select the tools from the <strong>Available Tools</strong> area </p><p><img src=\"https://cadimage.zendesk.com/hc/en-us/article_attachments/211230303/2016-11-29_14-33-01.png\" alt=\"\"></p><p>3. Click on <strong>Add Selected</strong> to add the Tools to the Design Group in the Toolbox</p><p>4. Click <strong>OK</strong>.</p><p>Your tools will now show in your toolbox.</p>",
+ "created_at": "2016-11-29T02:01:43Z",
+ "updated_at": "2025-12-16T16:22:19Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/217200806"
+}

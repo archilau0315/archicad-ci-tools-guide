@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Annotate（文字格式）完整中文教程：全项目文字大小写、字体批量统一">
+<title>Annotate · 文字格式 · CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+
+.vb{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;
+  background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba;
+  font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle;
+  letter-spacing:.02em;white-space:nowrap}
+.vb-old{background:#f7e3e3;color:#9a3b3b;border-color:#e6c6c6}
+.vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
+  background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
+.vb-note b{color:#8a5a1e}
+</style>
+<link rel="stylesheet" href="search.css">
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
+<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<a class=" on" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
+<a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
+</aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></div>
+<div class="hero">
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>Annotate · <span class="zh-only">文字格式</span></h1>
+  <p class="zh-only">全项目文字大小写、字体批量统一</p>
+  <p class="en-only">Batch text case and font formatting across the whole project</p>
+  <div class="meta">
+    <span><b>7</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>1.1</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>29</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
+  </div>
+</div>
+<article>
+
+<div class="art" id="a-360001692315">
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">1.1 转换文本大小写</h3>
+    <h3 class="en-only block">1.1 Convert Text Case</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692315-1-1-Convert-Text-Case" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Annotate 的大小写转换工具可以更改大多数项目元素的文本内容，并可选包含诸如（字符串）属性和参数之类的设置。若只想转换某一部分选定项目的大小写，请先选中它们。要启动转换工具，请点击菜单项 <em>CI Tools > Annotate > Convert Case…</em>（转换大小写）</p>
+<p><img src="img/360001692315_0.jpg" alt="1.1 Convert Text Case 示意图" loading="lazy"></p>
+<p>首先会弹出 <em>Case Conversion Options</em>（大小写转换选项）对话框。请从以下选项中选择：</p>
+<ul>
+<li>Case（大小写）指定所需的文本大小写，以及是否需要遵守例外情况。可选项包括：</li>
+</ul>
+<ul>
+<li>Sentence case（句首字母大写）</li>
+</ul>
+<ul>
+<li>UPPER CASE（全大写）</li>
+</ul>
+<ul>
+<li>lower case（全小写）</li>
+</ul>
+<ul>
+<li>Title Case（标题式大小写）</li>
+</ul>
+<p>如果某些单词或缩写应保持固定大小写，请勾选 <em>Observe case exceptions</em>（遵守大小写例外）。此时会出现一个 <em>Edit</em>（编辑）按钮用于查看这些例外（详见 1.2 节）。</p>
+<ul>
+<li>Scope（范围）指定文本转换的范围，包括：</li>
+</ul>
+<p> Selected items only（仅选定项目） . 若在活动图纸视图中未选中任何内容，则该选项不可用。</p>
+<ul>
+<li>Text in the current drawing（当前图纸中的文本） . 仅影响活动的图纸视图。若当前为平面图，则仅针对当前楼层。</li>
+</ul>
+<ul>
+<li>Text in floor plan (all storeys)（平面图中的文本，所有楼层） . 平面图中的所有楼层都将被处理。</li>
+</ul>
+<ul>
+<li>Text in all drawings（所有图纸中的文本）。所有图纸，包括剖面图、详图等都将被处理。</li>
+</ul>
+<p>勾选 <em>String properties</em>（字符串属性）可转换任意字符串属性值。请注意，这不会影响从预设选项菜单中选取的文本 —— 若要更改这类文本，请使用属性管理器（Property Manager）。</p>
+<p>勾选 <em>String parameters</em>（字符串参数）可转换参数文本。已锁定或隐藏的参数不会受到影响（因为它们大概不是要更改的对象）。若选择了 <em>If displayed</em>（如果已显示）选项，则只有与对象在 2D 中当前显示的文本完全匹配的字符串参数值才会被转换。如果该对象还含有其他可见、未锁定且不应更改的文本，此选项要安全得多。</p>
+<ul>
+<li>Ignore（忽略）选择任何不应被转换的项目或图层，包括：</li>
+</ul>
+<p> Hidden items（隐藏项目） ，例如隐藏图层上的所有内容；</p>
+<ul>
+<li>Locked items（锁定项目） ，即已被显式锁定的元素；</li>
+</ul>
+<ul>
+<li>Locked layers（锁定图层） ，例如锁定图层上的所有内容。</li>
+</ul>
+<p>点击 <em>Ok</em>（确定）开始转换过程。</p></div>
+  <div class="en-only"><p>Annotate’s case conversion tool can change the text content of most project elements, optionally including settings like (string) properties and parameters. To convert the case of just a selection of items, pick them first. To start the conversion tool, click the menu item <em>CI Tools > Annotate > Convert Case…</em></p>
+<p><img src="img/360001692315_0.jpg" alt="1.1 Convert Text Case 示意图" loading="lazy"></p>
+<p>The <em>Case Conversion Options</em> dialog appears first. Pick from the following:</p>
+<ul>
+<li>Case Specify the required text case and whether any exceptions should be observed. Options include:</li>
+</ul>
+<ul>
+<li>Sentence case</li>
+</ul>
+<ul>
+<li>UPPER CASE</li>
+</ul>
+<ul>
+<li>lower case</li>
+</ul>
+<ul>
+<li>Title Case</li>
+</ul>
+<p>Select <em>Observe case exceptions</em> if some words or abbreviations should have a fixed case. An <em>Edit</em> button will appear for reviewing the exceptions (see section 1.2 for more details).</p>
+<ul>
+<li>Scope Specify the scope of the text conversion, including:</li>
+</ul>
+<p> Selected items only . Disabled if nothing is selected in the active drawing view.</p>
+<ul>
+<li>Text in the current drawing . Only the active drawing view will be affected. If the floor plan is active, only the current storey will be targeted.</li>
+</ul>
+<ul>
+<li>Text in floor plan (all storeys) . All stories in the floor plan will be targeted.</li>
+</ul>
+<ul>
+<li>Text in all drawings. All drawings, including sections, worksheets etc will be targeted.</li>
+</ul>
+<p>Select <em>String properties</em> to convert any string property values. Note that this will not affect text picked from a menu of pre-determined choices – if you want to change that, use the Property Manager.</p>
+<p>Select <em>String parameters</em> to convert parameter text. Locked or hidden parameters will not be affected (on the basis that they are probably not intended to be changed). If the option setting <em>If displayed</em> is selected, only string parameter values exactly matching text currently displayed by the object in 2D will be converted. This is a much safer option if the object holds other visible, unlocked text that shouldn’t be changed.</p>
+<ul>
+<li>Ignore Select any items or layers that shouldn’t be converted, including:</li>
+</ul>
+<p> Hidden items , e.g. everything on hidden layers;</p>
+<ul>
+<li>Locked items , i.e. where the element has been explicitly locked;</li>
+</ul>
+<ul>
+<li>Locked layers , e.g. everything on locked layers.</li>
+</ul>
+<p>Click <em>Ok</em>to begin the conversion process.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Annotate’s case conversion tool can change the text content of most project elements, optionally including settings like (string) properties and parameters. To convert the case of just a selection of items, pick them first. To start the conversion tool, click the menu item <em>CI Tools > Annotate > Convert Case…</em></p>
+<p><img src="img/360001692315_0.jpg" alt="1.1 Convert Text Case 示意图" loading="lazy"></p>
+<p>The <em>Case Conversion Options</em> dialog appears first. Pick from the following:</p>
+<ul>
+<li>Case Specify the required text case and whether any exceptions should be observed. Options include:</li>
+</ul>
+<ul>
+<li>Sentence case</li>
+</ul>
+<ul>
+<li>UPPER CASE</li>
+</ul>
+<ul>
+<li>lower case</li>
+</ul>
+<ul>
+<li>Title Case</li>
+</ul>
+<p>Select <em>Observe case exceptions</em> if some words or abbreviations should have a fixed case. An <em>Edit</em> button will appear for reviewing the exceptions (see section 1.2 for more details).</p>
+<ul>
+<li>Scope Specify the scope of the text conversion, including:</li>
+</ul>
+<p> Selected items only . Disabled if nothing is selected in the active drawing view.</p>
+<ul>
+<li>Text in the current drawing . Only the active drawing view will be affected. If the floor plan is active, only the current storey will be targeted.</li>
+</ul>
+<ul>
+<li>Text in floor plan (all storeys) . All stories in the floor plan will be targeted.</li>
+</ul>
+<ul>
+<li>Text in all drawings. All drawings, including sections, worksheets etc will be targeted.</li>
+</ul>
+<p>Select <em>String properties</em> to convert any string property values. Note that this will not affect text picked from a menu of pre-determined choices – if you want to change that, use the Property Manager.</p>
+<p>Select <em>String parameters</em> to convert parameter text. Locked or hidden parameters will not be affected (on the basis that they are probably not intended to be changed). If the option setting <em>If displayed</em> is selected, only string parameter values exactly matching text currently displayed by the object in 2D will be converted. This is a much safer option if the object holds other visible, unlocked text that shouldn’t be changed.</p>
+<ul>
+<li>Ignore Select any items or layers that shouldn’t be converted, including:</li>
+</ul>
+<p> Hidden items , e.g. everything on hidden layers;</p>
+<ul>
+<li>Locked items , i.e. where the element has been explicitly locked;</li>
+</ul>
+<ul>
+<li>Locked layers , e.g. everything on locked layers.</li>
+</ul>
+<p>Click <em>Ok</em>to begin the conversion process.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360001694896">
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">1.2 管理大小写例外</h3>
+    <h3 class="en-only block">1.2 Manage Case Exceptions</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001694896-1-2-Manage-Case-Exceptions" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p><em>Case Exception Manager</em>（大小写例外管理器）收集那些无论一般文本采用何种标准都应保持固定大小写的单词或缩写。可在 <em>Case Conversion Options</em>（大小写转换选项）对话框中点击 <em>Edit</em>（编辑）按钮查看该管理器，也可点击菜单 <em>CI Tools > Annotate > Manage Case Exceptions…</em>（管理大小写例外）</p>
+<p><img src="img/360001694896_0.jpg" alt="1.2 Manage Case Exceptions 示意图" loading="lazy"></p>
+<p>例外列表与项目相关，但可以导出后导入到其他项目。该管理器对话框包含以下内容：</p>
+<ul>
+<li>例外列表</li>
+</ul>
+<p> 列表分为 2 列，两列都可在列表中直接编辑：</p>
+<ul>
+<li>Text（文本）字面文本，即其在文档中应呈现的大小写形式。</li>
+</ul>
+<ul>
+<li>Context（上下文）此例外所适用的上下文</li>
+</ul>
+<p>例如，millimetre（毫米）的缩写 mm 通常为小写，但我们不希望任何含有双 m 的单词受到影响，例如 "common" 被转换为 "COmmON"。该单位应跟在数字之后，例如 100mm，因此上下文应设置为 "After number"（数字之后）。对于整个单词都应使用特定大小写的情况（例如专有名词），上下文可设置为 "Entire word"（整个单词）。如果一系列字母、符号甚至单词无论出现在何处都应采用特定大小写，则上下文为 "Anywhere"（任意位置）。请注意，对于任何包含非字母数字字符（如 "." 或 "?"）的表达式，必须选择 "Anywhere"。</p>
+<ul>
+<li>右侧的按钮提供附加功能：</li>
+</ul>
+<ul>
+<li>Insert（插入）在列表中插入一条新例外</li>
+</ul>
+<ul>
+<li>Delete（删除）从列表中删除所选例外</li>
+</ul>
+<ul>
+<li>Import（导入）从文件导入大小写例外</li>
+</ul>
+<ul>
+<li>Export（导出）将当前的大小写例外列表导出到文件</li>
+</ul>
+<p>大小写例外文件的扩展名为 <em>.keycase</em>。</p>
+<p>点击 "Ok"（确定）保存对大小写例外的更改，点击 "Cancel"（取消）则放弃更改。</p></div>
+  <div class="en-only"><p>The <em>Case Exception Manager</em>collects words or abbreviations that should have a fixed case irrespective of the standard for the general text. The manager can be viewed by clicking the <em>Edit</em>button from the <em>Case Conversion Options</em> dialog, or by clicking the menu <em>CI Tools > Annotate > Manage Case Exceptions…</em></p>
+<p><img src="img/360001694896_0.jpg" alt="1.2 Manage Case Exceptions 示意图" loading="lazy"></p>
+<p>The list of exceptions is project-specific, but can be exported for import into other projects. The manager dialog features include:</p>
+<ul>
+<li>The exception list</li>
+</ul>
+<p> The list is divided into 2 columns, both of which can be edited directly in the list:</p>
+<ul>
+<li>Text The literal text, i.e. with the case as it should appear in the document.</li>
+</ul>
+<ul>
+<li>Context The context in which this exception is relevant</li>
+</ul>
+<p>For example, the abbreviation of millimetre to mm is usually lower case, but we don’t want to see any word containing double-m to be affected, e.g. “common” converted to “COmmON”. The unit would be expected to follow a number, e.g. 100mm, so the context should be set to “After number”. An entire word that should have a specific case, e.g. a proper noun, could have the context as “Entire word”. If a series of letters, symbols or even words should have have a specific case no matter where they occur, the context will be “Anywhere”. Note that “Anywhere” must be selected for any expression that contains non-alphanumeric characters such as “.” or “?”.</p>
+<ul>
+<li>The buttons to the right provide additional functionality:</li>
+</ul>
+<ul>
+<li>Insert Insert a new exception in the list</li>
+</ul>
+<ul>
+<li>Delete Delete the selected exception(s) from the list</li>
+</ul>
+<ul>
+<li>Import Import case exceptions from a file</li>
+</ul>
+<ul>
+<li>Export Export the current list of case exceptions to a file</li>
+</ul>
+<p>Case exception files have the <em>.keycase</em> extension.</p>
+<p>Changes to the case exceptions are saved on clicking “Ok” or discarded with “Cancel”.</p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The <em>Case Exception Manager</em>collects words or abbreviations that should have a fixed case irrespective of the standard for the general text. The manager can be viewed by clicking the <em>Edit</em>button from the <em>Case Conversion Options</em> dialog, or by clicking the menu <em>CI Tools > Annotate > Manage Case Exceptions…</em></p>
+<p><img src="img/360001694896_0.jpg" alt="1.2 Manage Case Exceptions 示意图" loading="lazy"></p>
+<p>The list of exceptions is project-specific, but can be exported for import into other projects. The manager dialog features include:</p>
+<ul>
+<li>The exception list</li>
+</ul>
+<p> The list is divided into 2 columns, both of which can be edited directly in the list:</p>
+<ul>
+<li>Text The literal text, i.e. with the case as it should appear in the document.</li>
+</ul>
+<ul>
+<li>Context The context in which this exception is relevant</li>
+</ul>
+<p>For example, the abbreviation of millimetre to mm is usually lower case, but we don’t want to see any word containing double-m to be affected, e.g. “common” converted to “COmmON”. The unit would be expected to follow a number, e.g. 100mm, so the context should be set to “After number”. An entire word that should have a specific case, e.g. a proper noun, could have the context as “Entire word”. If a series of letters, symbols or even words should have have a specific case no matter where they occur, the context will be “Anywhere”. Note that “Anywhere” must be selected for any expression that contains non-alphanumeric characters such as “.” or “?”.</p>
+<ul>
+<li>The buttons to the right provide additional functionality:</li>
+</ul>
+<ul>
+<li>Insert Insert a new exception in the list</li>
+</ul>
+<ul>
+<li>Delete Delete the selected exception(s) from the list</li>
+</ul>
+<ul>
+<li>Import Import case exceptions from a file</li>
+</ul>
+<ul>
+<li>Export Export the current list of case exceptions to a file</li>
+</ul>
+<p>Case exception files have the <em>.keycase</em> extension.</p>
+<p>Changes to the case exceptions are saved on clicking “Ok” or discarded with “Cancel”.</p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-14260201378447">
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">使用 CI Tools Annotate 进行属性替换</h3>
+    <h3 class="en-only block">Attribute Replacement using Ci Tools Annotate</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/14260201378447-Attribute-Replacement-using-Ci-Tools-Annotate" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h2>属性替换</h2>
+<p>Annotate 工具能够同时更改项目中的多个属性。这对于批量修改那些可能源自 Archicad 之外的 Archicad 文件或图纸尤其有用。</p>
+<p>Annotate 工具位于 <strong>CI Tools</strong> 下拉菜单中：</p>
+<p><img src="img/14260201378447_0.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>点击 <strong>Convert</strong>（转换）菜单项后，Annotate 工具可替换：</p>
+<ul>
+<li>Fills（填充）</li>
+</ul>
+<ul>
+<li>Pens（画笔）</li>
+</ul>
+<ul>
+<li>Linetypes（线型）</li>
+</ul>
+<ul>
+<li>Fonts（字体）</li>
+</ul>
+<ul>
+<li>Text Case conversion（文本大小写转换）</li>
+</ul>
+<p><img src="img/14260201378447_1.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>下面我们逐一介绍各个菜单。</p>
+<p>请注意，这三个 <strong>Edit</strong>（编辑）按钮都会打开属性替换管理器（Attribute Replacement Manager），在其中可以进行映射；<strong>Edit</strong> 按钮只会默认选中你点击的那一部分。点击 <strong>Replace Linetypes</strong>（替换线型）旁的 <strong>Edit</strong> 按钮会默认定位到该界面的 Linetypes（线型）选项，但三个选项在同一界面中都可以访问。见下文：</p>
+<p><img src="img/14260201378447_2.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<h2>属性替换管理器</h2>
+<p>**</p>
+<p><img src="img/14260201378447_3.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>**</p>
+<p><strong>1 Pen Type（画笔类型）</strong></p>
+<p>选择画笔覆盖映射</p>
+<p><strong>2 Fill Type（填充类型）</strong></p>
+<p>选择填充覆盖映射</p>
+<p><strong>3 Line Type（线型）</strong></p>
+<p>线型覆盖映射</p>
+<p><strong>4 Default value（默认值）</strong></p>
+<p>勾选后，若未添加任何规则，则该画笔类型将应用到所有线条；若已定义部分规则，则应用于所有未定义规则的画笔。</p>
+<p><strong>5 Add Rules to list（向列表添加规则）</strong></p>
+<p>可以自动填充属性规则列表，并从以下位置添加画笔、填充与线型：</p>
+<p>Selected Items only（仅所选项目） 仅选中的元素</p>
+<p>Current Drawing（当前图纸） 当前图纸中的全部元素</p>
+<p>Plan (all storeys)（平面图，所有楼层） 所有平面视图中的全部元素</p>
+<p>Entire Project（整个项目） 整个项目中的全部元素</p>
+<p><img src="img/14260201378447_4.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>我们将使用 Current Drawing（当前图纸）。</p>
+<p><img src="img/14260201378447_5.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>现在已填充出待调整的画笔，列表左侧的每个画笔都可以单独替换为右侧列表中你选择的画笔。</p>
+<p>在此选择中，我们用画笔 2 替换画笔 23，请见下文：</p>
+<p><img src="img/14260201378447_6.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>通过这种方式，我们可以为每个画笔指定不同的画笔类型。</p>
+<p>在这个对话框中还可以进行以下操作：</p>
+<p>1 手动添加规则</p>
+<p>2 删除规则</p>
+<p>3 导入从另一个项目保存的规则</p>
+<p>4 导出规则，供在另一个项目中使用</p>
+<p>请见下文：</p>
+<p><img src="img/14260201378447_7.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>同样地，每种填充类型既可以改为默认填充，也可以应用所选的填充替换。</p>
+<p><img src="img/14260201378447_8.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>线型可以通过将左侧面板映射到右侧来更改：</p>
+<p><img src="img/14260201378447_9.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p><strong>重要：</strong></p>
+<p>请注意，替换规则将依据对话框中 <strong>Application to Project</strong>（应用于项目）部分的条件，应用于全部填充、线型与画笔；因此必须在此处限定并控制映射的应用范围。请见下文：</p>
+<p><img src="img/14260201378447_10.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p><img src="img/14260201378447_11.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p></div>
+  <div class="en-only"><h2>Attribute Replacement</h2>
+<p>The Annotate tool has the ability to change several attributes in a project simultaneously. This is especially helpful in making bulk changes to Archicad files or drawings that may have originated outside of Archicad.</p>
+<p>The Annotate Tool is accessed under the CI Tools dropdown:</p>
+<p><img src="img/14260201378447_0.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p> By Clicking on the Convert Menu item, the Annotate Tool allows for the replacement of:</p>
+<ul>
+<li>Fills</li>
+</ul>
+<ul>
+<li>Pens</li>
+</ul>
+<ul>
+<li>Linetypes</li>
+</ul>
+<ul>
+<li>Fonts</li>
+</ul>
+<ul>
+<li>Text Case conversion</li>
+</ul>
+<p><img src="img/14260201378447_1.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>Let us look at the separate menu’s individually.</p>
+<p>Please note that any of these three ‘Edit’ buttons bring up the Attribute Replacement Manager, where mapping can take place, the ‘Edit’ button only selects the part that you have clicked on by default. Clicking on the ‘Edit’ button next to Replace Linetypes defaults to the Linetypes part of that Interface, but all three are accessible in that one interface. See below:</p>
+<p><img src="img/14260201378447_2.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<h2>Attribute Replacement Manager</h2>
+<p>**</p>
+<p><img src="img/14260201378447_3.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>**</p>
+<p><strong>1 Pen Type</strong></p>
+<p>Choice of Pen override mapping</p>
+<p><strong>2 Fill Type</strong></p>
+<p>Choice of Fill override mapping</p>
+<p><strong>3 Line Type</strong></p>
+<p>Linetype override mapping</p>
+<p><strong>4 Default value</strong></p>
+<p>When checked this pen type is applied to all lines, if no rules are added, or applied to all Pens that do not have a Rule defined.</p>
+<p><strong>5 Add Rules to list</strong></p>
+<p>One can automatically populate the Attributes rules list and add the Pens, Fills and Linetypes from:</p>
+<p>Selected Items only Only the selected elements</p>
+<p>Current Drawing All elements in the Current Drawing</p>
+<p>Plan (all storeys) All elements in all Plan views</p>
+<p>Entire Project All elements in the Entire Project</p>
+<p><img src="img/14260201378447_4.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>We will use Current Drawing.</p>
+<p><img src="img/14260201378447_5.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>The Pens used is now populated for adjustment, each pen in the list to the left can now be individually substituted with a pen of your choice in the list to the right.</p>
+<p>In this choice we substitute Pen 2 for Pen 23, please see below:</p>
+<p><img src="img/14260201378447_6.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>In this way we can assign each Pen to a different Pen type.</p>
+<p>We can also do the following in this dialogue:</p>
+<p>1 Add Rule manually</p>
+<p>2 Delete Rules</p>
+<p>3 Import Rules that have been saved from another Project</p>
+<p>4 Export Rules for use in another Project</p>
+<p>Please see below:</p>
+<p><img src="img/14260201378447_7.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>In the same way each of the Fill Types can be either changed to a Default Fill, or selected Fill replacements can be applied.</p>
+<p><img src="img/14260201378447_8.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>The Linetype can be changed by mapping the Left pane onto the Right:</p>
+<p><img src="img/14260201378447_9.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p><strong>Important:</strong></p>
+<p>Please note that the replacement rules will apply to all Fills, Linetypes and Pens based on criteria in the ‘Application to Project’ part of the Dialogue, it is important to limit and control the desired application of your mapping in this selection. Please see below:</p>
+<p><img src="img/14260201378447_10.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p><img src="img/14260201378447_11.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h2>Attribute Replacement</h2>
+<p>The Annotate tool has the ability to change several attributes in a project simultaneously. This is especially helpful in making bulk changes to Archicad files or drawings that may have originated outside of Archicad.</p>
+<p>The Annotate Tool is accessed under the CI Tools dropdown:</p>
+<p><img src="img/14260201378447_0.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p> By Clicking on the Convert Menu item, the Annotate Tool allows for the replacement of:</p>
+<ul>
+<li>Fills</li>
+</ul>
+<ul>
+<li>Pens</li>
+</ul>
+<ul>
+<li>Linetypes</li>
+</ul>
+<ul>
+<li>Fonts</li>
+</ul>
+<ul>
+<li>Text Case conversion</li>
+</ul>
+<p><img src="img/14260201378447_1.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>Let us look at the separate menu’s individually.</p>
+<p>Please note that any of these three ‘Edit’ buttons bring up the Attribute Replacement Manager, where mapping can take place, the ‘Edit’ button only selects the part that you have clicked on by default. Clicking on the ‘Edit’ button next to Replace Linetypes defaults to the Linetypes part of that Interface, but all three are accessible in that one interface. See below:</p>
+<p><img src="img/14260201378447_2.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<h2>Attribute Replacement Manager</h2>
+<p>**</p>
+<p><img src="img/14260201378447_3.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>**</p>
+<p><strong>1 Pen Type</strong></p>
+<p>Choice of Pen override mapping</p>
+<p><strong>2 Fill Type</strong></p>
+<p>Choice of Fill override mapping</p>
+<p><strong>3 Line Type</strong></p>
+<p>Linetype override mapping</p>
+<p><strong>4 Default value</strong></p>
+<p>When checked this pen type is applied to all lines, if no rules are added, or applied to all Pens that do not have a Rule defined.</p>
+<p><strong>5 Add Rules to list</strong></p>
+<p>One can automatically populate the Attributes rules list and add the Pens, Fills and Linetypes from:</p>
+<p>Selected Items only Only the selected elements</p>
+<p>Current Drawing All elements in the Current Drawing</p>
+<p>Plan (all storeys) All elements in all Plan views</p>
+<p>Entire Project All elements in the Entire Project</p>
+<p><img src="img/14260201378447_4.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>We will use Current Drawing.</p>
+<p><img src="img/14260201378447_5.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>The Pens used is now populated for adjustment, each pen in the list to the left can now be individually substituted with a pen of your choice in the list to the right.</p>
+<p>In this choice we substitute Pen 2 for Pen 23, please see below:</p>
+<p><img src="img/14260201378447_6.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>In this way we can assign each Pen to a different Pen type.</p>
+<p>We can also do the following in this dialogue:</p>
+<p>1 Add Rule manually</p>
+<p>2 Delete Rules</p>
+<p>3 Import Rules that have been saved from another Project</p>
+<p>4 Export Rules for use in another Project</p>
+<p>Please see below:</p>
+<p><img src="img/14260201378447_7.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>In the same way each of the Fill Types can be either changed to a Default Fill, or selected Fill replacements can be applied.</p>
+<p><img src="img/14260201378447_8.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>The Linetype can be changed by mapping the Left pane onto the Right:</p>
+<p><img src="img/14260201378447_9.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p><strong>Important:</strong></p>
+<p>Please note that the replacement rules will apply to all Fills, Linetypes and Pens based on criteria in the ‘Application to Project’ part of the Dialogue, it is important to limit and control the desired application of your mapping in this selection. Please see below:</p>
+<p><img src="img/14260201378447_10.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p><img src="img/14260201378447_11.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-14260464417679">
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">使用 CI Tools Annotate 替换字体</h3>
+    <h3 class="en-only block">Replacing Fonts using Ci Tools Annotate</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/14260464417679-Replacing-Fonts-using-Ci-Tools-Annotate" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>Archicad 29 中的 Annotate 现在支持替换字体：</p>
+<p><img src="img/14260464417679_0.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>勾选 <strong>Replace Fonts</strong>（替换字体）复选框后，点击 <strong>Edit</strong>（编辑）即可启动基于规则的字体替换管理器。</p>
+<p><img src="img/14260464417679_1.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p><strong>Set Default Font</strong>（设置默认字体）会把默认字体应用到所有未分配规则的字体上；请注意，此功能可用于将项目中所有字体统一覆盖为单一字体。</p>
+<p><img src="img/14260464417679_2.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>勾选 <strong>show only fonts used in the project</strong>（仅显示项目中使用的字体）复选框并点击加号后，列表将自动填入项目中的全部字体，供按规则分配。</p>
+<p><img src="img/14260464417679_3.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>现在我们可以逐个选中每个字体，并选择忽略它，或将其替换为所选字体。这里我们把 Comic Sans 替换为 Calibri。</p>
+<p><img src="img/14260464417679_4.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>我们在左侧选中 Comic Sans，在右侧选中替换后的字体。</p>
+<p><img src="img/14260464417679_5.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>可以看到 Arial 字体被忽略了，而 Comic Sans 已变成 Calibri。</p>
+<p><img src="img/14260464417679_6.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p><strong>重要</strong></p>
+<p>请特别留意 Application to Project Window（应用于项目窗口），因为它决定了哪些内容会被更改；可以通过它对某些文本进行较高精度的控制。</p>
+<p><img src="img/14260464417679_7.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>同样可以控制属性转换选项的适用范围。</p>
+<p><img src="img/14260464417679_8.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p></div>
+  <div class="en-only"><p>The Annotate in Archicad 29 now allows for the replacement of Fonts:</p>
+<p><img src="img/14260464417679_0.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>By activating the Replace Fonts check box, we are able to initiate a rule based Font Replacement Manager by clicking on Edit.</p>
+<p><img src="img/14260464417679_1.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>The Set Default Font will apply a Default Font to any Font that has no rule assigned, note this can be used to override all fonts to single font in the project.</p>
+<p><img src="img/14260464417679_2.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>By selecting the check box show only fonts used in the project, and clicking on the plus sign the list will populate with all fonts in the project for rule based assignment.</p>
+<p><img src="img/14260464417679_3.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>We will now b able to select each font and choose either to Ignore it, or replace it with a Font of our choice, we will change the Comic Sans to Calibri.</p>
+<p><img src="img/14260464417679_4.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>We Select the Comic Sans on the left and the replacement on the right.</p>
+<p><img src="img/14260464417679_5.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>As we can see the Arial font was ignored, and the Comic Sans has changed to Calibri.</p>
+<p><img src="img/14260464417679_6.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p><strong>IMPORTANT</strong></p>
+<p>Special attention should be given to the Application to Project Window as this determines what will be changed, one can choose to ignore certain text with high level control.</p>
+<p><img src="img/14260464417679_7.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>It is also possible to exercise control over where any of the Attribute Conversion Options are applied.</p>
+<p><img src="img/14260464417679_8.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>The Annotate in Archicad 29 now allows for the replacement of Fonts:</p>
+<p><img src="img/14260464417679_0.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>By activating the Replace Fonts check box, we are able to initiate a rule based Font Replacement Manager by clicking on Edit.</p>
+<p><img src="img/14260464417679_1.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>The Set Default Font will apply a Default Font to any Font that has no rule assigned, note this can be used to override all fonts to single font in the project.</p>
+<p><img src="img/14260464417679_2.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>By selecting the check box show only fonts used in the project, and clicking on the plus sign the list will populate with all fonts in the project for rule based assignment.</p>
+<p><img src="img/14260464417679_3.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>We will now b able to select each font and choose either to Ignore it, or replace it with a Font of our choice, we will change the Comic Sans to Calibri.</p>
+<p><img src="img/14260464417679_4.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>We Select the Comic Sans on the left and the replacement on the right.</p>
+<p><img src="img/14260464417679_5.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>As we can see the Arial font was ignored, and the Comic Sans has changed to Calibri.</p>
+<p><img src="img/14260464417679_6.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p><strong>IMPORTANT</strong></p>
+<p>Special attention should be given to the Application to Project Window as this determines what will be changed, one can choose to ignore certain text with high level control.</p>
+<p><img src="img/14260464417679_7.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+<p>It is also possible to exercise control over where any of the Attribute Conversion Options are applied.</p>
+<p><img src="img/14260464417679_8.jpg" alt="Replacing Fonts using Ci Tools Annotate 示意图" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-prokit-annotate-replace">
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">ProKit Annotate 的 Replace：一个对话框管五类替换</h3>
+    <h3 class="en-only block">The Replace Dialog: One Place for All Five Replacement Types</h3>
+  </div>
+  <div class="art-src"><a href="https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/annotation_replacement.html" target="_blank" rel="noopener">基于 Graphisoft 官方帮助（AC30）补写 ↗</a></div>
+  <div class="zh-only"><p>从 Archicad 30 起，ProKit 把 Annotate 的替换动作收进了一个对话框。以前要分三次做的事——改大小写、换字体、换填充画笔线型——现在在同一张表里勾选。这是本分册前四篇（旧版 Cadimage 界面）之后变化最大的一处。</p>
+<p>打开方式：菜单 <em>ProKit &gt; Annotate &gt; Replace</em>。<strong>AC28 及更早版本没有这个合并对话框</strong>，菜单在 <em>CI Tools &gt; Annotate</em> 下的 <em>Convert Case…</em> 和 <em>Replace Attributes…</em> 两个分项里，操作逻辑一致但入口是分开的。</p>
+<p><img src="img/prokit-annotate-replace_0.png" alt="Annotation Replacement 主对话框，分属性替换、文本替换、作用范围三段" loading="lazy"></p>
+<p>对话框分三段，从上到下依次是"改什么属性"、"改什么文本"、"作用到哪"。</p>
+<h4>属性替换：三个勾，加一个容易漏的库部件开关</h4>
+<ul>
+<li><em>Replace Fills</em> / <em>Replace Pens</em> / <em>Replace Lines</em>：分别对应填充、画笔、线型。每个右侧都有 <em>Edit Rules…</em>，点进去定义具体换什么（见下一篇）。</li>
+<li><em>Include Library Part Attributes</em>：勾上才会连图库部件内部引用的属性一起换。</li>
+</ul>
+<p>最后这一条最容易漏。不勾的话，墙、板、线这些元素自己的填充画笔换了，但门窗、家具、符号那些图库对象里用的填充和画笔还是老样子，图面看着就花。国内项目接手境外模板时，这条基本都要勾。</p>
+<h4>文本替换：字体、大小写、以及"改到哪一层文字"</h4>
+<ul>
+<li><em>Replace fonts</em>：套用字体替换规则，右侧 <em>Edit Rules…</em> 进入字体管理器。</li>
+<li><em>Change case to</em>：下拉选一个统一的大小写标准，全项目套用。</li>
+<li><em>With exceptions</em>：保留单位缩写、专有名词的原样，右侧同样可以编辑例外清单。</li>
+</ul>
+<p>下面三个开关决定"文字改到多深"，这是新旧文档里都没讲清的地方：</p>
+<ul>
+<li><em>Include custom Property text</em>：连自定义属性的文本值一起改。</li>
+<li><em>Include placed library part text</em>：连已放置图库部件的字符串参数一起改。</li>
+<li><em>Only text displayed by library part</em>：只处理 2D 里真正显示出来的那些字。勾上它更安全——对象内部为其他用途藏着的字符串不会被误改。</li>
+</ul>
+<p>官方另有一条提醒：字体替换对某些图库部件可能无效，取决于这些部件的参数是怎么定义的。遇到个别对象字没变，先怀疑这一点，不是工具没跑。</p>
+<h4>作用范围：先想清楚再点 Replace</h4>
+<ul>
+<li><em>Apply replacement to</em>：可选当前视图（<em>Current Drawing</em>，例如正在看的平面图、当前楼层），或扩到全项目。</li>
+<li>三个附加勾选：<em>Include hidden items</em>（隐藏图层上的、被隐藏的）、<em>Include locked items</em>（显式锁定的）、<em>Include items on locked layers</em>（锁定图层上的全部元素）。</li>
+</ul>
+<p><img src="img/prokit-annotate-replace_1.png" alt="Apply replacement to 范围选项" loading="lazy"></p>
+<h4>执行与复用</h4>
+<p>点 <em>Replace</em> 才开始跑；<strong>只执行勾了的那几类，没勾的原样不动</strong>。所以完全可以只勾 <em>Replace Pens</em> 单独做一件事。跑错了直接 Undo，整批是一次可回退的动作。</p>
+<p>左下角两个图标用于导入和导出<strong>整套</strong>替换规则，文件扩展名 <em>.conversion</em>。一个项目调好的规则可以存下来，下个项目直接套，不用重新配。</p>
+<p>一句话记住这个分工：<strong>规则在管理器里定义，Replace 对话框只决定用哪些规则、作用到哪</strong>。</p></div>
+  <div class="en-only"><p>Archicad 30 consolidates all Annotate replacements into a single dialog: <em>ProKit &gt; Annotate &gt; Replace</em>. In AC28 and earlier the same operations live under separate <em>CI Tools &gt; Annotate</em> menu items.</p>
+<p>The dialog has three sections. <strong>Attribute replacement</strong> offers checkboxes for Fills, Pens and Lines, each with its own <em>Edit Rules…</em> manager; <em>Include Library Part Attributes</em> extends replacement to attributes used inside library parts — easy to overlook, and usually required when adopting a foreign template.</p>
+<p><strong>Text replacement</strong> handles fonts, a uniform case standard, and case exceptions, plus three depth options: custom Property text, placed library part strings, and <em>Only text displayed by library part</em>, the safest choice for object parameters.</p>
+<p><strong>Apply replacement to</strong> sets the scope (current drawing or whole project) and whether hidden, locked items and locked layers are included. Only ticked types run; the whole operation can be undone. The icons at the bottom left import and export the complete rule set as a <em>.conversion</em> file.</p></div>
+</div>
+
+<div class="art" id="a-prokit-attr-mgr">
+  <div class="art-h"><span class="no">06</span>
+    <h3 class="zh-only block">替换画笔、填充与线型（Attribute Replacement Manager）</h3>
+    <h3 class="en-only block">Replacing Pens, Fills and Line Types</h3>
+  </div>
+  <div class="art-src"><a href="https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateReplaceAttributes.html" target="_blank" rel="noopener">基于 Graphisoft 官方帮助（AC30）补写 ↗</a></div>
+  <div class="zh-only"><p>上一篇的 Replace 对话框只负责"用哪些规则"，真正定义规则的是这张表。站上原有机篇文章只讲了文字和字体，画笔、填充、线型这三类一直没有对应内容，这一篇补上。</p>
+<p>两种方式打开：</p>
+<ul>
+<li>菜单 <em>ProKit &gt; Annotate &gt; Manage Attribute Replacements</em></li>
+<li>或在 Replace 对话框里点 <em>Attribute replacement</em> 右侧的 <em>Edit Rules…</em></li>
+</ul>
+<p><img src="img/prokit-attr-mgr_0.png" alt="Attribute Replacement Manager：顶部三个类型图标，Original / Replacement 两列规则表" loading="lazy"></p>
+<h4>三种类型，三套互不干扰的规则</h4>
+<p>顶部三个图标切换画笔、填充、线型。切到哪个，看到的就是那个类型自己的规则清单——换画笔不会碰填充的规则。</p>
+<h4>规则就是一对一</h4>
+<p>每一行是一条映射：<em>Original</em> 列选"要找的属性"，<em>Replacement</em> 列选"换成什么"。例如把 Pen 75 换成 Pen 20。行首带色块或图案预览，改完一眼能看出前后差别。</p>
+<p>不想动的行，让 <em>Original</em> 和 <em>Replacement</em> 保持一致即可，等于这条规则空转。<strong>别删</strong>——删了容易被后面的兜底规则接管。</p>
+<p><img src="img/prokit-attr-mgr_1.png" alt="画笔替换：左侧原画笔色块，右侧替换后色块" loading="lazy"></p>
+<h4>建规则的两种方式</h4>
+<ul>
+<li>底部 <em>+</em>：手工加一条空规则。</li>
+<li><em>Create from…</em>：从项目里<strong>已经在用</strong>的属性自动生成整张清单。这个更实用，下一篇单独讲。</li>
+</ul>
+<p><img src="img/prokit-attr-mgr_2.png" alt="新建规则时的空表：底部加号手工加，或用 Create from 自动生成" loading="lazy"></p>
+<h4>兜底规则：一把梭，慎用</h4>
+<p>底部 <em>If no rules apply, replace with</em> —— 勾上并选一个属性，所有<strong>没有</strong>被上面清单覆盖的同类属性，全部换成它。</p>
+<p>这功能很猛，也容易翻车：本来特意留着做强调的几个颜色，会被一起吃掉。只在明确要"全部归一"的时候勾。做正常替换时，这个框应该保持不勾。</p>
+<h4>导入导出：三个扩展名</h4>
+<ul>
+<li><em>.convertpen</em> 画笔转换文件</li>
+<li><em>.convertfill</em> 填充转换文件</li>
+<li><em>.convertline</em> 线型转换文件</li>
+</ul>
+<p>也可以从 Replace 对话框把全部规则一起存成一个 <em>.conversion</em>。<strong>导入是追加，不覆盖</strong>现有清单，重复导入会出现重复行，用之前先看一眼。</p>
+<h4>国内项目里最实用的三个场景</h4>
+<ol>
+<li><strong>接境外模板</strong>：澳洲、欧洲模板动辄三四十套填充，压成国标常用的那几套，一次性把图面拉回国内出图习惯。</li>
+<li><strong>出图归一</strong>：方案阶段用彩色画笔区分层次，出施工图要转灰阶。一条规则批量换，比逐个视图改画笔集快得多，也不会漏视图。</li>
+<li><strong>清理线型</strong>：外来图纸常带几十种自定义线型，只留实线、虚线、点划线三种，图纸立刻干净。</li>
+</ol>
+<p>最后一条要记牢：<strong>定义规则不会改任何东西</strong>。规则存在项目里，必须回到 Replace 对话框点 <em>Replace</em> 才执行。</p></div>
+  <div class="en-only"><p>Rules themselves are defined here, not in the Replace dialog. Open it via <em>ProKit &gt; Annotate &gt; Manage Attribute Replacements</em>, or from <em>Edit Rules…</em> next to Attribute replacement.</p>
+<p>Three icons at the top switch between pens, fills and line types; each type keeps its own independent rule list. Every rule is a one-to-one pair: pick the attribute to find in <em>Original</em> and the replacement in <em>Replacement</em> — for example Pen 75 to Pen 20. Rows you do not want to change should keep both sides identical rather than being deleted.</p>
+<p>Add rules with <em>+</em>, or use <em>Create from…</em> to build the list from attributes already used in the project. The optional <em>If no rules apply, replace with</em> catch-all replaces every uncovered attribute of that type with a single choice — powerful, but it will swallow colours you meant to keep.</p>
+<p>Rule sets export and import as <em>.convertpen</em>, <em>.convertfill</em> and <em>.convertline</em>, or all together as a <em>.conversion</em> file. Imported rules are appended, never overwritten. Defining rules changes nothing on its own — you must still click Replace.</p></div>
+</div>
+
+<div class="art" id="a-prokit-create-from">
+  <div class="art-h"><span class="no">07</span>
+    <h3 class="zh-only block">Create from：从项目现有属性自动生成替换清单</h3>
+    <h3 class="en-only block">Create from: Building the Rule List from Attributes in Use</h3>
+  </div>
+  <div class="art-src"><a href="https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateReplaceAttributes.html" target="_blank" rel="noopener">基于 Graphisoft 官方帮助（AC30）补写 ↗</a></div>
+  <div class="zh-only"><p>这是 Annotate 里最省时间、也最少被提到的一个功能。</p>
+<h4>先看问题</h4>
+<p>接手一个别人的项目：画笔两百多个、填充六七十套，其中一大半你根本不知道用在哪、还有没有在用。手工抄清单不现实；让工具把属性表全列出来，又是一堆没人用的空画笔，照样没法下手。</p>
+<p><em>Create from…</em> 解决的就是这个：<strong>只列真正在用的那些</strong>。</p>
+<h4>操作顺序</h4>
+<ol>
+<li>打开 Attribute Replacement Manager，先切到要处理的类型——比如画笔。</li>
+<li>点底部 <em>Create from…</em> 下拉，选范围：当前视图（<em>Current Drawing</em>，正在看的那张图、那一层），或扩到全项目。</li>
+<li>工具把该范围内元素实际用到的属性全部列成规则行：<em>Original</em> 自动填好，<em>Replacement</em> 默认与之一致，也就是<strong>先全部保持原样</strong>。</li>
+<li>你只改要动的那几行。</li>
+<li>点 <em>OK</em> 回到 Replace 对话框，确认勾上了对应类型，再点 <em>Replace</em>。</li>
+</ol>
+<p><img src="img/prokit-create-from_0.png" alt="Create from 下拉：选择从哪个范围收集项目已在用的属性" loading="lazy"></p>
+<h4>为什么这个顺序是对的</h4>
+<ul>
+<li>清单里只有真正在用的属性，没有噪音，几十行就能看完。</li>
+<li>默认"原样保留"，你是<strong>先看清楚再动手</strong>，比一上来就开兜底规则安全得多。</li>
+<li>和兜底规则配合最顺：常用的几十个一一指定，剩下零散没管的用 <em>If no rules apply</em> 收口。</li>
+</ul>
+<h4>跑完怎么验收</h4>
+<ul>
+<li>跑错了直接 Undo，一次 Replace 是一个可回退动作，不用逐条改回来。</li>
+<li>看结果：切到平面图比线宽和颜色；或者建一个按属性统计的明细表核对，具体做法在 Quantities 那一册里。</li>
+<li>如果发现某些对象没变，先查 Replace 对话框里 <em>Include Library Part Attributes</em> 有没有勾。</li>
+</ul>
+<p>注意：<em>Create from</em> 只负责生成规则清单，<strong>不会执行替换</strong>。它和 Replace 是两步，别指望点完就生效。</p></div>
+  <div class="en-only"><p><em>Create from…</em> builds the rule list from attributes actually used in the project, instead of the full attribute table with all its unused entries.</p>
+<p>Choose the attribute type with the icon tabs, then pick a range from the <em>Create from…</em> dropdown — the current drawing or the whole project. Every attribute in use is listed with <em>Original</em> filled in and <em>Replacement</em> matching it, meaning nothing changes yet. Edit only the rows you want, click OK, then run <em>Replace</em> from the Annotation Replacement dialog.</p>
+<p>This sequence is safer than starting with a catch-all rule, and pairs well with one: specify the common attributes individually and let <em>If no rules apply</em> handle the rest. A whole Replace can be undone in one step. <em>Create from</em> only generates the list — it never performs a replacement.</p></div>
+</div>
+</article>
+
+<footer class="foot">
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
+})();
+</script>
+<script src="search-index.js"></script>
+<script src="search.js"></script>
+</body>
+</html>

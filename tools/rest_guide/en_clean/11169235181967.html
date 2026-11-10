@@ -1,0 +1,47 @@
+<p>The Ci Launchpad tool contains a new function to allow you to automatically migrate Archicad 27 projects from using the old style 'monolith' libraries (i.e. the "Archicad Library 27" folder) to the new style Global Libraries (i.e. loading the collection of .libpack files).</p>
+<p>Before going into the detail on how to do this though, first, please read this section on Why you might want to do it, since in most cases, you very likely don't need to, and would only be causing potential trouble for yourself by doing it.</p>
+<h2>Should I migrate my libraries?</h2>
+<p>In most cases, simply opening your project in Archicad 28 and hitting the "Migrate Libraries" option if/when it asks you about it is all you need to do.</p>
+<p><img src="img/11169235181967_0.png" alt="MigrateLibraryWarning.png" loading="lazy"></p>
+<p>This will give you a working project in v28 that you can continue working on using the old libraries with no additional trouble.</p>
+<p>For most people, this is what you should do. This is what Graphisoft recommends, and it's what we recommend too.</p>
+<p>The only time you will start using Global Libraries is when you start your first New project in v28.</p>
+<p>So if that applies to you, you don't need this new migration function, and you can pretty much stop reading this now.</p>
+<p>However - in some cases, you may, for whatever reason, need to do a 'full' migration of a project. For instance - if your project is early on in its life, and you anticipate it will continue through multiple future Archicad versions. Or possibly you have a library of pre-drawn building 'skeletons' or parts of them which you use in all project (including new ones that haven't started yet).</p>
+<p>If you are in a situation like that, then this new Function in the Launchpad tool is for you.</p>
+<h2>Things to know before using the Migration function</h2>
+<p>Before you even contemplate doing full migrations to Global Libraries, I would very strongly recommend reading this guide from Graphisoft: <a href="https://community.graphisoft.com/t5/Libraries-objects/Archicad-28-Migration-Converting-from-Monolithic-Libraries-to/ta-p/631549" target="_blank" rel="noopener">Archicad 28 Migration: Converting from Monolithic Libraries to the Global Library System</a></p>
+<p>In that document, Path 1 is, as mentioned, to just not migrate libraries, but Path 2 is what we are concerned with here.</p>
+<p>The Ci Launch Migration tools will effectively do steps 5 and 6 of that process for you, and we also will need to slightly modify Step 1 as detailed below.</p>
+<h2>Running the Migration</h2>
+<ol>
+<li>First, <em><strong>save a backup of the project as it currently is</strong></em>, so you can go back if you need to</li>
+<li>Then open your project in Archicad 28</li>
+<li>If asked, choose the option to <em><strong>Migrate Archicad Libraries</strong></em>
+</li>
+<li>Once the project is open, open the Library Manager</li>
+<li>Add the standard set of Global Libraries there, and also add the Ci Tools library packages
+<ul>
+<li>If you aren't sure which Global Library files to load, you can <a href="https://community.graphisoft.com/t5/Libraries-objects/Default-Library-Packs-in-Each-Archicad-Language-Version/ta-p/631547" target="_blank" rel="noopener">check the Default libraries for your region here</a>
+</li>
+<li>For the Ci Tools Libraries, just find the <em><strong>Ci Tools Library Packages</strong></em> folder in your Archicad 28 folder, and add all the files inside it</li>
+<li>
+<em>When done, you should have the old libraries (Archicad Library 28), new libpacks, and Ci Tools libpacks all loaded at once - it should look like the image below. This will produce a large amount of duplicate warnings (i.e. about 10,000) - this is fine, as we will be removing the duplicated objects very soon.</em><em><img src="img/11169235181967_1.jpg" alt="" loading="lazy"></em>
+</li>
+</ul>
+</li>
+<li>Once the libraries are all loaded - got to the <strong><em>Ci Tools</em></strong> menu - <strong><em>Launchpad</em></strong> - <strong><em>Migrate Missing Library Parts</em></strong>
+</li>
+<li>Click OK when asked if you want to migrate all elements</li>
+<li>Once the process is complete, open your Library Manager again, and now Remove the 'Monolith' libraries - so that means Archicad Library 28, MEP Library 28, Migration Libraries etc...</li>
+<li>Your library part migration is now done, so you can <a href="https://community.graphisoft.com/t5/Libraries-objects/Archicad-28-Migration-Converting-from-Monolithic-Libraries-to/ta-p/631549" target="_blank" rel="noopener">continue through the Conversion workflow</a>, starting with Step 2, and skipping steps 5, and 6, as those have already been done now.</li>
+</ol>
+<h2>Additional Considerations</h2>
+<p>The Library Part Migration tool is not able to migrate any Stair elements currently, nor is it able to Migrate any objects that no longer exist in the new Global Library.</p>
+<p>In particular, this will be a problem if you have objects that you've been using for a while, but that were discontinued out of Archicad's library some time again (we have noticed a lot of Cabinet objects from Archicad 24, for instances).</p>
+<p>After our tool runs through your project, it will output a record of all the objects that it was unable to migrate into your Report Window (File - Info - Session Report). You can use this as a reference to decide what you want to do with these non-migratable elements - either swapping them to similar replacement objects, or perhaps just embedding the old objects in the project.</p>
+<p><img src="img/11169235181967_2.jpg" alt="" loading="lazy"></p>
+<p>We have also noticed that a number of objects in the Archicad 28 library, when migrated, will reset some settings. Specifically, quite a few Furniture objects will change their 2D Representation setting from "By MVO" to "Schematic"<br><img src="img/11169235181967_3.jpg" alt="" loading="lazy"></p>
+<p>If this happens for you, I would recommend opening a 3D view with all layers on, selecting one of the affected objects, and then using the object tool and keyboard shortcut to Select All Objects. Then go into the settings, change the 2D Representation to what you want, and hit OK. This will update every object that uses that setting.</p>
+<p>This process is also documented in the video below:</p>
+<p><p><a href="https://www.youtube.com/watch?v=hOfdepUHgcs" target="_blank" rel="noopener">▶ <b>观看官方视频（YouTube）</b> ↗</a></p></p>

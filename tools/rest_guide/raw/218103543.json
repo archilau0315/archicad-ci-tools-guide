@@ -1,0 +1,9 @@
+{
+ "id": "218103543",
+ "title": "How to display the Cadimage / Ci Tools icons in the Toobox",
+ "cat": "Getting Started",
+ "html": "<p>The easiest way is to apply the <strong>Cadimage Profile</strong> as shown below </p>\n<p>Note: The <strong>Cadimage Profile</strong> can be installed from the <strong>Cadimage Installer</strong> upon <strong>Cadimage tools </strong>installation<strong>. - </strong><a href=\"https://cadimage.zendesk.com/hc/en-us/articles/360000565575-Step-2-How-to-apply-the-Cadimage-Profile-%C2%A0\">click for more detailed steps</a></p>\n<p><img src=\"img/218103543_0.png\" alt=\"\"></p>\n<p> </p>\n<p>If you are using a Custom Profile and would like to add the tools manually, please follow these steps:</p>\n<p>First, <strong>right-click</strong> on top of <strong>Design</strong> in the Toolbox and select <strong>Toolbox...</strong></p>\n<p><img src=\"img/218103543_0.png\" alt=\"\"></p>\n<p>1. Select <strong>Design</strong> as the Toolbox Group you would like to add the tools to</p>\n<p>2. Select the <span class=\"wysiwyg-underline\">relevant</span> tools from the <strong>Available Tools</strong> area </p>\n<p><img src=\"https://cadimage.zendesk.com/hc/en-us/article_attachments/211230303/2016-11-29_14-33-01.png\" alt=\"\"></p>\n<p>3. Click on <strong>Add Selected</strong> to add the Tools to the Design Group in the Toolbox</p>\n<p>4. Click <strong>OK</strong>.</p>\n<p>Your tools will now show in your toolbox.</p>",
+ "created_at": "2016-11-29T02:07:32Z",
+ "updated_at": "2024-08-22T09:19:23Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/218103543"
+}

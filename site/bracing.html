@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Cadimage Bracing（支撑）中文教程：按 NZS 3604 布置支撑线、支撑与支撑统计表，新西兰专用">
+<title>Bracing · 支撑（NZ 专用）· CI Tools 完全指南</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
+<style>
+:root{
+  --accent:#2f6f8f; --accent2:#c9622a;
+  --bg:#fbfbfa; --panel:#fff; --text:rgba(0,0,0,.95);
+  --muted:rgba(0,0,0,.55); --line:rgba(0,0,0,.10);
+  --ink:#1c1c1a; --paper:#f3f2ee;
+  --sidebar-w:262px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);line-height:1.75;font-size:15px;
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:radial-gradient(ellipse 70% 40% at 10% -10%,rgba(47,111,143,.10),transparent),
+             radial-gradient(ellipse 54% 42% at 90% 2%,rgba(201,98,42,.07),transparent),var(--bg);
+  background-attachment:fixed}
+h1,h2,h3,h4{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,Georgia,serif;
+  color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(26px,4.5vw,40px);font-weight:700;line-height:1.16;margin:0 0 14px}
+h2{font-size:clamp(20px,2.8vw,26px);font-weight:700;margin:36px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line)}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px}
+p{margin:0 0 13px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,111,143,.3)}
+a:hover{border-bottom-color:var(--accent)}
+strong{color:var(--ink);font-weight:600}
+code{font-family:"Geist Mono",ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:.88em;
+  background:rgba(47,111,143,.08);padding:2px 6px;border-radius:4px;color:#1d4d63;
+  font-variant-numeric:tabular-nums}
+pre{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+  overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6}
+pre code{background:none;padding:0;color:var(--ink)}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+th,td{padding:9px 12px;text-align:left;border:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:600;color:var(--ink)}
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:8px;border:1px solid var(--line)}
+.table-wrap table{margin:0;border:none}
+img{max-width:100%;height:auto;display:block;margin:18px 0;border-radius:8px;
+  border:1px solid var(--line);background:var(--paper)}
+figure{margin:20px 0}
+figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;gap:0;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel);
+  border-right:1px solid var(--line);padding:22px 0 40px}
+.brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.brand a{color:var(--ink);border:none;display:block}
+.brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:17px;font-weight:700;
+  color:var(--ink);line-height:1.3}
+.brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);padding:14px 20px 6px}
+.nav-h.en-only{display:none}
+html[data-lang="en"] .nav-h.zh-only{display:none}
+html[data-lang="en"] .nav-h.en-only{display:block}
+.sidebar a{display:block;padding:7px 20px;font-size:13.5px;color:var(--muted);
+  border-left:2px solid transparent;transition:background .18s,color .18s}
+.sidebar a:hover{background:rgba(47,111,143,.06);color:var(--accent)}
+.sidebar a.on{background:rgba(47,111,143,.09);color:var(--accent);
+  border-left-color:var(--accent);font-weight:500}
+.sidebar a .ic{display:inline-block;width:18px;font-size:11px;color:var(--accent);
+  margin-right:6px;text-align:center}
+.main{padding:0 40px 80px;max-width:900px}
+.crumb{font-size:12.5px;color:var(--muted);padding:22px 0 4px}
+.crumb a{color:var(--muted);border:none}
+.crumb a:hover{color:var(--accent)}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.hero .kicker{display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(47,111,143,.28);border-radius:9999px;
+  padding:3px 11px;margin-bottom:14px}
+.hero p{font-size:16px;color:var(--muted);max-width:62ch;margin:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+article{padding-bottom:40px}
+.art{border-top:1px solid var(--line);padding-top:26px;margin-top:26px}
+.art-h{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.art-h h3{margin:0;font-size:18px}
+.art-h .no{font-family:"Geist Mono",monospace;font-size:11.5px;color:var(--accent);
+  background:rgba(47,111,143,.09);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.art-src{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:9999px;
+  background:rgba(0,0,0,.05);color:var(--muted);margin-right:6px}
+
+/* 首页卡片 */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+  transition:transform .22s cubic-bezier(.2,0,0,1),box-shadow .22s,border-color .22s}
+.card:hover{transform:translateY(-2px);border-color:rgba(47,111,143,.32);
+  box-shadow:0 4px 18px rgba(47,111,143,.09)}
+.card a{color:inherit;border:none;display:block}
+.card-h{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.card-h .ic{font-size:13px;color:var(--accent);width:16px;text-align:center}
+.card-h b{font-size:15.5px;color:var(--ink);font-weight:600}
+.card-h span{font-size:12px;color:var(--muted)}
+.card p{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.55}
+.card .n{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.step .sn{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:.08em}
+.step h4{margin:6px 0 6px;font-size:15px;font-weight:600}
+.step p{font-size:13px;color:var(--muted);margin:0 0 8px}
+.step code{font-size:11.5px;display:block;padding:6px 9px;background:var(--panel);
+  border:1px solid var(--line);border-radius:6px;line-height:1.5;word-break:break-word}
+.toc-list{list-style:none;padding:0;margin:16px 0;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px 24px}
+.toc-list li{margin:0}
+.toc-list a{display:block;padding:6px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid var(--line)}
+.toc-list a:hover{color:var(--accent)}
+.toc-list .tg{font-family:"Geist Mono",monospace;font-size:11px;color:var(--accent);margin-right:8px}
+.foot{border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+/* ===== 双语切换 ===== */
+.lang-switch { position:fixed; top:16px; right:16px; z-index:120;
+  background:rgba(255,255,255,0.94); border:1px solid var(--line); border-radius:9999px;
+  padding:4px; display:flex; gap:2px; box-shadow:0 4px 20px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.lang-switch button { border:none; background:none; cursor:pointer; font-family:inherit;
+  font-size:12px; font-weight:500; color:var(--muted); padding:6px 14px; border-radius:9999px;
+  min-width:44px; min-height:32px; transition:background .2s,color .2s; }
+.lang-switch button:hover { background:rgba(47,111,143,.08); color:var(--accent); }
+.lang-switch button.active { background:var(--accent); color:#fff; }
+.lang-switch button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* 原文对照 */
+.orig-toggle { margin-top:14px; border-top:1px solid var(--line); padding-top:10px; }
+.orig-toggle > summary { cursor:pointer; font-size:12.5px; color:var(--muted);
+  list-style:none; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 0; transition:color .2s; }
+.orig-toggle > summary::-webkit-details-marker { display:none; }
+.orig-toggle > summary::before { content:'▸'; transition:transform .2s; display:inline-block; }
+.orig-toggle[open] > summary::before { transform:rotate(90deg); }
+.orig-toggle > summary:hover { color:var(--accent); }
+.orig-body { margin-top:10px; padding:14px 16px; background:var(--paper);
+  border-left:2px solid var(--line); border-radius:0 8px 8px 0; font-size:13.5px; }
+.orig-body img { margin:12px 0; }
+.orig-label { font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; font-weight:600; }
+/* 双语切换：默认中文，英文模式整体反转。特异性需高于 .block 规则 */
+html:not([data-lang="en"]) .zh-only { display:inline; }
+html:not([data-lang="en"]) .zh-only.block { display:block; }
+html:not([data-lang="en"]) .en-only { display:none; }
+html[data-lang="en"] .zh-only,
+html[data-lang="en"] .zh-only.block { display:none !important; }
+html[data-lang="en"] .en-only { display:inline; }
+html[data-lang="en"] .en-only.block { display:block; }
+@media(max-width:640px){
+  .lang-switch { top:auto; bottom:16px; right:16px; }
+}
+
+.missing{margin:16px 0;padding:12px 14px;border:1px dashed rgba(0,0,0,.18);border-radius:8px;
+  background:var(--paper);color:var(--muted);font-size:12.5px}
+.menubtn{display:none}
+@media(max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);
+    padding:16px 0;max-height:60vh}
+  .sidebar .nav-h,.sidebar a{font-size:13px}
+  .main{padding:0 18px 60px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .main{padding:0 15px 48px}
+  h2{margin:26px 0 12px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{grid-template-columns:1fr}
+}
+
+.vb{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;
+  background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba;
+  font-size:11px;font-weight:600;line-height:1.6;vertical-align:middle;
+  letter-spacing:.02em;white-space:nowrap}
+.vb-old{background:#f7e3e3;color:#9a3b3b;border-color:#e6c6c6}
+.vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
+  background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
+.vb-note b{color:#8a5a1e}
+.art img.inl{display:inline-block;vertical-align:-0.35em;margin:0 3px;max-width:1.7em;max-height:1.7em;border-radius:3px;box-shadow:none}
+</style>
+<link rel="stylesheet" href="search.css">
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
+<a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
+<a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
+<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
+<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
+<a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
+<a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
+<a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
+<a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<a class=" on" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
+<a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
+<div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
+<a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
+</aside>
+<div class="lang-switch" role="group" aria-label="Language">
+  <button type="button" id="lang-zh" class="active" aria-pressed="true">中文</button>
+  <button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
+<main class="main">
+
+
+<div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
+  / <span class="zh-only">Bracing · 支撑（NZ 专用）</span><span class="en-only">Bracing</span></div>
+<div class="hero">
+  <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
+  <h1>Bracing · <span class="zh-only">支撑（NZ 专用）</span></h1>
+  <p class="zh-only">按 NZS 3604 为木框架建筑自动布置支撑并生成统计表（仅新西兰）</p>
+  <p class="en-only">Automate NZS 3604 bracing layout and tables for timber-framed buildings (NZ only)</p>
+  <div class="meta">
+    <span><b>10</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>0.6</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>31</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
+  </div>
+</div>
+<article>
+<h2>Bracing · <span class="zh-only">支撑（NZ 专用）</span></h2>
+<ul class="toc-list"><li><a href="bracing.html#a-360000546816"><span class="tg">01</span><span class="zh-only">工具概览：NZS 3604 木框架支撑设计</span><span class="en-only">Overview of the Cadimage Bracing Tool</span></a></li><li><a href="bracing.html#a-360000548435"><span class="tg">02</span><span class="zh-only">安装 Cadimage Bracing 工具</span><span class="en-only">Installing the Cadimage Bracing Tool</span></a></li><li><a href="bracing.html#a-360000549475"><span class="tg">03</span><span class="zh-only">设置风区与地震区</span><span class="en-only">Set the Wind & Earthquake Zone…</span></a></li><li><a href="bracing.html#a-360000547096"><span class="tg">04</span><span class="zh-only">单层建筑支撑布置</span><span class="en-only">Bracing a Single Story Building</span></a></li><li><a href="bracing.html#a-360000547376"><span class="tg">05</span><span class="zh-only">两层建筑支撑布置</span><span class="en-only">Bracing a Two Storey Building</span></a></li><li><a href="bracing.html#a-360003640276"><span class="tg">06</span><span class="zh-only">创建自定义支撑类型</span><span class="en-only">Create a Custom Brace Type</span></a></li><li><a href="bracing.html#a-360000548835"><span class="tg">07</span><span class="zh-only">团队协作项目中使用 Bracing</span><span class="en-only">Cadimage Bracing in a teamwork project</span></a></li><li><a href="bracing.html#a-360000548875"><span class="tg">08</span><span class="zh-only">疑难：找不到内/外墙（INT/EXT）</span><span class="en-only">Interior/ Exterior Walls Not Found ...</span></a></li><li><a href="bracing.html#a-8297046906383"><span class="tg">09</span><span class="zh-only">Archicad 27 版更新：自动尺寸与支撑重新编号</span><span class="en-only">Bracing Updates in Archicad 27</span></a></li><li><a href="bracing.html#a-8620440038159"><span class="tg">10</span><span class="zh-only">发布说明 - Bracing 6.16</span><span class="en-only">Release Notes - Bracing</span></a></li></ul>
+
+
+
+<div class="art" id="a-360000546816">
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">工具概览：NZS 3604 木框架支撑设计</h3>
+    <h3 class="en-only block">Overview of the Cadimage Bracing Tool</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000546816" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><div>Cadimage Bracing（支撑/抗侧力）工具<strong>仅面向新西兰 ARCHICAD 用户</strong>，用于按照 NZS 3604 规范为木框架建筑布置支撑方案。</div>
+<div>强烈建议你熟悉 NZS 3604 并手边备有一册以供查阅——除非你已把它背下来了！</div>
+<div>设好计算参数后，工具会自动布置支撑线（Bracing Lines）、支撑构件（Bracing Elements）和支撑统计表（Bracing Table）。你仍需添加、编辑、修改正确的数据与对象，确保支撑设计满足新西兰建筑规范和相关标准的全部要求。</div>
+<div>Bracing 工具要求墙体使用复合结构（composites）设计，且名称前缀为 <strong>EXT</strong>（外墙）或 <strong>INT</strong>（内墙）。</div></div>
+  <div class="en-only"><div>The Cadimage Bracing Tool is an <strong>NZ ARCHICAD users only</strong> tool that will help you set out your bracing solution for timber-framed buildings under NZS 3604. </div>
+<div> </div>
+<div>It’s highly recommended that you have an understanding of NZS 3604 and have a copy available for reference unless you have memorized it!</div>
+<div> </div>
+<div>Once you’ve set your calculation settings the tool with place Bracing Lines, Bracing Elements &amp; a Bracing Table. You will still have to add, edit, modify the correct data &amp; objects to ensure your bracing design meets all of the relevant New Zealand Building Codes and Standards.</div>
+<div> </div>
+<div>The Bracing Tool does require wall that is designed using the composites and has the prefix <strong>EXT</strong> or <strong>INT</strong>
+</div></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <div>The Cadimage Bracing Tool is an <strong>NZ ARCHICAD users only</strong> tool that will help you set out your bracing solution for timber-framed buildings under NZS 3604. </div>
+<div> </div>
+<div>It’s highly recommended that you have an understanding of NZS 3604 and have a copy available for reference unless you have memorized it!</div>
+<div> </div>
+<div>Once you’ve set your calculation settings the tool with place Bracing Lines, Bracing Elements &amp; a Bracing Table. You will still have to add, edit, modify the correct data &amp; objects to ensure your bracing design meets all of the relevant New Zealand Building Codes and Standards.</div>
+<div> </div>
+<div>The Bracing Tool does require wall that is designed using the composites and has the prefix <strong>EXT</strong> or <strong>INT</strong>
+</div>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000548435">
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">安装 Cadimage Bracing 工具</h3>
+    <h3 class="en-only block">Installing the Cadimage Bracing Tool</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000548435" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>开始之前请确认你已具备：</p>
+<ul>
+<li>已安装 ARCHICAD [相应版本]；</li>
+<li>已安装 Cadimage Installer，并有 MyCi（<a href="https://myci.centralinnovation.com/" target="_blank" rel="noopener">https://myci.centralinnovation.com</a>）登录信息；</li>
+<li>网络连接；</li>
+<li>以电脑管理员（Admin）身份登录。</li>
+</ul>
+<p>更详细的安装说明见 <a href="https://cadimage.zendesk.com/hc/en-us/articles/212058666" target="_blank" rel="noopener">第 1 步 - 如何安装 Cadimage 工具</a></p>
+<ol>
+<li>如 ARCHICAD 正在运行请先关闭。</li>
+<li>打开 <strong>Cadimage Installer</strong>，为「<strong>Commercial/Trial use</strong>」选择「<strong>Install Cadimage Tools</strong>」<img src="img/360000548435_0.jpg" alt="安装器主界面" loading="lazy"></li>
+<li>点 <strong>My Tools</strong> 或 <strong>Trial</strong>，并选择 <strong>ARCHICAD 版本</strong>。</li>
+<li>为要安装的 Cadimage 工具点 <strong>Install</strong>，阅读并接受 EULA（最终用户许可协议）<img src="img/360000548435_0.jpg" alt="安装确认" loading="lazy"></li>
+<li>装好后<strong>关闭</strong> Cadimage Installer 并<strong>重启 ARCHICAD</strong>。</li>
+</ol></div>
+  <div class="en-only"><p>Before you start please ensure you have:</p>
+<ul>
+<li>ARCHICAD [Version] Installed,</li>
+<li>Cadimage Installer Installed &amp; MyCi (<a href="https://myci.centralinnovation.com/" target="_blank" rel="noopener">https://myci.centralinnovation.com)</a> log in details,</li>
+<li>Internet Connection,</li>
+<li>You are logged in as the Admin user of your computer.</li>
+</ul>
+<p> For a more detailed install - <a href="https://cadimage.zendesk.com/hc/en-us/articles/212058666" target="_blank" rel="noopener">Step 1 - How to install The Cadimage Tools</a></p>
+<ol>
+<li>Close ARCHICAD if it’s running.</li>
+<li>Open the <strong>Cadimage Installer</strong>, select “<strong>Install Cadimage Tools</strong>” For “<strong>Commercial/Trail use</strong>”<img src="img/360000548435_0.jpg" alt="2018-11-02_12-28-14.jpeg" loading="lazy">
+</li>
+<li>Click on <strong>My Tools</strong> or <strong>Trial</strong> and select the <strong>ARCHICAD version</strong>
+</li>
+<li>Click <strong>Install</strong> for the Cadimage Tool you wish to install., read and accept the EULA<img src="img/360000548435_0.jpg" alt="2018-11-02_12-36-06.jpeg" loading="lazy">
+</li>
+<li>Once installed, <strong>Close</strong> the Cadimage Installer and <strong>restart ARCHICAD</strong>
+</li>
+</ol></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Before you start please ensure you have:</p>
+<ul>
+<li>ARCHICAD [Version] Installed,</li>
+<li>Cadimage Installer Installed &amp; MyCi (<a href="https://myci.centralinnovation.com/" target="_blank" rel="noopener">https://myci.centralinnovation.com)</a> log in details,</li>
+<li>Internet Connection,</li>
+<li>You are logged in as the Admin user of your computer.</li>
+</ul>
+<p> For a more detailed install - <a href="https://cadimage.zendesk.com/hc/en-us/articles/212058666" target="_blank" rel="noopener">Step 1 - How to install The Cadimage Tools</a></p>
+<ol>
+<li>Close ARCHICAD if it’s running.</li>
+<li>Open the <strong>Cadimage Installer</strong>, select “<strong>Install Cadimage Tools</strong>” For “<strong>Commercial/Trail use</strong>”<img src="img/360000548435_0.jpg" alt="2018-11-02_12-28-14.jpeg" loading="lazy">
+</li>
+<li>Click on <strong>My Tools</strong> or <strong>Trial</strong> and select the <strong>ARCHICAD version</strong>
+</li>
+<li>Click <strong>Install</strong> for the Cadimage Tool you wish to install., read and accept the EULA<img src="img/360000548435_0.jpg" alt="2018-11-02_12-36-06.jpeg" loading="lazy">
+</li>
+<li>Once installed, <strong>Close</strong> the Cadimage Installer and <strong>restart ARCHICAD</strong>
+</li>
+</ol>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000549475">
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">设置风区与地震区</h3>
+    <h3 class="en-only block">Set the Wind & Earthquake Zone…</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000549475" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>1. 进入要布置支撑的平面视图。从 <strong>Cadimage</strong> 菜单选择 <strong>Bracing &gt; Wind Earthquake Zone</strong>。</p>
+<p><img src="img/360000549475_0.jpg" alt="Wind Earthquake Zone 菜单" loading="lazy"></p>
+
+<p>2. 在弹出的 Wind &amp; Earthquake Zones 窗口中设置 <strong>Wind Zone</strong>（风区）、<strong>Earthquake Zone</strong>（地震区）和 <strong>Soil Class</strong>（场地土类别）。</p>
+<table>
+<tbody>
+<tr>
+<td><p><em>注意：计算 <strong>Wind Zone</strong> 有两种方法，用对话框中间的箭头切换。</em></p></td>
+</tr>
+</tbody>
+</table></div>
+  <div class="en-only"><p>1. Navigate to the Plan view that you wish to brace. From the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; </strong><strong>Wind Earthquake Zone.</strong></p>
+<p><img src="img/360000549475_0.jpg" alt="2018-11-02_15-59-47.jpeg" loading="lazy"></p>
+
+<p>2. In Wind &amp; Earthquake Zones pop up window set the <strong>Wind Zone</strong>, <strong>Earthquake Zone</strong> &amp; <strong>Soil Class.</strong></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note that there are two ways to calculate the <strong>Wind Zone</strong>, use the arrows in the centre of the dialog to choose one method or the other.</em></p>
+</td>
+</tr>
+</tbody>
+</table></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>1. Navigate to the Plan view that you wish to brace. From the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; </strong><strong>Wind Earthquake Zone.</strong></p>
+<p><img src="img/360000549475_0.jpg" alt="2018-11-02_15-59-47.jpeg" loading="lazy"></p>
+
+<p>2. In Wind &amp; Earthquake Zones pop up window set the <strong>Wind Zone</strong>, <strong>Earthquake Zone</strong> &amp; <strong>Soil Class.</strong></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note that there are two ways to calculate the <strong>Wind Zone</strong>, use the arrows in the centre of the dialog to choose one method or the other.</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000547096">
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">单层建筑支撑布置</h3>
+    <h3 class="en-only block">Bracing a Single Story Building</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000547096" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h2><strong>设置风区与地震区…</strong></h2>
+<p>1. 进入要布置支撑的平面视图。从 <strong>Cadimage</strong> 菜单选择 <strong>Bracing &gt; Wind Earthquake Zone</strong>。</p>
+<p><img src="img/360000547096_0.jpg" alt="Wind Earthquake Zone 菜单" loading="lazy"></p>
+
+<p>2. 在弹出的 Wind &amp; Earthquake Zones 窗口中设置 <strong>Wind Zone</strong>（风区）、<strong>Earthquake Zone</strong>（地震区）和 <strong>Soil Class</strong>（场地土类别）。</p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>注意：</em></p>
+<p><em>计算 <strong>Wind Zone</strong> 有两种方法，用对话框中间的箭头切换。</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<strong>为建筑布置支撑：</strong>
+</h2>
+<p>3. 进入要布置支撑的平面视图。选中要布置支撑的建筑墙体，从 <strong>Cadimage</strong> 菜单选择 <strong>Bracing &gt; Calculate Bracing</strong>。<img src="img/360000547096_1.jpg" alt="Calculate Bracing" loading="lazy"></p>
+<p>会弹出 Bracing Settings（支撑设置）对话框。</p>
+
+<p>4. 展开 <strong>Calculation Stages</strong>（计算阶段）设置，选择 <strong>Storey Location</strong> 为 single（单层）。</p>
+<p><img src="img/360000547096_2.jpg" alt="Calculation Stages 设置" loading="lazy"></p>
+<ul>
+<li>
+<p>勾选 <strong>Place Brace Lines</strong>（布置支撑线）和 <strong>Place Braces</strong>（布置支撑）。</p>
+</li>
+<li>
+<p>把 <strong>Calculation Set</strong>（计算集）设为 <strong>Default</strong>（建筑一次性整体布置时）。如果需要再加第二组支撑、支撑线和表格，每组都要用不同的计算集（见进阶部分）。</p>
+</li>
+</ul>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>注意：</em></p>
+<p><em>如果需要在项目中任何位置增加第二组支撑、支撑线和表格，每组都要使用不同的计算集（见进阶部分）。</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>从列表中选择一组 <strong>Brace Type</strong>（支撑类型）。</p>
+</li>
+</ul>
+
+<p>5. 展开 <strong>Building Dimensions</strong>（建筑尺寸）设置，输入建筑的<strong>尺寸</strong>和<strong>屋顶坡度</strong>。</p>
+<p><img src="img/360000547096_3.jpg" alt="Building Dimensions 设置" loading="lazy"></p>
+<p>设置与建筑长度方向平行的角度。该角度从水平方向起、逆时针计量。示例建筑的角度为零。</p>
+
+<p>6. 展开 <strong>Cladding Weights</strong>（围护面层重量）设置，为 <strong>Roof</strong>（屋面）、<strong>Upper Cladding</strong>（上部围护）和 <strong>Subfloor</strong>（架空层）选择面层重量。</p>
+<p><img src="img/360000547096_4.jpg" alt="Cladding Weights 设置" loading="lazy"></p>
+<p>再选择 <strong>Floor Load</strong>（楼面荷载）和 <strong>Construction Settings</strong>（构造设置）。</p>
+
+<p>7. 展开 <strong>Brace Settings</strong>（支撑设置），设置：</p>
+<ul>
+<li>
+<p>最大支撑长度（Maximum Brace Length）。</p>
+</li>
+<li>
+<p>最小支撑长度（Minimum Brace Length）。</p>
+</li>
+<li>
+<p>支撑长度取整（Truncate Braces To）——该设置保证支撑长度取 1.3、1.8 这类规整值，而不是 1.304、1.796。</p>
+</li>
+</ul>
+<p><img src="img/360000547096_5.jpg" alt="Brace Settings 设置" loading="lazy"></p>
+<p>还要设置支撑的墙龙骨高度，并选择是否允许支撑为适应较矮墙体而降低高度。</p>
+
+<p>8. 最后选择放置全部支撑图元的<strong>图层</strong>，点 <strong>OK</strong>。</p>
+<div>
+<p>支撑线会布置到建筑上，支撑会布置在这些线上，以满足 NZS3604 的要求。</p>
+</div>
+<p>9. 接着要指定支撑表的位置，<strong>点击放置支撑表</strong>。点击处将成为表格左上角。</p>
+<div>
+<p>如果出现问题、所需支撑无法满足，支撑表会如实报告，过程中弹出的提示信息也会说明。</p>
+
+<p>如何添加/编辑支撑，见进阶部分。</p>
+</div></div>
+  <div class="en-only"><h2><strong>Set the Wind &amp; Earthquake Zone…</strong></h2>
+<p>1. Navigate to the Plan view that you wish to brace. From the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; </strong><strong>Wind Earthquake Zone.</strong></p>
+<p><img src="img/360000547096_0.jpg" alt="2018-11-02_15-59-47.jpeg" loading="lazy"></p>
+
+<p>2. In Wind &amp; Earthquake Zones pop up window set the <strong>Wind Zone</strong>, <strong>Earthquake Zone</strong> &amp; <strong>Soil Class.</strong></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note:</em></p>
+<p><em>There are two ways to calculate the <strong>Wind Zone</strong>, use the arrows in the centre of the dialog to choose one method or the other.</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<strong>B</strong><strong>race the building:</strong>
+</h2>
+<p>3. Navigate to the Plan view that you wish to brace. Select the walls of the building you want to brace, and from the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; Calculate Bracing</strong>.<img src="img/360000547096_1.jpg" alt="2018-11-02_16-23-05.jpeg" loading="lazy"></p>
+<p>A Bracing Settings dialog will come up.</p>
+
+<p>4. Expand the <strong>Calculation Stages </strong>settings, and choose the <strong>Storey Location, </strong>single<strong>.</strong></p>
+<p><img src="img/360000547096_2.jpg" alt="2018-11-02_16-19-22.jpeg" loading="lazy"></p>
+<ul>
+<li>
+<p>Choose to <strong>Place Brace Lines</strong> and to <strong>Place Braces</strong>.</p>
+</li>
+<li>
+<p>Set the <strong>Calculation Set</strong> to <strong>Default</strong> (if the building is to be braced in one shot). If you need to add a second set of braces, lines and table you’ll need to use a different calculation set for each one. (see advanced section)</p>
+</li>
+</ul>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note:</em></p>
+<p><em>If you need to add a second set of braces, lines and table anywhere in your project you’ll need to use a different calculation set for each one. (see advanced section)</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>Choose a <strong>Brace Type</strong> Set from the list.</p>
+</li>
+</ul>
+
+<p>5. Expand the <strong>Building Dimensions </strong>settings and enter the <strong>dimensions</strong> and <strong>roof pitch</strong> of the building.</p>
+<p><img src="img/360000547096_3.jpg" alt="2018-11-02_16-48-55.jpeg" loading="lazy"></p>
+<p>Set the angle that is parallel with the length of the building. This angle is measured from the horizontal in a counter-clockwise direction. For the example building, the angle is zero.</p>
+
+<p>6. Expand the <strong>Cladding Weights </strong>settings and choose cladding weights for <strong>Roof</strong>, <strong>Upper Cladding </strong>and <strong>Subfloor</strong>.</p>
+<p><img src="img/360000547096_4.jpg" alt="2018-11-02_16-52-35.jpeg" loading="lazy"></p>
+<p>Select the <strong>Floor Load </strong>and <strong>Construction Settings</strong>.</p>
+
+<p>7. Expand the <strong>Brace Settings </strong>settings and set:</p>
+<ul>
+<li>
+<p>Maximum Brace Length.</p>
+</li>
+<li>
+<p>Minimum Brace Length.</p>
+</li>
+<li>
+<p>Truncate Braces To - this setting ensures that brace lengths will be set to sensible values like 1.3, 1.8 rather than 1.304, 1.796.</p>
+</li>
+</ul>
+<p><img src="img/360000547096_5.jpg" alt="2018-11-02_16-54-15.jpeg" loading="lazy"></p>
+<p>Also set the stud height for braces, and choose whether or not braces can be reduced in height for placement on shorter walls.</p>
+
+<p>8. Finally, choose the <strong>layer</strong> on which to place all the bracing symbols, and hit <strong>OK</strong></p>
+<div>
+<div>
+<div>
+<p>Brace lines will be placed on the building, braces placed on those lines, so as to satisfy the requirements of NZS3604.</p>
+
+</div>
+</div>
+</div>
+<p>9. You must then indicate the location of the Brace Table, <strong>Click to place the brace table.</strong> This will be the top left-hand corner.</p>
+<div>
+<div>
+<div>
+<p>If there was a problem, and the required bracing could not be achieved, the Brace Table will report this, as will messages that come up throughout the process.</p>
+
+<p>See advanced section on how to add/edit your braces.</p>
+</div>
+</div>
+</div></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h2><strong>Set the Wind &amp; Earthquake Zone…</strong></h2>
+<p>1. Navigate to the Plan view that you wish to brace. From the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; </strong><strong>Wind Earthquake Zone.</strong></p>
+<p><img src="img/360000547096_0.jpg" alt="2018-11-02_15-59-47.jpeg" loading="lazy"></p>
+
+<p>2. In Wind &amp; Earthquake Zones pop up window set the <strong>Wind Zone</strong>, <strong>Earthquake Zone</strong> &amp; <strong>Soil Class.</strong></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note:</em></p>
+<p><em>There are two ways to calculate the <strong>Wind Zone</strong>, use the arrows in the centre of the dialog to choose one method or the other.</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<strong>B</strong><strong>race the building:</strong>
+</h2>
+<p>3. Navigate to the Plan view that you wish to brace. Select the walls of the building you want to brace, and from the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; Calculate Bracing</strong>.<img src="img/360000547096_1.jpg" alt="2018-11-02_16-23-05.jpeg" loading="lazy"></p>
+<p>A Bracing Settings dialog will come up.</p>
+
+<p>4. Expand the <strong>Calculation Stages </strong>settings, and choose the <strong>Storey Location, </strong>single<strong>.</strong></p>
+<p><img src="img/360000547096_2.jpg" alt="2018-11-02_16-19-22.jpeg" loading="lazy"></p>
+<ul>
+<li>
+<p>Choose to <strong>Place Brace Lines</strong> and to <strong>Place Braces</strong>.</p>
+</li>
+<li>
+<p>Set the <strong>Calculation Set</strong> to <strong>Default</strong> (if the building is to be braced in one shot). If you need to add a second set of braces, lines and table you’ll need to use a different calculation set for each one. (see advanced section)</p>
+</li>
+</ul>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note:</em></p>
+<p><em>If you need to add a second set of braces, lines and table anywhere in your project you’ll need to use a different calculation set for each one. (see advanced section)</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>Choose a <strong>Brace Type</strong> Set from the list.</p>
+</li>
+</ul>
+
+<p>5. Expand the <strong>Building Dimensions </strong>settings and enter the <strong>dimensions</strong> and <strong>roof pitch</strong> of the building.</p>
+<p><img src="img/360000547096_3.jpg" alt="2018-11-02_16-48-55.jpeg" loading="lazy"></p>
+<p>Set the angle that is parallel with the length of the building. This angle is measured from the horizontal in a counter-clockwise direction. For the example building, the angle is zero.</p>
+
+<p>6. Expand the <strong>Cladding Weights </strong>settings and choose cladding weights for <strong>Roof</strong>, <strong>Upper Cladding </strong>and <strong>Subfloor</strong>.</p>
+<p><img src="img/360000547096_4.jpg" alt="2018-11-02_16-52-35.jpeg" loading="lazy"></p>
+<p>Select the <strong>Floor Load </strong>and <strong>Construction Settings</strong>.</p>
+
+<p>7. Expand the <strong>Brace Settings </strong>settings and set:</p>
+<ul>
+<li>
+<p>Maximum Brace Length.</p>
+</li>
+<li>
+<p>Minimum Brace Length.</p>
+</li>
+<li>
+<p>Truncate Braces To - this setting ensures that brace lengths will be set to sensible values like 1.3, 1.8 rather than 1.304, 1.796.</p>
+</li>
+</ul>
+<p><img src="img/360000547096_5.jpg" alt="2018-11-02_16-54-15.jpeg" loading="lazy"></p>
+<p>Also set the stud height for braces, and choose whether or not braces can be reduced in height for placement on shorter walls.</p>
+
+<p>8. Finally, choose the <strong>layer</strong> on which to place all the bracing symbols, and hit <strong>OK</strong></p>
+<div>
+<div>
+<div>
+<p>Brace lines will be placed on the building, braces placed on those lines, so as to satisfy the requirements of NZS3604.</p>
+
+</div>
+</div>
+</div>
+<p>9. You must then indicate the location of the Brace Table, <strong>Click to place the brace table.</strong> This will be the top left-hand corner.</p>
+<div>
+<div>
+<div>
+<p>If there was a problem, and the required bracing could not be achieved, the Brace Table will report this, as will messages that come up throughout the process.</p>
+
+<p>See advanced section on how to add/edit your braces.</p>
+</div>
+</div>
+</div>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000547376">
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">两层建筑支撑布置</h3>
+    <h3 class="en-only block">Bracing a Two Storey Building</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000547376" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h2><strong>设置风区与地震区…</strong></h2>
+<p>1. 进入要布置支撑的平面视图。从 <strong>Cadimage</strong> 菜单选择 <strong>Bracing &gt; Wind Earthquake Zone</strong>。</p>
+<p><img src="img/360000547376_0.jpg" alt="Wind Earthquake Zone 菜单" loading="lazy"></p>
+
+<p>2. 在弹出的 Wind &amp; Earthquake Zones 窗口中设置 <strong>Wind Zone</strong>（风区）、<strong>Earthquake Zone</strong>（地震区）和 <strong>Soil Class</strong>（场地土类别）。</p>
+<table>
+<tbody>
+<tr>
+<td><p><em>注意：计算 <strong>Wind Zone</strong> 有两种方法，用对话框中间的箭头切换。</em></p></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<strong>为下层布置支撑（两层中的下层）：</strong>
+</h2>
+<p>3. 进入要布置支撑的平面视图。选中要布置支撑的建筑墙体，从 <strong>Cadimage</strong> 菜单选择 <strong>Bracing &gt; Calculate Bracing</strong>。<img src="img/360000547376_1.jpg" alt="Calculate Bracing" loading="lazy"></p>
+<p>会弹出 Bracing Settings（支撑设置）对话框。</p>
+
+<p>4. 展开 <strong>Calculation Stages</strong>（计算阶段）设置，新建一个 <strong>Calculation Set</strong>（计算集）——输入编号和描述。</p>
+<p><img src="img/360000547376_2.jpg" alt="新建 Calculation Set" loading="lazy"></p>
+<table>
+<tbody>
+<tr>
+<td><p><em>注意：如果需要在项目中任何位置增加第二组支撑、支撑线和表格，每组都要使用不同的计算集（见进阶部分）。</em></p></td>
+</tr>
+</tbody>
+</table>
+<p>5. 在 <strong>Calculation Stages</strong> 设置中选择 <strong>Storey Location</strong>（楼层位置）：Lower of two（两层中的下层）。</p>
+<ul>
+<li>
+<p>勾选 <strong>Place Brace Lines</strong>（布置支撑线）和 <strong>Place Braces</strong>（布置支撑）。</p>
+</li>
+<li>
+<p>从列表中选择一组 <strong>Brace Type</strong>（支撑类型）。</p>
+</li>
+</ul>
+<p><img src="img/360000547376_3.jpg" alt="Storey Location 选择" loading="lazy"></p>
+<p>6. 展开 <strong>Building Dimensions</strong>（建筑尺寸）设置，输入建筑的<strong>尺寸</strong>和<strong>屋顶坡度</strong>。</p>
+<p><img src="img/360000547376_4.jpg" alt="Building Dimensions 设置" loading="lazy"></p>
+<p>设置与建筑长度方向平行的角度。该角度从水平方向起、逆时针计量。示例建筑的角度为零。</p>
+
+<p>7. 展开 <strong>Cladding Weights</strong>（围护面层重量）设置，为 <strong>Roof</strong>（屋面）、<strong>Upper Cladding</strong>（上部围护）和 <strong>Subfloor</strong>（架空层）选择面层重量，再选择 <strong>Floor Load</strong>（楼面荷载）和 <strong>Construction Settings</strong>（构造设置）。</p>
+<p><img src="img/360000547376_5.jpg" alt="Cladding Weights 设置" loading="lazy"></p>
+
+<p>8. 展开 <strong>Brace Settings</strong>（支撑设置），设置：</p>
+<ul>
+<li>
+<p>最大支撑长度（Maximum Brace Length）。</p>
+</li>
+<li>
+<p>最小支撑长度（Minimum Brace Length）。</p>
+</li>
+<li>
+<p>支撑长度取整（Truncate Braces To）——保证支撑长度取 1.3、1.8 这类规整值，而不是 1.304、1.796。</p>
+</li>
+</ul>
+<p><img src="img/360000547376_6.jpg" alt="Brace Settings 设置" loading="lazy"></p>
+<p>还要设置支撑的墙龙骨高度，并选择是否允许支撑为适应较矮墙体而降低高度。</p>
+
+<p>9. 最后选择放置全部支撑图元的<strong>图层</strong>，点 <strong>OK</strong>。</p>
+<div>
+<p>支撑线会布置到建筑上，支撑会布置在这些线上，以满足 NZS3604 的要求。</p>
+</div>
+<p>10. 接着要指定支撑表的位置，<strong>点击放置支撑表</strong>。点击处将成为表格左上角。</p>
+<div>
+<p>如果出现问题、所需支撑无法满足，支撑表会如实报告，过程中弹出的提示信息也会说明。如何添加/编辑支撑见进阶部分。</p>
+
+<p>表格放好后，切换到上一层继续布置。</p>
+<h2>
+<strong>为上层布置支撑（两层中的上层）：</strong>
+</h2>
+<p>11. 进入要布置支撑的平面视图。选中要布置支撑的建筑墙体，从 <strong>Cadimage</strong> 菜单选择 <strong>Bracing &gt; Calculate Bracing</strong>。<img src="img/360000547376_1.jpg" alt="Calculate Bracing" loading="lazy"></p>
+<p>会弹出 Bracing Settings 对话框。</p>
+
+<p>12. 展开 <strong>Calculation Stages</strong> 设置，再新建一个 <strong>Calculation Set</strong>——输入编号和描述。</p>
+<p><img src="img/360000547376_8.jpg" alt="新建第二个 Calculation Set" loading="lazy"></p>
+<table>
+<tbody>
+<tr>
+<td><p><em>注意：每组支撑、支撑线和表格都要使用不同的计算集（见进阶部分）。</em></p></td>
+</tr>
+</tbody>
+</table>
+<p>13. 在 <strong>Calculation Stages</strong> 设置中选择 <strong>Storey Location</strong>：Upper of Two（两层中的上层）。</p>
+<ul>
+<li>
+<p>勾选 <strong>Place Brace Lines</strong> 和 <strong>Place Braces</strong>。</p>
+</li>
+<li>
+<p>从列表中选择一组 <strong>Brace Type</strong>。</p>
+</li>
+</ul>
+<p><img src="img/360000547376_9.jpg" alt="Storey Location 选择 Upper" loading="lazy"></p>
+<p>14. 展开 <strong>Building Dimensions</strong> 设置，输入建筑的<strong>尺寸</strong>和<strong>屋顶坡度</strong>。</p>
+<p><img src="img/360000547376_4.jpg" alt="Building Dimensions 设置" loading="lazy"></p>
+<p>设置与建筑长度方向平行的角度。该角度从水平方向起、逆时针计量。示例建筑的角度为零。</p>
+
+<p>15. 展开 <strong>Cladding Weights</strong> 设置，为 <strong>Roof</strong>、<strong>Upper Cladding</strong> 和 <strong>Subfloor</strong> 选择面层重量，再选择 <strong>Floor Load</strong> 和 <strong>Construction Settings</strong>。</p>
+<p><img src="img/360000547376_5.jpg" alt="Cladding Weights 设置" loading="lazy"></p>
+
+<p>16. 展开 <strong>Brace Settings</strong> 设置，设置：</p>
+<ul>
+<li>
+<p>最大支撑长度。</p>
+</li>
+<li>
+<p>最小支撑长度。</p>
+</li>
+<li>
+<p>支撑长度取整——保证支撑长度取 1.3、1.8 这类规整值，而不是 1.304、1.796。</p>
+</li>
+</ul>
+<p><img src="img/360000547376_6.jpg" alt="Brace Settings 设置" loading="lazy"></p>
+<p>还要设置支撑的墙龙骨高度，并选择是否允许支撑为适应较矮墙体而降低高度。</p>
+<p>17. 最后选择放置全部支撑图元的<strong>图层</strong>，点 <strong>OK</strong>。</p>
+<div>
+<p>支撑线会布置到建筑上，支撑会布置在这些线上，以满足 NZS3604 的要求。</p>
+</div>
+<p>18. 接着要指定支撑表的位置，<strong>点击放置支撑表</strong>。点击处将成为表格左上角。</p>
+<div>
+<p>如果出现问题、所需支撑无法满足，支撑表会如实报告，过程中弹出的提示信息也会说明。如何添加/编辑支撑见进阶部分。</p>
+</div></div>
+  <div class="en-only"><h2><strong>Set the Wind &amp; Earthquake Zone…</strong></h2>
+<p>1. Navigate to the Plan view that you wish to brace. From the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; </strong><strong>Wind Earthquake Zone.</strong></p>
+<p><img src="img/360000547376_0.jpg" alt="2018-11-02_15-59-47.jpeg" loading="lazy"></p>
+
+<p>2. In Wind &amp; Earthquake Zones pop up window set the <strong>Wind Zone</strong>, <strong>Earthquake Zone</strong> &amp; <strong>Soil Class.</strong></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note that there are two ways to calculate the <strong>Wind Zone</strong>, use the arrows in the centre of the dialog to choose one method or the other.</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<strong>B</strong><strong>race the lower storey (Lower of two):</strong>
+</h2>
+<p>3. Navigate to the Plan view that you wish to brace. Select the walls of the building you want to brace, and from the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; Calculate Bracing</strong>.<img src="img/360000547376_1.jpg" alt="2018-11-02_16-23-05.jpeg" loading="lazy"></p>
+<p>A Bracing Settings dialog will come up.</p>
+
+<p>4. Expand the <strong>Calculation Stages </strong>settings, and create a new <strong>Calculation Set - </strong>Enter in the ID and a description.</p>
+<p><img src="img/360000547376_2.jpg" alt="2018-11-08_12-18-22.jpeg" loading="lazy"></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note:</em></p>
+<p><em>If you need to add a second set of braces, lines and table anywhere in your project you’ll need to use a different calculation set for each one. (see advanced section)</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>5. In the <strong>Calculation Stages </strong>settings, and choose the <strong>Storey Location</strong>. (Lower of two)</p>
+<ul>
+<li>
+<p>Choose to <strong>Place Brace Lines</strong> and to <strong>Place Braces</strong>.</p>
+</li>
+<li>
+<p>Choose a <strong>Brace Type</strong> Set from the list.</p>
+</li>
+</ul>
+<p> <img src="img/360000547376_3.jpg" alt="2018-11-08_12-26-36.jpeg" loading="lazy"></p>
+<p>6. Expand the <strong>Building Dimensions </strong>settings and enter the <strong>dimensions</strong> and <strong>roof pitch</strong> of the building.</p>
+<p><img src="img/360000547376_4.jpg" alt="2018-11-02_16-48-55.jpeg" loading="lazy"></p>
+<p>Set the angle that is parallel with the length of the building. This angle is measured from the horizontal in a counter-clockwise direction. For the example building, the angle is zero.</p>
+
+<p>7. Expand the <strong>Cladding Weights </strong>settings and choose cladding weights for <strong>Roof</strong>, <strong>Upper Cladding </strong>and <strong>Subfloor</strong>. Also, select the <strong>Floor Load </strong>and <strong>Construction Settings</strong>.</p>
+<p><img src="img/360000547376_5.jpg" alt="2018-11-08_12-19-44.jpeg" loading="lazy"></p>
+
+<p>8. Expand the <strong>Brace Settings </strong>settings and set:</p>
+<ul>
+<li>
+<p>Maximum Brace Length.</p>
+</li>
+<li>
+<p>Minimum Brace Length.</p>
+</li>
+<li>
+<p>Truncate Braces To - this setting ensures that brace lengths will be set to sensible values like 1.3, 1.8 rather than 1.304, 1.796.</p>
+</li>
+</ul>
+<p><img src="img/360000547376_6.jpg" alt="2018-11-02_16-54-15.jpeg" loading="lazy"></p>
+<p>Also set the stud height for braces, and choose whether or not braces can be reduced in height for placement on shorter walls.</p>
+
+<p>8. Finally, choose the <strong>layer</strong> on which to place all the bracing symbols, and hit <strong>OK</strong></p>
+<div>
+<div>
+<div>
+<p>Brace lines will be placed on the building, braces placed on those lines, so as to satisfy the requirements of NZS3604.</p>
+
+</div>
+</div>
+</div>
+<p>9. You must then indicate the location of the Brace Table, <strong>Click to place the brace table.</strong> This will be the top left-hand corner.</p>
+<div>
+<div>
+<div>
+<p>If there was a problem, and the required bracing could not be achieved, the Brace Table will report this, as will messages that come up throughout the process. See advanced section on how to add/edit your braces</p>
+
+<p>Once the table has been placed move to the next storey to continue bracing your building.</p>
+<h2>
+<strong>B</strong><strong>race the Upper storey (Upper of Two):</strong>
+</h2>
+<p>10. Navigate to the Plan view that you wish to brace. Select the walls of the building you want to brace, and from the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; Calculate Bracing</strong>.<img src="img/360000547376_1.jpg" alt="2018-11-02_16-23-05.jpeg" loading="lazy"></p>
+<p>A Bracing Settings dialog will come up.</p>
+
+<p>11. Expand the <strong>Calculation Stages </strong>settings, and create a new <strong>Calculation Set - </strong>Enter in the ID and a description.</p>
+<p><img src="img/360000547376_8.jpg" alt="2018-11-08_12-20-47.jpeg" loading="lazy"></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note:</em></p>
+<p><em>If you need to add a second set of braces, lines and table anywhere in your project you’ll need to use a different calculation set for each one. (see advanced section)</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>12. In the <strong>Calculation Stages </strong>settings, and choose the <strong>Storey Location</strong>. Upper of Two</p>
+<ul>
+<li>
+<p>Choose to <strong>Place Brace Lines</strong> and to <strong>Place Braces</strong>.</p>
+</li>
+<li>
+<p>Choose a <strong>Brace Type</strong> Set from the list.</p>
+</li>
+</ul>
+<p><img src="img/360000547376_9.jpg" alt="2018-11-08_12-37-05.jpeg" loading="lazy"> </p>
+<p>13. Expand the <strong>Building Dimensions </strong>settings and enter the <strong>dimensions</strong> and <strong>roof pitch</strong> of the building.</p>
+<p><img src="img/360000547376_4.jpg" alt="2018-11-02_16-48-55.jpeg" loading="lazy"></p>
+<p>Set the angle that is parallel with the length of the building. This angle is measured from the horizontal in a counter-clockwise direction. For the example building, the angle is zero.</p>
+
+<p>14. Expand the <strong>Cladding Weights </strong>settings and choose cladding weights for <strong>Roof</strong>, <strong>Upper Cladding </strong>and <strong>Subfloor</strong>. Also, select the <strong>Floor Load </strong>and <strong>Construction Settings</strong>.</p>
+<p><img src="img/360000547376_5.jpg" alt="2018-11-08_12-19-44.jpeg" loading="lazy"></p>
+
+<p>15. Expand the <strong>Brace Settings </strong>settings and set:</p>
+<ul>
+<li>
+<p>Maximum Brace Length.</p>
+</li>
+<li>
+<p>Minimum Brace Length.</p>
+</li>
+<li>
+<p>Truncate Braces To - this setting ensures that brace lengths will be set to sensible values like 1.3, 1.8 rather than 1.304, 1.796.</p>
+</li>
+</ul>
+<p><img src="img/360000547376_6.jpg" alt="2018-11-02_16-54-15.jpeg" loading="lazy"></p>
+<p>Also, set the stud height for braces, and choose whether or not braces can be reduced in height for placement on shorter walls.</p>
+<p><em> </em></p>
+<p>16. Finally, choose the <strong>layer</strong> on which to place all the bracing symbols, and hit <strong>OK</strong></p>
+<div>
+<div>
+<div>
+<p>Brace lines will be placed on the building, braces placed on those lines, so as to satisfy the requirements of NZS3604.</p>
+<p><em> </em></p>
+</div>
+</div>
+</div>
+<p>17. You must then indicate the location of the Brace Table, <strong>Click to place the brace table.</strong> This will be the top left-hand corner.</p>
+<div>
+<div>
+<div>
+<p>If there was a problem, and the required bracing could not be achieved, the Brace Table will report this, as will messages that come up throughout the process. See advanced section on how to add/edit your braces.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h2><strong>Set the Wind &amp; Earthquake Zone…</strong></h2>
+<p>1. Navigate to the Plan view that you wish to brace. From the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; </strong><strong>Wind Earthquake Zone.</strong></p>
+<p><img src="img/360000547376_0.jpg" alt="2018-11-02_15-59-47.jpeg" loading="lazy"></p>
+
+<p>2. In Wind &amp; Earthquake Zones pop up window set the <strong>Wind Zone</strong>, <strong>Earthquake Zone</strong> &amp; <strong>Soil Class.</strong></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note that there are two ways to calculate the <strong>Wind Zone</strong>, use the arrows in the centre of the dialog to choose one method or the other.</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<strong>B</strong><strong>race the lower storey (Lower of two):</strong>
+</h2>
+<p>3. Navigate to the Plan view that you wish to brace. Select the walls of the building you want to brace, and from the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; Calculate Bracing</strong>.<img src="img/360000547376_1.jpg" alt="2018-11-02_16-23-05.jpeg" loading="lazy"></p>
+<p>A Bracing Settings dialog will come up.</p>
+
+<p>4. Expand the <strong>Calculation Stages </strong>settings, and create a new <strong>Calculation Set - </strong>Enter in the ID and a description.</p>
+<p><img src="img/360000547376_2.jpg" alt="2018-11-08_12-18-22.jpeg" loading="lazy"></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note:</em></p>
+<p><em>If you need to add a second set of braces, lines and table anywhere in your project you’ll need to use a different calculation set for each one. (see advanced section)</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>5. In the <strong>Calculation Stages </strong>settings, and choose the <strong>Storey Location</strong>. (Lower of two)</p>
+<ul>
+<li>
+<p>Choose to <strong>Place Brace Lines</strong> and to <strong>Place Braces</strong>.</p>
+</li>
+<li>
+<p>Choose a <strong>Brace Type</strong> Set from the list.</p>
+</li>
+</ul>
+<p> <img src="img/360000547376_3.jpg" alt="2018-11-08_12-26-36.jpeg" loading="lazy"></p>
+<p>6. Expand the <strong>Building Dimensions </strong>settings and enter the <strong>dimensions</strong> and <strong>roof pitch</strong> of the building.</p>
+<p><img src="img/360000547376_4.jpg" alt="2018-11-02_16-48-55.jpeg" loading="lazy"></p>
+<p>Set the angle that is parallel with the length of the building. This angle is measured from the horizontal in a counter-clockwise direction. For the example building, the angle is zero.</p>
+
+<p>7. Expand the <strong>Cladding Weights </strong>settings and choose cladding weights for <strong>Roof</strong>, <strong>Upper Cladding </strong>and <strong>Subfloor</strong>. Also, select the <strong>Floor Load </strong>and <strong>Construction Settings</strong>.</p>
+<p><img src="img/360000547376_5.jpg" alt="2018-11-08_12-19-44.jpeg" loading="lazy"></p>
+
+<p>8. Expand the <strong>Brace Settings </strong>settings and set:</p>
+<ul>
+<li>
+<p>Maximum Brace Length.</p>
+</li>
+<li>
+<p>Minimum Brace Length.</p>
+</li>
+<li>
+<p>Truncate Braces To - this setting ensures that brace lengths will be set to sensible values like 1.3, 1.8 rather than 1.304, 1.796.</p>
+</li>
+</ul>
+<p><img src="img/360000547376_6.jpg" alt="2018-11-02_16-54-15.jpeg" loading="lazy"></p>
+<p>Also set the stud height for braces, and choose whether or not braces can be reduced in height for placement on shorter walls.</p>
+
+<p>8. Finally, choose the <strong>layer</strong> on which to place all the bracing symbols, and hit <strong>OK</strong></p>
+<div>
+<div>
+<div>
+<p>Brace lines will be placed on the building, braces placed on those lines, so as to satisfy the requirements of NZS3604.</p>
+
+</div>
+</div>
+</div>
+<p>9. You must then indicate the location of the Brace Table, <strong>Click to place the brace table.</strong> This will be the top left-hand corner.</p>
+<div>
+<div>
+<div>
+<p>If there was a problem, and the required bracing could not be achieved, the Brace Table will report this, as will messages that come up throughout the process. See advanced section on how to add/edit your braces</p>
+
+<p>Once the table has been placed move to the next storey to continue bracing your building.</p>
+<h2>
+<strong>B</strong><strong>race the Upper storey (Upper of Two):</strong>
+</h2>
+<p>10. Navigate to the Plan view that you wish to brace. Select the walls of the building you want to brace, and from the <strong>Cadimage </strong>menu choose <strong>Bracing &gt; Calculate Bracing</strong>.<img src="img/360000547376_1.jpg" alt="2018-11-02_16-23-05.jpeg" loading="lazy"></p>
+<p>A Bracing Settings dialog will come up.</p>
+
+<p>11. Expand the <strong>Calculation Stages </strong>settings, and create a new <strong>Calculation Set - </strong>Enter in the ID and a description.</p>
+<p><img src="img/360000547376_8.jpg" alt="2018-11-08_12-20-47.jpeg" loading="lazy"></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><em>Note:</em></p>
+<p><em>If you need to add a second set of braces, lines and table anywhere in your project you’ll need to use a different calculation set for each one. (see advanced section)</em></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>12. In the <strong>Calculation Stages </strong>settings, and choose the <strong>Storey Location</strong>. Upper of Two</p>
+<ul>
+<li>
+<p>Choose to <strong>Place Brace Lines</strong> and to <strong>Place Braces</strong>.</p>
+</li>
+<li>
+<p>Choose a <strong>Brace Type</strong> Set from the list.</p>
+</li>
+</ul>
+<p><img src="img/360000547376_9.jpg" alt="2018-11-08_12-37-05.jpeg" loading="lazy"> </p>
+<p>13. Expand the <strong>Building Dimensions </strong>settings and enter the <strong>dimensions</strong> and <strong>roof pitch</strong> of the building.</p>
+<p><img src="img/360000547376_4.jpg" alt="2018-11-02_16-48-55.jpeg" loading="lazy"></p>
+<p>Set the angle that is parallel with the length of the building. This angle is measured from the horizontal in a counter-clockwise direction. For the example building, the angle is zero.</p>
+
+<p>14. Expand the <strong>Cladding Weights </strong>settings and choose cladding weights for <strong>Roof</strong>, <strong>Upper Cladding </strong>and <strong>Subfloor</strong>. Also, select the <strong>Floor Load </strong>and <strong>Construction Settings</strong>.</p>
+<p><img src="img/360000547376_5.jpg" alt="2018-11-08_12-19-44.jpeg" loading="lazy"></p>
+
+<p>15. Expand the <strong>Brace Settings </strong>settings and set:</p>
+<ul>
+<li>
+<p>Maximum Brace Length.</p>
+</li>
+<li>
+<p>Minimum Brace Length.</p>
+</li>
+<li>
+<p>Truncate Braces To - this setting ensures that brace lengths will be set to sensible values like 1.3, 1.8 rather than 1.304, 1.796.</p>
+</li>
+</ul>
+<p><img src="img/360000547376_6.jpg" alt="2018-11-02_16-54-15.jpeg" loading="lazy"></p>
+<p>Also, set the stud height for braces, and choose whether or not braces can be reduced in height for placement on shorter walls.</p>
+<p><em> </em></p>
+<p>16. Finally, choose the <strong>layer</strong> on which to place all the bracing symbols, and hit <strong>OK</strong></p>
+<div>
+<div>
+<div>
+<p>Brace lines will be placed on the building, braces placed on those lines, so as to satisfy the requirements of NZS3604.</p>
+<p><em> </em></p>
+</div>
+</div>
+</div>
+<p>17. You must then indicate the location of the Brace Table, <strong>Click to place the brace table.</strong> This will be the top left-hand corner.</p>
+<div>
+<div>
+<div>
+<p>If there was a problem, and the required bracing could not be achieved, the Brace Table will report this, as will messages that come up throughout the process. See advanced section on how to add/edit your braces.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360003640276">
+  <div class="art-h"><span class="no">06</span>
+    <h3 class="zh-only block">创建自定义支撑类型</h3>
+    <h3 class="en-only block">Create a Custom Brace Type</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360003640276" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><p>打开支撑类型管理器（<strong>Ci Tools</strong> &gt; <strong>Bracing</strong> &gt; <strong>Bracing Types Manager</strong>）。</p>
+<p><img src="img/360003640276_0.png" alt="Bracing Types Manager" loading="lazy"></p>
+
+<p>在 Ci Tools Bracing Types 窗口中，选择你常用的支撑集，点 <strong>New</strong>。</p>
+<p><img src="img/360003640276_1.png" alt="选择支撑集并新建" loading="lazy"></p>
+
+<p>输入支撑的名称和支撑参数：</p>
+<p><strong>Composite Prefix</strong>（复合结构前缀）：INT 仅限内墙，EXT 仅限外墙，INT/EXT 表示内外墙均可使用。</p>
+<p>输入<strong>描述</strong>。</p>
+<p>设置<strong>长度</strong>（务必勾选 <strong>Maximum</strong>）。</p>
+<p>把支撑单位改为 <strong>Fixed</strong>（固定）。</p>
+<p>设置最小<strong>长度</strong>、<strong>Wind</strong> Bus（风荷载等效值）和 <strong>EQ</strong> Bus（地震等效值）。</p>
+<p>点 <strong>OK</strong>。</p>
+<p><img src="img/360003640276_2.png" alt="支撑参数设置" loading="lazy"></p>
+
+<p>回到平面图后，<strong>选中</strong>要改为新支撑类型的支撑构件并<strong>打开</strong>其<strong>设置</strong>。</p>
+<p>在选项中进入 <strong>Configuration</strong>，<strong>选择</strong>刚创建的<strong>新支撑类型</strong>，点 <strong>OK</strong>。</p>
+<p><img src="img/360003640276_3.png" alt="选择新支撑类型" loading="lazy"></p>
+
+<p>选中支撑表，然后进入 <strong>Ci Tools</strong> &gt; <strong>Bracing</strong> &gt; <strong>Update Brace Tables</strong>。</p>
+<p><img src="img/360003640276_4.png" alt="更新支撑表" loading="lazy"></p></div>
+  <div class="en-only"><p>Open the bracing Types manager (<strong>Ci Tools </strong>&gt;<strong> Bracing </strong>&gt;<strong> Bracing Types Manager</strong>)</p>
+<p><img src="img/360003640276_0.png" alt="2021-03-09_15-16-39.png" loading="lazy"></p>
+
+<p>Next in the Ci Tools Bracing Types window, Select the Bracing set you commonly use, and click <strong>New</strong>.</p>
+<p><img src="img/360003640276_1.png" alt="2021-03-09_15-28-00.png" loading="lazy"></p>
+
+<p>Enter the Name of your Brace &amp; the bracing details.</p>
+<p><strong>Composite Prefix</strong> (INT for internal only, EXT for external only, INT/EXT for a brace that can be used on either INT or EXT)</p>
+<p>Enter a <strong>description</strong>,</p>
+<p>Set the <strong>Length</strong> (ensure to tick <strong>Maximum</strong>)</p>
+<p>Change the Bracing units to <strong>Fixed</strong></p>
+<p>Set the min <strong>length</strong>, <strong>Wind</strong> Bus &amp; <strong>EQ</strong> Bus</p>
+<p>Click <strong>Ok</strong></p>
+<p><img src="img/360003640276_2.png" alt="2021-03-09_16-03-20.png" loading="lazy"></p>
+
+<p>Once back on your floor plan, <strong>select</strong> and <strong>open</strong> the <strong>settings</strong> of bracing element you want to now be your new Brace type.</p>
+<p>In the options go to <strong>Configuration</strong> and <strong>select</strong> the <strong>new Brace Type </strong>you created then Click <strong>OK</strong></p>
+<p><img src="img/360003640276_3.png" alt="2021-03-09_16-05-45.png" loading="lazy"></p>
+
+<p>Select the Bracing Table then go to <strong>Ci Tools</strong> &gt; <strong>Bracing</strong> &gt; <strong>Update Brace Tables</strong>.</p>
+<p><img src="img/360003640276_4.png" alt="2021-03-09_16-06-37.png" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <p>Open the bracing Types manager (<strong>Ci Tools </strong>&gt;<strong> Bracing </strong>&gt;<strong> Bracing Types Manager</strong>)</p>
+<p><img src="img/360003640276_0.png" alt="2021-03-09_15-16-39.png" loading="lazy"></p>
+
+<p>Next in the Ci Tools Bracing Types window, Select the Bracing set you commonly use, and click <strong>New</strong>.</p>
+<p><img src="img/360003640276_1.png" alt="2021-03-09_15-28-00.png" loading="lazy"></p>
+
+<p>Enter the Name of your Brace &amp; the bracing details.</p>
+<p><strong>Composite Prefix</strong> (INT for internal only, EXT for external only, INT/EXT for a brace that can be used on either INT or EXT)</p>
+<p>Enter a <strong>description</strong>,</p>
+<p>Set the <strong>Length</strong> (ensure to tick <strong>Maximum</strong>)</p>
+<p>Change the Bracing units to <strong>Fixed</strong></p>
+<p>Set the min <strong>length</strong>, <strong>Wind</strong> Bus &amp; <strong>EQ</strong> Bus</p>
+<p>Click <strong>Ok</strong></p>
+<p><img src="img/360003640276_2.png" alt="2021-03-09_16-03-20.png" loading="lazy"></p>
+
+<p>Once back on your floor plan, <strong>select</strong> and <strong>open</strong> the <strong>settings</strong> of bracing element you want to now be your new Brace type.</p>
+<p>In the options go to <strong>Configuration</strong> and <strong>select</strong> the <strong>new Brace Type </strong>you created then Click <strong>OK</strong></p>
+<p><img src="img/360003640276_3.png" alt="2021-03-09_16-05-45.png" loading="lazy"></p>
+
+<p>Select the Bracing Table then go to <strong>Ci Tools</strong> &gt; <strong>Bracing</strong> &gt; <strong>Update Brace Tables</strong>.</p>
+<p><img src="img/360003640276_4.png" alt="2021-03-09_16-06-37.png" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000548835">
+  <div class="art-h"><span class="no">07</span>
+    <h3 class="zh-only block">团队协作项目中使用 Bracing</h3>
+    <h3 class="en-only block">Cadimage Bracing in a teamwork project</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000548835" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><div>
+<p>在团队协作（Teamwork）项目中使用 Cadimage Bracing 时，应当：</p>
+<p>在布置支撑和计算支撑前，保留（Reserve）所有要参与操作的选中墙体。</p>
+<p>在更新支撑时，保留所有已布置的支撑、支撑线和支撑表。</p>
+<p>目前预设（Presets）在团队协作中无法正确共享，所以所有支撑预设都应在共享项目之前加载好。</p>
+</div></div>
+  <div class="en-only"><div>
+<div>
+<div>
+<p>When using Cadimage Bracing in a teamwork project, you should:</p>
+<p>Reserve all selected walls you are about to Place Bracing and when Calculating Bracing.</p>
+<p><br> Reserve all placed Braces, Brace Lines and the Brace Tables when you Update Bracing.</p>
+<p>Currently Presets are not being shared correctly in Teamwork, so all of your Brace Presets should be loaded before Sharing you project.</p>
+</div>
+</div>
+</div></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <div>
+<div>
+<div>
+<p>When using Cadimage Bracing in a teamwork project, you should:</p>
+<p>Reserve all selected walls you are about to Place Bracing and when Calculating Bracing.</p>
+<p><br> Reserve all placed Braces, Brace Lines and the Brace Tables when you Update Bracing.</p>
+<p>Currently Presets are not being shared correctly in Teamwork, so all of your Brace Presets should be loaded before Sharing you project.</p>
+</div>
+</div>
+</div>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-360000548875">
+  <div class="art-h"><span class="no">08</span>
+    <h3 class="zh-only block">疑难：找不到内/外墙（INT/EXT）</h3>
+    <h3 class="en-only block">Interior/ Exterior Walls Not Found ...</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000548875" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><div>
+<p>如果找不到前缀为 EXT 或 INT 的墙，工具就会停止运行。工具只检查当前选中的墙；若没有选中任何墙，则检查当前楼层所有可见的墙。</p>
+</div></div>
+  <div class="en-only"><div>
+<div>
+<div>
+<p>If no walls are found with prefix starting with EXT or INT then the tool will stop. Only walls in the current selection are checked; if no walls are selected then all visible walls on the current story are checked.</p>
+</div>
+</div>
+</div></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <div>
+<div>
+<div>
+<p>If no walls are found with prefix starting with EXT or INT then the tool will stop. Only walls in the current selection are checked; if no walls are selected then all visible walls on the current story are checked.</p>
+</div>
+</div>
+</div>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-8297046906383">
+  <div class="art-h"><span class="no">09</span>
+    <h3 class="zh-only block">Archicad 27 版更新：自动尺寸与支撑重新编号</h3>
+    <h3 class="en-only block">Bracing Updates in Archicad 27</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8297046906383" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><h1>建筑尺寸、面积估算与朝向</h1>
+<p><img src="img/8297046906383_0.jpg" alt="尺寸面积自动计算" loading="lazy"></p>
+<p>Bracing 工具新增了尺寸、面积和朝向的自动计算功能。选中全部墙体后，「Calculate Bracing」对话框会自动从所选墙体几何中提取这一估算值。点「Estimate from selected walls」即可填入这些参数。</p>
+<p>请注意：面积、宽度和长度是所选墙体外包矩形的近似值，并非建筑的实际尺寸。这些数值应手动调整，以计入挑檐出挑和非矩形区域。</p>
+<h1>缺陷修复</h1>
+<p>过去 Bracing 布置时有时不考虑门窗洞口，现已修正——布置支撑时会捕捉全部洞口并相应落位。</p>
+<h1>界面</h1>
+<p>界面做了小幅调整，进一步提升了易用性，帮助更深入地理解 Bracing 工具。</p>
+<p><img src="img/8297046906383_1.jpg" alt="界面变化" loading="lazy"></p>
+<h1>支撑调整：</h1>
+<h2>支撑重新编号（Re-Label Bracing）</h2>
+<p>下面介绍 Re-label Bracing（支撑重新编号）功能的用法。</p>
+<p><img src="img/8297046906383_2.jpg" alt="初始布置" loading="lazy"></p>
+<p>布置完支撑后，可以看到落位上存在一些不合理之处：</p>
+<p>P 线没有支撑，可以移过去与某面内墙对齐；</p>
+<p>D 线没有支撑，可以删除；</p>
+<p>B 线可以删除，因为 A 线可以容纳那些支撑；</p>
+<p>R 线既没有支撑、也没有放支撑的空间；</p>
+<p>M 线可以放到外墙上；</p>
+<p>M 线和 N 线彼此挨得太近。</p>
+<p>按上述方式移动和删除后，可以调整为如下结果：</p>
+<p><img src="img/8297046906383_3.jpg" alt="调整后" loading="lazy"></p>
+<p>调好支撑线后，可以在我们认为最合适的位置补上支撑：<img src="img/8297046906383_4.jpg" alt="补充支撑" loading="lazy">然后选中全部支撑图元——包括支撑线、支撑和之前放好的支撑表。</p>
+<p><img src="img/8297046906383_5.jpg" alt="全选支撑图元" loading="lazy"></p>
+<p>此时选择 CI Tools &gt; Bracing &gt; Re-label Bracing，支撑线、支撑和支撑表会自动更新。</p>
+<p><img src="img/8297046906383_6.jpg" alt="重新编号" loading="lazy">该功能还会高亮显示多余的支撑——即没有挂接到任何支撑线上的支撑，如下图：</p>
+<p><img src="img/8297046906383_7.jpg" alt="高亮冗余支撑" loading="lazy">把它们删掉，就得到了更新后的支撑布置，支撑表也随之更新并显示是否达标。</p>
+<p><img src="img/8297046906383_8.jpg" alt="最终结果" loading="lazy"></p></div>
+  <div class="en-only"><h1>Building Dimensions, Floor Area approximation and Orientation</h1>
+<p><img src="img/8297046906383_0.jpg" alt="" loading="lazy"></p>
+<p>A new feature that has been added to the Bracing Tool is the automatic Dimension, Area and Orientation Calculation. After all walls have been selected, the ‘Calculate Bracing’ Dialogue will automatically extract this approximation from the selected wall geometry. By clicking on ‘Estimate from selected walls’ these parameters will be populated.</p>
+<p>Please note that the area, width and length is an approximation of the rectangular shape around the selected walls and not the actual dimensions of the building. These values should be manually adjusted to allow for eaves overhangs and non-rectangular areas.</p>
+<h1>Bug Fix</h1>
+<p>In the past Bracing was sometimes placed without consideration of window and door openings, this has been rectified, and all openings are captured during the placement of bracing and bracing placed accordingly.</p>
+<h1>Interface</h1>
+<p>Minor interface changes have been made that further enhance the ease of use and enable a deeper understanding of the Bracing Tool.</p>
+<p><img src="img/8297046906383_1.jpg" alt="" loading="lazy"></p>
+<h1>Bracing Adjustment:</h1>
+<h2>Re-Label Bracing</h2>
+<p>This describes how to use the Re-label Bracing function.</p>
+<p><img src="img/8297046906383_2.jpg" alt="" loading="lazy"></p>
+<p>After placement of Bracing we can see that there are some anomalies in the placement.</p>
+<p>Line P has no bracing and can move to line up with and interior wall</p>
+<p>Line D can be removed as there is no bracing</p>
+<p>Line B can be removed as line A will accommodate those braces</p>
+<p>Line R has no bracing, or space for bracing</p>
+<p>Lines M can be placed on the exterior wall</p>
+<p>Lines M and N are placed in too close in proximity to each other.</p>
+<p>Now we can adjust this to the following by moving and deleting as described above.</p>
+<p><img src="img/8297046906383_3.jpg" alt="" loading="lazy"></p>
+<p>After we have adjusted the bracing lines we can add bracing where we deem they would be most applicable as follows:<img src="img/8297046906383_4.jpg" alt="" loading="lazy">We can then select all the Bracing Elements, this would mean bracing lines, braces and the previously placed bracing table.</p>
+<p><img src="img/8297046906383_5.jpg" alt="" loading="lazy"></p>
+<p>If we now select the CI Tools&gt;Bracing&gt;Re-label Bracing, the Bracing lines, Bracing and Bracing Table are updated automatically.</p>
+<p><img src="img/8297046906383_6.jpg" alt="" loading="lazy">This function will also highlight bracing that is redundant and therefore not attached to a specific bracing line as can be seen below.</p>
+<p><img src="img/8297046906383_7.jpg" alt="" loading="lazy">These can be deleted, and we have an updated Bracing placement with correlating bracing Table also indicating compliance.</p>
+<p><img src="img/8297046906383_8.jpg" alt="" loading="lazy"></p></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <h1>Building Dimensions, Floor Area approximation and Orientation</h1>
+<p><img src="img/8297046906383_0.jpg" alt="" loading="lazy"></p>
+<p>A new feature that has been added to the Bracing Tool is the automatic Dimension, Area and Orientation Calculation. After all walls have been selected, the ‘Calculate Bracing’ Dialogue will automatically extract this approximation from the selected wall geometry. By clicking on ‘Estimate from selected walls’ these parameters will be populated.</p>
+<p>Please note that the area, width and length is an approximation of the rectangular shape around the selected walls and not the actual dimensions of the building. These values should be manually adjusted to allow for eaves overhangs and non-rectangular areas.</p>
+<h1>Bug Fix</h1>
+<p>In the past Bracing was sometimes placed without consideration of window and door openings, this has been rectified, and all openings are captured during the placement of bracing and bracing placed accordingly.</p>
+<h1>Interface</h1>
+<p>Minor interface changes have been made that further enhance the ease of use and enable a deeper understanding of the Bracing Tool.</p>
+<p><img src="img/8297046906383_1.jpg" alt="" loading="lazy"></p>
+<h1>Bracing Adjustment:</h1>
+<h2>Re-Label Bracing</h2>
+<p>This describes how to use the Re-label Bracing function.</p>
+<p><img src="img/8297046906383_2.jpg" alt="" loading="lazy"></p>
+<p>After placement of Bracing we can see that there are some anomalies in the placement.</p>
+<p>Line P has no bracing and can move to line up with and interior wall</p>
+<p>Line D can be removed as there is no bracing</p>
+<p>Line B can be removed as line A will accommodate those braces</p>
+<p>Line R has no bracing, or space for bracing</p>
+<p>Lines M can be placed on the exterior wall</p>
+<p>Lines M and N are placed in too close in proximity to each other.</p>
+<p>Now we can adjust this to the following by moving and deleting as described above.</p>
+<p><img src="img/8297046906383_3.jpg" alt="" loading="lazy"></p>
+<p>After we have adjusted the bracing lines we can add bracing where we deem they would be most applicable as follows:<img src="img/8297046906383_4.jpg" alt="" loading="lazy">We can then select all the Bracing Elements, this would mean bracing lines, braces and the previously placed bracing table.</p>
+<p><img src="img/8297046906383_5.jpg" alt="" loading="lazy"></p>
+<p>If we now select the CI Tools&gt;Bracing&gt;Re-label Bracing, the Bracing lines, Bracing and Bracing Table are updated automatically.</p>
+<p><img src="img/8297046906383_6.jpg" alt="" loading="lazy">This function will also highlight bracing that is redundant and therefore not attached to a specific bracing line as can be seen below.</p>
+<p><img src="img/8297046906383_7.jpg" alt="" loading="lazy">These can be deleted, and we have an updated Bracing placement with correlating bracing Table also indicating compliance.</p>
+<p><img src="img/8297046906383_8.jpg" alt="" loading="lazy"></p>
+    </div>
+  </details>
+</div>
+<div class="art" id="a-8620440038159">
+  <div class="art-h"><span class="no">10</span>
+    <h3 class="zh-only block">发布说明 - Bracing 6.16</h3>
+    <h3 class="en-only block">Release Notes - Bracing</h3>
+  </div>
+  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8620440038159" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
+  <div class="zh-only"><div>
+<h1>发布说明 - Bracing - 6.16</h1>
+<h3>缺陷修复</h3>
+<p>BRC-157 Bracing 工具找不到某些窗洞口，导致在那里布置了支撑。</p>
+<p>BRC-160 把支撑类型的「Height constraint; Decrease BUs above」设为 0 后，之后就改不了了。</p>
+<p>BRC-163 高度约束值设为零后，无法再改回任何非零值。</p>
+<h3>改进</h3>
+<p>BRC-164 根据所选范围自动设置建筑长度、宽度和角度。</p>
+</div></div>
+  <div class="en-only"><div>
+<h1>Release notes - Bracing - 6.16</h1>
+<h3>Bug</h3>
+<p>BRC-157 the Bracing tool can't find a few window holes so it places a brace there</p>
+<p>BRC-160 If we set the Bracing Type's “Height constraint; Decrease BUs above” to 0, it becomes unchangeable afterward.</p>
+<p>BRC-163 Setting the Height Constraint value to Zero does not allow you to change it back to any non-zero value</p>
+<h3>Improvement</h3>
+<p>BRC-164 Set building length, width and angle based on the selection bounds</p>
+</div></div>
+  <details class="orig-toggle">
+    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
+    <div class="orig-body">
+      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
+      <div>
+<h1>Release notes - Bracing - 6.16</h1>
+<h3>Bug</h3>
+<p>BRC-157 the Bracing tool can't find a few window holes so it places a brace there</p>
+<p>BRC-160 If we set the Bracing Type's “Height constraint; Decrease BUs above” to 0, it becomes unchangeable afterward.</p>
+<p>BRC-163 Setting the Height Constraint value to Zero does not allow you to change it back to any non-zero value</p>
+<h3>Improvement</h3>
+<p>BRC-164 Set building length, width and angle based on the selection bounds</p>
+</div>
+    </div>
+  </details>
+</div>
+</article>
+
+<footer class="foot">
+<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
+<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+</footer>
+</main>
+</div>
+<script>
+(function(){
+  // 侧栏当前项高亮
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar a').forEach(function(a){
+    var href = (a.getAttribute('href')||'').split('/').pop();
+    if(href === here) a.classList.add('on');
+  });
+  // 移动端目录折叠
+  var btn = document.getElementById('menubtn');
+  var sb = document.getElementById('sidebar');
+  if(btn && sb){
+    btn.addEventListener('click', function(){
+      var open = sb.classList.toggle('open');
+      btn.textContent = open ? '收起目录' : '展开目录';
+    });
+  }
+  // 目录内搜索
+  var si = document.getElementById('q');
+  if(si){
+    si.addEventListener('input', function(){
+      var q = si.value.toLowerCase().trim();
+      document.querySelectorAll('.toc-list li').forEach(function(li){
+        var t = li.textContent.toLowerCase();
+        li.style.display = (q && t.indexOf(q) < 0) ? 'none' : '';
+      });
+    });
+  }
+})();
+
+
+// ===== 双语切换 =====
+(function(){
+  var KEY = 'citools-lang';
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+    var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+    if (bz) { bz.classList.toggle('active', lang === 'zh'); bz.setAttribute('aria-pressed', lang === 'zh' ? 'true':'false'); }
+    if (be) { be.classList.toggle('active', lang === 'en'); be.setAttribute('aria-pressed', lang === 'en' ? 'true':'false'); }
+    try { localStorage.setItem(KEY, lang); } catch(e){}
+  }
+  var lang = 'zh';
+  try {
+    var m = location.search.match(/[?&]lang=(zh|en)/);
+    if (m) { lang = m[1]; }
+    else if (localStorage.getItem(KEY)) { lang = localStorage.getItem(KEY); }
+  } catch(e){}
+  apply(lang);
+  var bz = document.getElementById('lang-zh'), be = document.getElementById('lang-en');
+  if (bz) bz.addEventListener('click', function(){ apply('zh'); });
+  if (be) be.addEventListener('click', function(){ apply('en'); });
+})();
+</script>
+<script src="search-index.js"></script>
+<script src="search.js"></script>
+</body>
+</html>

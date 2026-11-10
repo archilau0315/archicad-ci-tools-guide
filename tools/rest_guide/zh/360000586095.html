@@ -1,0 +1,83 @@
+<p>虽然无法通过 CI Tools Installer 应用做静默安装，但在无法安装和运行 CI Tools Installer 的多台电脑上分发工具及其更新，有一个可行的办法。</p>
+<p>如果你想为 Archicad 做静默/托管安装，请先阅读下面的指南：</p>
+<ul>
+<li><a href="https://help.graphisoft.com/AC/28/INT/index.htm?rhcsh=1&amp;rhnewwnd=0&amp;rhmapid=#t=_AC28_Help%2F004_BIMManager_InstallGuide%2F004_BIMManager_InstallGuide-1.htm%23XREF_63954_Network" target="_blank" rel="noopener">Graphisoft - BIM 管理员的网络安装指南</a></li>
+</ul>
+<h2>安装：</h2>
+<p>按以下步骤安装并<strong>手动部署</strong> CI Tools。</p>
+<p><strong>1)</strong> 在一台不受管理的电脑上安装 CI Tools 插件：</p>
+<p><strong>a)</strong> 如果 Archicad 开着，先关闭。</p>
+<p><strong>b)</strong> 运行 <strong>Ci Tools Installer</strong>，安装用户需要访问的<strong>全部</strong>工具/工具更新。</p>
+<p><strong>c)</strong> 退出安装器。</p>
+<p><strong>d)</strong> 进入 Archicad 安装文件夹，其中 <strong>##</strong> 代表 Archicad 版本号：</p>
+<p><strong>Windows</strong>：</p>
+<p><code>C:\Program Files\Graphisoft\ARCHICAD ##\</code></p>
+<p><strong>macOS</strong>：</p>
+<p><code>/Applications/Graphisoft/ARCHICAD ##/</code></p>
+<p><strong>e)</strong> 然后复制以下文件和子文件夹，并记下相对路径：</p>
+<p><code>...\ARCHICAD ##\</code><br>复制名为 <code>CI Tools Extras</code> 的文件夹。</p>
+<p><code>...\ARCHICAD ##\Add-Ons\</code><br>复制名为 <code>CI Tools</code> 的文件夹。</p>
+<p><code>...\ARCHICAD ##\ARCHICAD Library ##\</code><br>复制名为 <code>CI Tools Library ##</code> 的文件夹。</p>
+<p><code>...\ARCHICAD ##\Defaults\ARCHICAD\WorkEnvironment\Profiles</code><br>复制名为 <code>Ci Tools Profile ##.xml</code> 的文件。</p>
+<p><code>...\ARCHICAD ##\Defaults\ARCHICAD\WorkEnvironment\Tools</code><br>复制名为 <code>Ci Tools Toolbox ##.xml</code> 的文件。</p>
+<p><em>（如果使用 Archicad 28 或更高版本，还要：）</em></p>
+<p><code>...\ARCHICAD ##\</code><br>复制名为 <code>CI Tools Library Packages</code> 的文件夹。</p>
+<p><strong>2)</strong> 把工具部署到用户电脑：</p>
+<p>用你喜欢的方式，把 <code>CI Tools Extras</code>、<code>CI Tools</code> 和 <code>CI Library ##</code> 文件夹以及两个 <code>.xml</code> 文件，拷贝到用户电脑上对应的目录。</p>
+<p><code>CI Tools Library ##</code> 文件夹（存放 CI Tools 库文件）默认包含在 <code>Archicad Library ##</code> 文件夹内，会随默认 Archicad 库自动加载。</p>
+<p><code>CI Tools</code> 文件夹<strong>必须始终</strong>拷入 Archicad 安装目录内的 <code>Add-Ons</code> 文件夹，这是 Archicad 检测插件的<strong>必要条件</strong>。</p>
+<p><strong>3)</strong> 在 BIMcloud 上上传/更新库：</p>
+<p>由于 CI Tools 库默认装在 <code>Archicad Library ##</code> 文件夹内，在 BIMcloud 服务器上安装或更新 CI Tools 库最可靠的办法，是用一台已装好最新工具的本地副本替换服务器上存储的「<strong>Archicad Library ##</strong>」库。不用 BIMcloud 的话可跳过此步。</p>
+<p><strong>a)</strong> 请所有人发送并接收更改、并「退出团队协作项目」。</p>
+<p>这样可确保不影响任何人的库。</p>
+<p><strong>b)</strong> 从其中一台本地电脑更新 BIMcloud 库：</p>
+<p>要替换库，打开 <em><strong>File ➔ Libraries and Objects ➔ Manage BIMcloud Libraries…</strong></em> 窗口。</p>
+<p>在这里选中并删除服务器上的「<strong>Archicad Library ##</strong>」库。</p>
+<p>然后点「<strong>Upload a local library…</strong>」按钮。</p>
+<p>再从 Archicad 安装目录中选中 <code>Archicad Library ##</code> 文件夹。</p>
+<p>库上传完成后，在 Library Manager 里「<strong>Reload &amp; Apply</strong>」库。</p>
+<p>更多信息见：</p>
+<ul>
+<li><a href="https://helpcenter.graphisoft.com/user-guide/136776/" target="_blank" rel="noopener">Archicad 用户指南：Manage BIMcloud Libraries</a></li>
+</ul>
+<p><strong>c)</strong> 请所有用户清空本地团队协作数据（Local Teamwork Data）。</p>
+<p>这样他们就不必在每个项目里重复加载更新后的库。</p>
+<p>更多信息见：</p>
+<ul>
+<li><a href="https://helpcenter.graphisoft.com/user-guide-chapter/86861/" target="_blank" rel="noopener">Archicad 用户指南：Manage Local Teamwork Data</a></li>
+</ul>
+<p>完成后，用户即可重新加入各自的项目。</p>
+
+<h2>更新：</h2>
+<p>更新已部署的安装、或电脑上已有旧版 CI Tools 时，强烈建议清空库缓存（Library Cache）。</p>
+<p>方法是删除以下文件夹，其中 <strong>##</strong> 代表 Archicad 版本号、<strong>***</strong> 是本地化代码：</p>
+<p><strong>Windows：</strong></p>
+<p><code>C:\Users\[用户名]\Appdata\Local\Graphisoft\ArchiCAD-64 Cache Folder\AC ##.0.0 *** v1</code></p>
+<p><strong>注意：</strong></p>
+<p><code>AppData</code> 文件夹默认隐藏。显示隐藏文件和文件夹的方法见：</p>
+<ul>
+<li><a href="https://support.microsoft.com/en-us/windows/view-hidden-files-and-folders-in-windows-97fbc472-c603-9d90-91d0-1166d1d9f4b5" target="_blank" rel="noopener">在 Windows 中查看隐藏的文件和文件夹</a></li>
+</ul>
+<p>或者直接把 <code>%appdata%\..\</code> 粘贴到文件资源管理器地址栏后按「<strong>Enter</strong>」。</p>
+<p><strong>macOS：</strong></p>
+<p><code>~/Library/Caches/GRAPHISOFT/Archicad Cache Folder/AC ##.0.0 *** v1</code></p>
+<p><strong>注意：</strong></p>
+<p><code>~/Library</code> 文件夹默认隐藏。浏览 <code>~/Library</code> 文件夹的方法：</p>
+<ul>
+<li>在 Finder 顶部菜单栏选 <em><strong>前往 ➔ 前往文件夹...</strong></em>。</li>
+<li>输入「<strong>~/Library</strong>」。</li>
+<li>点「<strong>前往</strong>」即可进入 Library 文件夹。</li>
+</ul>
+<p>也可以在「<strong>前往文件夹</strong>」窗口按住 <strong>opt⌥</strong> 让 <code>~/Library</code> 出现在列表中，或在 Finder 里按 <strong>cmd⌘ + shift⇧ + .（句号）</strong>显示隐藏文件夹。</p>
+<p>举例：清空新西兰版 Archicad 26 的库缓存，要删除的文件夹是：</p>
+<p><code>%appdata%\..\Local\Graphisoft\ArchiCAD-64 Cache Folder\AC 26.0.0 NZE v1</code></p>
+<p>（Windows），以及：</p>
+<p><code>~/Library/Caches/GRAPHISOFT/Archicad Cache Folder/AC 26.0.0 NZE v1</code></p>
+<p>（Mac）。</p>
+
+<h2>附加：</h2>
+<p>如果这次部署用于教室环境，学生们可能对我们的<strong><a href="https://centralinnovation.com/aec-tip-of-the-day" target="_blank" rel="noopener">AEC Tip of the Day（每日贴士）</a></strong>感兴趣。每日贴士可以收藏为书签，或设为主页。</p>
+<p>每日贴士还可以设为启动 Archicad 时自动打开。详见：</p>
+<ul>
+<li><a href="https://cadimage.zendesk.com/hc/en-us/articles/360000766755" target="_blank" rel="noopener">CI 知识库：Tip of the Day</a></li>
+</ul>

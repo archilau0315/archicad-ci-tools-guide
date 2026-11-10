@@ -1,0 +1,31 @@
+<p>共有 3 种方法，难度不同，应由负责你们 BIM Server 的人来操作。</p>
+<p>我们一般推荐方法 1——最直接，只要遵守全部库与插件管理规范就不会出问题。</p>
+<p>方法 2 和 3 可能留下后患，日后需要额外维护以避免 BIM Server 上出现重复对象或多余项目。</p>
+<h2>方法 1 – 刷新 BIM Server 库…</h2>
+<p>如果你最近更新过 Cadimage Tools，就应该用这个方法。</p>
+<p>在<strong>团队协作（Teamwork）</strong>项目里进入 <strong>File &gt; Libraries &amp; Objects &gt; Manage BIM Server Libraries</strong>：</p>
+<p>会打开 <strong>Manage BIM Server Libraries</strong> 对话框，顶部显示当前连接的服务器。</p>
+<p><strong>BIM Server</strong> 上现有库的列表会显示来源电脑和最近更新时间等细节，据此可判断是否需要更新。</p>
+<p>你需要以<strong>BIM Server</strong> 管理员身份操作，并拥有库管理的<strong>访问权限（Access Rights）</strong>——这些权限可防止其他人从各自工作站上传错误的库。权限通过 <strong>BIM Server Manager</strong> 程序和<strong>用户设置</strong>配置：</p>
+<p>选择要更新的库。以我的电脑为例，我只更新 ArchiCAD Library 16——所有 Cadimage 库都会自动装在里面，我的自定义库也在里面。然后点「<strong>Refresh</strong>」按钮，它会自动在你电脑上查找 <strong>ArchiCAD Library 16</strong>；找不到时会提示你指定位置。这一步要几分钟，完成后会弹窗列出新增、删除和刷新的内容：</p>
+<p>点 <strong>OK</strong> 后关闭 <strong>Manage BIM Server Libraries</strong> 对话框。由于库发生了变化，<strong>ArchiCAD</strong> 会提示在当前团队协作项目中重新加载库，点「Reload」即可为当前项目获取更新后的库。</p>
+<p>其他<strong>团队协作</strong>成员需要重启 <strong>ArchiCAD</strong> 才能获得新的 <strong>BIM Server 库</strong>。</p>
+<h2>方法 2 – 共享一个新项目并替换 BIM Server 库…</h2>
+<p>（确认本机库全部最新后）用本机库替换 <strong>BIM Server 库</strong>的一个简单办法：新建一个项目，然后 <strong>File &gt; Teamwork &gt; Share</strong>：</p>
+<p>弹出的 <strong>Share this Project</strong> 对话框中给项目起个名字——最好简单，方便日后删除。然后勾选「<strong>Replace Linked libraries with Server Libraries automatically</strong>」：</p>
+<p><strong>注意</strong>：理想情况是共享一个你今后真要用的项目或模板，否则这个项目会一直留在 <strong>BIM Server</strong> 上让人困惑。若坚持用此方法，最好把用户设为「<strong>Custom</strong>」并点「<strong>Users and roles...</strong>」只允许自己看到该项目，以免干扰他人。</p>
+<p>项目共享到 <strong>BIM Server</strong> 后，会用共享发起电脑上的 <strong>ArchiCAD Library 16</strong> 替换服务器上正在使用的版本。</p>
+<p>其他<strong>团队协作</strong>成员需要重启 ArchiCAD 才能获得新的 BIM Server 库。</p>
+<h2>方法 3 – 把 Cadimage 库添加到 BIM Server…</h2>
+<p>这是把 Cadimage 库加进 <strong>BIM Server</strong> 的高级方法，只建议有经验的 BIM Server 管理员使用。安装 <strong>Cadimage Tools</strong> 时需要选择「<strong>Advanced Install</strong>」把它们装到默认路径之外，以免向 <strong>BIM Server 库</strong>添加 <strong>Cadimage 库</strong>时出现重复。用这个方法必须为每个团队协作项目手动添加 Cadimage 库，前两种方法则可以省去这一步。</p>
+<p>最后这个方法是把 <strong>Cadimage 库</strong>手动上传到 <strong>BIM Server</strong>。它避免刷新整个 ArchiCAD Library 16，但代价是：每个想用 <strong>Cadimage Tools</strong> 的团队协作项目都得手动挂接 <strong>Cadimage 库</strong>。</p>
+<p>操作：进入 <strong>File &gt; Libraries and Objects &gt; Manage BIM Server Libraries…</strong></p>
+<p>在 <strong>Manage BIM Server Libraries</strong> 中点「<strong>Upload</strong>」按钮：</p>
+<p>接着会提示选择要上传的库。由于每个 Cadimage 工具通常还需要额外的「Global」库，最稳妥的做法是上传整个 <strong>Cadimage Library 文件夹</strong>：</p>
+<p>点「<strong>Choose</strong>」后库会自动上传到 <strong>BIM Server</strong>：</p>
+<p>现在要把这个新库加入你的项目。在团队协作项目里进入 <strong>File &gt; Libraries and Objects &gt; Library Manager</strong>：</p>
+<p><strong>Library Manager</strong> 此时只显示<strong>内嵌库（Embedded Library）</strong>（项目专属）和当前使用的 <strong>BIM Server 库</strong>。先要保留（Reserve）<strong>Library Manager</strong>：选中一个 <strong>BIM Server 库</strong>，点「<strong>Reserve</strong>」：</p>
+<p>保留之后就能向当前项目添加 <strong>BIM Server 库</strong>了。点「<strong>Add…</strong>」旁的小右箭头，选「<strong>Use Bim Server Library…</strong>」：</p>
+<p>选中刚上传的 <strong>Cadimage 库</strong>，点「<strong>Add</strong>」：</p>
+<p>回到 <strong>Library Manager</strong>，点「<strong>OK</strong>」刷新已加载的库，项目中的所有库会随之更新，需要一点时间。如果 <strong>Cadimage Tools</strong> 装在默认位置，刷新 <strong>ArchiCAD Library 文件夹</strong>时可能产生重复——因为其中的 <strong>Cadimage Library 文件夹</strong>也会被加载。</p>
+<p>其他团队协作成员需要重启 <strong>ArchiCAD</strong> 才能获得新的 <strong>BIM Server 库</strong>。</p>

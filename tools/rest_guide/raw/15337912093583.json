@@ -1,0 +1,9 @@
+{
+ "id": "15337912093583",
+ "title": "Manually Uninstall the Ci Tools.",
+ "cat": "Getting Started",
+ "html": "<p>Sometimes the Ci Tools Installer is not able to Update your Ci Tools due to permissions problems overwriting the existing files you have installed</p><p>If this happens, the easiest way to get around it is often to do a manual uninstallation of the tools first - the process is simple and only takes a minute or two.</p><p>Once you are done, just start the Ci Tools Installer again, and retry the Tools installation</p><h2 id=\"h_01KJR841CBPHGNVVE481M348C9\">Archicad 29</h2><p>Find and delete the following Folders:</p><figure class=\"wysiwyg-image\"><img style=\"aspect-ratio: 1896/642;\" src=\"img/15337912093583_0.jpg\" width=\"1896\" height=\"642\"></figure><h2 id=\"h_01KJR8469H8PZ9VC4J8PNJ83F9\">Archicad 28</h2><p>Find and delete the following Folders:</p><figure class=\"wysiwyg-image\"><img style=\"aspect-ratio: 1818/622;\" src=\"img/15337912093583_1.jpg\" width=\"1818\" height=\"622\"></figure><p>and:</p><figure class=\"wysiwyg-image\"><img style=\"aspect-ratio: 1778/398;\" src=\"img/15337912093583_2.jpg\" width=\"1778\" height=\"398\"></figure><h2 id=\"h_01KJR8A3YA1G9HYGAT6BNQ69N6\">Archicad 27 and earlier</h2><p>Find and delete the following Folders (switch the Version Number for the version you are using):</p><figure class=\"wysiwyg-image\"><img style=\"aspect-ratio: 1850/516;\" src=\"img/15337912093583_3.jpg\" width=\"1850\" height=\"516\"></figure><p>and:</p><figure class=\"wysiwyg-image\"><img style=\"aspect-ratio: 1788/376;\" src=\"img/15337912093583_4.jpg\" width=\"1788\" height=\"376\"></figure>",
+ "created_at": "2026-03-02T21:51:58Z",
+ "updated_at": "2026-03-05T20:39:10Z",
+ "url": "https://cadimage.zendesk.com/hc/en-us/articles/15337912093583"
+}
