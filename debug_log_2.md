@@ -21,3 +21,4 @@
 **备注**：`search-index.js` 为生成物，勿手改；新增或改文章标题后跑一次 `python source/build_search_index.py`（或重跑 `build_site.py`）即可。索引只收标题与命令，不收录正文，体积可控。工具关键词里补了常用缩写（`qty` / `boq` / `tt` / `md` / `elec`），中文查询不做跳跃高亮，避免散点误标。
 
 **部署**：2026-11-10 已同步到阿里云 `47.93.210.248:/www/wwwroot/kbitai.com.cn/resources/AC_Tutorial/ci_tools/`（scp 走 root 密钥，`chown -R www:www`）。站点内 23 个页面均带上 `search.js` 引用，服务器本地 HTTP / HTTPS 请求 `search.js` 均为 200。
+**远程仓库**：同一天推送到 GitHub `archilau0315/archicad-ci-tools-guide` 的 `main` 分支（`60a8b17..c7d93d2`）。该仓库与本机 resources 仓库历史无共同祖先，为避免覆盖远端历史，采用「在远端 main 上新建提交、内容取本地最新」的方式推送，未使用强制推送。
