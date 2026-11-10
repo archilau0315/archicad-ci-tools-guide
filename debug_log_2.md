@@ -18,4 +18,4 @@
 
 **验证**：本地 `http.server` 起站，浏览器实测——输入「算量」首条为 Quantities、「镜像」首条为 Transformer、「convert case」首条为 Annotate；下拉展开 / Esc 关闭正常；控制台零报错；滚动 900px 后搜索条仍吸顶且不遮挡标题；1440 宽度下与语言切换无重叠。
 
-**备注**：`search-index.js` 为生成物，勿手改；新增或改文章标题后跑一次 `python source/build_search_index.py`（或重跑 `build_site.py`）即可。索引只收标题与命令，不收录正文，体积可控。
+**备注**：`search-index.js` 为生成物，勿手改；新增或改文章标题后跑一次 `python source/build_search_index.py`（或重跑 `build_site.py`）即可。索引只收标题与命令，不收录正文，体积可控。工具关键词里补了常用缩写（`qty` / `boq` / `tt` / `md` / `elec`），中文查询不做跳跃高亮，避免散点误标。

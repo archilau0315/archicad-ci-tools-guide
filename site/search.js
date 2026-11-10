@@ -148,6 +148,7 @@
         for (var k = 0; k < t.length; k++) mask[idx + k] = 1;
         return;
       }
+      if (/[\u4e00-\u9fa5]/.test(t)) return; // 中文不做跳跃高亮，避免误标
       var p = 0;
       for (var j = 0; j < lower.length && p < t.length; j++) {
         if (lower.charAt(j) === t.charAt(p)) { mask[j] = 1; p++; }
