@@ -76,3 +76,21 @@
 3. 内容含官方关键事实：Annotate 五类替换与四种大小写、三种作用范围、`.conversion`；Transformer 四命令且不可撤销；Time Tracker Job/Task 与 `.csv`；Detail Elements 工具箱 + 图库包双前提、69 个对象分 10 个文件夹。
 4. 同步 hero 统计、`all.html` / `index.html` Core 目录与锚点、全站篇数 422 → 418（404 篇 MyCi + 14 篇官方编译）、搜索索引重建（18 工具 / 6 页 / 418 篇）。
 **备注**：锚点校验 0 死链、Core 页 div/figure/table/ul 全部配对、无官方图片直链；Edge 截图核对 Annotate 与 Detail 正常。图片放在 `site/img/prokit/` 以保证站点目录可独立部署。
+
+---
+
+## 2026-11-24 · P2 入门重写与 P5 全站验收
+
+**模块**：site（入门、目录、侧栏、Bracing、Sites、旧文链接）/ source（4 个新脚本与搜索索引）/ readme / docs
+
+**变更**：
+1. 新增 `build_gettingstarted.py`：入门页重写为 6 篇 AC30 主线，覆盖两包授权与市场、版本下载、安装、工作环境与图库、自检、团队协作和兼容警告；27 篇 AC24–AC29 文档原样保留为折叠归档，旧锚点与配图不动。当前总数为工具 391 + 入门 33 = 全站 424。
+2. 新增 `sync_catalogs.py`：按工具页实际文章重建 `index.html` / `all.html` 目录，补齐 LaunchPad、Bracing、Labeller，Quantities 修正为实际 122 篇，同步首页、About、README 计数。
+3. 新增 `repair_legacy_links.py`：129 个目标已丢失的旧文 `href="#fragment"` 回链至对应 MyCi 官方原文小节；Cabinets 9、Doors 60、Keynotes 12、Quantities 39、Sites 9。
+4. 新增 `verify_site.py`：校验 24 页、真实标签嵌套、重复 id、双语文章、站内链接与锚点、18 工具目录、424 篇索引、本地 Core 图片、包徽标及白名单外旧路径；修复 Bracing 中文层少一个 `</div>`，Sites 三处损坏 Vimeo 嵌入改为官方播放器直接链接。
+5. 统一首页、差异页等侧栏的 18 个工具名称与分组；更新入门搜索描述和 `ci tools` 差异页关键词，避免旧文章抢占首条。
+6. README 补新脚本与维护命令；升级计划更新为 v1.2，标明 P0–P5 本地验收完成、P6 发布未执行。
+
+**验证**：入门、目录和搜索生成器幂等复跑后 5 个目标文件 SHA-256 不变；20 个 Python 脚本语法检查通过；`verify_site.py` 通过。Edge 实测「算量 / 镜像 / convert case / prokit quantities / ci tools」首条分别进入 Quantities / Transformer / Annotate / Quantities / differences；中英切换、27 篇归档展开及 Bracing / Sites 结构断言通过，7 张截图排版正常，无 JavaScript 错误或本地资源 404。
+
+**备注**：本次只验证站内静态结构与本地浏览器交互，未承诺外部 URL 均可访问；未部署、未 push。

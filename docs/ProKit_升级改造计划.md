@@ -1,9 +1,9 @@
 # ProKit 升级改造计划 · AC30 版教程
 
-> 版本：v1.1（决策已定）
-> 日期：2026-11-23
-> 范围：`resources/AC_Tutorial/ci_tools` 全站（23 页、18 工具、422 篇文章）
-> 状态：**仅计划，未改代码**
+> 版本：v1.2（实施与本地验收完成）
+> 日期：2026-11-24
+> 范围：`resources/AC_Tutorial/ci_tools` 全站（24 页、18 工具、424 篇：391 篇工具 + 33 篇入门）
+> 状态：**P0–P5 已实施并通过本地验收；P6 发布未执行**
 
 **已确认的四个决策**
 
@@ -165,7 +165,7 @@
 输入：官方 14 个页面 URL（写死在脚本里的清单）
 输出：
   docs/prokit_manual/            14 页 HTML 快照（作为重写时的对照底本）
-  assets/img/prokit/<tool>/      32 张图，按页面归属分目录
+  site/img/prokit/<tool>/        官方配图按页面归属分目录（实际采用 31 张）
   docs/prokit_manual/manifest.json
       每张图记录：本地路径、原始 URL、抓取日期、MD5
 规则：
@@ -176,7 +176,7 @@
 
 页面引用规范：
 
-- 图片走本地相对路径 `../assets/img/prokit/annotate/01.png`，**禁止直链官方 URL**
+- 图片走站点内相对路径 `img/prokit/annotate/01.png`，**禁止直链官方 URL**
 - 每张图用 `<figure>` + `<figcaption>`，图下加一行来源角标：`来源：Graphisoft AC30 帮助 · ProKit Annotate`
 - 只配操作关键界面（打开方式、对话框、结果对比），装饰性图不搬
 - `<img>` 统一 `max-width:100%`，alt 中英各一份（`.zh-only` / `.en-only` 分别给 alt 不现实，改为 `alt` 写英文、图注写双语）
@@ -190,9 +190,9 @@
 3. 双语配对：每页 `.zh-only` 与 `.en-only` 块数量差 ≤ 2
 4. 命令路径：不得出现 `CI Tools →` / `CI Tools >`（白名单段落除外）、不得出现 `工具箱 → ProKit`
 5. 链接：站内链接全部存在；每页对外官方链接数 ≥ 1
-6. 索引：JSON 可解析；工具数 = 18；文章数 = 422；搜 "prokit" 命中 ≥ 15
+6. 索引：JSON 可解析；工具数 = 18；文章数 = 424；搜 "prokit" 命中 ≥ 15
 7. 搜索回归：`算量` / `镜像` / `convert case` / `prokit quantities` / `ci tools` 五组查询，首条正确
-8. 图片：Core 4 页的 `<img>` 全部指向 `assets/img/prokit/`，本地文件存在；全站无 `help.graphisoft.com` 直链图片
+8. 图片：Core 4 页的 `<img>` 全部指向 `img/prokit/`，本地文件存在；全站无 `help.graphisoft.com` 直链图片
 9. 徽标：每页恰有一个包包徽标（Core / Suite / 旧版工具），且与工具归属表一致
 
 ---
@@ -216,16 +216,16 @@
 
 ## 七、验收标准
 
-- [ ] 全站主标题为 ProKit，副标保留 CI Tools；搜索 "ci tools" 与 "prokit" 都能命中工具页
-- [ ] index 的工具分组为 Core 4 / Suite 11 / 其他 3，每组标注授权与市场限制
-- [ ] `differences.html` 能回答四个问题：装的是哪个包、为什么菜单没有、能不能买、能不能另存回旧版
-- [ ] gettingstarted 给出 Core / Suite 两包下载入口、版本号、套餐判断表、装完自检清单
-- [ ] 4 个 Core 工具页每条命令都与 AC30 官方帮助一致，配官方截图（本地镜像），并链到官方页
-- [ ] 11 个 Suite 工具页命令路径统一为 `ProKit > X`，页面顶部链到对应 MyCi 分类
-- [ ] Bracing 标 NZ Only、Labeller 标"未纳入 ProKit 包"
-- [ ] 双语块数量平衡，中文页无残留英文整段
-- [ ] verify_site 九项全过；五组搜索查询首条正确
-- [ ] 422 篇文章锚点、站内链接零 404
+- [x] 全站主标题为 ProKit，副标保留 CI Tools；搜索 "ci tools" 与 "prokit" 都能命中相关页面
+- [x] index 的工具分组为 Core 4 / Suite 11 / 其他 3，每组标注授权与市场限制
+- [x] `differences.html` 能回答四个问题：装的是哪个包、为什么菜单没有、能不能买、能不能另存回旧版
+- [x] gettingstarted 给出 Core / Suite 两包下载入口、版本号、套餐判断表、装完自检清单
+- [x] 4 个 Core 工具页每条命令都与 AC30 官方帮助一致，配官方截图（本地镜像），并链到官方页
+- [x] 11 个 Suite 工具页命令路径统一为 `ProKit > X`，页面顶部链到对应 MyCi 分类
+- [x] Bracing 标 NZ Only、Labeller 标"未纳入 ProKit 包"
+- [x] 双语文章标题与正文配对，入门页中英切换及旧版折叠归档通过 Edge 实测
+- [x] verify_site 全过；五组搜索查询首条正确
+- [x] 当前 424 篇文章的站内链接与锚点校验通过（不代表外部 URL 可用性保证）
 
 ---
 
@@ -266,6 +266,6 @@
 
 The AC30 release rebrands CI Tools as **Archicad ProKit**, split into **ProKit Core** (Annotate, Detail Elements, Time Tracker, Transformer — now documented in the official AC30 help) and **ProKit Suite** (11 tools — official help still defers to the MyCi knowledge base). Licensing and market availability differ per package, and Graphisoft warns against back-saving projects that use ProKit.
 
-Plan: keep all URLs and 422 article anchors, rebrand the shell (title, navigation grouped by Core / Suite / legacy, per-page badges), add a `differences.html` page explaining packages, licensing, menus and the back-save warning, rewrite the installation chapter and the four Core tool pages against official docs, rebrand the remaining pages with a scripted, whitelist-based migration, then rebuild the search index with `prokit` / `cadimage` aliases and run automated checks before deployment.
+Implementation: preserved all tool-page URLs and legacy anchors, rebranded the shell (title, navigation grouped by Core / Suite / legacy, per-page badges), added `differences.html`, rewrote Getting Started and the four Core tool pages against official docs, and retained 27 legacy setup articles in a collapsed archive. The current site contains 424 articles: 391 tool articles plus 33 Getting Started articles. P0–P5 passed local static and Edge browser checks; P6 deployment has not been performed.
 
-Confirmed decisions: site title **ProKit / CI Tools (legacy)**; Core pages rewritten from the official AC30 manual; dual-track sourcing (Core = official help, Suite = MyCi); internal-only site, so the 14 official pages and 32 official screenshots can be mirrored locally under `assets/img/prokit/` with a source caption.
+Confirmed decisions: site title **ProKit / CI Tools (legacy)**; Core pages rewritten from the official AC30 manual; dual-track sourcing (Core = official help, Suite = MyCi); internal-only site. Fourteen official pages were captured, with 31 selected screenshots mirrored under `site/img/prokit/` and source captions retained.

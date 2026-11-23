@@ -104,10 +104,10 @@ PAGES = [
      "速查 主线 要点 快速 guide cheat sheet 18"),
     ("differences.html", "ProKit vs CI Tools", "ProKit 与 CI Tools",
      "两个安装包、授权与市场、菜单变化、另存警告", "Installers, licensing, menu changes, back-save warning",
-     "差异 版本 授权 市场 套餐 core suite 安装包 另存 back save license market"),
+     "差异 版本 授权 市场 套餐 core suite 安装包 另存 back save license market ci tools citools"),
     ("gettingstarted.html", "Getting Started", "入门与安装",
-     "ProKit 两包安装、工作环境与图库包", "ProKit installers, work environment and library packs",
-     "入门 安装 库包 工作环境 setup install libpack prokit"),
+     "两包安装、授权、自检与旧版归档", "Installers, eligibility, setup checks and the legacy archive",
+     "入门 安装 授权 自检 库包 工作环境 旧版 归档 setup install license verify libpack prokit legacy"),
     ("about.html", "Sources", "来源与说明",
      "双轨内容来源与版权说明", "Dual-track sources and credits",
      "来源 说明 版权 about sources"),
@@ -161,7 +161,7 @@ def build(site_dir):
             })
 
     data = {
-        "generated": "2026-11-23",
+        "generated": "2026-11-24",
         "tools": tools,
         "pages": pages,
         "articles": articles,

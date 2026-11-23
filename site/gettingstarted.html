@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-lang="zh">
 <head>
+<!-- rebrand:prokit-p4 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Getting Started（入门与安装）完全中文教程：Ci Tools 下载安装、激活试用、订阅管理、BIMcloud 部署与库加载">
-<title>Getting Started · 入门与安装 · CI Tools 完全指南</title>
+<meta name="description" content="ProKit AC30 入门：Core 与 Suite 授权、下载、安装、工作环境、图库、自检和版本兼容，附旧版 CI Tools 归档">
+<title>Getting Started · 入门与安装  · ProKit / CI Tools（旧）</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
 <style>
@@ -186,35 +187,55 @@ html[data-lang="en"] .en-only.block { display:block; }
   background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
 .vb-note b{color:#8a5a1e}
 .art img.inl{display:inline-block;vertical-align:-0.35em;margin:0 3px;max-width:1.7em;max-height:1.7em;border-radius:3px;box-shadow:none}
+
+/* ProKit 包徽标（P4） */
+.pkg-line{margin:12px 0 0;font-size:12.5px;color:var(--muted);display:flex;
+  flex-wrap:wrap;gap:8px;align-items:center}
+.pkg-line a{border:none;font-size:12.5px}
+.pkg{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.03em;
+  padding:2px 8px;border-radius:9999px;white-space:nowrap}
+.pkg-core{background:rgba(47,111,143,.12);color:#1d4d63;border:1px solid rgba(47,111,143,.25)}
+.pkg-suite{background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba}
+.pkg-old{background:#f7e3e3;color:#9a3b3b;border:1px solid #e6c6c6}
+
+/* AC30 入门主线与旧版归档（P2） */
+.legacy-install{margin-top:40px;border-top:1px solid var(--line);padding-top:20px}
+.legacy-install>summary{cursor:pointer;font-family:"Noto Serif SC",serif;font-size:20px;
+  font-weight:700;color:var(--ink);padding:8px 0}
+.legacy-note{padding:12px 14px;border-left:3px solid var(--accent2);background:var(--paper);
+  font-size:13px;margin:14px 0 22px}
 </style>
 <link rel="stylesheet" href="search.css">
 </head>
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">ProKit / CI Tools（旧）</span><span class="en-only">ProKit / CI Tools (legacy)</span></div><div class="brand-s">Archicad ProKit · AC30</div></a></div>
 <div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
 <a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
 <a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
 <a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
-<a class=" on" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
-<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<a class="" href="differences.html"><span class="ic">⇋</span><span class="zh-only">ProKit 与 CI Tools</span><span class="en-only">ProKit vs CI Tools</span></a>
+<a class="on" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
+<div class="nav-h zh-only block">ProKit Core · 4</div><div class="nav-h en-only block">ProKit Core · 4</div>
 <a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
 <a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
 <a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
 <a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<div class="nav-h zh-only block">ProKit Suite · 11</div><div class="nav-h en-only block">ProKit Suite · 11</div>
 <a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
-<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">Metadata · 属性管理</span><span class="en-only">Metadata</span></a>
 <a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
 <a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
-<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors + Windows · 门窗</span><span class="en-only">Doors + Windows</span></a>
 <a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
 <a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
 <a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
-<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
-<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structure · 结构构件</span><span class="en-only">Structure</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Site · 场地景观</span><span class="en-only">Site</span></a>
 <a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
-<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<div class="nav-h zh-only block">其他 / 旧版 · 3</div><div class="nav-h en-only block">Legacy · 3</div>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">LaunchPad · 启动台</span><span class="en-only">LaunchPad</span></a>
 <a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
 <a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
 <div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
@@ -230,17 +251,139 @@ html[data-lang="en"] .en-only.block { display:block; }
 <div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
   / <span class="zh-only">Getting Started · 入门与安装</span><span class="en-only">Getting Started</span></div>
 <div class="hero">
-  <span class="kicker"><span class="zh-only">入门指南</span><span class="en-only">Getting Started</span></span>
-  <h1>Getting Started · <span class="zh-only">入门与安装</span></h1>
-  <p class="zh-only">下载、安装、激活、订阅、BIMcloud 部署与库加载</p>
-  <p class="en-only">Download, install, activate, subscribe, deploy to BIMcloud, and load libraries</p>
+  <span class="kicker">AC30 · ProKit</span>
+  <h1><span class="zh-only">Getting Started · 入门与安装</span><span class="en-only">Getting Started · Setup and Verification</span></h1>
+  <p class="zh-only block">两个安装包、授权判断、安装自检、图库与版本兼容；旧版 CI Tools 文档保留在页尾归档</p>
+  <p class="en-only block">Installers, eligibility, setup checks, libraries and version compatibility, with the legacy CI Tools archive below</p>
   <div class="meta">
-    <span><b>27</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
-    <span><b>1.9</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
-    <span><b>55</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
+    <span><b>33</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>6</b> <span class="zh-only">篇 AC30 主线</span><span class="en-only">AC30 essentials</span></span>
+    <span><b>27</b> <span class="zh-only">篇旧版归档</span><span class="en-only">legacy articles</span></span>
   </div>
 </div>
 <article>
+<!-- prokit-gettingstarted-p2 -->
+<h2><span class="zh-only">ProKit · AC30 安装与自检</span><span class="en-only">ProKit for AC30 · Setup and Verification</span></h2>
+<ul class="toc-list">
+<li><a href="#a-prokit-package"><span class="tg">01</span><span class="zh-only">先确认安装包与授权</span><span class="en-only">Choose a package and check eligibility</span></a></li>
+<li><a href="#a-prokit-download"><span class="tg">02</span><span class="zh-only">从官方页面下载匹配版本</span><span class="en-only">Download the matching release</span></a></li>
+<li><a href="#a-prokit-install"><span class="tg">03</span><span class="zh-only">安装 Core 与 Suite</span><span class="en-only">Install Core and Suite</span></a></li>
+<li><a href="#a-prokit-environment"><span class="tg">04</span><span class="zh-only">应用工作环境并检查图库包</span><span class="en-only">Apply the work environment and check libraries</span></a></li>
+<li><a href="#a-prokit-check"><span class="tg">05</span><span class="zh-only">装完自检：按症状逐项排查</span><span class="en-only">Verify the installation by symptom</span></a></li>
+<li><a href="#a-prokit-collaboration"><span class="tg">06</span><span class="zh-only">团队协作与版本兼容警告</span><span class="en-only">Team collaboration and version compatibility</span></a></li>
+</ul>
+<div class="art" id="a-prokit-package">
+  <div class="art-h"><span class="no">01</span>
+    <h3 class="zh-only block">先确认安装包与授权</h3>
+    <h3 class="en-only block">Choose a package and check eligibility</h3>
+  </div>
+  <div class="art-src"><a href="https://www.graphisoft.com/en-at/downloads/add-ons/prokit/" target="_blank" rel="noopener">Graphisoft ProKit ↗</a></div>
+  <div class="zh-only block"><p>AC30 起，原 CI Tools 由 <strong>Graphisoft ProKit</strong> 接续，并分为 Core 与 Suite 两个安装包。先确认订阅计划与所在市场，再决定下载哪一个；不是所有人都需要同时安装两个包。</p>
+<div class="table-wrap"><table><thead><tr><th>安装包</th><th>包含工具</th><th>授权与市场</th></tr></thead><tbody>
+<tr><td><strong>ProKit Core</strong></td><td>Annotate、Detail Elements、Time Tracker、Transformer</td><td>Studio：AT、BE、DK、FI、FR、DE、NL、NO、SE、CH；Collaborate：前述国家及 AU、NZ；Max：全球</td></tr>
+<tr><td><strong>ProKit Suite</strong></td><td>Cabinets、Coverings、Doors + Windows、Electrical、Fitout、Keynotes、Metadata、Quantities、Site、Stairs、Structure</td><td>随 Archicad Collaborate / Max 订阅全球提供</td></tr>
+</tbody></table></div>
+<p>Core 并非在所有市场提供。LaunchPad、NZ Bracing、Labeller 不在两个安装包的单列清单中，不要因为旧项目用过它们，就默认 AC30 安装后仍会出现。</p></div>
+  <div class="en-only block"><p>With AC30, the former CI Tools continue as <strong>Graphisoft ProKit</strong>, split into Core and Suite installers. Check your Archicad plan and market before downloading; you may need one package or both.</p>
+<div class="table-wrap"><table><thead><tr><th>Package</th><th>Tools</th><th>Plans and markets</th></tr></thead><tbody>
+<tr><td><strong>ProKit Core</strong></td><td>Annotate, Detail Elements, Time Tracker, Transformer</td><td>Studio: AT, BE, DK, FI, FR, DE, NL, NO, SE, CH; Collaborate: those markets plus AU and NZ; Max: worldwide</td></tr>
+<tr><td><strong>ProKit Suite</strong></td><td>Cabinets, Coverings, Doors + Windows, Electrical, Fitout, Keynotes, Metadata, Quantities, Site, Stairs, Structure</td><td>Available worldwide with Archicad Collaborate and Max</td></tr>
+</tbody></table></div>
+<p>Core is not available in every market. LaunchPad, NZ Bracing and Labeller are not listed as part of either installer, so do not assume that they will appear after an AC30 installation.</p></div>
+</div>
+<div class="art" id="a-prokit-download">
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">从官方页面下载匹配版本</h3>
+    <h3 class="en-only block">Download the matching release</h3>
+  </div>
+  <div class="art-src"><a href="https://www.graphisoft.com/en-at/downloads/add-ons/prokit/" target="_blank" rel="noopener">Graphisoft ProKit ↗</a></div>
+  <div class="zh-only block"><p>只从 <a href="https://www.graphisoft.com/en-at/downloads/add-ons/prokit/" target="_blank" rel="noopener">Graphisoft ProKit 官方下载页</a> 获取安装包。本页核实的版本为 <strong>3001-1.2</strong>，发布日期为 <strong>2026-10-07</strong>；再次安装时，以官网当前列出的版本为准。</p>
+<div class="table-wrap"><table><thead><tr><th>安装包</th><th>平台</th><th>官网标注大小</th></tr></thead><tbody>
+<tr><td>Core</td><td>Windows（.exe）</td><td>81 MB</td></tr>
+<tr><td>Core</td><td>macOS · Apple silicon</td><td>76 MB</td></tr>
+<tr><td>Core</td><td>macOS · Intel</td><td>67 MB</td></tr>
+<tr><td>Suite</td><td>以官网下载项为准</td><td>约 1 GB</td></tr>
+</tbody></table></div>
+<ol><li>确认目标为 <strong>Archicad 30</strong>，不要下载旧版 CI Tools 安装器代替。</li><li>按电脑平台选择 Core；Apple silicon 与 Intel 不要混选。</li><li>Core 下载页提供 INT / FRA / GER 语言包，按项目所用环境选择。</li><li>如已获 Suite 授权，再下载 Suite 安装包。</li></ol></div>
+  <div class="en-only block"><p>Use only the <a href="https://www.graphisoft.com/en-at/downloads/add-ons/prokit/" target="_blank" rel="noopener">official Graphisoft ProKit download page</a>. The release verified for this guide is <strong>3001-1.2</strong>, dated <strong>2026-10-07</strong>; check the download page for the current release when reinstalling.</p>
+<div class="table-wrap"><table><thead><tr><th>Package</th><th>Platform</th><th>Listed size</th></tr></thead><tbody>
+<tr><td>Core</td><td>Windows (.exe)</td><td>81 MB</td></tr>
+<tr><td>Core</td><td>macOS · Apple silicon</td><td>76 MB</td></tr>
+<tr><td>Core</td><td>macOS · Intel</td><td>67 MB</td></tr>
+<tr><td>Suite</td><td>See the download page</td><td>About 1 GB</td></tr>
+</tbody></table></div>
+<ol><li>Confirm that the target is <strong>Archicad 30</strong>; do not substitute a legacy CI Tools installer.</li><li>Select Core for your platform, keeping Apple silicon and Intel downloads separate.</li><li>Core is offered in INT, FRA and GER language packages; choose the one used by your project environment.</li><li>Download Suite as well if your plan includes it.</li></ol></div>
+</div>
+<div class="art" id="a-prokit-install">
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">安装 Core 与 Suite</h3>
+    <h3 class="en-only block">Install Core and Suite</h3>
+  </div>
+  <div class="art-src"><a href="https://www.graphisoft.com/en-at/downloads/add-ons/prokit/" target="_blank" rel="noopener">Graphisoft ProKit ↗</a></div>
+  <div class="zh-only block"><p>旧版依赖 Ci Installer 的流程不适用于这里的 AC30 主线。使用刚下载的 Graphisoft 安装包，并按安装器当下显示的提示操作。</p>
+<ol><li>关闭正在运行的 Archicad 30，避免安装期间文件被占用。</li><li>运行 Core 安装包；如果要求选择 Archicad 实例，请选择正在使用的 Archicad 30。</li><li>按安装器提示完成安装，不要根据旧教程猜测或跳过新界面步骤。</li><li>需要 Suite 且已获授权时，再运行 Suite 安装包并重复检查。</li><li>启动 Archicad 30，查看是否出现 <strong>ProKit</strong> 菜单。Core 的常用入口为 <code>ProKit &gt; Annotate &gt; Replace</code>、<code>ProKit &gt; Transformer</code> 和 <code>ProKit &gt; Time Tracker &gt; Timer Palette</code>。</li></ol>
+<p>只安装一个获授权的包也可以。Suite 命令名称以安装后的 ProKit 菜单为准，不要用旧版菜单名称推断新界面。</p></div>
+  <div class="en-only block"><p>The legacy Ci Installer workflow does not describe this AC30 process. Run the Graphisoft packages you just downloaded and follow the prompts shown by the current installers.</p>
+<ol><li>Close Archicad 30 before installation so that its files are not in use.</li><li>Run the Core installer. If asked to select an Archicad instance, choose the Archicad 30 installation you use.</li><li>Complete the installer as presented; do not guess or skip steps based on a legacy tutorial.</li><li>If you need Suite and your plan includes it, run the Suite installer and repeat the checks.</li><li>Start Archicad 30 and look for the <strong>ProKit</strong> menu. Core commands include <code>ProKit &gt; Annotate &gt; Replace</code>, <code>ProKit &gt; Transformer</code> and <code>ProKit &gt; Time Tracker &gt; Timer Palette</code>.</li></ol>
+<p>Installing only the package covered by your plan is valid. For Suite, use the command names shown in the installed ProKit menu rather than assuming they match legacy menus.</p></div>
+</div>
+<div class="art" id="a-prokit-environment">
+  <div class="art-h"><span class="no">04</span>
+    <h3 class="zh-only block">应用工作环境并检查图库包</h3>
+    <h3 class="en-only block">Apply the work environment and check libraries</h3>
+  </div>
+  <div class="art-src"><a href="https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/prokit_core_tools.html" target="_blank" rel="noopener">Graphisoft ProKit ↗</a></div>
+  <div class="zh-only block"><p>安装程序与项目环境是两件事。安装完成后，还要让当前项目能看到工具命令与所需图库。</p>
+<ol><li>在 Archicad 的 Work Environment 中选择安装后出现的 <strong>ProKit 工作环境</strong>并应用。新配置文件的确切名称以安装结果为准；旧教程中的 <strong>Ci Tools Profile</strong> 仅用于 AC29 及更早版本。</li><li>打开 Library Manager，检查当前项目是否已加载所装工具需要的 ProKit 图库包；包名与数量以实际安装内容为准。</li><li><strong>Detail Elements 必须有 Detail Elements 图库包</strong>。工具入口在工具箱的 <strong>Detail Element</strong>，不是只在 ProKit 菜单里查找。</li><li>若工具箱没有 Detail Element，在 Toolbox Settings 中启用它，再保存工作环境，避免切换项目后丢失设置。</li></ol>
+<p>不要直接照搬旧版 <code>Ci Tools Macros.libpack</code> 的名称或加载清单。若图库显示缺失，先回到归档文章判断旧项目原用的版本，再处理 AC30 项目。</p></div>
+  <div class="en-only block"><p>Installing the add-on and preparing the project environment are separate tasks. After installation, the active project must also have access to the commands and required libraries.</p>
+<ol><li>In Archicad's Work Environment, apply the installed <strong>ProKit work environment</strong>. Its exact profile name depends on the installed result; <strong>Ci Tools Profile</strong> in older tutorials applies to AC29 and earlier.</li><li>Open Library Manager and check that the project has the ProKit library packs required by the installed tools. Use the names and set supplied by your installation.</li><li><strong>Detail Elements requires the Detail Elements library pack</strong>. Its tool is <strong>Detail Element</strong> in the toolbox, not only a command in the ProKit menu.</li><li>If Detail Element is absent, enable it in Toolbox Settings and save the work environment so the setting survives a project change.</li></ol>
+<p>Do not copy legacy <code>Ci Tools Macros.libpack</code> names or loading lists into AC30. For missing libraries in an older project, first identify its original version using the archive below.</p></div>
+</div>
+<div class="art" id="a-prokit-check">
+  <div class="art-h"><span class="no">05</span>
+    <h3 class="zh-only block">装完自检：按症状逐项排查</h3>
+    <h3 class="en-only block">Verify the installation by symptom</h3>
+  </div>
+  <div class="art-src"><a href="https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/prokit_core_tools.html" target="_blank" rel="noopener">Graphisoft ProKit ↗</a></div>
+  <div class="zh-only block"><p>建议先在一个空白测试项目中自检，不要直接拿正式项目试命令。</p>
+<div class="table-wrap"><table><thead><tr><th>检查项 / 症状</th><th>优先处理</th></tr></thead><tbody>
+<tr><td>没有 ProKit 菜单</td><td>确认安装目标是正在启动的 Archicad 30；重新运行对应安装包，并检查是否应用了 ProKit 工作环境。</td></tr>
+<tr><td>有 Core，没有 Suite</td><td>先核对 Collaborate / Max 订阅与 Suite 安装记录，不要把 Core 当成 Suite 的替代品。</td></tr>
+<tr><td>菜单存在，但 Detail Element 不在工具箱</td><td>在 Toolbox Settings 启用 Detail Element，加载 Detail Elements 图库包，然后保存工作环境。</td></tr>
+<tr><td>图库对象缺失或不可用</td><td>在 Library Manager 检查缺失项，核对已加载的 ProKit 图库包与安装版本。</td></tr>
+<tr><td>只有部分市场或计划可用</td><td>回到第 1 篇核对 Core 的国家与计划限制；这不是靠重装就能绕过的设置。</td></tr>
+</tbody></table></div>
+<p>自检通过的最小结果：ProKit 菜单可见、已安装工具的命令可打开、工具箱与图库无缺项。团队内记录 Archicad 版本、ProKit 版本和所装包，便于后续排错。</p></div>
+  <div class="en-only block"><p>Run these checks in a blank test project before trying commands on production work.</p>
+<div class="table-wrap"><table><thead><tr><th>Check / symptom</th><th>First action</th></tr></thead><tbody>
+<tr><td>No ProKit menu</td><td>Confirm that you installed into the Archicad 30 instance being launched, rerun the relevant installer, and check the applied work environment.</td></tr>
+<tr><td>Core is present but Suite is not</td><td>Check the Collaborate / Max plan and Suite installation. Core is not a substitute for Suite.</td></tr>
+<tr><td>The menu exists but Detail Element is absent</td><td>Enable Detail Element in Toolbox Settings, load its library pack, and save the work environment.</td></tr>
+<tr><td>Library objects are missing or unusable</td><td>Review missing items in Library Manager and match the loaded ProKit packs to the installed release.</td></tr>
+<tr><td>Availability differs by market or plan</td><td>Recheck the Core restrictions in article 1; reinstalling does not remove plan or market limits.</td></tr>
+</tbody></table></div>
+<p>A minimal successful check means the ProKit menu is visible, installed commands open, and the toolbox and libraries have no missing items. Record the Archicad version, ProKit release and installed packages for team support.</p></div>
+</div>
+<div class="art" id="a-prokit-collaboration">
+  <div class="art-h"><span class="no">06</span>
+    <h3 class="zh-only block">团队协作与版本兼容警告</h3>
+    <h3 class="en-only block">Team collaboration and version compatibility</h3>
+  </div>
+  <div class="art-src"><a href="https://www.graphisoft.com/en-at/downloads/add-ons/prokit/" target="_blank" rel="noopener">Graphisoft ProKit ↗</a></div>
+  <div class="zh-only block"><p><strong>不要另存回旧版本。</strong>官方明确建议：使用了 ProKit 工具的项目不要 back-save 到旧 Archicad 版本。另存可能让工具数据、对象或设置无法正确保留。</p>
+<p><strong>协作者必须使用匹配的插件版本。</strong>跨 Archicad 版本协作时，两端要按官方要求使用匹配的 ProKit 版本，否则可能出现 ProKit 警告或兼容问题。开始共享前，至少统一以下信息：</p>
+<ul><li>Archicad 主版本与更新状态；</li><li>ProKit 的 Core / Suite 安装情况与版本号；</li><li>项目加载的图库包及缺失项检查结果；</li><li>负责升级与验证的人员，避免多人各自升级后立即互传。</li></ul>
+<p>旧版归档包含 BIMcloud / BIM Server、离线安装和订阅激活教程，但它们是 AC24–AC29 的历史资料。<strong>不要把其中的旧部署步骤当作已经核实的 AC30 流程</strong>；服务器部署按团队当前环境与 Graphisoft 现行管理说明执行。</p></div>
+  <div class="en-only block"><p><strong>Do not back-save.</strong> Graphisoft advises against saving projects that use ProKit tools back to an older Archicad version. Tool data, objects or settings may not survive that conversion correctly.</p>
+<p><strong>Collaborators must use matching add-on versions.</strong> When working across Archicad versions, use the matching ProKit releases required by Graphisoft; otherwise ProKit warnings or compatibility problems may occur. Align at least these details before sharing:</p>
+<ul><li>Archicad major version and update state;</li><li>Installed Core / Suite packages and ProKit release numbers;</li><li>Loaded library packs and missing-item checks;</li><li>Who owns the upgrade and verification, rather than everyone upgrading independently.</li></ul>
+<p>The legacy archive includes BIMcloud / BIM Server, offline installation and subscription activation articles for AC24–AC29. <strong>Do not treat those legacy deployment steps as verified AC30 procedures</strong>; follow the current Graphisoft administration guidance for your team environment.</p></div>
+</div>
+<details class="legacy-install">
+<summary><span class="zh-only">旧版 CI Tools 安装文档 · AC24–AC29（27 篇）</span><span class="en-only">Legacy CI Tools installation archive · AC24–AC29 (27 articles)</span></summary>
+<p class="legacy-note"><span class="zh-only">以下保留旧版原文、旧锚点和配图，供老项目查证；不作为 AC30 ProKit 的安装依据。</span><span class="en-only">The original text, anchors and images are retained for legacy projects; they are not the AC30 ProKit setup procedure.</span></p>
+<!-- legacy-ci-tools:start -->
 <h2>Getting Started · <span class="zh-only">入门与安装</span></h2>
 <ul class="toc-list"><li><a href="gettingstarted.html#a-360001013796"><span class="tg">01</span><span class="zh-only">第 1 步：下载并安装 Ci Installer</span><span class="en-only">Step 1 - How To Download and Install the Ci Tools</span></a></li><li><a href="gettingstarted.html#a-360001004595"><span class="tg">02</span><span class="zh-only">认识 Ci Tools 安装器</span><span class="en-only">Getting to know the Ci Tools Installer</span></a></li><li><a href="gettingstarted.html#a-212058666"><span class="tg">03</span><span class="zh-only">第 2 步：安装 CI Tools</span><span class="en-only">Step 2 - Install the CI Tools</span></a></li><li><a href="gettingstarted.html#a-360000565575"><span class="tg">04</span><span class="zh-only">第 3 步：应用 Ci Tools 工作环境配置</span><span class="en-only">Step 3 - How to apply the Ci Tools Profile.</span></a></li><li><a href="gettingstarted.html#a-6670736377615"><span class="tg">05</span><span class="zh-only">第 4 步：激活工具或开始试用</span><span class="en-only">Step 4 - Activating your Tools or Starting a Trial</span></a></li><li><a href="gettingstarted.html#a-203711800"><span class="tg">06</span><span class="zh-only">如何获取 30 天试用版</span><span class="en-only">How do I get a Trial Version?</span></a></li><li><a href="gettingstarted.html#a-205332530"><span class="tg">07</span><span class="zh-only">电脑上已有 Cadimage 安装器时如何安装工具</span><span class="en-only">How to: Install the Cadimage Tools if you already have the Cadimage Installer on your computer</span></a></li><li><a href="gettingstarted.html#a-205069694"><span class="tg">08</span><span class="zh-only">重置工具安装设置</span><span class="en-only">How to: Reset the Tools Installation Settings</span></a></li><li><a href="gettingstarted.html#a-205332500"><span class="tg">09</span><span class="zh-only">创建离线安装文件</span><span class="en-only">How to create an Offline Installation File</span></a></li><li><a href="gettingstarted.html#a-360000586095"><span class="tg">10</span><span class="zh-only">Ci Tools 托管部署指南（多机批量安装）</span><span class="en-only">Ci Tools Managed Install Guide</span></a></li><li><a href="gettingstarted.html#a-205332550"><span class="tg">11</span><span class="zh-only">在 Archicad 内检查更新</span><span class="en-only">How to check for updates</span></a></li><li><a href="gettingstarted.html#a-360001004575"><span class="tg">12</span><span class="zh-only">通过安装器更新工具</span><span class="en-only">Updating the Tools</span></a></li><li><a href="gettingstarted.html#a-205332560"><span class="tg">13</span><span class="zh-only">设置「每日贴士」偏好</span><span class="en-only">Change Tip of the Day Preferences</span></a></li><li><a href="gettingstarted.html#a-217200806"><span class="tg">14</span><span class="zh-only">手动把工具加进工具箱</span><span class="en-only">How to manually add Tools to the Toolbox</span></a></li><li><a href="gettingstarted.html#a-218103543"><span class="tg">15</span><span class="zh-only">在工具箱中显示 Cadimage / Ci Tools 图标</span><span class="en-only">How to display the Cadimage / Ci Tools icons in the Toobox</span></a></li><li><a href="gettingstarted.html#a-15337912093583"><span class="tg">16</span><span class="zh-only">手动卸载 Ci Tools</span><span class="en-only">Manually Uninstall the Ci Tools.</span></a></li><li><a href="gettingstarted.html#a-8157247435407"><span class="tg">17</span><span class="zh-only">Ci Tools 订阅套餐说明</span><span class="en-only">Ci Tool Subsciptions</span></a></li><li><a href="gettingstarted.html#a-10608799688079"><span class="tg">18</span><span class="zh-only">变更订阅套餐或支付方式</span><span class="en-only">Changing your Ci Tools Subscription or Payment Method</span></a></li><li><a href="gettingstarted.html#a-208082996"><span class="tg">19</span><span class="zh-only">把 Ci Tools 部署到 BIMcloud / BIM Server</span><span class="en-only">Loading your Ci Tools onto your BIMCloud</span></a></li><li><a href="gettingstarted.html#a-9329825787663"><span class="tg">20</span><span class="zh-only">更新 BIMcloud 上的 Ci Tools 库</span><span class="en-only">How to update Ci Tools Library on BIMcloud</span></a></li><li><a href="gettingstarted.html#a-10886875093391"><span class="tg">21</span><span class="zh-only">Archicad 28/29 的库加载新机制（Libpack）</span><span class="en-only">Library Loading in Archicad 28 and 29</span></a></li><li><a href="gettingstarted.html#a-13957207499279"><span class="tg">22</span><span class="zh-only">在 Archicad 29 中打开旧版项目的库加载</span><span class="en-only">Loading Libraries in Archicad 29</span></a></li><li><a href="gettingstarted.html#a-13496226496143"><span class="tg">23</span><span class="zh-only">Archicad 29 技术预览版 Ci Tools 安装</span><span class="en-only">Ci Tools for Archicad 29 Technical Preview</span></a></li><li><a href="gettingstarted.html#a-360003865516"><span class="tg">24</span><span class="zh-only">疑难：Ci Tools 库版本不匹配警告</span><span class="en-only">The loaded library for Ci Tools is the wrong version.</span></a></li><li><a href="gettingstarted.html#a-9365919766159"><span class="tg">25</span><span class="zh-only">各工具入门视频合集</span><span class="en-only">Ci Tool Getting Started Videos</span></a></li><li><a href="gettingstarted.html#a-4405269195919"><span class="tg">26</span><span class="zh-only">Q&A 研讨会实操视频索引</span><span class="en-only">Index of Ci Tools How-To Videos (from Q&A Webinars)</span></a></li><li><a href="gettingstarted.html#a-14581623162639"><span class="tg">27</span><span class="zh-only">Ci Tools 实用链接</span><span class="en-only">Helpful Links for Ci Tools</span></a></li></ul>
 
@@ -3328,11 +3471,13 @@ html[data-lang="en"] .en-only.block { display:block; }
     </div>
   </details>
 </div>
+<!-- legacy-ci-tools:end -->
+</details>
 </article>
 
 <footer class="foot">
-<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
-<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+<span class="zh-only">ProKit / CI Tools（旧） · 内容依据 Graphisoft AC30 官方帮助与 MyCi 知识库 · 2026-11-23</span>
+<span class="en-only">ProKit / CI Tools (legacy) · Sources: Graphisoft AC30 help and the MyCi knowledge base · 2026-11-23</span>
 </footer>
 </main>
 </div>

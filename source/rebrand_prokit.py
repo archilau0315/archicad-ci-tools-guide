@@ -363,7 +363,8 @@ def main():
             if not dry:
                 io.open(path, "w", encoding="utf-8").write(new)
             rows.append((fn, st))
-    for fn, func in (("guide.html", extra_guide), ("all.html", extra_all)):
+    for fn, func in (("guide.html", extra_guide), ("all.html", extra_all),
+                     ("about.html", lambda text: text)):
         path = os.path.join(SITE, fn)
         text = io.open(path, encoding="utf-8").read()
         new, st = rebrand_misc(fn, text)
@@ -373,6 +374,16 @@ def main():
             if not dry:
                 io.open(path, "w", encoding="utf-8").write(new)
             rows.append((fn, st))
+    # 首页与差异页保留各自正文，只统一侧栏名称和分组。
+    for fn in ("index.html", "differences.html"):
+        path = os.path.join(SITE, fn)
+        text = io.open(path, encoding="utf-8").read()
+        new, n = NAV_RE.subn(lambda m: build_nav(fn), text, count=1)
+        if new != text:
+            total += 1
+            if not dry:
+                io.open(path, "w", encoding="utf-8").write(new)
+            rows.append((fn, {"path": 0, "nav": n, "badge": 0, "brand": 0}))
 
     out = ["# ProKit 外壳改造报告（P4）", "",
            f"- 模式：{'试运行 dry-run' if dry else '已写入'}",

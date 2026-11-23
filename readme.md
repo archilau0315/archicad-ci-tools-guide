@@ -5,7 +5,7 @@
 **ci_tools** — Archicad ProKit 与旧版 CI Tools 的完整中文操作手册与速查卡<br>
 *ProKit (AC30) and legacy CI Tools — bilingual handbook and quick-reference*
 
-[![Version](https://img.shields.io/badge/add--on-3001--1.2-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![Articles](https://img.shields.io/badge/articles-418-6d9470?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) [![Screenshots](https://img.shields.io/badge/screenshots-3800%2B-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![CAD](https://img.shields.io/badge/CAD-ArchiCAD%2030-c0392b?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)
+[![Version](https://img.shields.io/badge/add--on-3001--1.2-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![Articles](https://img.shields.io/badge/articles-424-6d9470?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) [![Screenshots](https://img.shields.io/badge/screenshots-3800%2B-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![CAD](https://img.shields.io/badge/CAD-ArchiCAD%2030-c0392b?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)
 
 **[在线访问](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)** · [ProKit 与 CI Tools 差异](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/differences.html) · [中文主线速查](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/guide.html) · [全量文章索引](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) · [工具目录](#-工具目录) · [工程结构](#-工程结构)
 
@@ -15,7 +15,7 @@
 
 ## 这是什么 / What this is
 
-一套**面向团队内部**的 Archicad 插件教程，覆盖 18 个工具、418 篇文章，全站中英双语。
+一套**面向团队内部**的 Archicad 插件教程，覆盖 18 个工具、424 篇文章，全站中英双语。
 
 **内容双轨**：AC30 起 CI Tools 更名为 Graphisoft ProKit，拆成 Core 与 Suite 两个安装包。本教程按官方文档的分工整理——
 
@@ -143,7 +143,7 @@ ci_tools/
 ├── debug_log_1.md                     变更日志（第 1 册，已满）
 ├── debug_log_2.md                     变更日志（第 2 册）
 ├── site/                              ★在线站点，24 个页面
-│   ├── index.html / all.html …        418 篇文章，18 个工具 + 入门
+│   ├── index.html / all.html …        424 篇文章，18 个工具 + 入门
 │   ├── differences.html               ★ProKit 与 CI Tools 版本差异
 │   ├── search.css / search.js         顶部全站搜索条（智能匹配 + 自动补全）
 │   ├── search-index.js                搜索索引，自动生成，勿手改
@@ -151,6 +151,10 @@ ci_tools/
 ├── source/                            站点生成器
 │   ├── build_site.py                  clean.json → 多页站点
 │   ├── build_search_index.py          扫描站点，生成 search-index.js
+│   ├── build_gettingstarted.py        P2 生成 AC30 入门主线并保留旧版折叠归档
+│   ├── sync_catalogs.py               按实际文章同步 index / all 目录与全站计数
+│   ├── repair_legacy_links.py         修复旧文失效小节链接，回链 MyCi 原文锚点
+│   ├── verify_site.py                 全站结构、链接、双语、索引、图片与徽标校验
 │   ├── rebrand_prokit.py              P4 外壳改造：品牌、导航分组、徽标、命令路径
 │   ├── fetch_prokit_manual.py         P3a 抓取 AC30 官方 Core 帮助与配图
 │   ├── core_content.py                P3b Core 四页内容源（中英双语）
@@ -243,6 +247,19 @@ python3 build_site.py .. ../site                         # 生成双语站点
 
 译文改动直接编辑 `zh_translations.json` 后重跑生成器即可。
 
+### ProKit 站点维护 / Site maintenance
+
+修改 `source/` 中对应内容源后，在 `ci_tools` 根目录按顺序运行：
+
+```bash
+python source/build_gettingstarted.py   # 重建 6 篇 AC30 主线，保留 27 篇旧版归档
+python source/sync_catalogs.py          # 同步首页、全量目录、文章计数与 README 徽章
+python source/build_search_index.py     # 重建 18 工具 / 6 页面 / 424 篇文章索引
+python source/verify_site.py            # 提交前全站静态验收
+```
+
+*Run these commands from the project root after editing the content sources. The generators are idempotent; `verify_site.py` must pass before committing. `repair_legacy_links.py` is a targeted legacy-link repair tool, not part of the routine build.*
+
 ### 部署到线上
 
 站点已部署至 `https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/`（公网公开，无需登录）。
@@ -276,7 +293,7 @@ tar czf - -C /path/to/resources AC_Tutorial/ci_tools/site | \
 
 <div align="center">
 
-**ProKit / CI Tools（旧）完全指南** · AC30 重编 2026-11-23 · 天津匡形无界智能科技有限公司<br>
-*ProKit / CI Tools (legacy) handbook · AC30 revision, 2026-11-23 · Kuanform Boundless Intelligent Technology*
+**ProKit / CI Tools（旧）完全指南** · AC30 重编 2026-11-24 · 天津匡形无界智能科技有限公司<br>
+*ProKit / CI Tools (legacy) handbook · AC30 revision, 2026-11-24 · Kuanform Boundless Intelligent Technology*
 
 </div>
