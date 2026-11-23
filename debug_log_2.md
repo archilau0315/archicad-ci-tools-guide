@@ -94,3 +94,18 @@
 **验证**：入门、目录和搜索生成器幂等复跑后 5 个目标文件 SHA-256 不变；20 个 Python 脚本语法检查通过；`verify_site.py` 通过。Edge 实测「算量 / 镜像 / convert case / prokit quantities / ci tools」首条分别进入 Quantities / Transformer / Annotate / Quantities / differences；中英切换、27 篇归档展开及 Bracing / Sites 结构断言通过，7 张截图排版正常，无 JavaScript 错误或本地资源 404。
 
 **备注**：本次只验证站内静态结构与本地浏览器交互，未承诺外部 URL 均可访问；未部署、未 push。
+
+---
+
+## 2026-11-24 · P6 发布：ProKit 资源卡封面与主站入口同步
+
+**模块**：cover.jpg、docs/ProKit_升级改造计划.md、主站 index.html、resources/index.html
+
+**变更**：
+1. `cover.jpg` 重制为 1000×1000 正方形：顶部改用 AC30 官方 ProKit Annotate 菜单截图，主体为 ProKit / CI Tools（旧）、中英双语与「18 工具 · 424 篇 · 3800+ 图」，清除旧 CI Tools 菜单和 16 / 357 / 1193 旧口径。
+2. 主站资源下拉与资源展示卡同步 ProKit 名称、双轨来源和当前统计，中英 HTML 初始文案及语言字典一并更新；所有教程 URL 与锚点保持不变。
+3. P6 执行三个已有仓库的既定边界：主站根仓库提交首页入口，ci_tools 独立仓库提交封面与发布记录；`resources/index.html` 按 resources 仓库既有忽略规则不入库。
+
+**验证**：`source/verify_site.py` 通过（24 页 / 18 工具 / 424 篇）；Edge 验证首页桌面下拉、资源卡中英切换、桌面与移动排版、封面完整显示和教程跳转，目标资源无 404、无 JavaScript 错误。
+
+**备注**：发布至 `/www/wwwroot/kbitai.com.cn/` 后，以线上首页、资源页、封面和教程入口复核结果为准。
