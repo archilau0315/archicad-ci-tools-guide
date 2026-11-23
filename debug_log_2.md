@@ -64,3 +64,15 @@
 4. guide：16→18 工具，补 LaunchPad / Labeller 两节，更新顶部改名说明与旧版流程提示、表格与「暂不建议碰」名单；all：补 LaunchPad / Bracing / Labeller 三个分组（18 组），标题统一官方名。
 5. `build_search_index.py`：TOOLS 改名与路径改 `ProKit > ...`，关键词补 `prokit cadimage ac30 core suite`，PAGES 增 differences，重生成 `search-index.js`（18 工具 / 6 页 / 422 篇 / 83 KB）。
 **备注**：静态校验通过（徽标 18/18、无白名单外旧命令路径、站内链接全在、索引可解析）；Edge 截图核对首页、Cabinets、Structure、guide、Bracing 正常。差异页对照表保留旧路径 `CI Tools >` 属预期。遗留：`bracing.html`、`sites.html` 存在改造前已有的 div/script 标签计数不平衡（改造前后差值一致，未由本次改动引入），留待 P5 统一修复；`gettingstarted.html` 标题与安装内容仍为旧版，属 P2 重写范围。
+
+---
+
+## 2026-11-24 · P3a/P3b 官方手册采集与 Core 四页重写
+
+**模块**：source/fetch_prokit_manual.py、source/core_content.py、source/build_core_pages.py、site/img/prokit、site 四页、docs/prokit_manual
+**变更**：
+1. P3a：抓取 AC30 官方 ProKit Core 帮助 14 页 → `docs/prokit_manual/<tool>/`，31 张配图 → `site/img/prokit/<tool>/`，生成 `manifest.json`（本地路径 / 原 URL / MD5 / 页面归属）；增量抓取，单页失败不中断（本次 0 失败）。
+2. P3b：按官方手册重写 Annotate（5 篇 / 9 图）、Transformer（2 篇 / 3 图）、Time Tracker（3 篇 / 5 图）、Detail Elements（4 篇 / 7 图），保留页面外壳与双语结构；每张图用 `<figure>` + 本地路径 + 双语图注，文末标注官方来源与原文链接。
+3. 内容含官方关键事实：Annotate 五类替换与四种大小写、三种作用范围、`.conversion`；Transformer 四命令且不可撤销；Time Tracker Job/Task 与 `.csv`；Detail Elements 工具箱 + 图库包双前提、69 个对象分 10 个文件夹。
+4. 同步 hero 统计、`all.html` / `index.html` Core 目录与锚点、全站篇数 422 → 418（404 篇 MyCi + 14 篇官方编译）、搜索索引重建（18 工具 / 6 页 / 418 篇）。
+**备注**：锚点校验 0 死链、Core 页 div/figure/table/ul 全部配对、无官方图片直链；Edge 截图核对 Annotate 与 Detail 正常。图片放在 `site/img/prokit/` 以保证站点目录可独立部署。

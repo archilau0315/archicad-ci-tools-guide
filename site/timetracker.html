@@ -249,58 +249,59 @@ html[data-lang="en"] .en-only.block { display:block; }
   <p class="zh-only">记录任务工时，与报价对比</p>
   <p class="en-only">Log time per task and compare against quoted hours</p>
   <div class="meta">
-    <span><b>1</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
-    <span><b>0.0</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
-    <span><b>4</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
+    <span><b>3</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
+    <span><b>0.1</b> <span class="zh-only">万字</span><span class="en-only">0.4k words</span></span>
+    <span><b>5</b> <span class="zh-only">张图</span><span class="en-only">images</span></span>
   </div>
 </div>
 <article>
 
-<div class="art" id="a-8351466344719">
+<div class="art" id="a-prokit-timetracker-1">
   <div class="art-h"><span class="no">01</span>
-    <h3 class="zh-only block">如何使用 Time Tracker</h3>
-    <h3 class="en-only block">How to use the Time Tracker</h3>
+    <h3 class="zh-only block">1. Timer 面板：按 Job / Task 记录工时到 CSV</h3>
+    <h3 class="en-only block">1. Timer Palette: Log Time per Job and Task to CSV</h3>
   </div>
-  <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/8351466344719-How-to-use-the-Time-Tracker" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
-  <div class="zh-only"><p>Time Tracker 是 CI Tools 菜单中的一个新工具。</p>
-<p>入口：<strong>ProKit > Time Tracker > Open Time Tracker</strong>。</p>
-<p><img src="img/8351466344719_0.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p>
-<ul>
-<li>点文件夹图标，选择存档位置。</li>
-</ul>
-<p><img src="img/8351466344719_1.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p>
-<ul>
-<li>指定 Job（项目）与 Task（任务）。</li>
-</ul>
-<p><img src="img/8351466344719_2.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p>
-<ul>
-<li>启动计时。</li>
-</ul>
-<p><img src="img/8351466344719_3.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p></div>
-  <div class="en-only"><p>Time Tracker is a new tool in the CI Tools Menu.</p>
-<p>Go to ProKit > Time Tracker > Open Time Tracker.</p>
-<p><img src="img/8351466344719_0.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p>
-<p>1.- Select the folder icon and choose where to save your file.</p>
-<p><img src="img/8351466344719_1.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p>
-<p>2.- Assign a Job and a Task.</p>
-<p><img src="img/8351466344719_2.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p>
-<p>3.- Start the clock</p>
-<p><img src="img/8351466344719_3.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p></div>
-  <details class="orig-toggle">
-    <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
-    <div class="orig-body">
-      <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
-      <p>Time Tracker is a new tool in the CI Tools Menu.</p>
-<p>Go to ProKit > Time Tracker > Open Time Tracker.</p>
-<p><img src="img/8351466344719_0.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p>
-<p>1.- Select the folder icon and choose where to save your file.</p>
-<p><img src="img/8351466344719_1.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p>
-<p>2.- Assign a Job and a Task.</p>
-<p><img src="img/8351466344719_2.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p>
-<p>3.- Start the clock</p>
-<p><img src="img/8351466344719_3.jpg" alt="How to use the Time Tracker 示意图" loading="lazy"></p>
-    </div>
-  </details>
+  <div class="art-src"><span class="zh-only">来源：Graphisoft AC30 官方帮助 · Time Tracker</span><span class="en-only">Source: Graphisoft AC30 help · Time Tracker</span> · <a href="https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_HowTo.html" target="_blank" rel="noopener">原文 / original ↗</a></div>
+  <div class="zh-only"><p>入口：<em>ProKit > Time Tracker > Timer Palette</em>。工时按 <strong>Job</strong>（项目 / 工作）与可选的 <strong>Task</strong>（任务）两级记录。</p>
+<figure><img src="img/prokit/timetracker/TimeTrackerMenu.png" alt="ProKit > Time Tracker 菜单" loading="lazy"><figcaption>ProKit > Time Tracker 菜单</figcaption></figure>
+<h4>第一次使用</h4>
+<ul><li>在 Timer 面板选择已有 Job，或用 <em>Create Job</em> 新建。</li><li>可选：选择或新建 Task；也可用 <em>Manage Jobs</em> / <em>Manage Tasks</em> 统一管理。</li><li>点文件夹图标旁的 <strong>…</strong> 选择工时表保存位置并命名，文件会随计时开始 / 停止持续更新。</li><li>点开始计时，再点一次停止。</li><li>工时表就是保存下来的 <code>.csv</code> 文件，用表格软件打开即可。</li></ul>
+<figure><img src="img/prokit/timetracker/TimeJobCreate.png" alt="新建 Job" loading="lazy"><figcaption>新建 Job</figcaption></figure>
+<figure><img src="img/prokit/timetracker/TimeFileSave.png" alt="选择 CSV 工时表位置" loading="lazy"><figcaption>选择 CSV 工时表位置</figcaption></figure></div>
+  <div class="en-only"><p>Open at <em>ProKit > Time Tracker > Timer Palette</em>. Time is logged by <strong>Job</strong>, with an optional <strong>Task</strong>.</p>
+<figure><img src="img/prokit/timetracker/TimeTrackerMenu.png" alt="The ProKit > Time Tracker menu" loading="lazy"><figcaption>The ProKit > Time Tracker menu</figcaption></figure>
+<h4>First run</h4>
+<ul><li>Select an existing Job in the Timer palette, or create one with <em>Create Job</em>.</li><li>Optionally select or create a Task; <em>Manage Jobs</em> and <em>Manage Tasks</em> handle both.</li><li>Click <strong>…</strong> next to the folder icon, choose where to save the timesheet and name it. The file updates continuously.</li><li>Start the clock; click again to stop.</li><li>The timesheet is the saved <code>.csv</code> file, ready to open in a spreadsheet.</li></ul>
+<figure><img src="img/prokit/timetracker/TimeJobCreate.png" alt="Creating a Job" loading="lazy"><figcaption>Creating a Job</figcaption></figure>
+<figure><img src="img/prokit/timetracker/TimeFileSave.png" alt="Choosing the CSV timesheet location" loading="lazy"><figcaption>Choosing the CSV timesheet location</figcaption></figure></div>
+</div>
+
+<div class="art" id="a-prokit-timetracker-2">
+  <div class="art-h"><span class="no">02</span>
+    <h3 class="zh-only block">2. 管理 Jobs 与 Tasks：导入导出与批量维护</h3>
+    <h3 class="en-only block">2. Manage Jobs and Tasks: Import, Export, Maintain</h3>
+  </div>
+  <div class="art-src"><span class="zh-only">来源：Graphisoft AC30 官方帮助 · Time Tracker</span><span class="en-only">Source: Graphisoft AC30 help · Time Tracker</span> · <a href="https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_jobs_tasks.html" target="_blank" rel="noopener">原文 / original ↗</a></div>
+  <div class="zh-only"><p><em>ProKit > Time Tracker</em> 下有 <strong>Manage Jobs</strong> 与 <strong>Manage Tasks</strong> 两个对话框，列出项目现有的 Job / Task。</p>
+<ul><li>在两个对话框里可以新增、删除、导入、导出。</li><li>Job 文件扩展名 <code>.jobs</code>，Task 文件扩展名 <code>.tasks</code>。</li><li>数据随项目保存，换项目时可导出复用。</li></ul>
+<figure><img src="img/prokit/timetracker/TrackerManageMenu.png" alt="管理入口" loading="lazy"><figcaption>管理入口</figcaption></figure>
+<figure><img src="img/prokit/timetracker/TrackerJobList.png" alt="Job 列表" loading="lazy"><figcaption>Job 列表</figcaption></figure></div>
+  <div class="en-only"><p><em>ProKit > Time Tracker</em> provides <strong>Manage Jobs</strong> and <strong>Manage Tasks</strong>, listing the project's existing Jobs and Tasks.</p>
+<ul><li>Both dialogs support add, delete, import and export.</li><li>Job files use <code>.jobs</code>; task files use <code>.tasks</code>.</li><li>Data is stored with the project and can be exported for reuse.</li></ul>
+<figure><img src="img/prokit/timetracker/TrackerManageMenu.png" alt="Manage commands" loading="lazy"><figcaption>Manage commands</figcaption></figure>
+<figure><img src="img/prokit/timetracker/TrackerJobList.png" alt="The Job list" loading="lazy"><figcaption>The Job list</figcaption></figure></div>
+</div>
+
+<div class="art" id="a-prokit-timetracker-3">
+  <div class="art-h"><span class="no">03</span>
+    <h3 class="zh-only block">3. 配套图库对象：甘特图与文件传送单</h3>
+    <h3 class="en-only block">3. Library Objects: Gantt Charts and Transmittal Forms</h3>
+  </div>
+  <div class="art-src"><span class="zh-only">来源：Graphisoft AC30 官方帮助 · Time Tracker</span><span class="en-only">Source: Graphisoft AC30 help · Time Tracker</span> · <a href="https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_Catalog.html" target="_blank" rel="noopener">原文 / original ↗</a></div>
+  <div class="zh-only"><p>Time Tracker 的图库包提供项目跟踪相关对象：<strong>甘特图</strong>、<strong>文件传送单</strong>（Transmittal Form）等。</p>
+<ul><li><em>ProKit Document Transmittal Form.gsm</em>：内容来自已关闭的 Transmittal Sets；用 <em>ProKit > Time Tracker > Place or Update Document Transmittal Form</em> 放置或更新。</li><li><em>Gantt Chart #NNNN.gsm</em> / <em>Gantt Chart Shared #NNNN.gsm</em>：甘特图对象。</li><li><em>ProKit Gantt Chart.gsm</em>、<em>ProKit Project Info Table.gsm</em>：项目信息与进度表。</li></ul></div>
+  <div class="en-only"><p>The Time Tracker libpack provides project-tracking objects such as Gantt charts and a Transmittal Form.</p>
+<ul><li><em>ProKit Document Transmittal Form.gsm</em> draws data from closed Transmittal Sets; place or update it with <em>ProKit > Time Tracker > Place or Update Document Transmittal Form</em>.</li><li><em>Gantt Chart #NNNN.gsm</em> / <em>Gantt Chart Shared #NNNN.gsm</em>: Gantt chart objects.</li><li><em>ProKit Gantt Chart.gsm</em>, <em>ProKit Project Info Table.gsm</em>: project info and progress tables.</li></ul></div>
 </div>
 </article>
 

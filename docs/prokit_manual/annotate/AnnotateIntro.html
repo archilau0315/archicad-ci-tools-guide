@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+  <meta name="gRootRelPath" content="../../../.."/>
+	<meta name="gCommonRootRelPath" content="../../../.."/>
+  <meta name="gTopicId" content="28.1"/>
+  <script type="text/javascript" src="../../../../template/scripts/rh.min.js"></script>
+  <script type="text/javascript" src="../../../../template/scripts/common.min.js"></script>
+  <script type="text/javascript" src="../../../../template/scripts/topic.min.js"></script>
+  <script type="text/javascript" src="../../../../template/scripts/topicwidgets.min.js"></script>
+<script type="text/javascript" src="../../../../whxdata/projectsettings.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../../../template/styles/topic.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../../../../template/Help/topicheader.css"/>
+  <meta name="topic-status" content="Draft"/>
+<meta name="rh-authors" content="MA"/><meta name="topic-status" content="Reviewed"/><link rel="stylesheet" type="text/css" href="../../../../assets/css/Help.css"/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<meta name="copyright" content="(C) Copyright 2026"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2026"/>
+<meta name="generator" content="Adobe RoboHelp 2026"/><meta name="DC.type" content="topic"/>
+<meta name="DC.title" content="Annotate"/>
+<meta name="DC.relation" scheme="URI" content="../prokit_core_tools.html"/>
+<meta name="DC.relation" scheme="URI" content="annotation_replacement.html"/>
+<meta name="DC.relation" scheme="URI" content="AnnotateReplaceAttributes.html"/>
+<meta name="DC.relation" scheme="URI" content="AnnotateReplacingFonts.html"/>
+<meta name="DC.relation" scheme="URI" content="AnnotateCaseExceptions.html"/>
+<meta name="DC.format" content="XHTML"/>
+<meta name="DC.identifier" content="ci_tools_-_annotate"/>
+
+<title>Annotate</title>
+<meta name="brsnext" value="Topics/960_Prokit/ProKit_Core/Annotate/annotation_replacement.html"/><meta name="brsprev" value="Topics/960_Prokit/ProKit_Core/prokit_core_tools.html"/></head>
+
+<body>
+  <div class="topic-header rh-hide" id="rh-topic-header">
+    <div class="logo">
+    </div>
+    <div class="nav">
+      <div class="title" title="Archicad 30 Help">
+        <span>Archicad 30 Help</span>
+      </div>
+      <div class="gotohome" title="Click here to see this page in full context">
+        <a href="#" onclick="rh._.goToFullLayout()">Click here to see this page in full context</a>
+      </div>
+    </div>
+  </div>
+  <div class="topic-header-shadow rh-hide" id="rh-topic-header-shadow"></div>
+
+
+
+  <div>
+      <div class="breadcrumbs" data-link-class="breadcrumbs-link" data-last-link-class="breadcrumbs-topic" data-link-style="text-decoration: none;" data-seperator-class="separator" data-seperator=" &gt; ">
+        <ol style="padding: 0; margin: 0;">
+          <li style="display: inline; text-decoration: none;"><span class="breadcrumbs-home-prefix"></span> <a class="breadcrumbs-home" href="#" onclick="return rh._.goToDefaultTopic()"> <span class="breadcrumbs-home-displaytext">Home</span></a> <span class="breadcrumbs-separator"> &gt; </span></li>
+        <li style="display: inline;">
+             <a class="breadcrumbs-link" style="text-decoration: none; color: inherit" href="../prokit_core_tools.html"><span>ProKit Core Tools</span></a> <span class="separator"> &gt; </span> 
+            
+          </li><li style="display: inline;">
+            
+             <a class="breadcrumbs-topic" style="text-decoration: none; color: inherit"><span>Annotate</span></a> 
+          </li></ol>
+      </div>
+  </div>
+  <div><a name="ci_tools_-_annotate"><!-- --></a>
+<main role="main"><article role="article" aria-labelledby="ariaid-title1">
+  <h1 class="title topictitle1" id="ariaid-title1">Annotate</h1>
+
+  
+  <div class="body">
+    <div class="p">
+      <div class="note" id="ci_tools_-_annotate__note_dxl_dp4_lkc"><a name="ci_tools_-_annotate__note_dxl_dp4_lkc"><!-- --></a><span class="notetitle">Note:</span> Not available in all markets</div>
+
+    </div>
+
+    <p class="p">Use Annotate to batch-replace annotation attributes and text formatting across a project.
+      Instead of editing elements one at a time, you define replacement rules once and apply them to
+      the current view, a selection, a whole plan, or the entire project.</p>
+
+    <p class="p">Annotate is intended for standards cleanup: bringing a project in line with an office
+      template, or normalizing files and drawings that originated outside Archicad.</p>
+
+    <section class="section" id="ci_tools_-_annotate__section_what_you_can_change"><a name="ci_tools_-_annotate__section_what_you_can_change"><!-- --></a><h2 class="title sectiontitle">What you can change</h2>
+      
+      <a name="ci_tools_-_annotate__ul_annotate_scope"><!-- --></a><ul class="ul" id="ci_tools_-_annotate__ul_annotate_scope">
+        <li class="li"><strong class="ph b">Attributes</strong>: Fills, pens, and line types, optionally including attributes used by
+          library parts</li>
+
+        <li class="li"><strong class="ph b">Text fonts</strong>: Individual fonts, or whole font families at once</li>
+
+        <li class="li"><strong class="ph b">Text case</strong>: A single case standard applied to the project&#39;s text strings, with
+          defined &quot;case exceptions&quot; as needed (such as units, abbreviations, and proper nouns)</li>
+
+      </ul>
+
+    </section>
+
+    <section class="section" id="ci_tools_-_annotate__section_workflow"><a name="ci_tools_-_annotate__section_workflow"><!-- --></a><h2 class="title sectiontitle">Workflow</h2>
+      
+      <a name="ci_tools_-_annotate__ol_annotate_workflow"><!-- --></a><ol class="ol" id="ci_tools_-_annotate__ol_annotate_workflow">
+        <li class="li">Define your rules in the relevant manager: <strong class="ph b">Attribute Replacement Manager</strong>, <strong class="ph b">Font
+            Replacement Manager</strong>, or <strong class="ph b">Case Exception Manager</strong>. Rules are stored with the
+          project, and can be exported and reused in other projects.</li>
+
+        <li class="li">In the <strong class="ph b">Annotation Replacement</strong> dialog, choose which kinds of replacement to run
+          and which part of the project to apply them to.</li>
+
+        <li class="li">Click <strong class="ph b">Replace</strong>.</li>
+
+      </ol>
+
+      <p class="p">Because a replacement can affect large parts of a project at once, run it on the current
+        view or a selection first, verify the result, then widen the scope.</p>
+
+    </section>
+
+    <section class="section" id="ci_tools_-_annotate__section_access"><a name="ci_tools_-_annotate__section_access"><!-- --></a><h2 class="title sectiontitle">Annotate commands</h2>
+      
+      <p class="p">Use the <strong class="ph b">ProKit &gt; Annotate</strong> menu:</p>
+
+      <div class="p">
+        <figure class="fig fignone" id="ci_tools_-_annotate__fig_uqz_prc_fkc"><a name="ci_tools_-_annotate__fig_uqz_prc_fkc"><!-- --></a>
+          <br/><a name="ci_tools_-_annotate__image_mwy_qrc_fkc"><!-- --></a><img class="image" id="ci_tools_-_annotate__image_mwy_qrc_fkc" src="../../../../Graphics/AnnotateMenu.png"/><br/>
+        </figure>
+
+      </div>
+
+      <a name="ci_tools_-_annotate__ul_annotate_menu"><!-- --></a><ul class="ul" id="ci_tools_-_annotate__ul_annotate_menu">
+        <li class="li"><strong class="ph b">Replace</strong>: opens the <strong class="ph b">Annotation Replacement</strong> dialog, from which you can run a
+          replacement and reach all three rule managers.</li>
+
+        <li class="li"><strong class="ph b">Manage Attribute Replacements</strong>, <strong class="ph b">Manage Case Standards</strong>, and <strong class="ph b">Manage Font
+            Replacements</strong>: open the same three managers directly, for editing rules without
+          running a replacement.</li>
+
+      </ul>
+
+    </section>
+
+  </div>
+
+<nav role="navigation" class="related-links">
+<ul class="ullinks">
+<li class="link ulchildlink"><strong><a href="annotation_replacement.html">Annotation Replacement</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="AnnotateReplaceAttributes.html">Attribute Replacement Manager</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="AnnotateReplacingFonts.html">Font Replacement Manager</a></strong><br/>
+</li>
+<li class="link ulchildlink"><strong><a href="AnnotateCaseExceptions.html">Manage Case Exceptions</a></strong><br/>
+</li>
+</ul>
+
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="../prokit_core_tools.html">ProKit Core Tools</a></div>
+</div>
+</nav></article></main>
+</div>
+  <div>
+    <div class="footer">Copyright © 2026 by <a href="https://www.graphisoft.com">Graphisoft</a>. All rights reserved. <span>Graphisoft is part of the <a href="https://www.nemetschek.com">Nemetschek Group</a></span></div>
+    <script type="text/javascript" src="../../../../template/Help/gs-help-topic.js"></script>
+  </div>
+
+</body></html>

@@ -5,7 +5,7 @@
 **ci_tools** — Archicad ProKit 与旧版 CI Tools 的完整中文操作手册与速查卡<br>
 *ProKit (AC30) and legacy CI Tools — bilingual handbook and quick-reference*
 
-[![Version](https://img.shields.io/badge/add--on-3001--1.2-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![Articles](https://img.shields.io/badge/articles-422-6d9470?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) [![Screenshots](https://img.shields.io/badge/screenshots-3800%2B-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![CAD](https://img.shields.io/badge/CAD-ArchiCAD%2030-c0392b?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)
+[![Version](https://img.shields.io/badge/add--on-3001--1.2-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![Articles](https://img.shields.io/badge/articles-418-6d9470?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) [![Screenshots](https://img.shields.io/badge/screenshots-3800%2B-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![CAD](https://img.shields.io/badge/CAD-ArchiCAD%2030-c0392b?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)
 
 **[在线访问](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)** · [ProKit 与 CI Tools 差异](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/differences.html) · [中文主线速查](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/guide.html) · [全量文章索引](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) · [工具目录](#-工具目录) · [工程结构](#-工程结构)
 
@@ -15,7 +15,7 @@
 
 ## 这是什么 / What this is
 
-一套**面向团队内部**的 Archicad 插件教程，覆盖 18 个工具、422 篇文章，全站中英双语。
+一套**面向团队内部**的 Archicad 插件教程，覆盖 18 个工具、418 篇文章，全站中英双语。
 
 **内容双轨**：AC30 起 CI Tools 更名为 Graphisoft ProKit，拆成 Core 与 Suite 两个安装包。本教程按官方文档的分工整理——
 
@@ -143,19 +143,26 @@ ci_tools/
 ├── debug_log_1.md                     变更日志（第 1 册，已满）
 ├── debug_log_2.md                     变更日志（第 2 册）
 ├── site/                              ★在线站点，24 个页面
-│   ├── index.html / all.html …        422 篇文章，18 个工具 + 入门
+│   ├── index.html / all.html …        418 篇文章，18 个工具 + 入门
 │   ├── differences.html               ★ProKit 与 CI Tools 版本差异
 │   ├── search.css / search.js         顶部全站搜索条（智能匹配 + 自动补全）
-│   └── search-index.js                搜索索引，自动生成，勿手改
+│   ├── search-index.js                搜索索引，自动生成，勿手改
+│   └── img/prokit/                   ★Core 四页官方配图（31 张，本地化）
 ├── source/                            站点生成器
 │   ├── build_site.py                  clean.json → 多页站点
 │   ├── build_search_index.py          扫描站点，生成 search-index.js
+│   ├── rebrand_prokit.py              P4 外壳改造：品牌、导航分组、徽标、命令路径
+│   ├── fetch_prokit_manual.py         P3a 抓取 AC30 官方 Core 帮助与配图
+│   ├── core_content.py                P3b Core 四页内容源（中英双语）
+│   ├── build_core_pages.py            P3b 渲染 Core 四页并同步目录
 │   ├── clean_html.py                  官方 Word HTML → Markdown
 │   ├── zh_translations.json           中文译文
 │   └── handbook_main.md               中文主线速查原稿
 ├── docs/
 │   ├── ProKit_升级改造计划.md          ★AC30 升级改造计划（P0–P6）
 │   ├── ProKit_事实卡.md               ★官方事实唯一来源（授权、版本、菜单、链接）
+│   ├── prokit_manual/                 ★AC30 官方手册快照 14 页 + manifest.json
+│   ├── rebrand_report.md              P4 批量替换报告（逐文件计数）
 │   ├── CI_Tools_用户手册_图文版.html    ★推荐阅读，24 章节 + 24 张官方截图
 │   ├── CI_Tools_速查卡_网页版.html      ★推荐阅读，一页纸速查
 │   ├── CI_Tools_用户手册.md            纯文字版，便于检索与二次编辑

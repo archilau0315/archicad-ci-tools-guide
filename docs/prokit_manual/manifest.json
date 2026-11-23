@@ -1,0 +1,309 @@
+{
+  "source": "Graphisoft AC30 help · ProKit Core",
+  "fetched": "2026-11-24",
+  "pages": [
+    {
+      "tool": "annotate",
+      "local": "docs/prokit_manual/annotate/AnnotateIntro.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateIntro.html",
+      "title": "Annotate"
+    },
+    {
+      "tool": "annotate",
+      "local": "docs/prokit_manual/annotate/annotation_replacement.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/annotation_replacement.html",
+      "title": "Annotation Replacement"
+    },
+    {
+      "tool": "annotate",
+      "local": "docs/prokit_manual/annotate/AnnotateReplaceAttributes.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateReplaceAttributes.html",
+      "title": "Attribute Replacement Manager"
+    },
+    {
+      "tool": "annotate",
+      "local": "docs/prokit_manual/annotate/AnnotateReplacingFonts.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateReplacingFonts.html",
+      "title": "Font Replacement Manager"
+    },
+    {
+      "tool": "annotate",
+      "local": "docs/prokit_manual/annotate/AnnotateCaseExceptions.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateCaseExceptions.html",
+      "title": "Manage Case Exceptions"
+    },
+    {
+      "tool": "transformer",
+      "local": "docs/prokit_manual/transformer/Transformer_Intro.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Transformer/Transformer_Intro.html",
+      "title": "Transformer"
+    },
+    {
+      "tool": "transformer",
+      "local": "docs/prokit_manual/transformer/Transformer_MirrorProject.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Transformer/Transformer_MirrorProject.html",
+      "title": "Using the ProKit Transformer functions"
+    },
+    {
+      "tool": "timetracker",
+      "local": "docs/prokit_manual/timetracker/Tracker_HowTo.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_HowTo.html",
+      "title": "Time Tracker"
+    },
+    {
+      "tool": "timetracker",
+      "local": "docs/prokit_manual/timetracker/Tracker_jobs_tasks.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_jobs_tasks.html",
+      "title": "Manage Jobs and Tasks"
+    },
+    {
+      "tool": "timetracker",
+      "local": "docs/prokit_manual/timetracker/Tracker_Catalog.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_Catalog.html",
+      "title": "Library Objects for Project Tracking"
+    },
+    {
+      "tool": "detail",
+      "local": "docs/prokit_manual/detail/DetailAddTool.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddTool.html",
+      "title": "Detail Elements"
+    },
+    {
+      "tool": "detail",
+      "local": "docs/prokit_manual/detail/DetailAddCornerBreakLine.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddCornerBreakLine.html",
+      "title": "Add a Corner Break Line"
+    },
+    {
+      "tool": "detail",
+      "local": "docs/prokit_manual/detail/DetailAddNails.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddNails.html",
+      "title": "Add Nails to a Detail Drawing"
+    },
+    {
+      "tool": "detail",
+      "local": "docs/prokit_manual/detail/DetailObjectCatalog.html",
+      "url": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailObjectCatalog.html",
+      "title": "Detail Elements Tool - Object Catalog"
+    }
+  ],
+  "images": [
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/AnnotateMenu.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/AnnotateMenu.png",
+      "md5": "26c34df9cdbf3330cc5037286a3da5d9",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateIntro.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/AnnotateReplacement.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/AnnotateReplacement.png",
+      "md5": "a04ddd92e49f7e2fac2602387a50434a",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/annotation_replacement.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/ReplaceAttributes.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/ReplaceAttributes.png",
+      "md5": "a00a595daad0a0b654ccd6bc1d718694",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/annotation_replacement.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/TextReplacement.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/TextReplacement.png",
+      "md5": "0ab897a8893af88a841d0741d26afc1a",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/annotation_replacement.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/ApplyReplacement.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/ApplyReplacement.png",
+      "md5": "871ab2e9e2c76620635bae25ed1d0c78",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/annotation_replacement.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/ProKitAttribReplacement.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/ProKitAttribReplacement.png",
+      "md5": "9bccd45ed7c0a80bf7acc2b8e333521e",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateReplaceAttributes.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/ProKitCreateFromAttribs.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/ProKitCreateFromAttribs.png",
+      "md5": "b04e7ca023276a5adb9e5324ec646506",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateReplaceAttributes.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/ProKitReplacementMgr.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/ProKitReplacementMgr.png",
+      "md5": "070c8deff7cac56919ae5cd72ca4ecfa",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateReplaceAttributes.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/ProKitPenReplace.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/ProKitPenReplace.png",
+      "md5": "c5667b36bb3ed3283f379b1d7d1771b3",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateReplaceAttributes.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/FontReplacementMgr.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/FontReplacementMgr.png",
+      "md5": "feca2ab820ef3eaaf0f4cf639076782e",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateReplacingFonts.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/ReplaceFontFamily.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/ReplaceFontFamily.png",
+      "md5": "8e86b067f8538f9cc5dfe313a1c22ee1",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateReplacingFonts.html"
+    },
+    {
+      "tool": "annotate",
+      "local": "site/img/prokit/annotate/CaseException.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/CaseException.png",
+      "md5": "05ca0c7c1d39ff48a1b81e2370c9ead8",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateCaseExceptions.html"
+    },
+    {
+      "tool": "transformer",
+      "local": "site/img/prokit/transformer/TransformerMenuAll.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/TransformerMenuAll.png",
+      "md5": "0e96beb504b99bd755aa50341e7e1d46",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Transformer/Transformer_Intro.html"
+    },
+    {
+      "tool": "transformer",
+      "local": "site/img/prokit/transformer/TransformerMenu.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/TransformerMenu.png",
+      "md5": "e0db6b3a265349d56e5349c227e2de20",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Transformer/Transformer_MirrorProject.html"
+    },
+    {
+      "tool": "transformer",
+      "local": "site/img/prokit/transformer/TransformerOrigin.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/TransformerOrigin.png",
+      "md5": "fc22d9f50d0f8e6bdb430d8651991d31",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Transformer/Transformer_MirrorProject.html"
+    },
+    {
+      "tool": "timetracker",
+      "local": "site/img/prokit/timetracker/TimeTrackerMenu.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/TimeTrackerMenu.png",
+      "md5": "1670e3c5de5933416fe1f7a08f6b3d1d",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_HowTo.html"
+    },
+    {
+      "tool": "timetracker",
+      "local": "site/img/prokit/timetracker/TimeJobCreate.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/TimeJobCreate.png",
+      "md5": "293b56a2527c8a6961a67e51807e4813",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_HowTo.html"
+    },
+    {
+      "tool": "timetracker",
+      "local": "site/img/prokit/timetracker/TimeFileSave.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/TimeFileSave.png",
+      "md5": "88ff74805918ae3cb936a8dad0dfa499",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_HowTo.html"
+    },
+    {
+      "tool": "timetracker",
+      "local": "site/img/prokit/timetracker/TrackerManageMenu.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/TrackerManageMenu.png",
+      "md5": "e717c84ff24ec9b8430b53f4a7a9591d",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_jobs_tasks.html"
+    },
+    {
+      "tool": "timetracker",
+      "local": "site/img/prokit/timetracker/TrackerJobList.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/TrackerJobList.png",
+      "md5": "726a9de0bfa1110d9e2a4cbdebd6341a",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/TimeTracker/Tracker_jobs_tasks.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DetailElementsMenu.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DetailElementsMenu.png",
+      "md5": "11021a8247f80f7c714684075082846b",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddTool.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DET_Toolbox01.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DET_Toolbox01.png",
+      "md5": "3344b81b54048c30b2c53a21aae9c57b",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddTool.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DET_Toolbox02.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DET_Toolbox02.png",
+      "md5": "d67c98b150748f46540c057648e4aaab",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddTool.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DET_BreaklineCorner_01.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DET_BreaklineCorner_01.png",
+      "md5": "69d063b026c163783d7145b56c7dfae7",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddCornerBreakLine.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DET_BreaklineCorner_02.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DET_BreaklineCorner_02.png",
+      "md5": "dac88ff644ab73ff0e7f0f020375d533",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddCornerBreakLine.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DET_BreaklineCorner_04.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DET_BreaklineCorner_04.png",
+      "md5": "89bc382845c6d3c5c69c93d7a9b35472",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddCornerBreakLine.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DET_BreaklineCorner_05.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DET_BreaklineCorner_05.png",
+      "md5": "a4e56d5753bf626c3f8d2b2f8a1b59f9",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddCornerBreakLine.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DET_Nail_01.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DET_Nail_01.png",
+      "md5": "3aeacfc479cc138d1c9163e7983e0124",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddNails.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DET_Nail_02.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DET_Nail_02.png",
+      "md5": "13b40096b2de5edc0937a2f68c167988",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddNails.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DET_Nail_03.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DET_Nail_03.png",
+      "md5": "102f4e75c0c991785a62272ea9a3aa75",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddNails.html"
+    },
+    {
+      "tool": "detail",
+      "local": "site/img/prokit/detail/DET_Nail_04.png",
+      "url": "https://help.graphisoft.com/AC/30/INT/Graphics/DET_Nail_04.png",
+      "md5": "92c6c538b4acb9d3cc3afd84af0da157",
+      "page": "https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/DetailElements/DetailAddNails.html"
+    }
+  ]
+}
