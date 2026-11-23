@@ -1,28 +1,33 @@
 <div align="center">
 
-# CI Tools 完全指南 · Archicad 插件工具包
+# ProKit / CI Tools（旧）完全指南 · Archicad 插件工具包
 
-**ci_tools** — Central Innovation CI Tools / Graphisoft ProKit 的完整中文操作手册与速查卡
+**ci_tools** — Archicad ProKit 与旧版 CI Tools 的完整中文操作手册与速查卡<br>
+*ProKit (AC30) and legacy CI Tools — bilingual handbook and quick-reference*
 
-[![Version](https://img.shields.io/badge/version-v2.0-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![Articles](https://img.shields.io/badge/articles-422-6d9470?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) [![Screenshots](https://img.shields.io/badge/screenshots-1330-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![CAD](https://img.shields.io/badge/CAD-ArchiCAD-c0392b?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)
+[![Version](https://img.shields.io/badge/add--on-3001--1.2-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![Articles](https://img.shields.io/badge/articles-422-6d9470?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) [![Screenshots](https://img.shields.io/badge/screenshots-3800%2B-35613f?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/) [![CAD](https://img.shields.io/badge/CAD-ArchiCAD%2030-c0392b?style=flat-square)](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)
 
-**[在线访问](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)** · [中文主线速查](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/guide.html) · [全量文章索引](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) · [工具目录](#-工具目录) · [工程结构](#-工程结构)
+**[在线访问](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/)** · [ProKit 与 CI Tools 差异](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/differences.html) · [中文主线速查](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/guide.html) · [全量文章索引](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/all.html) · [工具目录](#-工具目录) · [工程结构](#-工程结构)
 
 </div>
 
 ---
 
-## 这是什么
+## 这是什么 / What this is
 
-一套**面向全团队**的 Archicad CI Tools 官方教程全量中文版。
+一套**面向团队内部**的 Archicad 插件教程，覆盖 18 个工具、422 篇文章，全站中英双语。
 
-内容来自 Central Innovation / Graphisoft 官方 MyCi 知识库，<b>419 篇官方文档全部译为中文、1330 张界面截图</b>，按 18 个工具与入门分册整理。
+**内容双轨**：AC30 起 CI Tools 更名为 Graphisoft ProKit，拆成 Core 与 Suite 两个安装包。本教程按官方文档的分工整理——
 
-**全站中英双语，右上角一键切换，默认中文。** 每篇文章下方可展开「英文原文对照」，随时对照官方原图。
+- **Core 4 个工具**（Annotate / Detail Elements / Time Tracker / Transformer）：以 AC30 官方帮助为唯一依据重写，共 14 页官方手册
+- **Suite 11 个工具 + 3 个旧版工具**：官方不提供手册，以 MyCi 知识库为基线，全文译为中文
+- **旧版入口**：AC29 及更早的 `CI Tools >` 菜单路径集中保留，便于老项目对照
+
+*Dual-track sourcing: the four Core tools follow the official AC30 help; the eleven Suite tools and three legacy tools follow the MyCi knowledge base (no official manual exists for them). Legacy `CI Tools >` menu paths are kept for projects on AC29 and earlier.*
 
 解决的是一个很具体的问题：<b>插件装了，但不知道从哪儿打开，更不知道"为什么打不开"</b>。
 
-CI Tools 是 Central Innovation（新西兰）为 Archicad 开发的效率插件包，2026 年起被 Graphisoft 收进自有产品线并改名 **ProKit**。同一套东西，两个名字 —— 搜老教程用 CI Tools，搜新文档用 ProKit，内容对得上。
+同一套工具曾叫 Cadimage Tools（澳新）、CI Tools（全球），AC30 起叫 ProKit —— 搜老教程用 CI Tools，搜新文档用 ProKit，内容对得上。差异细节见 [differences.html](https://www.kbitai.com.cn/resources/AC_Tutorial/ci_tools/site/differences.html)。
 
 <div align="center">
 <table>
@@ -73,38 +78,44 @@ CI Tools 是 Central Innovation（新西兰）为 Archicad 开发的效率插件
 ### 三步启动（每次新项目必做）
 
 ```
-1. 文件 → 工作环境 → Ci Tools Profile XX → 应用
-2. 文件 → 库管理器 → Add → Ci Tools Macros.libpack（先加这个）
+1. 文件 → 工作环境 → ProKit Profile → 应用        （AC29 及更早：Ci Tools Profile XX）
+2. 文件 → 库管理器 → Add → ProKit 图库包          （AC29 及更早：Ci Tools Macros.libpack）
    ★ 必须选单个 .libpack 文件，选文件夹内容会全空
 3. 右键工具箱 → 工具箱设置 → 勾选工具 → ★保存工作环境
 ```
 
-> **第二步是最容易漏的。** 从 Archicad 29 起，CI Tools 的库包不再自动挂载，必须手动加载进项目。这是"装了却用不了"的头号原因。
+> **第二步是最容易漏的。** 从 Archicad 29 起，图库包不再自动挂载，必须手动加载进项目。这是"装了却用不了"的头号原因。
+
+*Three steps: load the ProKit work environment, add the ProKit library packs manually, then enable the tools in the toolbox and save the environment.*
 
 ---
 
 ## 工具目录
 
-按**该学的顺序**排列，不是按字母序。
+按**该学的顺序**排列，不是按字母序。AC30 入口统一为 `ProKit >`，括注为 AC29 及更早的旧路径。
 
-| 优先级 | 工具 | 一句话 | 入口 |
-|:---:|---|---|---|
-| ★★★ | **Annotate** | 全项目文字大小写、字体批量改 | CI Tools → Annotate → Convert Case… |
-| ★★★ | **MetaData** | 属性与分类的批量操作面板 | CI Tools → MetaData |
-| ★★★ | **Time Tracker** | 记录各任务工时，和报价对比 | CI Tools → Time Tracker → Open Time Tracker |
-| ★★ | **Quantities** | 从模型出工程量清单 | CI Tools → Quantities |
-| ★★ | **Keynotes** | 规范注释数据库，自动挂注释 | CI Tools → Keynotes → Keynotes Palette |
-| ★★ | **Transformer** | 一键镜像整个项目 | CI Tools → Transformer → Mirror Project… |
-| ★ | **Detail Elements** | 拖拽式参数化二维详图库 | 工具箱 → ProKit Detail Elements |
-| ★ | **Coverings** | 墙板柱贴 3D 覆面皮 | 工具箱 → ProKit Coverings |
-| ★ | **Fitout** | 房间一键配齐家具 | 工具箱 → ProKit Fitout |
-| ★ | **Sites** | 场地边界与退让（澳新） | 工具箱 → ProKit Sites |
-| ★ | **Cabinets** | 一个对象搞定所有橱柜 | 工具箱 → ProKit Cabinets |
-| ★ | **Doors+Windows** | 异形门窗，尺寸捕捉 | 工具箱 → ProKit Doors+Windows |
-| ★ | **Stairs** | 自由楼梯设计 | 工具箱 → ProKit Stairs |
-| ★ | **Structural** | 桁架、框架、连接件 | 工具箱 → ProKit Structural |
-| ★ | **Electrical** | 电气符号与回路（无国标库） | 工具箱 → ProKit Electrical |
-| ★ | **Bracing** | NZ 木结构抗侧力（NZ 专属） | 工具箱 → ProKit Bracing |
+| 包 | 优先级 | 工具 | 一句话 | 入口（AC30 / 旧版） |
+|:---:|:---:|---|---|---|
+| Core | ★★★ | **Annotate** | 全项目文字大小写、字体、属性批量替换 | ProKit → Annotate → Replace / CI Tools → Annotate |
+| Core | ★★★ | **Transformer** | 一键镜像、移动、旋转整个项目；重置原点 | ProKit → Transformer / CI Tools → Transformer |
+| Core | ★★★ | **Time Tracker** | 记录各任务工时，导出 CSV | ProKit → Time Tracker → Timer Palette |
+| Core | ★★ | **Detail Elements** | 拖拽式参数化二维详图库 | 工具箱 → Detail Element |
+| Suite | ★★★ | **Metadata** | 属性与分类的批量操作面板 | ProKit → Metadata / CI Tools → MetaData |
+| Suite | ★★ | **Quantities** | 从模型出工程量清单 | ProKit → Quantities |
+| Suite | ★★ | **Keynotes** | 规范注释数据库，自动挂注释 | ProKit → Keynotes → Keynotes Palette |
+| Suite | ★ | **Coverings** | 墙板柱贴 3D 覆面皮 | ProKit → Coverings |
+| Suite | ★ | **Fitout** | 房间一键配齐家具 | ProKit → Fitout |
+| Suite | ★ | **Site** | 场地边界与退让（澳新） | ProKit → Site / CI Tools → Sites |
+| Suite | ★ | **Cabinets** | 一个对象搞定所有橱柜 | ProKit → Cabinets |
+| Suite | ★ | **Doors + Windows** | 异形门窗，尺寸捕捉 | ProKit → Doors + Windows |
+| Suite | ★ | **Stairs** | 自由楼梯设计 | ProKit → Stairs |
+| Suite | ★ | **Structure** | 桁架、框架、连接件 | ProKit → Structure / CI Tools → Structural |
+| Suite | ★ | **Electrical** | 电气符号与回路（无国标库） | ProKit → Electrical |
+| 旧版 | ★ | **LaunchPad** | 项目与常用命令统一入口 | MyCi 收录，未列入两个包 |
+| 旧版 | ★ | **NZ Bracing** | NZ 木结构抗侧力（仅新西兰） | MyCi 收录，NZ Only |
+| 旧版 | — | **Labeller** | 表面标注，免费 CI Tools 工具 | ProKit 未收录 |
+
+*18 tools: 4 in ProKit Core, 11 in ProKit Suite, 3 legacy (LaunchPad, NZ Bracing, Labeller).*
 
 ---
 
@@ -112,10 +123,15 @@ CI Tools 是 Central Innovation（新西兰）为 Archicad 开发的效率插件
 
 | 版本 | 工具包名称 | 获取方式 | 注意事项 |
 |---|---|---|---|
-| Archicad 24 ~ 29 | CI Tools | MyCi Installer | 库包须手动加载 |
-| Archicad 30 及以后 | ProKit Core / Suite | Graphisoft 官网 | 菜单名改为 ProKit |
+| Archicad 24 ~ 29 | CI Tools（Cadimage） | MyCi Installer | 库包须手动加载 |
+| Archicad 30 及以后 | **ProKit Core** `3001-1.2` | Graphisoft 官网，81 MB（Win） | 仅部分国家 + Studio / Collaborate / Max 计划；Max 全球 |
+| Archicad 30 及以后 | **ProKit Suite** `3001-1.2` | Graphisoft 官网，约 1 GB | 随 Collaborate / Max 订阅全球提供 |
 
-**区域限制**：Electrical 库含欧盟、印度、撒哈拉以南非洲、英国、美国，**无中国国标库**；Sites 为澳新专属，Bracing 为新西兰专属。
+**兼容性硬规则**：用了 ProKit 工具的项目**不要另存回旧版本**；跨版本协作时两边插件版本必须匹配。
+
+**区域限制**：Electrical 库含欧盟、印度、撒哈拉以南非洲、英国、美国，**无中国国标库**；Site 为澳新专属；NZ Bracing 仅新西兰。
+
+*Core is limited to specific plans and countries; Suite ships with Collaborate and Max worldwide. Never back-save a project that uses ProKit, and keep add-on versions matched across collaborators.*
 
 ---
 
@@ -126,8 +142,9 @@ ci_tools/
 ├── readme.md                          本文件
 ├── debug_log_1.md                     变更日志（第 1 册，已满）
 ├── debug_log_2.md                     变更日志（第 2 册）
-├── site/                              ★在线站点，23 个页面
+├── site/                              ★在线站点，24 个页面
 │   ├── index.html / all.html …        422 篇文章，18 个工具 + 入门
+│   ├── differences.html               ★ProKit 与 CI Tools 版本差异
 │   ├── search.css / search.js         顶部全站搜索条（智能匹配 + 自动补全）
 │   └── search-index.js                搜索索引，自动生成，勿手改
 ├── source/                            站点生成器
@@ -137,13 +154,15 @@ ci_tools/
 │   ├── zh_translations.json           中文译文
 │   └── handbook_main.md               中文主线速查原稿
 ├── docs/
+│   ├── ProKit_升级改造计划.md          ★AC30 升级改造计划（P0–P6）
+│   ├── ProKit_事实卡.md               ★官方事实唯一来源（授权、版本、菜单、链接）
 │   ├── CI_Tools_用户手册_图文版.html    ★推荐阅读，24 章节 + 24 张官方截图
 │   ├── CI_Tools_速查卡_网页版.html      ★推荐阅读，一页纸速查
 │   ├── CI_Tools_用户手册.md            纯文字版，便于检索与二次编辑
 │   ├── CI_Tools_速查卡.md              纯文字版，打印用
 │   └── manual_master.md               网页版主稿（改内容从这里下手）
 ├── assets/
-│   └── img/                           24 张官方截图（本地化，无外链依赖）
+│   └── img/                           本地截图（手册用 24 张）
 │       └── tool_image_map.json        图床直链映射表
 └── tools/
     ├── beautify.py                    美化管线：md → html 全流程
@@ -238,15 +257,19 @@ tar czf - -C /path/to/resources AC_Tutorial/ci_tools/site | \
 
 ## 内容来源
 
-- **官方文档**：MyCi 知识库 https://cadimage.zendesk.com/hc/en-us（2026-10 更新）
-- **官方下载**：https://www.graphisoft.com/en-gs/downloads/prokit
+- **Core 4 个工具**：Graphisoft AC30 官方帮助 https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/prokit_core_tools.html（14 页，2026-11-23 核实）
+- **Suite 11 个 + 旧版工具**：MyCi 知识库 https://cadimage.zendesk.com/hc/en-us（2026-10 更新）
+- **下载与授权**：https://www.graphisoft.com/downloads/add-ons/prokit/
 - **视频课程**：Graphisoft Learn「Getting Started with ProKit Core」1 小时
-- **界面截图**：取自官方教程文档，用于教学对照
+- **界面截图**：Core 部分随官方手册重写一并对齐；其余取自 MyCi 教学文档
+
+*Core pages follow the AC30 help; Suite and legacy pages follow MyCi. See `docs/ProKit_事实卡.md` for the verified facts behind every claim.*
 
 ---
 
 <div align="center">
 
-**CI Tools 完全指南** · 2026-11-05 · 天津匡形无界智能科技有限公司
+**ProKit / CI Tools（旧）完全指南** · AC30 重编 2026-11-23 · 天津匡形无界智能科技有限公司<br>
+*ProKit / CI Tools (legacy) handbook · AC30 revision, 2026-11-23 · Kuanform Boundless Intelligent Technology*
 
 </div>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="CI Tools 教程站来源说明、翻译原则与已知局限">
-<title>来源与说明 · CI Tools 完全指南</title>
+<meta name="description" content="ProKit / CI Tools（旧）教程站的来源说明：AC30 官方帮助与 MyCi 知识库双轨依据、翻译原则与已知局限">
+<title>来源与说明 · ProKit / CI Tools（旧）</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
 <style>
@@ -191,11 +191,12 @@ html[data-lang="en"] .en-only.block { display:block; }
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">ProKit / CI Tools（旧）</span><span class="en-only">ProKit / CI Tools (legacy)</span></div><div class="brand-s">Archicad ProKit · AC30</div></a></div>
 <div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
 <a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
 <a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
 <a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="differences.html"><span class="ic">⇋</span><span class="zh-only">ProKit 与 CI Tools</span><span class="en-only">ProKit vs CI Tools</span></a>
 <a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
 <div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
 <a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
@@ -231,13 +232,11 @@ html[data-lang="en"] .en-only.block { display:block; }
 <div class="hero">
   <span class="kicker"><span class="zh-only">来源与说明</span><span class="en-only">Sources &amp; Notes</span></span>
   <h1><span class="zh-only">这份手册从哪来</span><span class="en-only">Where This Manual Comes From</span></h1>
-  <p class="zh-only">本站内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库，
-  共 419 篇官方文档、1330 张界面截图，全部译为中文并本地化存储。
-  另有 3 篇基于 Graphisoft AC30 官方帮助补写，补齐旧版文档缺失的画笔、填充、线型替换。</p>
-  <p class="en-only">This site is compiled from the official Central Innovation / Graphisoft MyCi
-  knowledge base — 357 articles and 1208 interface screenshots, translated into Chinese
-  and hosted locally. Three further articles are written from the Graphisoft AC30 help, covering
-  pen, fill and line type replacement that the older documentation omits.</p>
+  <p class="zh-only">本站内容分两轨整理：<b>Core 4 个工具</b>以 Graphisoft AC30 官方帮助为唯一依据（14 页官方手册，配图随页面重写一并对齐）；
+  <b>Suite 11 个工具及旧版工具</b>以官方 MyCi 知识库为基线，全文译为中文。共 422 篇教程、3800+ 张界面截图。</p>
+  <p class="en-only">Content follows two tracks: the <b>four Core tools</b> are based solely on the Graphisoft AC30 help
+  (14 official pages); the <b>eleven Suite tools and legacy tools</b> follow the
+  official MyCi knowledge base, translated into Chinese. 422 articles, 3800+ screenshots.</p>
 </div>
 
 <article>
@@ -249,32 +248,30 @@ html[data-lang="en"] .en-only.block { display:block; }
 </tr></thead>
 <tbody>
 <tr>
-  <td><span class="zh-only">官方文档</span><span class="en-only">Official docs</span></td>
-  <td><span class="zh-only">Central Innovation / Graphisoft MyCi 知识库（cadimage.zendesk.com），
-  2026-10 更新版</span><span class="en-only">Central Innovation / Graphisoft MyCi knowledge base
-  (cadimage.zendesk.com), revision 2026-10</span></td>
+  <td><span class="zh-only">Core 4 个工具</span><span class="en-only">Core (4 tools)</span></td>
+  <td><span class="zh-only">Graphisoft AC30 内置帮助（help.graphisoft.com，ProKit Core 共 14 页），
+  按官方结构重写，2026-11-23 核实</span><span class="en-only">Graphisoft AC30 built-in help
+  (help.graphisoft.com, 14 ProKit Core pages), rewritten to the official structure, verified 2026-11-23</span></td>
 </tr>
 <tr>
-  <td><span class="zh-only">界面截图</span><span class="en-only">Screenshots</span></td>
-  <td><span class="zh-only">1208 张，全部下载压缩后本地存储，不依赖任何外部图床</span>
-  <span class="en-only">1208 screenshots, all downloaded, compressed and stored locally — no external image hosting</span></td>
+  <td><span class="zh-only">Suite 11 个 + 旧版工具</span><span class="en-only">Suite (11) + legacy tools</span></td>
+  <td><span class="zh-only">官方 MyCi 知识库（cadimage.zendesk.com），2026-10 更新版；
+  AC30 官方不提供这部分手册，页面顶部标注依据</span><span class="en-only">Official MyCi knowledge base
+  (cadimage.zendesk.com), revision 2026-10; AC30 provides no official manual for these, tagged at the top of each page</span></td>
 </tr>
 <tr>
   <td><span class="zh-only">中文译文</span><span class="en-only">Chinese translation</span></td>
-  <td><span class="zh-only">419 篇全文翻译，图片占位符逐篇数量与顺序校验</span>
-  <span class="en-only">All 357 articles translated; image placeholders verified article-by-article</span></td>
+  <td><span class="zh-only">MyCi 部分全文翻译，图片占位符逐篇数量与顺序校验</span>
+  <span class="en-only">The MyCi-based part is fully translated; image placeholders verified article-by-article</span></td>
 </tr>
 <tr>
-  <td><span class="zh-only">补写内容</span><span class="en-only">Additional articles</span></td>
-  <td><span class="zh-only">3 篇，基于 Graphisoft AC30 ProKit 官方帮助（help.graphisoft.com）编写，
-  覆盖 Replace 总入口、属性替换管理器、Create from 自动生成清单</span>
-  <span class="en-only">3 articles written from the Graphisoft AC30 ProKit help
-  (help.graphisoft.com), covering the Replace dialog, the Attribute Replacement Manager
-  and Create from</span></td>
+  <td><span class="zh-only">版本差异</span><span class="en-only">Version differences</span></td>
+  <td><span class="zh-only">见 <a href="differences.html">ProKit 与 CI Tools</a>：两个安装包、授权与市场、菜单变化、另存警告</span>
+  <span class="en-only">See <a href="differences.html">ProKit vs CI Tools</a>: installers, licensing and markets, menu changes, back-save warning</span></td>
 </tr>
 <tr>
   <td><span class="zh-only">整理时间</span><span class="en-only">Compiled</span></td>
-  <td>2026-11-05</td>
+  <td><span class="zh-only">2026-11-05 初版；2026-11-23 按 ProKit 双轨重编</span><span class="en-only">First compiled 2026-11-05; restructured for ProKit on 2026-11-23</span></td>
 </tr>
 </tbody>
 </table>
@@ -293,14 +290,14 @@ html[data-lang="en"] .en-only.block { display:block; }
 
 <h2><span class="zh-only">已知局限</span><span class="en-only">Known Limitations</span></h2>
 <ul>
-<li><span class="zh-only">1208 张截图中有 33 张在官方源站已失效（多为老博客关站导致 404），页面以占位说明替代，不显示破图</span>
-<span class="en-only">33 of the screenshots are no longer available on the official server (the old blog was taken down); the pages show a placeholder instead of broken images</span></li>
+<li><span class="zh-only">部分截图托管在第三方 CDN，离线环境或对方改版时可能不显示；Core 4 个工具的官方截图将于重写时镜像到本站</span>
+<span class="en-only">Some screenshots are hosted on a third-party CDN and may fail offline or after the vendor changes it; official Core screenshots will be mirrored locally during the rewrite</span></li>
 <li><span class="zh-only"><b>Electrical</b> 库含欧盟、印度、撒哈拉以南非洲、英国、美国，<b>无中国国标库</b></span>
 <span class="en-only">The <b>Electrical</b> library covers EU, India, sub-Saharan Africa, UK and US — <b>no Chinese national standard library</b></span></li>
-<li><span class="zh-only"><b>Sites</b> 为澳新专属，<b>Bracing</b> 为新西兰专属</span>
-<span class="en-only"><b>Sites</b> is for Australia/NZ, <b>Bracing</b> is New Zealand only</span></li>
-<li><span class="zh-only"><b>Archicad 30 起</b>工具包改名 <b>ProKit</b>，菜单名随之改变；<b>Archicad 29 起</b>库包必须手动加载</span>
-<span class="en-only">From <b>Archicad 30</b> the toolkit is renamed <b>ProKit</b> with different menu names; from <b>Archicad 29</b> library packs must be loaded manually</span></li>
+<li><span class="zh-only"><b>Site</b> 为澳新专属（MyCi 标注 NZ Only 的为 <b>Bracing</b>）</span>
+<span class="en-only"><b>Site</b> is Australia/NZ only (MyCi marks <b>Bracing</b> as NZ only)</span></li>
+<li><span class="zh-only"><b>Archicad 30 起</b>工具包改名 <b>ProKit</b>，拆成 Core 与 Suite 两个安装包；<b>Archicad 29 起</b>库包必须手动加载</span>
+<span class="en-only">From <b>Archicad 30</b> the toolkit is <b>ProKit</b>, split into Core and Suite installers; from <b>Archicad 29</b> library packs must be loaded manually</span></li>
 </ul>
 
 <h2><span class="zh-only">内容仅供学习参考</span><span class="en-only">For Learning Purposes Only</span></h2>
@@ -312,15 +309,16 @@ For commercial use, follow the vendor's licensing terms.</p>
 
 <h2><span class="zh-only">官方入口</span><span class="en-only">Official Links</span></h2>
 <ul>
-<li><span class="zh-only">MyCi 知识库</span><span class="en-only">MyCi knowledge base</span> — cadimage.zendesk.com/hc/en-us</li>
-<li><span class="zh-only">Graphisoft ProKit 下载（Archicad 30+）</span><span class="en-only">Graphisoft ProKit download (Archicad 30+)</span> — graphisoft.com/downloads/add-ons/prokit/</li>
+<li><span class="zh-only">AC30 官方帮助 · ProKit Core（4 个工具）</span><span class="en-only">AC30 help · ProKit Core (4 tools)</span> — help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/prokit_core_tools.html</li>
+<li><span class="zh-only">MyCi 知识库（Suite 11 个工具）</span><span class="en-only">MyCi knowledge base (Suite tools)</span> — cadimage.zendesk.com/hc/en-us</li>
+<li><span class="zh-only">Graphisoft ProKit 下载与授权（Archicad 30+）</span><span class="en-only">Graphisoft ProKit download and licensing (Archicad 30+)</span> — graphisoft.com/downloads/add-ons/prokit/</li>
 <li><span class="zh-only">Graphisoft 官方论坛</span><span class="en-only">Graphisoft official forum</span> — forum.graphisoft.com</li>
 </ul>
 </article>
 
 <footer class="foot">
-<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
-<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+<span class="zh-only">ProKit / CI Tools（旧）· 内容依据 Graphisoft AC30 官方帮助与 MyCi 知识库 · AC30 重编 2026-11-23</span>
+<span class="en-only">ProKit / CI Tools (legacy) · Sources: Graphisoft AC30 help and the MyCi knowledge base · AC30 revision 2026-11-23</span>
 </footer>
 </main>
 </div>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Archicad CI Tools 官方教程全量中文版：18 个工具、422 篇文档、1330 张界面截图">
-<title>总览 · CI Tools 完全指南</title>
+<meta name="description" content="Archicad ProKit / CI Tools（旧）完全指南：18 个工具、422 篇教程、3800+ 张界面截图；Core 4 个工具按 AC30 官方手册重写">
+<title>总览 · ProKit / CI Tools（旧）</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
 <style>
@@ -185,23 +185,30 @@ html[data-lang="en"] .en-only.block { display:block; }
 .vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
   background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
 .vb-note b{color:#8a5a1e}
+.pkg{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.03em;
+  padding:1px 7px;border-radius:9999px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.pkg-core{background:rgba(47,111,143,.12);color:#1d4d63;border:1px solid rgba(47,111,143,.25)}
+.pkg-suite{background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba}
+.pkg-old{background:#f7e3e3;color:#9a3b3b;border:1px solid #e6c6c6}
 </style>
 <link rel="stylesheet" href="search.css">
 </head>
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">ProKit / CI Tools（旧）</span><span class="en-only">ProKit / CI Tools (legacy)</span></div><div class="brand-s">Archicad ProKit · AC30</div></a></div>
 <div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
 <a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
 <a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
 <a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="differences.html"><span class="ic">⇋</span><span class="zh-only">ProKit 与 CI Tools</span><span class="en-only">ProKit vs CI Tools</span></a>
 <a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
-<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<div class="nav-h zh-only block">ProKit Core · 4</div><div class="nav-h en-only block">ProKit Core · 4</div>
 <a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
 <a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
 <a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
 <a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<div class="nav-h zh-only block">ProKit Suite · 11</div><div class="nav-h en-only block">ProKit Suite · 11</div>
 <a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
 <a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
 <a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
@@ -213,6 +220,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
 <a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
 <a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
+<div class="nav-h zh-only block">其他 / 旧版 · 3</div><div class="nav-h en-only block">Legacy · 3</div>
 <a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
 <a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
 <a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
@@ -227,16 +235,20 @@ html[data-lang="en"] .en-only.block { display:block; }
 
 
 <div class="hero" style="border-bottom:none;padding-top:34px">
-  <span class="kicker"><span class="zh-only">Archicad 插件工具包 · 完整教程</span><span class="en-only">Archicad Plugin Toolkit · Complete Manual</span></span>
-  <h1><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Complete Handbook</span></h1>
-  <p class="zh-only">Central Innovation CI Tools（2026 年起改名 Graphisoft ProKit）官方教程全量中文整理版 —— 419 篇官方文档 + 3 篇 AC30 补写、1330 张界面截图、49.1 万字，覆盖 18 个工具的全部功能细节。</p>
-  <p class="en-only">The complete bilingual edition of the official Central Innovation CI Tools (renamed Graphisoft ProKit in 2026) manual — 419 official articles plus 3 for AC30, 1330 interface screenshots, covering every feature across all 18 tools.</p>
+  <span class="kicker"><span class="zh-only">Archicad ProKit · AC30</span><span class="en-only">Archicad ProKit · AC30</span></span>
+  <h1><span class="zh-only">ProKit / CI Tools（旧）完全指南</span><span class="en-only">ProKit / CI Tools (Legacy) Handbook</span></h1>
+  <p class="zh-only">AC30 起 CI Tools 更名为 Graphisoft ProKit。本站以 ProKit 为骨架：Core 4 个工具按 AC30 官方手册重写，Suite 11 个工具保留 MyCi 基线全文，旧版入口集中标注——18 个工具、422 篇教程、3800+ 张界面截图。</p>
+  <p class="en-only">Since AC30, CI Tools is Graphisoft ProKit. This handbook follows ProKit: the four Core tools are rewritten from the official AC30 manual, the eleven Suite tools keep the full MyCi baseline, and legacy entries are clearly tagged — 18 tools, 422 articles, 3800+ interface screenshots.</p>
   <div class="meta">
     <span><b>422</b> <span class="zh-only">篇教程</span><span class="en-only">articles</span></span>
-    <span><b>1330</b> <span class="zh-only">张官方截图</span><span class="en-only">screenshots</span></span>
-    <span><b>49.1</b> <span class="zh-only">万字</span><span class="en-only">10k words</span></span>
+    <span><b>3800+</b> <span class="zh-only">张界面截图</span><span class="en-only">screenshots</span></span>
     <span><b>18</b> <span class="zh-only">个工具</span><span class="en-only">tools</span></span>
+    <span><b>3001-1.2</b> <span class="zh-only">插件版本</span><span class="en-only">add-on version</span></span>
   </div>
+  <p class="vb-note">
+    <span class="zh-only">内容依据分两轨：<b>Core 4 个工具</b>以 AC30 官方帮助为准；<b>Suite 11 个工具</b>官方不提供手册，以 MyCi 知识库为准，页头标注抓取基线。两者冲突时以官方手册为准。</span>
+    <span class="en-only">Two sourcing tracks: <b>the four Core tools</b> follow the official AC30 help; <b>the eleven Suite tools</b> have no official manual and follow the MyCi knowledge base, tagged at the top of each page. Where they disagree, the official manual wins.</span>
+  </p>
   <p class="vb-note">
     <span class="zh-only">标 <b>AC19–AC23</b> 的文章基于旧版界面编写：功能思路仍通用，但按钮位置和菜单名可能与当前版本不同。</span>
     <span class="en-only">Articles tagged <b>AC19–AC23</b> were written for older interfaces — the concepts still apply, but UI paths may differ from the current version.</span>
@@ -248,16 +260,16 @@ html[data-lang="en"] .en-only.block { display:block; }
   <div class="step">
     <div class="sn">STEP 01</div>
     <h4><span class="zh-only">加载工作环境</span><span class="en-only">Load Work Environment</span></h4>
-    <p class="zh-only">菜单栏和工具箱才会出现 CI Tools 条目</p>
-    <p class="en-only">Makes the CI Tools entries appear in the menu and toolbox</p>
-    <code>File &gt; Work Environment &gt; Ci Tools Profile XX</code>
+    <p class="zh-only">菜单栏和工具箱才会出现 ProKit 条目（AC29 及更早为 CI Tools）</p>
+    <p class="en-only">Makes the ProKit entries appear in the menu and toolbox (CI Tools on AC29 and earlier)</p>
+    <code>File &gt; Work Environment &gt; ProKit Profile</code>
   </div>
   <div class="step">
     <div class="sn">STEP 02</div>
     <h4><span class="zh-only">加载图库包</span><span class="en-only">Load Library Packs</span></h4>
     <p class="zh-only">AC29 起必须手动加载，否则工具内容为空</p>
     <p class="en-only">From AC29 library packs must be loaded manually, or tools appear empty</p>
-    <code>File &gt; Library Manager &gt; Add &gt; Ci Tools Macros.libpack</code>
+    <code>File &gt; Library Manager &gt; Add &gt; ProKit library packs</code>
   </div>
   <div class="step">
     <div class="sn">STEP 03</div>
@@ -276,9 +288,16 @@ html[data-lang="en"] .en-only.block { display:block; }
   <p class="en-only">Download, install, activate, subscribe, deploy to BIMcloud, and load libraries</p>
   <div class="n"><span class="zh-only">27 篇 · 56 图</span><span class="en-only">27 articles · 56 images</span></div>
 </a></div>
+<div class="card"><a href="differences.html">
+  <div class="card-h"><span class="ic">⇋</span><b>ProKit vs CI Tools</b><span class="zh-only">版本差异</span></div>
+  <p class="zh-only">两个安装包、授权与市场、菜单变化、另存警告</p>
+  <p class="en-only">Two installers, licensing and markets, menu changes, back-save warning</p>
+  <div class="n"><span class="zh-only">AC30 版 · 1 页</span><span class="en-only">AC30 · 1 page</span></div>
+</a></div>
 </div>
 
-<h2>18 个工具</h2>
+<h2><span class="zh-only">ProKit Core · 4 个工具</span><span class="en-only">ProKit Core · 4 tools</span><span class="pkg pkg-core">Core</span></h2>
+<p style="color:var(--muted);font-size:13.5px"><span class="zh-only">AC30 官方帮助覆盖，本站按官方手册重写。授权见 <a href="differences.html">版本差异</a>。</span><span class="en-only">Covered by the official AC30 help and rewritten here from that manual. See <a href="differences.html">the differences page</a> for licensing.</span></p>
 <div class="grid">
 
 <div class="card"><a href="annotate.html">
@@ -305,6 +324,11 @@ html[data-lang="en"] .en-only.block { display:block; }
   <p class="en-only">Drag-and-drop parametric 2D detail component library</p>
   <div class="n"><span class="zh-only">5 篇 · 19 图</span><span class="en-only">5 articles · 19 images</span></div>
 </a></div>
+</div>
+
+<h2><span class="zh-only">ProKit Suite · 11 个工具</span><span class="en-only">ProKit Suite · 11 tools</span><span class="pkg pkg-suite">Suite</span></h2>
+<p style="color:var(--muted);font-size:13.5px"><span class="zh-only">随 Archicad Collaborate / Max 订阅提供。官方不写手册，本页保留 MyCi 基线全文。</span><span class="en-only">Included with Archicad Collaborate / Max. No official manual — these pages keep the full MyCi baseline.</span></p>
+<div class="grid">
 <div class="card"><a href="keynotes.html">
   <div class="card-h"><span class="ic">❝</span><b>Keynotes</b><span class="zh-only">规范注释</span></div>
   <p class="zh-only">注释数据库自动挂接与明细表</p>
@@ -373,6 +397,29 @@ html[data-lang="en"] .en-only.block { display:block; }
 </a></div>
 </div>
 
+<h2><span class="zh-only">其他 / 旧版 · 3 个工具</span><span class="en-only">Legacy · 3 tools</span><span class="pkg pkg-old"><span class="zh-only">旧版</span><span class="en-only">Legacy</span></span></h2>
+<p style="color:var(--muted);font-size:13.5px"><span class="zh-only">未纳入 Core / Suite 两个安装包，或仅限特定市场。详见 <a href="differences.html">ProKit 与 CI Tools</a>。</span><span class="en-only">Not part of either installer, or limited to specific markets. See <a href="differences.html">ProKit vs CI Tools</a>.</span></p>
+<div class="grid">
+<div class="card"><a href="launchpad.html">
+  <div class="card-h"><span class="ic">⇪</span><b>LaunchPad</b><span class="zh-only">启动台</span></div>
+  <p class="zh-only">项目与常用命令的统一入口</p>
+  <p class="en-only">Single entry point for projects and common commands</p>
+  <div class="n"><span class="zh-only">MyCi 收录</span><span class="en-only">Listed on MyCi</span></div>
+</a></div>
+<div class="card"><a href="bracing.html">
+  <div class="card-h"><span class="ic">⊻</span><b>NZ Bracing</b><span class="zh-only">支撑（仅 NZ）</span></div>
+  <p class="zh-only">新西兰市场专用的支撑构件</p>
+  <p class="en-only">Bracing components for the New Zealand market only</p>
+  <div class="n"><span class="zh-only">NZ Only</span><span class="en-only">NZ only</span></div>
+</a></div>
+<div class="card"><a href="labeller.html">
+  <div class="card-h"><span class="ic">◫</span><b>Labeller</b><span class="zh-only">表面标注</span></div>
+  <p class="zh-only">免费 CI Tools 工具，ProKit 未收录</p>
+  <p class="en-only">Free CI Tools tool, not bundled with ProKit</p>
+  <div class="n"><span class="zh-only">旧版工具</span><span class="en-only">Legacy tool</span></div>
+</a></div>
+</div>
+
 <h2>全量文章目录</h2>
 <p style="color:var(--muted);font-size:13.5px">共 360 篇，点标题直达对应分册的具体文章。</p>
 
@@ -408,8 +455,8 @@ html[data-lang="en"] .en-only.block { display:block; }
 <ul class="toc-list"><li><a href="fitout.html#a-10897513971471"><span class="tg">01</span><span class="zh-only">Ci Fitout 工具发布</span><span class="en-only">Ci Fitout Tool Released</span></a></li><li><a href="fitout.html#a-13992052507023"><span class="tg">02</span><span class="zh-only">Fitout —— 窗帘处理与门口通行空间</span><span class="en-only">Fitout  - Window Treatments and Door Circulation</span></a></li><li><a href="fitout.html#a-13991958051983"><span class="tg">03</span><span class="zh-only">如何放置 Fitout</span><span class="en-only">How to Place a Fitout</span></a></li><li><a href="fitout.html#a-13992048044687"><span class="tg">04</span><span class="zh-only">Fitout 简介</span><span class="en-only">Introduction to Fitout</span></a></li><li><a href="fitout.html#a-17876153803919"><span class="tg">05</span><span class="zh-only">ProKit Fitout —— 从这里开始</span><span class="en-only">ProKit Fitout – Start here</span></a></li></ul>
 
 <footer class="foot">
-<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
-<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+<span class="zh-only">ProKit / CI Tools（旧）· 内容依据 Graphisoft AC30 官方帮助与 MyCi 知识库 · AC30 重编 2026-11-23</span>
+<span class="en-only">ProKit / CI Tools (legacy) · Sources: Graphisoft AC30 help and the MyCi knowledge base · AC30 revision 2026-11-23</span>
 </footer>
 </main>
 </div>
