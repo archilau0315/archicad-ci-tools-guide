@@ -1,9 +1,9 @@
 # ProKit 升级改造计划 · AC30 版教程
 
-> 版本：v1.3（P6 发布执行）
+> 版本：v1.3（发布完成）
 > 日期：2026-11-24
 > 范围：`resources/AC_Tutorial/ci_tools` 全站（24 页、18 工具、424 篇：391 篇工具 + 33 篇入门）
-> 状态：**P0–P5 已实施并通过本地验收；P6 本次推送并发布主站入口与教程全站**
+> 状态：**P0–P6 全部完成；主站入口与教程全站已推送、发布并通过线上验收**
 
 **已确认的四个决策**
 
@@ -266,6 +266,6 @@
 
 The AC30 release rebrands CI Tools as **Archicad ProKit**, split into **ProKit Core** (Annotate, Detail Elements, Time Tracker, Transformer — now documented in the official AC30 help) and **ProKit Suite** (11 tools — official help still defers to the MyCi knowledge base). Licensing and market availability differ per package, and Graphisoft warns against back-saving projects that use ProKit.
 
-Implementation: preserved all tool-page URLs and legacy anchors, rebranded the shell (title, navigation grouped by Core / Suite / legacy, per-page badges), added `differences.html`, rewrote Getting Started and the four Core tool pages against official docs, and retained 27 legacy setup articles in a collapsed archive. The current site contains 424 articles: 391 tool articles plus 33 Getting Started articles. P0–P5 passed local static and Edge browser checks; P6 deployment has not been performed.
+Implementation: preserved all tool-page URLs and legacy anchors, rebranded the shell (title, navigation grouped by Core / Suite / legacy, per-page badges), added `differences.html`, rewrote Getting Started and the four Core tool pages against official docs, and retained 27 legacy setup articles in a collapsed archive. The current site contains 424 articles: 391 tool articles plus 33 Getting Started articles. P0–P6 are complete: the main-site entries and all 24 tutorial pages were pushed, deployed, and verified online with Edge.
 
 Confirmed decisions: site title **ProKit / CI Tools (legacy)**; Core pages rewritten from the official AC30 manual; dual-track sourcing (Core = official help, Suite = MyCi); internal-only site. Fourteen official pages were captured, with 31 selected screenshots mirrored under `site/img/prokit/` and source captions retained.
