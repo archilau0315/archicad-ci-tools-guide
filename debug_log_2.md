@@ -22,3 +22,11 @@
 
 **部署**：2026-11-10 已同步到阿里云 `47.93.210.248:/www/wwwroot/kbitai.com.cn/resources/AC_Tutorial/ci_tools/`（scp 走 root 密钥，`chown -R www:www`）。站点内 23 个页面均带上 `search.js` 引用，服务器本地 HTTP / HTTPS 请求 `search.js` 均为 200。
 **远程仓库**：当天先推到 GitHub `archilau0315/archicad-ci-tools-guide` 的 `main`，后来发现该仓库已由之前的 resources 子仓库（`cd38920` 那条线）发布过，两条独立历史并存。2026-11-10 14:40 按方案 1 用 `--force-with-lease` 把本地独立仓库 HEAD=`d7da9d7` 覆盖远端 main=`c7d93d2`（forced update），远端 22 个原始 commit 被替换。resources 子仓库里的 `guide` 远端同步删去，避免后续误推把远端又改回去。
+
+---
+
+## 2026-11-23 · ProKit 升级改造计划
+
+**模块**：docs / 全站规划
+**变更**：新增 `docs/ProKit_升级改造计划.md`。依据 Graphisoft AC30 帮助（ProKit Core / Suite 工具页）与 ProKit 下载页核实：AC30 起 CI Tools 改名 Archicad ProKit，拆 Core（4 工具，官方手册覆盖）与 Suite（11 工具，官方仍指向 MyCi）；版本 3001-1.2；授权按套餐与国家区分；官方警告不可回存旧版。计划含现状基线（23 页 / 18 工具 / 422 篇 / 392 处旧品牌字样）、差异清单、脚本化迁移方案（rebrand_prokit.py + verify_site.py）、P0–P6 阶段、验收标准与风险（含 3879 张图挂第三方 CDN 的技术债）。
+**备注**：本轮只写计划，未改站点代码；待用户确认 4 个决策点后按 P0/P1 开工。
