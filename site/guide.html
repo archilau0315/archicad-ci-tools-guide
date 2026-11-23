@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-lang="zh">
 <head>
+<!-- rebrand:prokit-p4 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="CI Tools 18 个工具中文主线速查：操作要点、菜单路径、关键步骤">
-<title>中文主线速查 · CI Tools 完全指南</title>
+<meta name="description" content="ProKit 18 个工具中文主线速查：操作要点、菜单路径、关键步骤">
+<title>中文主线速查 · ProKit / CI Tools（旧）</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
 <style>
@@ -185,35 +186,48 @@ html[data-lang="en"] .en-only.block { display:block; }
 .vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
   background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
 .vb-note b{color:#8a5a1e}
+
+/* ProKit 包徽标（P4） */
+.pkg-line{margin:12px 0 0;font-size:12.5px;color:var(--muted);display:flex;
+  flex-wrap:wrap;gap:8px;align-items:center}
+.pkg-line a{border:none;font-size:12.5px}
+.pkg{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.03em;
+  padding:2px 8px;border-radius:9999px;white-space:nowrap}
+.pkg-core{background:rgba(47,111,143,.12);color:#1d4d63;border:1px solid rgba(47,111,143,.25)}
+.pkg-suite{background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba}
+.pkg-old{background:#f7e3e3;color:#9a3b3b;border:1px solid #e6c6c6}
 </style>
 <link rel="stylesheet" href="search.css">
 </head>
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">ProKit / CI Tools（旧）</span><span class="en-only">ProKit / CI Tools (legacy)</span></div><div class="brand-s">Archicad ProKit · AC30</div></a></div>
 <div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
 <a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
 <a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
-<a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="on" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="differences.html"><span class="ic">⇋</span><span class="zh-only">ProKit 与 CI Tools</span><span class="en-only">ProKit vs CI Tools</span></a>
 <a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
-<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<div class="nav-h zh-only block">ProKit Core · 4</div><div class="nav-h en-only block">ProKit Core · 4</div>
 <a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
 <a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
 <a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
 <a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<div class="nav-h zh-only block">ProKit Suite · 11</div><div class="nav-h en-only block">ProKit Suite · 11</div>
 <a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
-<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">Metadata · 属性管理</span><span class="en-only">Metadata</span></a>
 <a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
 <a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
-<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors + Windows · 门窗</span><span class="en-only">Doors + Windows</span></a>
 <a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
 <a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
 <a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
-<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
-<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structure · 结构构件</span><span class="en-only">Structure</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Site · 场地景观</span><span class="en-only">Site</span></a>
 <a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
-<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<div class="nav-h zh-only block">其他 / 旧版 · 3</div><div class="nav-h en-only block">Legacy · 3</div>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">LaunchPad · 启动台</span><span class="en-only">LaunchPad</span></a>
 <a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
 <a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
 <div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
@@ -235,16 +249,17 @@ html[data-lang="en"] .en-only.block { display:block; }
   reference chapters — each article keeps the official English original available for
   side-by-side reading.</p>
 </div>
-<article><div class="zh-only"><h1>CI Tools 中文主线 · 18 个工具操作要点</h1>
+<article><div class="zh-only"><h1>ProKit / CI Tools（旧）· 18 个工具操作要点</h1>
 <p>> 本文是<strong>主线速查</strong> —— 每个工具"干什么、入口在哪、关键步骤、坑在哪"。</p>
 <p>> 完整细节看右侧分册（含官方原文与全部截图）。</p>
-<p>> 适用 Archicad 24 及以上版本。</p>
+<p>> 适用 Archicad 24 及以上版本。AC30 起菜单品牌改为 <strong>ProKit</strong>，以下路径按 <code>ProKit &gt; 工具</code> 书写；旧版菜单仍是 <code>CI Tools &gt; 工具</code>，功能一致。</p>
 <p>---</p>
 <h2>通用前提</h2>
 <h3>这套工具是什么</h3>
 <p>Central Innovation（新西兰）为 Archicad 开发的效率插件包，2026 年起被 Graphisoft 收进自有产品线并改名 <strong>ProKit</strong>。同一套东西两个名字，搜老教程用 CI Tools，搜新文档用 ProKit。</p>
-<div class="table-wrap"><table><thead><tr><th></th><th>ProKit Core</th><th>ProKit Suite</th></tr></thead><tbody><tr><td>包含</td><td>Annotate、Transformer、Time Tracker、Detail Elements</td><td>Cabinets、Coverings、Doors+Windows、Electrical、Fitout、Keynotes、MetaData、Quantities、Site、Stairs、Structure</td></tr><tr><td>解决什么</td><td>出图提速、改图安全、计工时</td><td>建模提速、数据管理、算量出图</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th></th><th>ProKit Core</th><th>ProKit Suite</th></tr></thead><tbody><tr><td>包含</td><td>Annotate、Transformer、Time Tracker、Detail Elements</td><td>Cabinets、Coverings、Doors + Windows、Electrical、Fitout、Keynotes、Metadata、Quantities、Site、Stairs、Structure</td></tr><tr><td>解决什么</td><td>出图提速、改图安全、计工时</td><td>建模提速、数据管理、算量出图</td></tr></tbody></table></div>
 <h3>三步启动（每次新项目必做）</h3>
+<p>> 以下为旧版 CI Tools 的工作环境准备流程；AC30 ProKit 的安装与授权判断见 <a href="gettingstarted.html">入门与安装</a>。</p>
 <pre><code>1. 文件 → 工作环境 → Ci Tools Profile XX → 应用
 2. 文件 → 库管理器 → Add → Ci Tools Macros.libpack（先加这个）
    ★ 必须选单个 .libpack 文件，选文件夹内容会全空
@@ -256,7 +271,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p>---</p>
 <h2>一、Annotate · 文字格式</h2>
 <p><strong>干什么</strong>：全项目文字大小写、字体批量统一。CAD 里从别处粘来的文字格式乱成一片，手改能改到下班 —— 出图前最省时间的工具。</p>
-<p><strong>入口</strong>：CI Tools → Annotate → Convert Case…</p>
+<p><strong>入口</strong>：ProKit > Annotate → Convert Case…</p>
 <p><strong>关键步骤</strong>：</p>
 <ul>
 <li>打开 <strong>Case Conversion Options</strong> 对话框</li>
@@ -274,8 +289,8 @@ html[data-lang="en"] .en-only.block { display:block; }
 </ul>
 <p><strong>其他功能</strong>：</p>
 <ul>
-<li>替换字体 — CI Tools → Annotate → Replace Fonts</li>
-<li>批量替换属性值 — CI Tools → Annotate → Attribute Replacement</li>
+<li>替换字体 — ProKit > Annotate → Replace Fonts</li>
+<li>批量替换属性值 — ProKit > Annotate → Attribute Replacement</li>
 <li>合并文本框 — 把多个独立文本框合并成一个可编辑文本框</li>
 </ul>
 <p>> <strong>坑</strong>：批量改错撤不回来。执行前先 Ctrl+Z 备份，或先用「Selected items only」试手。</p>
@@ -283,7 +298,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <h2>二、Transformer · 项目镜像</h2>
 <p><strong>干什么</strong>：整个项目（含模型、标记、标签、2D 文字）沿轴线镜像。适合对称建筑、重复户型、批量复制改朝向。</p>
 <p>手动旋转 3D 模型后，剖面、立面、标注、房间标签全得跟着改，极易漏 —— 这就是它的价值。</p>
-<p><strong>入口</strong>：CI Tools → Transformer → Mirror Project…</p>
+<p><strong>入口</strong>：ProKit > Transformer → Mirror Project…</p>
 <p><strong>关键步骤</strong>：</p>
 <ul>
 <li>点击镜像轴线的起点</li>
@@ -294,7 +309,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p>---</p>
 <h2>三、Time Tracker · 工时统计</h2>
 <p><strong>干什么</strong>：记录各任务工时，和报价、预期工时对比。<strong>接活报价场景直接相关。</strong></p>
-<p><strong>入口</strong>：CI Tools → Time Tracker → Open Time Tracker</p>
+<p><strong>入口</strong>：ProKit > Time Tracker → Open Time Tracker</p>
 <p><strong>关键步骤</strong>（就三步）：</p>
 <ul>
 <li>点文件夹图标，选择存档位置（时间数据存在你指定的文件里）</li>
@@ -311,7 +326,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p>---</p>
 <h2>五、Keynotes · 规范注释</h2>
 <p><strong>干什么</strong>：建立注释数据库，按构件属性<strong>自动</strong>挂注释，避免手工逐个标注的枯燥和错误。</p>
-<p><strong>入口</strong>：CI Tools → Keynotes → Keynotes Palette</p>
+<p><strong>入口</strong>：ProKit > Keynotes → Keynotes Palette</p>
 <p><strong>前置</strong>：手动加载 <code>Ci Tools Keynotes.libpack</code></p>
 <p><strong>关键步骤</strong>：</p>
 <ul>
@@ -322,16 +337,16 @@ html[data-lang="en"] .en-only.block { display:block; }
 </ul>
 <p><strong>两种用法</strong>：直接放完整注释；或只放参考键，由 Keynotes 自动汇总成明细表。</p>
 <p>---</p>
-<h2>六、MetaData · 属性管理</h2>
+<h2>六、Metadata · 属性管理</h2>
 <p><strong>干什么</strong>：在一个面板里改属性和分类，不用在各种对话框里跳。<strong>BIM 数据管理的主力工具。</strong></p>
-<p><strong>入口</strong>：CI Tools → MetaData</p>
+<p><strong>入口</strong>：ProKit > Metadata</p>
 <p><strong>核心能力</strong>：</p>
 <div class="table-wrap"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>属性视图</td><td>在模型视图里直接看改属性</td></tr><tr><td>批量改属性</td><td>一次改多个选中构件</td></tr><tr><td>筛选与选择</td><td>按条件过滤出目标构件</td></tr><tr><td>属性传递</td><td>在构件之间复制、传递属性</td></tr><tr><td>Traits 管理</td><td>添加、移除、迁移自定义标记</td></tr></tbody></table></div>
 <p><strong>实战路径</strong>：筛选定位 → 批量编辑 → 审计检查。</p>
 <p>---</p>
 <h2>七、Quantities · 工程量算量</h2>
 <p><strong>干什么</strong>：从实时模型出工程量清单，分配单价与数量，可导出 CSV 喂给其他造价软件。</p>
-<p><strong>入口</strong>：CI Tools → Quantities</p>
+<p><strong>入口</strong>：ProKit > Quantities</p>
 <p><strong>三个核心概念</strong>：</p>
 <ul>
 <li><strong>Recipe（配方）</strong> — 用规则自动给构件分配数量成本，避免手工一个个填</li>
@@ -347,7 +362,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p><strong>干什么</strong>：<strong>一个</strong>高度可配置的对象搞定所有橱柜类型，不用为每种柜体单独建对象。</p>
 <p><strong>能力</strong>：平面和曲面柜门、抽屉面板库；可编辑面板样式与把手类型；自定义门、顶板、酒架、隔板、分隔件；隔板支持三维直接编辑。</p>
 <p>---</p>
-<h2>九、Doors+Windows · 门窗</h2>
+<h2>九、Doors + Windows · 门窗</h2>
 <p><strong>干什么</strong>：突破原生门窗样式限制，多面板、多开启方式、多收边/窗台组合。</p>
 <p><strong>能力</strong>：面板与开启方式组合；<strong>门窗尺寸捕捉</strong>；自定义样式可<strong>跨项目共享</strong>（团队标准化关键）。</p>
 <p>---</p>
@@ -379,10 +394,10 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p><strong>干什么</strong>：直接在模型上自由设计楼梯。</p>
 <p><strong>能力</strong>：各类独立构件，住宅商业都能配；<strong>栏杆可关联楼梯、板甚至独立放置</strong>，能在不同宽度和高度处转折接平台；楼梯组合可当作单一对象编辑、标注、出图。</p>
 <p>---</p>
-<h2>十三、Structural · 结构构件</h2>
+<h2>十三、Structure · 结构构件</h2>
 <p><strong>干什么</strong>：创建 3D 结构构件 —— 桁架、框架、连接件。</p>
 <p>---</p>
-<h2>十四、Sites · 场地景观</h2>
+<h2>十四、Site · 场地景观</h2>
 <p><strong>干什么</strong>：可视评估模型与边界、退让高度的关系。<strong>澳洲项目直接相关。</strong></p>
 <p><strong>能力</strong>：边界与高度退让平面；大型剪影式植物对象库；面积图章；边界绘制辅助；建筑包络工具。<strong>早期方案阶段</strong>评价场地关系最有用。</p>
 <p>> 澳新专属。</p>
@@ -405,8 +420,18 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p><strong>干什么</strong>：新西兰木结构住宅的抗侧力构件计算与布置，符合 NZS 规范。</p>
 <p>> 新西兰专属，国内和澳洲项目用不上。</p>
 <p>---</p>
+<h2>十七、LaunchPad · 启动台</h2>
+<p><strong>干什么</strong>：把 ProKit 各工具的命令收进一个启动面板，少翻菜单。</p>
+<p><strong>入口</strong>：ProKit &gt; LaunchPad</p>
+<p>> LaunchPad 未在两个 ProKit 安装包中单列，新版入口以安装后菜单为准。</p>
+<p>---</p>
+<h2>十八、Labeller · 表面标注</h2>
+<p><strong>干什么</strong>：给墙面、板面等表面自动加材料 / 做法标注，省去逐个手动标签。</p>
+<p><strong>入口</strong>：ProKit &gt; Labeller（旧版为 CI Tools &gt; Labeller）</p>
+<p>> Labeller 是免费的 CI Tools 工具，<strong>不在 ProKit Core / Suite 两个包内</strong>，MyCi 的 ProKit 分区也未收录。</p>
+<p>---</p>
 <h2>学习路径建议</h2>
-<p><strong>别一次学 16 个。</strong> 按你手上的活选：</p>
+<p><strong>别一次学 18 个。</strong> 按你手上的活选：</p>
 <p><strong>第一优先 · 立刻见效</strong></p>
 <ul>
 <li><strong>Annotate</strong> — 出图前文字统一，10 分钟上手，省几小时</li>
@@ -423,7 +448,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <ul>
 <li><strong>Coverings</strong>（汇报模型提质感）、<strong>Fitout</strong>（客房批量布置）、<strong>Sites</strong>（澳洲场地）、<strong>Detail Elements</strong>（详图库）</li>
 </ul>
-<p><strong>暂不建议碰</strong>：Cabinets、Doors+Windows、Electrical（无中国国标库）、Structural、Bracing（NZ 专用）</p>
+<p><strong>暂不建议碰</strong>：Cabinets、Doors + Windows、Electrical（无中国国标库）、Structure、Bracing（NZ 专用）</p>
 <p>---</p>
 <h2>三个最常踩的坑</h2>
 <p><strong>① libpack 选成文件夹 → 内容全空</strong></p>
@@ -437,13 +462,13 @@ every tool is available in the reference chapters below — each chapter shows t
 translation by default, with the official English original available under
 <i>View original English</i> in every article.</p>
 <h2>Browse by tool</h2>
-<ul class="toc-list"><li><a href="annotate.html"><span class="tg">Aa</span>Annotate — Batch text case and font formatting across the whole project</a></li><li><a href="transformer.html"><span class="tg">⇄</span>Transformer — Mirror an entire project in one click, 2D annotations included</a></li><li><a href="timetracker.html"><span class="tg">◷</span>Time Tracker — Log time per task and compare against quoted hours</a></li><li><a href="detail.html"><span class="tg">▤</span>Detail Elements — Drag-and-drop parametric 2D detail component library</a></li><li><a href="keynotes.html"><span class="tg">❝</span>Keynotes — Note database auto-attached by element attributes, with schedules</a></li><li><a href="metadata.html"><span class="tg">◈</span>MetaData — Palette for bulk editing properties and classifications</a></li><li><a href="quantities.html"><span class="tg">∑</span>Quantities — Bill of quantities from a live model, recipes auto-assign values</a></li><li><a href="cabinets.html"><span class="tg">▦</span>Cabinets — One configurable object covers every cabinet type</a></li><li><a href="doors.html"><span class="tg">⌸</span>Doors+Windows — Non-standard door and window styles with size snapping</a></li><li><a href="coverings.html"><span class="tg">▨</span>Coverings — 3D surface skins on walls, slabs, columns and roofs</a></li><li><a href="electrical.html"><span class="tg">⚡</span>Electrical — Smart electrical symbols, circuits and schedules</a></li><li><a href="stairs.html"><span class="tg">⇱</span>Stairs — Free-form stair design with associative railings</a></li><li><a href="structural.html"><span class="tg">⌗</span>Structural — 3D structural components: trusses, frames and fixings</a></li><li><a href="sites.html"><span class="tg">⛿</span>Sites — Site boundaries, recession planes and plant placement</a></li><li><a href="fitout.html"><span class="tg">⌸</span>Fitout — Furnish a room in one click from a saved set</a></li></ul>
+<ul class="toc-list"><li><a href="annotate.html"><span class="tg">Aa</span>Annotate — Batch text case and font formatting across the whole project</a></li><li><a href="transformer.html"><span class="tg">⇄</span>Transformer — Mirror an entire project in one click, 2D annotations included</a></li><li><a href="timetracker.html"><span class="tg">◷</span>Time Tracker — Log time per task and compare against quoted hours</a></li><li><a href="detail.html"><span class="tg">▤</span>Detail Elements — Drag-and-drop parametric 2D detail component library</a></li><li><a href="keynotes.html"><span class="tg">❝</span>Keynotes — Note database auto-attached by element attributes, with schedules</a></li><li><a href="metadata.html"><span class="tg">◈</span>Metadata — Palette for bulk editing properties and classifications</a></li><li><a href="quantities.html"><span class="tg">∑</span>Quantities — Bill of quantities from a live model, recipes auto-assign values</a></li><li><a href="cabinets.html"><span class="tg">▦</span>Cabinets — One configurable object covers every cabinet type</a></li><li><a href="doors.html"><span class="tg">⌸</span>Doors + Windows — Non-standard door and window styles with size snapping</a></li><li><a href="coverings.html"><span class="tg">▨</span>Coverings — 3D surface skins on walls, slabs, columns and roofs</a></li><li><a href="electrical.html"><span class="tg">⚡</span>Electrical — Smart electrical symbols, circuits and schedules</a></li><li><a href="stairs.html"><span class="tg">⇱</span>Stairs — Free-form stair design with associative railings</a></li><li><a href="structural.html"><span class="tg">⌗</span>Structure — 3D structural components: trusses, frames and fixings</a></li><li><a href="sites.html"><span class="tg">⛿</span>Site — Site boundaries, recession planes and plant placement</a></li><li><a href="fitout.html"><span class="tg">⌸</span>Fitout — Furnish a room in one click from a saved set</a></li><li><a href="launchpad.html"><span class="tg">⇪</span>LaunchPad — Launcher panel for ProKit commands</a></li><li><a href="bracing.html"><span class="tg">⊻</span>Bracing — NZ timber bracing (NZ only)</a></li><li><a href="labeller.html"><span class="tg">◫</span>Labeller — Surface labelling (free CI Tools tool)</a></li></ul>
 <p>Tip: use the <b>中文 / EN</b> switch at the top-right corner to toggle the language of
 the interface and the article titles on any page.</p></div></article>
 
 <footer class="foot">
-<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
-<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+<span class="zh-only">ProKit / CI Tools（旧） · 内容依据 Graphisoft AC30 官方帮助与 MyCi 知识库 · 2026-11-23</span>
+<span class="en-only">ProKit / CI Tools (legacy) · Sources: Graphisoft AC30 help and the MyCi knowledge base · 2026-11-23</span>
 </footer>
 </main>
 </div>

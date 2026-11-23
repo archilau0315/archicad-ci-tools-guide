@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-lang="zh">
 <head>
+<!-- rebrand:prokit-p4 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Labeller（表面标注）中文教程：在平面与立面中标注 Surface 名称、颜色与面积">
-<title>Labeller · 表面标注 · CI Tools 完全指南</title>
+<title>Labeller · 表面标注 · ProKit / CI Tools（旧）</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
 <style>
@@ -186,37 +187,50 @@ html[data-lang="en"] .en-only.block { display:block; }
   background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
 .vb-note b{color:#8a5a1e}
 .art img.inl{display:inline-block;vertical-align:-0.35em;margin:0 3px;max-width:1.7em;max-height:1.7em;border-radius:3px;box-shadow:none}
+
+/* ProKit 包徽标（P4） */
+.pkg-line{margin:12px 0 0;font-size:12.5px;color:var(--muted);display:flex;
+  flex-wrap:wrap;gap:8px;align-items:center}
+.pkg-line a{border:none;font-size:12.5px}
+.pkg{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.03em;
+  padding:2px 8px;border-radius:9999px;white-space:nowrap}
+.pkg-core{background:rgba(47,111,143,.12);color:#1d4d63;border:1px solid rgba(47,111,143,.25)}
+.pkg-suite{background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba}
+.pkg-old{background:#f7e3e3;color:#9a3b3b;border:1px solid #e6c6c6}
 </style>
 <link rel="stylesheet" href="search.css">
 </head>
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">ProKit / CI Tools（旧）</span><span class="en-only">ProKit / CI Tools (legacy)</span></div><div class="brand-s">Archicad ProKit · AC30</div></a></div>
 <div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
 <a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
 <a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
 <a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="differences.html"><span class="ic">⇋</span><span class="zh-only">ProKit 与 CI Tools</span><span class="en-only">ProKit vs CI Tools</span></a>
 <a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
-<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<div class="nav-h zh-only block">ProKit Core · 4</div><div class="nav-h en-only block">ProKit Core · 4</div>
 <a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
 <a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
 <a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
 <a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<div class="nav-h zh-only block">ProKit Suite · 11</div><div class="nav-h en-only block">ProKit Suite · 11</div>
 <a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
-<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">Metadata · 属性管理</span><span class="en-only">Metadata</span></a>
 <a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
 <a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
-<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors + Windows · 门窗</span><span class="en-only">Doors + Windows</span></a>
 <a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
 <a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
 <a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
-<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
-<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structure · 结构构件</span><span class="en-only">Structure</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Site · 场地景观</span><span class="en-only">Site</span></a>
 <a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
-<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<div class="nav-h zh-only block">其他 / 旧版 · 3</div><div class="nav-h en-only block">Legacy · 3</div>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">LaunchPad · 启动台</span><span class="en-only">LaunchPad</span></a>
 <a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
-<a class=" on" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
+<a class="on" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
 <div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
 <a class="" href="about.html"><span class="ic">ⓘ</span><span class="zh-only">来源与说明</span><span class="en-only">Sources</span></a>
 </aside>
@@ -232,6 +246,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <div class="hero">
   <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
   <h1>Labeller · <span class="zh-only">表面标注</span></h1>
+  <p class="pkg-line"><span class="pkg pkg-old">旧版工具</span><span class="zh-only">未纳入 ProKit 两个安装包 · </span><span class="en-only">Not part of either ProKit installer · </span><a href="https://centralinnovation.com/resources/use-the-new-ci-tools-labeller-to-label-surfaces-with-ease" target="_blank" rel="noopener"><span class="zh-only">参阅官方说明 ↗</span><span class="en-only">Official note ↗</span></a></p>
   <p class="zh-only">一键标注表面名称与面积，立面平面通用</p>
   <p class="en-only">Label surface names and areas in one click, in plan or elevation</p>
   <div class="meta">
@@ -280,7 +295,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <h2>更新表面标注</h2>
 <p>请注意：如果建筑材质和/或表面发生了如下变化：</p>
 <figure><img src="img/15938882269583_4.jpg" alt="材质变化" loading="lazy"></figure>
-<p>需要从 CI Tools &gt; Labeller 下拉菜单更新标注。</p>
+<p>需要从 ProKit > Labeller 下拉菜单更新标注。</p>
 <p><img src="img/15938882269583_5.jpg" alt="Labeller 菜单" loading="lazy"></p>
 <p>可以只更新当前视图，也可以更新项目中的全部视图，得到所需结果。</p>
 <p><img src="img/15938882269583_6.jpg" alt="更新结果" loading="lazy"></p></div>
@@ -289,7 +304,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>The Label is set to add a prefix, a suffix, area and label opaque surfaces only, therefore labelling the Pine Grained Horizontal Door Frame surface behind</li>
 <li>The Label is set as above with no truncation delimiter present.</li>
 <li>The same Label as in 3 above but set to truncate after the “-” character in Brick – Red.</li>
-</ol><h2>Updating Surface Labels</h2><p>Please note that if Building Materials and/or Surfaces have changed ass shown below:</p><figure><img src="img/15938882269583_4.jpg" alt="" loading="lazy"></figure><p>One needs to update the labels from the CI Tools&gt;Labeller Dropdown.</p><p><img src="img/15938882269583_5.jpg" alt="" loading="lazy"></p><p>It can be done for the current view or all views in the project delivering the required result.</p><p><img src="img/15938882269583_6.jpg" alt="" loading="lazy"><br> </p><p><br> </p><p><br> </p><p><br> </p><p><br> </p></div>
+</ol><h2>Updating Surface Labels</h2><p>Please note that if Building Materials and/or Surfaces have changed ass shown below:</p><figure><img src="img/15938882269583_4.jpg" alt="" loading="lazy"></figure><p>One needs to update the labels from the ProKit > Labeller Dropdown.</p><p><img src="img/15938882269583_5.jpg" alt="" loading="lazy"></p><p>It can be done for the current view or all views in the project delivering the required result.</p><p><img src="img/15938882269583_6.jpg" alt="" loading="lazy"><br> </p><p><br> </p><p><br> </p><p><br> </p><p><br> </p></div>
   <details class="orig-toggle">
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
     <div class="orig-body">
@@ -299,15 +314,15 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>The Label is set to add a prefix, a suffix, area and label opaque surfaces only, therefore labelling the Pine Grained Horizontal Door Frame surface behind</li>
 <li>The Label is set as above with no truncation delimiter present.</li>
 <li>The same Label as in 3 above but set to truncate after the “-” character in Brick – Red.</li>
-</ol><h2>Updating Surface Labels</h2><p>Please note that if Building Materials and/or Surfaces have changed ass shown below:</p><figure><img src="img/15938882269583_4.jpg" alt="" loading="lazy"></figure><p>One needs to update the labels from the CI Tools&gt;Labeller Dropdown.</p><p><img src="img/15938882269583_5.jpg" alt="" loading="lazy"></p><p>It can be done for the current view or all views in the project delivering the required result.</p><p><img src="img/15938882269583_6.jpg" alt="" loading="lazy"><br> </p><p><br> </p><p><br> </p><p><br> </p><p><br> </p>
+</ol><h2>Updating Surface Labels</h2><p>Please note that if Building Materials and/or Surfaces have changed ass shown below:</p><figure><img src="img/15938882269583_4.jpg" alt="" loading="lazy"></figure><p>One needs to update the labels from the ProKit > Labeller Dropdown.</p><p><img src="img/15938882269583_5.jpg" alt="" loading="lazy"></p><p>It can be done for the current view or all views in the project delivering the required result.</p><p><img src="img/15938882269583_6.jpg" alt="" loading="lazy"><br> </p><p><br> </p><p><br> </p><p><br> </p><p><br> </p>
     </div>
   </details>
 </div>
 </article>
 
 <footer class="foot">
-<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
-<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+<span class="zh-only">ProKit / CI Tools（旧） · 内容依据 Graphisoft AC30 官方帮助与 MyCi 知识库 · 2026-11-23</span>
+<span class="en-only">ProKit / CI Tools (legacy) · Sources: Graphisoft AC30 help and the MyCi knowledge base · 2026-11-23</span>
 </footer>
 </main>
 </div>

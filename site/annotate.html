@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-lang="zh">
 <head>
+<!-- rebrand:prokit-p4 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Annotate（文字格式）完整中文教程：全项目文字大小写、字体批量统一">
-<title>Annotate · 文字格式 · CI Tools 完全指南</title>
+<title>Annotate · 文字格式 · ProKit / CI Tools（旧）</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
 <style>
@@ -185,35 +186,48 @@ html[data-lang="en"] .en-only.block { display:block; }
 .vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
   background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
 .vb-note b{color:#8a5a1e}
+
+/* ProKit 包徽标（P4） */
+.pkg-line{margin:12px 0 0;font-size:12.5px;color:var(--muted);display:flex;
+  flex-wrap:wrap;gap:8px;align-items:center}
+.pkg-line a{border:none;font-size:12.5px}
+.pkg{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.03em;
+  padding:2px 8px;border-radius:9999px;white-space:nowrap}
+.pkg-core{background:rgba(47,111,143,.12);color:#1d4d63;border:1px solid rgba(47,111,143,.25)}
+.pkg-suite{background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba}
+.pkg-old{background:#f7e3e3;color:#9a3b3b;border:1px solid #e6c6c6}
 </style>
 <link rel="stylesheet" href="search.css">
 </head>
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">ProKit / CI Tools（旧）</span><span class="en-only">ProKit / CI Tools (legacy)</span></div><div class="brand-s">Archicad ProKit · AC30</div></a></div>
 <div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
 <a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
 <a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
 <a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="differences.html"><span class="ic">⇋</span><span class="zh-only">ProKit 与 CI Tools</span><span class="en-only">ProKit vs CI Tools</span></a>
 <a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
-<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
-<a class=" on" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
+<div class="nav-h zh-only block">ProKit Core · 4</div><div class="nav-h en-only block">ProKit Core · 4</div>
+<a class="on" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
 <a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
 <a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
 <a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<div class="nav-h zh-only block">ProKit Suite · 11</div><div class="nav-h en-only block">ProKit Suite · 11</div>
 <a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
-<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">Metadata · 属性管理</span><span class="en-only">Metadata</span></a>
 <a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
 <a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
-<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors + Windows · 门窗</span><span class="en-only">Doors + Windows</span></a>
 <a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
 <a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
 <a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
-<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
-<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structure · 结构构件</span><span class="en-only">Structure</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Site · 场地景观</span><span class="en-only">Site</span></a>
 <a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
-<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<div class="nav-h zh-only block">其他 / 旧版 · 3</div><div class="nav-h en-only block">Legacy · 3</div>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">LaunchPad · 启动台</span><span class="en-only">LaunchPad</span></a>
 <a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
 <a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
 <div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
@@ -231,6 +245,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <div class="hero">
   <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
   <h1>Annotate · <span class="zh-only">文字格式</span></h1>
+  <p class="pkg-line"><span class="pkg pkg-core">ProKit Core</span><span class="zh-only">AC30 官方手册已覆盖 · </span><span class="en-only">Covered by the AC30 official manual · </span><a href="https://help.graphisoft.com/AC/30/INT/Topics/960_Prokit/ProKit_Core/Annotate/AnnotateIntro.html" target="_blank" rel="noopener"><span class="zh-only">Graphisoft AC30 帮助 ↗</span><span class="en-only">Graphisoft AC30 help ↗</span></a></p>
   <p class="zh-only">全项目文字大小写、字体批量统一</p>
   <p class="en-only">Batch text case and font formatting across the whole project</p>
   <div class="meta">
@@ -247,7 +262,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <h3 class="en-only block">1.1 Convert Text Case</h3>
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692315-1-1-Convert-Text-Case" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
-  <div class="zh-only"><p>Annotate 的大小写转换工具可以更改大多数项目元素的文本内容，并可选包含诸如（字符串）属性和参数之类的设置。若只想转换某一部分选定项目的大小写，请先选中它们。要启动转换工具，请点击菜单项 <em>CI Tools > Annotate > Convert Case…</em>（转换大小写）</p>
+  <div class="zh-only"><p>Annotate 的大小写转换工具可以更改大多数项目元素的文本内容，并可选包含诸如（字符串）属性和参数之类的设置。若只想转换某一部分选定项目的大小写，请先选中它们。要启动转换工具，请点击菜单项 <em>ProKit > Annotate > Convert Case…</em>（转换大小写）</p>
 <p><img src="img/360001692315_0.jpg" alt="1.1 Convert Text Case 示意图" loading="lazy"></p>
 <p>首先会弹出 <em>Case Conversion Options</em>（大小写转换选项）对话框。请从以下选项中选择：</p>
 <ul>
@@ -292,7 +307,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>Locked layers（锁定图层） ，例如锁定图层上的所有内容。</li>
 </ul>
 <p>点击 <em>Ok</em>（确定）开始转换过程。</p></div>
-  <div class="en-only"><p>Annotate’s case conversion tool can change the text content of most project elements, optionally including settings like (string) properties and parameters. To convert the case of just a selection of items, pick them first. To start the conversion tool, click the menu item <em>CI Tools > Annotate > Convert Case…</em></p>
+  <div class="en-only"><p>Annotate’s case conversion tool can change the text content of most project elements, optionally including settings like (string) properties and parameters. To convert the case of just a selection of items, pick them first. To start the conversion tool, click the menu item <em>ProKit > Annotate > Convert Case…</em></p>
 <p><img src="img/360001692315_0.jpg" alt="1.1 Convert Text Case 示意图" loading="lazy"></p>
 <p>The <em>Case Conversion Options</em> dialog appears first. Pick from the following:</p>
 <ul>
@@ -341,7 +356,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
-      <p>Annotate’s case conversion tool can change the text content of most project elements, optionally including settings like (string) properties and parameters. To convert the case of just a selection of items, pick them first. To start the conversion tool, click the menu item <em>CI Tools > Annotate > Convert Case…</em></p>
+      <p>Annotate’s case conversion tool can change the text content of most project elements, optionally including settings like (string) properties and parameters. To convert the case of just a selection of items, pick them first. To start the conversion tool, click the menu item <em>ProKit > Annotate > Convert Case…</em></p>
 <p><img src="img/360001692315_0.jpg" alt="1.1 Convert Text Case 示意图" loading="lazy"></p>
 <p>The <em>Case Conversion Options</em> dialog appears first. Pick from the following:</p>
 <ul>
@@ -395,7 +410,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <h3 class="en-only block">1.2 Manage Case Exceptions</h3>
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001694896-1-2-Manage-Case-Exceptions" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
-  <div class="zh-only"><p><em>Case Exception Manager</em>（大小写例外管理器）收集那些无论一般文本采用何种标准都应保持固定大小写的单词或缩写。可在 <em>Case Conversion Options</em>（大小写转换选项）对话框中点击 <em>Edit</em>（编辑）按钮查看该管理器，也可点击菜单 <em>CI Tools > Annotate > Manage Case Exceptions…</em>（管理大小写例外）</p>
+  <div class="zh-only"><p><em>Case Exception Manager</em>（大小写例外管理器）收集那些无论一般文本采用何种标准都应保持固定大小写的单词或缩写。可在 <em>Case Conversion Options</em>（大小写转换选项）对话框中点击 <em>Edit</em>（编辑）按钮查看该管理器，也可点击菜单 <em>ProKit > Annotate > Manage Case Exceptions…</em>（管理大小写例外）</p>
 <p><img src="img/360001694896_0.jpg" alt="1.2 Manage Case Exceptions 示意图" loading="lazy"></p>
 <p>例外列表与项目相关，但可以导出后导入到其他项目。该管理器对话框包含以下内容：</p>
 <ul>
@@ -426,7 +441,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 </ul>
 <p>大小写例外文件的扩展名为 <em>.keycase</em>。</p>
 <p>点击 "Ok"（确定）保存对大小写例外的更改，点击 "Cancel"（取消）则放弃更改。</p></div>
-  <div class="en-only"><p>The <em>Case Exception Manager</em>collects words or abbreviations that should have a fixed case irrespective of the standard for the general text. The manager can be viewed by clicking the <em>Edit</em>button from the <em>Case Conversion Options</em> dialog, or by clicking the menu <em>CI Tools > Annotate > Manage Case Exceptions…</em></p>
+  <div class="en-only"><p>The <em>Case Exception Manager</em>collects words or abbreviations that should have a fixed case irrespective of the standard for the general text. The manager can be viewed by clicking the <em>Edit</em>button from the <em>Case Conversion Options</em> dialog, or by clicking the menu <em>ProKit > Annotate > Manage Case Exceptions…</em></p>
 <p><img src="img/360001694896_0.jpg" alt="1.2 Manage Case Exceptions 示意图" loading="lazy"></p>
 <p>The list of exceptions is project-specific, but can be exported for import into other projects. The manager dialog features include:</p>
 <ul>
@@ -461,7 +476,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
-      <p>The <em>Case Exception Manager</em>collects words or abbreviations that should have a fixed case irrespective of the standard for the general text. The manager can be viewed by clicking the <em>Edit</em>button from the <em>Case Conversion Options</em> dialog, or by clicking the menu <em>CI Tools > Annotate > Manage Case Exceptions…</em></p>
+      <p>The <em>Case Exception Manager</em>collects words or abbreviations that should have a fixed case irrespective of the standard for the general text. The manager can be viewed by clicking the <em>Edit</em>button from the <em>Case Conversion Options</em> dialog, or by clicking the menu <em>ProKit > Annotate > Manage Case Exceptions…</em></p>
 <p><img src="img/360001694896_0.jpg" alt="1.2 Manage Case Exceptions 示意图" loading="lazy"></p>
 <p>The list of exceptions is project-specific, but can be exported for import into other projects. The manager dialog features include:</p>
 <ul>
@@ -567,7 +582,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p><img src="img/14260201378447_11.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p></div>
   <div class="en-only"><h2>Attribute Replacement</h2>
 <p>The Annotate tool has the ability to change several attributes in a project simultaneously. This is especially helpful in making bulk changes to Archicad files or drawings that may have originated outside of Archicad.</p>
-<p>The Annotate Tool is accessed under the CI Tools dropdown:</p>
+<p>The Annotate Tool is accessed under the ProKit menu:</p>
 <p><img src="img/14260201378447_0.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
 <p> By Clicking on the Convert Menu item, the Annotate Tool allows for the replacement of:</p>
 <ul>
@@ -635,7 +650,7 @@ html[data-lang="en"] .en-only.block { display:block; }
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
       <h2>Attribute Replacement</h2>
 <p>The Annotate tool has the ability to change several attributes in a project simultaneously. This is especially helpful in making bulk changes to Archicad files or drawings that may have originated outside of Archicad.</p>
-<p>The Annotate Tool is accessed under the CI Tools dropdown:</p>
+<p>The Annotate Tool is accessed under the ProKit menu:</p>
 <p><img src="img/14260201378447_0.jpg" alt="Attribute Replacement using Ci Tools Annotate 示意图" loading="lazy"></p>
 <p> By Clicking on the Convert Menu item, the Annotate Tool allows for the replacement of:</p>
 <ul>
@@ -902,8 +917,8 @@ html[data-lang="en"] .en-only.block { display:block; }
 </article>
 
 <footer class="foot">
-<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
-<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+<span class="zh-only">ProKit / CI Tools（旧） · 内容依据 Graphisoft AC30 官方帮助与 MyCi 知识库 · 2026-11-23</span>
+<span class="en-only">ProKit / CI Tools (legacy) · Sources: Graphisoft AC30 help and the MyCi knowledge base · 2026-11-23</span>
 </footer>
 </main>
 </div>

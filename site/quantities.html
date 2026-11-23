@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-lang="zh">
 <head>
+<!-- rebrand:prokit-p4 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Quantities（工程量算量）完整中文教程：从模型出清单，Recipe 自动分配">
-<title>Quantities · 工程量算量 · CI Tools 完全指南</title>
+<title>Quantities · 工程量算量 · ProKit / CI Tools（旧）</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
 <style>
@@ -186,35 +187,48 @@ html[data-lang="en"] .en-only.block { display:block; }
 .vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
   background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
 .vb-note b{color:#8a5a1e}
+
+/* ProKit 包徽标（P4） */
+.pkg-line{margin:12px 0 0;font-size:12.5px;color:var(--muted);display:flex;
+  flex-wrap:wrap;gap:8px;align-items:center}
+.pkg-line a{border:none;font-size:12.5px}
+.pkg{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.03em;
+  padding:2px 8px;border-radius:9999px;white-space:nowrap}
+.pkg-core{background:rgba(47,111,143,.12);color:#1d4d63;border:1px solid rgba(47,111,143,.25)}
+.pkg-suite{background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba}
+.pkg-old{background:#f7e3e3;color:#9a3b3b;border:1px solid #e6c6c6}
 </style>
 <link rel="stylesheet" href="search.css">
 </head>
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">ProKit / CI Tools（旧）</span><span class="en-only">ProKit / CI Tools (legacy)</span></div><div class="brand-s">Archicad ProKit · AC30</div></a></div>
 <div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
 <a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
 <a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
 <a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="differences.html"><span class="ic">⇋</span><span class="zh-only">ProKit 与 CI Tools</span><span class="en-only">ProKit vs CI Tools</span></a>
 <a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
-<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<div class="nav-h zh-only block">ProKit Core · 4</div><div class="nav-h en-only block">ProKit Core · 4</div>
 <a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
 <a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
 <a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
 <a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<div class="nav-h zh-only block">ProKit Suite · 11</div><div class="nav-h en-only block">ProKit Suite · 11</div>
 <a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
-<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
-<a class=" on" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
+<a class="" href="metadata.html"><span class="ic">◈</span><span class="zh-only">Metadata · 属性管理</span><span class="en-only">Metadata</span></a>
+<a class="on" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
 <a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
-<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors + Windows · 门窗</span><span class="en-only">Doors + Windows</span></a>
 <a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
 <a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
 <a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
-<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
-<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structure · 结构构件</span><span class="en-only">Structure</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Site · 场地景观</span><span class="en-only">Site</span></a>
 <a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
-<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<div class="nav-h zh-only block">其他 / 旧版 · 3</div><div class="nav-h en-only block">Legacy · 3</div>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">LaunchPad · 启动台</span><span class="en-only">LaunchPad</span></a>
 <a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
 <a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
 <div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
@@ -232,6 +246,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <div class="hero">
   <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
   <h1>Quantities · <span class="zh-only">工程量算量</span></h1>
+  <p class="pkg-line"><span class="pkg pkg-suite">ProKit Suite</span><span class="zh-only">随 Archicad Collaborate / Max 提供 · </span><span class="en-only">Included with Archicad Collaborate / Max · </span><a href="https://cadimage.zendesk.com/hc/en-us" target="_blank" rel="noopener"><span class="zh-only">MyCi 知识库 ↗</span><span class="en-only">MyCi knowledge base ↗</span></a></p>
   <p class="zh-only">从模型出清单，Recipe 自动分配</p>
   <p class="en-only">Bill of quantities from a live model, recipes auto-assign values</p>
   <div class="meta">
@@ -486,7 +501,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <h3 class="en-only block">2.2 Reviewing Element Data</h3>
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001292855" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
-  <div class="zh-only"><p>打开 <em>Quantities Info</em> 面板：菜单 <em>CI Tools &gt; Quantities &gt; Quantity Take-off Palette…</em></p>
+  <div class="zh-only"><p>打开 <em>Quantities Info</em> 面板：菜单 <em>ProKit > Quantities &gt; Quantity Take-off Palette…</em></p>
 <p><img src="img/360001292855_0.png" alt="Quantities Info 面板" loading="lazy"></p>
 <p>面板顶部与 ARCHICAD 的 <em>Info</em>（信息）面板类似，显示已选中、可编辑的构件数量。旁边的 <em>Live Edit</em>（实时编辑）勾选框会显著改变面板的用法：</p>
 <ul>
@@ -537,7 +552,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 </tbody>
 </table>
 <p>这些文字样式的示例见上图。它们是审计和编辑项目数据的宝贵手段，因为差异和潜在问题一眼就能看出来——详见 2.3.7。</p></div>
-  <div class="en-only"><p>To view the <em>Quantities Info</em> palette, click the menu item <em>CI Tools &gt; Quantities &gt; Quantity Take-off P</em><em>alette…</em> </p>
+  <div class="en-only"><p>To view the <em>Quantities Info</em> palette, click the menu item <em>ProKit > Quantities &gt; Quantity Take-off P</em><em>alette…</em> </p>
 <p><img src="img/360001292855_0.png" alt="mceclip0.png" loading="lazy"> </p>
 <p>The palette is headed up in a similar way to ARCHICAD’s <em>Info</em> palette, showing the number of selected and editable elements. The adjacent <em>Live Edit</em> checkbox markedly changes how the palette is used:</p>
 <ul>
@@ -761,7 +776,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
-      <p>To view the <em>Quantities Info</em> palette, click the menu item <em>CI Tools &gt; Quantities &gt; Quantity Take-off P</em><em>alette…</em> </p>
+      <p>To view the <em>Quantities Info</em> palette, click the menu item <em>ProKit > Quantities &gt; Quantity Take-off P</em><em>alette…</em> </p>
 <p><img src="img/360001292855_0.png" alt="mceclip0.png" loading="lazy"> </p>
 <p>The palette is headed up in a similar way to ARCHICAD’s <em>Info</em> palette, showing the number of selected and editable elements. The adjacent <em>Live Edit</em> checkbox markedly changes how the palette is used:</p>
 <ul>
@@ -1507,7 +1522,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <h3 class="en-only block">3.3 Creating and managing a Bill structure</h3>
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001401136-3-3-Creating-and-managing-a-Bill-structure" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
-  <div class="zh-only"><p>工程量清单可以在工程量管理器中查看和编辑，可通过点击菜单项 CI Tools > Quantities > Quantity Take-off Manager 并选择"清单结构"选项卡打开。所有 Quantities 面板还都显示一个图标，可快速打开该管理器对话框。</p>
+  <div class="zh-only"><p>工程量清单可以在工程量管理器中查看和编辑，可通过点击菜单项 ProKit > Quantities > Quantity Take-off Manager 并选择"清单结构"选项卡打开。所有 Quantities 面板还都显示一个图标，可快速打开该管理器对话框。</p>
 <p><img src="img/360001401136_0.jpg" alt="3.3 Creating and managing a Bill structure 示意图" loading="lazy"></p>
 <p>管理器的主要功能如下：</p>
 <ul>
@@ -1520,7 +1535,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>所选清单条目的详情。如果选中了多个项目，则只显示第一个项目的详情。以下字段可以对多个项目同时编辑，但键和名称除外（键和名称只会更改第一个项目）。 a. 条目键。它可以是字母和数字的任意组合，但不应与同一层级中的任何其他条目重复（为了清晰起见，因为计算出的项目数量会在算量表中针对该键进行登记）。这些键通常反映既有的构造分类体系，例如 Uniclass。完整的条目键显示在此字段旁。当条目以层级方式归入某个分类之下时，完整键会在条目键前加上祖先分类的键，例如'10.24.73'。如果清单是扁平列表（即没有分类），则键与完整键相同。 b. 条目标题。可以输入任何内容。 c. 可选的外部引用，例如制造商或外部数据库代码，仅供信息参考。此信息会包含在导出的算量表中。 d. 单价，即每单位成本。如果成本是依据导出的数量在外部计算的，可以为零。 e. 计量单位，例如'metre'、'mm'、'each'，在弹出菜单中显示。这些项目由用户自行定义 —— 更多信息参见第 3.3.5 节。 f. 可选的描述，通常用于说明应计量什么（或如何计量）。此信息不包含在算量表中。</li>
 </ul>
 <p>请注意，只有点击 OK 按钮后对清单结构的更改才会生效。如果点击 Cancel，则所有更改都将被丢弃。</p></div>
-  <div class="en-only"><p>The BoQ can be viewed and edited in the Quantity Take-off Manager, which can be opened by clicking the menu item CI Tools > Quantities > Quantity Take-off Manager and selecting the Bill Structure tab. All Quantities palettes also display an icon to quickly open the manager dialog.</p>
+  <div class="en-only"><p>The BoQ can be viewed and edited in the Quantity Take-off Manager, which can be opened by clicking the menu item ProKit > Quantities > Quantity Take-off Manager and selecting the Bill Structure tab. All Quantities palettes also display an icon to quickly open the manager dialog.</p>
 <p><img src="img/360001401136_0.jpg" alt="3.3 Creating and managing a Bill structure 示意图" loading="lazy"></p>
 <p>The key features of the manager are:</p>
 <ul>
@@ -1537,7 +1552,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
-      <p>The BoQ can be viewed and edited in the Quantity Take-off Manager, which can be opened by clicking the menu item CI Tools > Quantities > Quantity Take-off Manager and selecting the Bill Structure tab. All Quantities palettes also display an icon to quickly open the manager dialog.</p>
+      <p>The BoQ can be viewed and edited in the Quantity Take-off Manager, which can be opened by clicking the menu item ProKit > Quantities > Quantity Take-off Manager and selecting the Bill Structure tab. All Quantities palettes also display an icon to quickly open the manager dialog.</p>
 <p><img src="img/360001401136_0.jpg" alt="3.3 Creating and managing a Bill structure 示意图" loading="lazy"></p>
 <p>The key features of the manager are:</p>
 <ul>
@@ -1898,7 +1913,7 @@ html[data-lang="en"] .en-only.block { display:block; }
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001393915-4-2-Measurement-Recipes" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
   <div class="zh-only"><p>Quantities 中的测量定义在配方中，这符合这样一个理念：成本的计算通常是许多"食材"的组合，而不是简单地清点构件的某个属性或将其总计。一个配方可以将任意数量的测量项绑定在一起，每一项测量都可以引用任意组合的构件属性和几何，并通过规则将它们与"贡献到哪个清单条目"以及"何时进行每项测量"关联起来。</p>
 <p>接下来的各节将从基本的计数配方开始，逐步过渡到实现计算、可选/自动测量，最后以一些常见示例和问题收尾。</p>
-<p>测量配方在工程量管理器中查看，可通过点击菜单项 CI Tools > Quantities > Quantity Take-off Manager 并选择"配方"选项卡打开。所有 Quantities 面板还都显示一个图标，可快速打开该管理器对话框（</p>
+<p>测量配方在工程量管理器中查看，可通过点击菜单项 ProKit > Quantities > Quantity Take-off Manager 并选择"配方"选项卡打开。所有 Quantities 面板还都显示一个图标，可快速打开该管理器对话框（</p>
 <p><img class="inl" src="img/360001393915_0.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
 <p>）。</p>
 <p><img src="img/360001393915_1.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
@@ -1924,7 +1939,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p>如果计算的任何部分无法应用于被测量的构件，Quantities 始终会确保结果为零，例如将上述表达式用于非墙体或没有名为 "Insulation" 的材质的构件时。表达式也可以引用当前项目中并不存在的材质、属性等名称。其目的是允许以通用方式编写计算，从而广泛适用，而不必担心出现一连串的错误消息或无意义的结果，从而支持可在众多项目间共享的模板配方这一理念。Quantities 会立即检查新输入的表达式，并在无法理解时给出反馈。只要该测量项在列表中保持选中，无效表达式的文本就会一直保留；但当选中另一个测量项或配方时，该文本将被丢弃（并恢复先前的文本）。</p></div>
   <div class="en-only"><p>Measurements in Quantities are defined in recipes to conform to the concept that calculation of cost is usually a combination of many ingredients rather than simply counting or totalling some property of elements. A recipe can bind together any number of measurements, each of which can reference any combination of element properties and geometry, and couple them with rules governing which bill item they contribute to and when each measurement should be taken.</p>
 <p>The following sections will start with basic counting recipes and work up gradually to implementing calculations, optional/automatic measurements and finishing with some common examples and questions.</p>
-<p>Measurement recipes are viewed in the Quantity Take-off Manager, which can be opened by clicking the menu item CI Tools > Quantities > Quantity Take-off Manager and selecting the Recipes tab. All Quantities palettes also display an icon to quickly open the manager dialog (</p>
+<p>Measurement recipes are viewed in the Quantity Take-off Manager, which can be opened by clicking the menu item ProKit > Quantities > Quantity Take-off Manager and selecting the Recipes tab. All Quantities palettes also display an icon to quickly open the manager dialog (</p>
 <p><img class="inl" src="img/360001393915_0.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
 <p>).</p>
 <p><img src="img/360001393915_1.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
@@ -1954,7 +1969,7 @@ html[data-lang="en"] .en-only.block { display:block; }
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
       <p>Measurements in Quantities are defined in recipes to conform to the concept that calculation of cost is usually a combination of many ingredients rather than simply counting or totalling some property of elements. A recipe can bind together any number of measurements, each of which can reference any combination of element properties and geometry, and couple them with rules governing which bill item they contribute to and when each measurement should be taken.</p>
 <p>The following sections will start with basic counting recipes and work up gradually to implementing calculations, optional/automatic measurements and finishing with some common examples and questions.</p>
-<p>Measurement recipes are viewed in the Quantity Take-off Manager, which can be opened by clicking the menu item CI Tools > Quantities > Quantity Take-off Manager and selecting the Recipes tab. All Quantities palettes also display an icon to quickly open the manager dialog (</p>
+<p>Measurement recipes are viewed in the Quantity Take-off Manager, which can be opened by clicking the menu item ProKit > Quantities > Quantity Take-off Manager and selecting the Recipes tab. All Quantities palettes also display an icon to quickly open the manager dialog (</p>
 <p><img class="inl" src="img/360001393915_0.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
 <p>).</p>
 <p><img src="img/360001393915_1.jpg" alt="4.2 Measurement Recipes 示意图" loading="lazy"></p>
@@ -2126,7 +2141,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p>虽然这远谈不上有挑战性，但它展示的流程是即使最复杂的测量也所固有的基础。</p>
 <p>假定为本练习至少已定义了一个清单条目。如果没有：</p>
 <ul>
-<li>通过点击菜单项 CI Tools > Quantities > Manage Quantity Take-off 打开工程量管理器，并点击“清单结构”选项卡。</li>
+<li>通过点击菜单项 ProKit > Quantities > Manage Quantity Take-off 打开工程量管理器，并点击“清单结构”选项卡。</li>
 </ul>
 <ul>
 <li>点击 New 按钮创建一个清单条目。如有需要，可以随意为该清单条目填写名称、单位和单价。</li>
@@ -2135,7 +2150,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p>While this isn’t remotely challenging, it demonstrates the processes that are fundamental to even the most complex measurements.</p>
 <p>It is assumed that at least one bill item has been defined for the purpose of this exercise. If not:</p>
 <ul>
-<li>Open the Quantity Take-off Manager by clicking the menu item CI Tools > Quantities > Manage Quantity Take-off and click the Bill Structure tab.</li>
+<li>Open the Quantity Take-off Manager by clicking the menu item ProKit > Quantities > Manage Quantity Take-off and click the Bill Structure tab.</li>
 </ul>
 <ul>
 <li>Click the New button to create a bill item. Feel free to fill in a name, unit and rate for the bill item if desired.</li>
@@ -2148,7 +2163,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p>While this isn’t remotely challenging, it demonstrates the processes that are fundamental to even the most complex measurements.</p>
 <p>It is assumed that at least one bill item has been defined for the purpose of this exercise. If not:</p>
 <ul>
-<li>Open the Quantity Take-off Manager by clicking the menu item CI Tools > Quantities > Manage Quantity Take-off and click the Bill Structure tab.</li>
+<li>Open the Quantity Take-off Manager by clicking the menu item ProKit > Quantities > Manage Quantity Take-off and click the Bill Structure tab.</li>
 </ul>
 <ul>
 <li>Click the New button to create a bill item. Feel free to fill in a name, unit and rate for the bill item if desired.</li>
@@ -2165,7 +2180,7 @@ html[data-lang="en"] .en-only.block { display:block; }
   <div class="zh-only"><p>步骤编号如下插图所示：</p>
 <p><img src="img/360001394075_0.jpg" alt="4.3.1 How to create a simple 'counting' recipe 示意图" loading="lazy"></p>
 <ul>
-<li>通过点击菜单项 CI Tools > Quantities > Manage Quantity Take-off 打开工程量管理器，并点击“配方”选项卡。</li>
+<li>通过点击菜单项 ProKit > Quantities > Manage Quantity Take-off 打开工程量管理器，并点击“配方”选项卡。</li>
 </ul>
 <ul>
 <li>点击 New 创建一个新配方，并输入名称，例如 Example recipe</li>
@@ -2185,7 +2200,7 @@ html[data-lang="en"] .en-only.block { display:block; }
   <div class="en-only"><p>The steps are numbered in the following illustration:</p>
 <p><img src="img/360001394075_0.jpg" alt="4.3.1 How to create a simple 'counting' recipe 示意图" loading="lazy"></p>
 <ul>
-<li>Open the Quantity Take-off Manager by clicking the menu item CI Tools > Quantities > Manage Quantity Take-off and click the Recipes tab.</li>
+<li>Open the Quantity Take-off Manager by clicking the menu item ProKit > Quantities > Manage Quantity Take-off and click the Recipes tab.</li>
 </ul>
 <ul>
 <li>Click New to create a new recipe and enter a name, e.g. Example recipe</li>
@@ -2209,7 +2224,7 @@ html[data-lang="en"] .en-only.block { display:block; }
       <p>The steps are numbered in the following illustration:</p>
 <p><img src="img/360001394075_0.jpg" alt="4.3.1 How to create a simple 'counting' recipe 示意图" loading="lazy"></p>
 <ul>
-<li>Open the Quantity Take-off Manager by clicking the menu item CI Tools > Quantities > Manage Quantity Take-off and click the Recipes tab.</li>
+<li>Open the Quantity Take-off Manager by clicking the menu item ProKit > Quantities > Manage Quantity Take-off and click the Recipes tab.</li>
 </ul>
 <ul>
 <li>Click New to create a new recipe and enter a name, e.g. Example recipe</li>
@@ -2241,7 +2256,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>在平面图中放置并选中若干把椅子。</li>
 </ul>
 <ul>
-<li>如果数量信息面板尚未显示，请通过点击菜单 CI Tools > Quantities > Quantities Take-off Palette… 将其显示出来。如果尚未勾选，请点击“实时编辑”复选框。</li>
+<li>如果数量信息面板尚未显示，请通过点击菜单 ProKit > Quantities > Quantities Take-off Palette… 将其显示出来。如果尚未勾选，请点击“实时编辑”复选框。</li>
 </ul>
 <ul>
 <li>点击配方面板底部的添加按钮 ()</li>
@@ -2256,7 +2271,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>Place and select some chairs in the floor plan.</li>
 </ul>
 <ul>
-<li>If the Quantity Info palette is not already visible, show it by clicking the menu CI Tools > Quantities > Quantities Take-off Palette… Click the Live edit checkbox if it isn’t already ticked.</li>
+<li>If the Quantity Info palette is not already visible, show it by clicking the menu ProKit > Quantities > Quantities Take-off Palette… Click the Live edit checkbox if it isn’t already ticked.</li>
 </ul>
 <ul>
 <li>Click the add button () at the base of the recipes panel</li>
@@ -2275,7 +2290,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>Place and select some chairs in the floor plan.</li>
 </ul>
 <ul>
-<li>If the Quantity Info palette is not already visible, show it by clicking the menu CI Tools > Quantities > Quantities Take-off Palette… Click the Live edit checkbox if it isn’t already ticked.</li>
+<li>If the Quantity Info palette is not already visible, show it by clicking the menu ProKit > Quantities > Quantities Take-off Palette… Click the Live edit checkbox if it isn’t already ticked.</li>
 </ul>
 <ul>
 <li>Click the add button () at the base of the recipes panel</li>
@@ -2296,7 +2311,7 @@ html[data-lang="en"] .en-only.block { display:block; }
   <div class="zh-only"><p>接着第 4.3.1 和 4.3.2 节的步骤继续操作。步骤编号如下插图所示：</p>
 <p><img src="img/360001401696_0.jpg" alt="4.3.3 How to view the scheduled result 示意图" loading="lazy"></p>
 <ul>
-<li>如果工程量清单面板尚未显示，请通过点击菜单 CI Tools > Quantities > Bill of Quantities Palette… 将其显示出来。将 Scope 菜单设为 Entire Project，以便测量所有构件。</li>
+<li>如果工程量清单面板尚未显示，请通过点击菜单 ProKit > Quantities > Bill of Quantities Palette… 将其显示出来。将 Scope 菜单设为 Entire Project，以便测量所有构件。</li>
 </ul>
 <ul>
 <li>点击 Calculate 按钮开始测量过程。</li>
@@ -2307,7 +2322,7 @@ html[data-lang="en"] .en-only.block { display:block; }
   <div class="en-only"><p>Continue from the steps in sections 4.3.1 and 4.3.2. The steps are numbered in the following illustration:</p>
 <p><img src="img/360001401696_0.jpg" alt="4.3.3 How to view the scheduled result 示意图" loading="lazy"></p>
 <ul>
-<li>If the Bill of Quantities palette is not already visible, show it by clicking the menu CI Tools > Quantities > Bill of Quantities Palette… Set the Scope menu to Entire Project so that all elements will be measured.</li>
+<li>If the Bill of Quantities palette is not already visible, show it by clicking the menu ProKit > Quantities > Bill of Quantities Palette… Set the Scope menu to Entire Project so that all elements will be measured.</li>
 </ul>
 <ul>
 <li>Click the Calculate button to start the measurement process.</li>
@@ -2322,7 +2337,7 @@ html[data-lang="en"] .en-only.block { display:block; }
       <p>Continue from the steps in sections 4.3.1 and 4.3.2. The steps are numbered in the following illustration:</p>
 <p><img src="img/360001401696_0.jpg" alt="4.3.3 How to view the scheduled result 示意图" loading="lazy"></p>
 <ul>
-<li>If the Bill of Quantities palette is not already visible, show it by clicking the menu CI Tools > Quantities > Bill of Quantities Palette… Set the Scope menu to Entire Project so that all elements will be measured.</li>
+<li>If the Bill of Quantities palette is not already visible, show it by clicking the menu ProKit > Quantities > Bill of Quantities Palette… Set the Scope menu to Entire Project so that all elements will be measured.</li>
 </ul>
 <ul>
 <li>Click the Calculate button to start the measurement process.</li>
@@ -2345,7 +2360,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>在平面图中添加一些高度超过 2m 的墙体</li>
 </ul>
 <ul>
-<li>通过点击菜单项 CI Tools > Quantities > Manage Quantity Take-off 打开工程量管理器，并点击“配方”选项卡。选中之前创建的示例配方，然后点击“附加条件”（Add When）字段。我们希望此配方附加到刚刚添加的墙体上，因此规则应为“任何属于墙体类型且高于 2m 的构件”。我们可以写为，</li>
+<li>通过点击菜单项 ProKit > Quantities > Manage Quantity Take-off 打开工程量管理器，并点击“配方”选项卡。选中之前创建的示例配方，然后点击“附加条件”（Add When）字段。我们希望此配方附加到刚刚添加的墙体上，因此规则应为“任何属于墙体类型且高于 2m 的构件”。我们可以写为，</li>
 </ul>
 <p> element.type = “Wall” and element.height > 2</p>
 <p>……但也可以通过直接针对墙体来简化：</p>
@@ -2362,7 +2377,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>Add some walls over 2m high in the floor plan</li>
 </ul>
 <ul>
-<li>Open the Quantity Take-off Manager by clicking the menu item CI Tools > Quantities > Manage Quantity Take-off and click the Recipes tab. Select the example recipe created earlier and click in the Add When field. We want this recipe to attach to the walls we just added, so the rule should be “any element that is a wall type and higher than 2m”. We could write,</li>
+<li>Open the Quantity Take-off Manager by clicking the menu item ProKit > Quantities > Manage Quantity Take-off and click the Recipes tab. Select the example recipe created earlier and click in the Add When field. We want this recipe to attach to the walls we just added, so the rule should be “any element that is a wall type and higher than 2m”. We could write,</li>
 </ul>
 <p> element.type = “Wall” and element.height > 2</p>
 <p>…but we can simplify this by directly targeting walls:</p>
@@ -2383,7 +2398,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <li>Add some walls over 2m high in the floor plan</li>
 </ul>
 <ul>
-<li>Open the Quantity Take-off Manager by clicking the menu item CI Tools > Quantities > Manage Quantity Take-off and click the Recipes tab. Select the example recipe created earlier and click in the Add When field. We want this recipe to attach to the walls we just added, so the rule should be “any element that is a wall type and higher than 2m”. We could write,</li>
+<li>Open the Quantity Take-off Manager by clicking the menu item ProKit > Quantities > Manage Quantity Take-off and click the Recipes tab. Select the example recipe created earlier and click in the Add When field. We want this recipe to attach to the walls we just added, so the rule should be “any element that is a wall type and higher than 2m”. We could write,</li>
 </ul>
 <p> element.type = “Wall” and element.height > 2</p>
 <p>…but we can simplify this by directly targeting walls:</p>
@@ -3477,7 +3492,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <h3 class="en-only block">5.2 Scheduling Quantities</h3>
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360004057296-5-2-Scheduling-Quantities" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
-  <div class="zh-only"><p>算量结果显示在 *B**ill of Quantities<em>（工程量清单）面板中，可通过点击菜单项 </em>CI Tools > Quantities > B**ill of Quantities Palette<em> 打开。</em>Quantities Info* 面板还显示一个图标，可快速打开该面板并自动对当前选择进行算量（</p>
+  <div class="zh-only"><p>算量结果显示在 *B**ill of Quantities<em>（工程量清单）面板中，可通过点击菜单项 </em>ProKit > Quantities > B**ill of Quantities Palette<em> 打开。</em>Quantities Info* 面板还显示一个图标，可快速打开该面板并自动对当前选择进行算量（</p>
 <p><img class="inl" src="img/360004057296_0.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
 <p>）。</p>
 <p><img src="img/360004057296_1.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
@@ -3498,7 +3513,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <ul>
 <li>算量清单的筛选控件。第 4c 项显示总成本。第 4b 项允许手动编辑算量数量 —— 此功能是应某些较窄的用途而提出的，但总体上并不推荐使用。</li>
 </ul></div>
-  <div class="en-only"><p>Scheduled quantities are viewed in the *B**ill of Quantities<em> palette, which can be opened by clicking the menu item </em>CI Tools > Quantities > B**ill of Quantities Palette<em>. The </em>Quantities Info*palette also displays an icon to quickly open palette and automatically schedule the current selection (</p>
+  <div class="en-only"><p>Scheduled quantities are viewed in the *B**ill of Quantities<em> palette, which can be opened by clicking the menu item </em>ProKit > Quantities > B**ill of Quantities Palette<em>. The </em>Quantities Info*palette also displays an icon to quickly open palette and automatically schedule the current selection (</p>
 <p><img class="inl" src="img/360004057296_0.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
 <p>).</p>
 <p><img src="img/360004057296_1.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
@@ -3523,7 +3538,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
-      <p>Scheduled quantities are viewed in the *B**ill of Quantities<em> palette, which can be opened by clicking the menu item </em>CI Tools > Quantities > B**ill of Quantities Palette<em>. The </em>Quantities Info*palette also displays an icon to quickly open palette and automatically schedule the current selection (</p>
+      <p>Scheduled quantities are viewed in the *B**ill of Quantities<em> palette, which can be opened by clicking the menu item </em>ProKit > Quantities > B**ill of Quantities Palette<em>. The </em>Quantities Info*palette also displays an icon to quickly open palette and automatically schedule the current selection (</p>
 <p><img class="inl" src="img/360004057296_0.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
 <p>).</p>
 <p><img src="img/360004057296_1.jpg" alt="5.2 Scheduling Quantities 示意图" loading="lazy"></p>
@@ -3873,17 +3888,17 @@ html[data-lang="en"] .en-only.block { display:block; }
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360004150815-6-4-Auditing-Unmeasured-Elements" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
   <div class="zh-only"><p>如果项目要完成完整造价，可以认为模型中的大多数建筑构件都会对总量有所贡献。因此，Quantities 提供了一个工具来高亮显示这些构件以便检查。</p>
-<p>选择一个适合复核 BIM 项目的视图。三维窗口通常最合适，因为可以选择所有构件（大多数其他视图只显示子集，例如平面图中的某一层）。点击菜单项 CI Tools > Quantities > Select Unquantified Elements…（选择未计量构件）</p>
+<p>选择一个适合复核 BIM 项目的视图。三维窗口通常最合适，因为可以选择所有构件（大多数其他视图只显示子集，例如平面图中的某一层）。点击菜单项 ProKit > Quantities > Select Unquantified Elements…（选择未计量构件）</p>
 <p>在当前视图中，所有不会被任何配方（手动或自动）计量的构件都将被选中。</p></div>
   <div class="en-only"><p>If project is to be fully costed, it can be assumed that the majority of building elements in the model will contribute to the total. Therefore, Quantities provides a tool to highlight these elements for checking.</p>
-<p>Pick a suitable view for reviewing the BIM project. The 3D window is typically the most suitable because all elements can be selected (most other views only display a sub-selection, e.g. one storey in the floor plan). Click the menu item CI Tools > Quantities > Select Unquantified Elements…</p>
+<p>Pick a suitable view for reviewing the BIM project. The 3D window is typically the most suitable because all elements can be selected (most other views only display a sub-selection, e.g. one storey in the floor plan). Click the menu item ProKit > Quantities > Select Unquantified Elements…</p>
 <p>All elements that will not be measured by a recipe (manual or automatic) will be selected in the current view.</p></div>
   <details class="orig-toggle">
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
       <p>If project is to be fully costed, it can be assumed that the majority of building elements in the model will contribute to the total. Therefore, Quantities provides a tool to highlight these elements for checking.</p>
-<p>Pick a suitable view for reviewing the BIM project. The 3D window is typically the most suitable because all elements can be selected (most other views only display a sub-selection, e.g. one storey in the floor plan). Click the menu item CI Tools > Quantities > Select Unquantified Elements…</p>
+<p>Pick a suitable view for reviewing the BIM project. The 3D window is typically the most suitable because all elements can be selected (most other views only display a sub-selection, e.g. one storey in the floor plan). Click the menu item ProKit > Quantities > Select Unquantified Elements…</p>
 <p>All elements that will not be measured by a recipe (manual or automatic) will be selected in the current view.</p>
     </div>
   </details>
@@ -4711,8 +4726,8 @@ html[data-lang="en"] .en-only.block { display:block; }
 </article>
 
 <footer class="foot">
-<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
-<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+<span class="zh-only">ProKit / CI Tools（旧） · 内容依据 Graphisoft AC30 官方帮助与 MyCi 知识库 · 2026-11-23</span>
+<span class="en-only">ProKit / CI Tools (legacy) · Sources: Graphisoft AC30 help and the MyCi knowledge base · 2026-11-23</span>
 </footer>
 </main>
 </div>

@@ -51,3 +51,16 @@
 4. **about.html**：来源改双轨（AC30 官方帮助 14 页 + MyCi 基线），删除「1208 张已本地化」「33 张失效」两处失实描述，改述第三方 CDN 现状；官方入口补 AC30 ProKit Core 帮助；页脚与品牌同步。
 5. **readme.md**：标题、徽章（add-on 3001-1.2 / 3800+ 图）、双轨说明、三步启动、18 工具目录（按 Core/Suite/旧版 + AC30 与旧路径对照）、版本授权表、工程结构（24 页，新增两篇 docs）、内容来源与页脚全部双语化。
 **备注**：站点共 24 页。验证：HTML 结构配对（div/main/article）全通过、11 项静态断言全过、Edge 无头截图核对首页与差异页；修复一次 CSS 误注入 `</style>` 外导致页面顶部露出样式文本的问题。18 个工具页外壳与搜索索引重建留待 P4/P5。
+
+---
+
+## 2026-11-23 · P4 工具页外壳批量改造
+
+**模块**：site（18 工具页 + guide + all + search-index.js）/ source/rebrand_prokit.py / source/build_search_index.py
+**变更**：
+1. 新增 `source/rebrand_prokit.py`（约 370 行，含 `--dry-run`）：品牌块、`<title>`、页脚统一为 ProKit / CI Tools（旧）；侧栏改为「开始 / ProKit Core·4 / ProKit Suite·11 / 其他·旧版·3」四段；工具页 hero 插入包徽标与官方入口（Core → Graphisoft AC30 帮助，Suite/LaunchPad/Bracing → MyCi，Labeller → Central Innovation）；`CI Tools > X`、`Ci Tools > X` 统一为 `ProKit > X`。
+2. 历史语境行（含 AC28/AC29/旧版/老版/MyCi/Cadimage/legacy/Profile）跳过替换；正文其余内容不动。
+3. 工具更名：Structural→Structure、Sites→Site、MetaData→Metadata、Doors+Windows→Doors + Windows、Launchpad→LaunchPad（导航、面包屑、h1、索引同步；URL 与锚点不变）。
+4. guide：16→18 工具，补 LaunchPad / Labeller 两节，更新顶部改名说明与旧版流程提示、表格与「暂不建议碰」名单；all：补 LaunchPad / Bracing / Labeller 三个分组（18 组），标题统一官方名。
+5. `build_search_index.py`：TOOLS 改名与路径改 `ProKit > ...`，关键词补 `prokit cadimage ac30 core suite`，PAGES 增 differences，重生成 `search-index.js`（18 工具 / 6 页 / 422 篇 / 83 KB）。
+**备注**：静态校验通过（徽标 18/18、无白名单外旧命令路径、站内链接全在、索引可解析）；Edge 截图核对首页、Cabinets、Structure、guide、Bracing 正常。差异页对照表保留旧路径 `CI Tools >` 属预期。遗留：`bracing.html`、`sites.html` 存在改造前已有的 div/script 标签计数不平衡（改造前后差值一致，未由本次改动引入），留待 P5 统一修复；`gettingstarted.html` 标题与安装内容仍为旧版，属 P2 重写范围。

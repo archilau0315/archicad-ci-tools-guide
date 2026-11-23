@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-lang="zh">
 <head>
+<!-- rebrand:prokit-p4 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="MetaData（属性管理）完整中文教程：属性与分类的批量操作面板">
-<title>MetaData · 属性管理 · CI Tools 完全指南</title>
+<title>Metadata · 属性管理 · ProKit / CI Tools（旧）</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/chinese-simplified-700.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.2.5/index.css">
 <style>
@@ -185,35 +186,48 @@ html[data-lang="en"] .en-only.block { display:block; }
 .vb-note{margin:14px 0 0;padding:10px 14px;border-radius:10px;
   background:#fdf8f1;border:1px solid #f0e2cc;color:#7a5a2c;font-size:13.5px;line-height:1.7}
 .vb-note b{color:#8a5a1e}
+
+/* ProKit 包徽标（P4） */
+.pkg-line{margin:12px 0 0;font-size:12.5px;color:var(--muted);display:flex;
+  flex-wrap:wrap;gap:8px;align-items:center}
+.pkg-line a{border:none;font-size:12.5px}
+.pkg{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.03em;
+  padding:2px 8px;border-radius:9999px;white-space:nowrap}
+.pkg-core{background:rgba(47,111,143,.12);color:#1d4d63;border:1px solid rgba(47,111,143,.25)}
+.pkg-suite{background:#f1e7d8;color:#8a5a1e;border:1px solid #e2d2ba}
+.pkg-old{background:#f7e3e3;color:#9a3b3b;border:1px solid #e6c6c6}
 </style>
 <link rel="stylesheet" href="search.css">
 </head>
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">CI Tools 完全指南</span><span class="en-only">CI Tools Handbook</span></div><div class="brand-s">Archicad Plugin Manual</div></a></div>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only">ProKit / CI Tools（旧）</span><span class="en-only">ProKit / CI Tools (legacy)</span></div><div class="brand-s">Archicad ProKit · AC30</div></a></div>
 <div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
 <a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
 <a class="" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
 <a class="" href="guide.html"><span class="ic">★</span><span class="zh-only">中文主线速查</span><span class="en-only">Quick Guide</span></a>
+<a class="" href="differences.html"><span class="ic">⇋</span><span class="zh-only">ProKit 与 CI Tools</span><span class="en-only">ProKit vs CI Tools</span></a>
 <a class="" href="gettingstarted.html"><span class="ic">◎</span><span class="zh-only">入门与安装</span><span class="en-only">Getting Started</span></a>
-<div class="nav-h zh-only block">18 个工具</div><div class="nav-h en-only block">18 Tools</div>
+<div class="nav-h zh-only block">ProKit Core · 4</div><div class="nav-h en-only block">ProKit Core · 4</div>
 <a class="" href="annotate.html"><span class="ic">Aa</span><span class="zh-only">Annotate · 文字格式</span><span class="en-only">Annotate</span></a>
 <a class="" href="transformer.html"><span class="ic">⇄</span><span class="zh-only">Transformer · 项目镜像</span><span class="en-only">Transformer</span></a>
 <a class="" href="timetracker.html"><span class="ic">◷</span><span class="zh-only">Time Tracker · 工时统计</span><span class="en-only">Time Tracker</span></a>
 <a class="" href="detail.html"><span class="ic">▤</span><span class="zh-only">Detail Elements · 二维详图</span><span class="en-only">Detail Elements</span></a>
+<div class="nav-h zh-only block">ProKit Suite · 11</div><div class="nav-h en-only block">ProKit Suite · 11</div>
 <a class="" href="keynotes.html"><span class="ic">❝</span><span class="zh-only">Keynotes · 规范注释</span><span class="en-only">Keynotes</span></a>
-<a class=" on" href="metadata.html"><span class="ic">◈</span><span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></a>
+<a class="on" href="metadata.html"><span class="ic">◈</span><span class="zh-only">Metadata · 属性管理</span><span class="en-only">Metadata</span></a>
 <a class="" href="quantities.html"><span class="ic">∑</span><span class="zh-only">Quantities · 工程量算量</span><span class="en-only">Quantities</span></a>
 <a class="" href="cabinets.html"><span class="ic">▦</span><span class="zh-only">Cabinets · 橱柜木作</span><span class="en-only">Cabinets</span></a>
-<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors+Windows · 门窗</span><span class="en-only">Doors+Windows</span></a>
+<a class="" href="doors.html"><span class="ic">⌸</span><span class="zh-only">Doors + Windows · 门窗</span><span class="en-only">Doors + Windows</span></a>
 <a class="" href="coverings.html"><span class="ic">▨</span><span class="zh-only">Coverings · 覆面层</span><span class="en-only">Coverings</span></a>
 <a class="" href="electrical.html"><span class="ic">⚡</span><span class="zh-only">Electrical · 电气</span><span class="en-only">Electrical</span></a>
 <a class="" href="stairs.html"><span class="ic">⇱</span><span class="zh-only">Stairs · 楼梯</span><span class="en-only">Stairs</span></a>
-<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structural · 结构构件</span><span class="en-only">Structural</span></a>
-<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Sites · 场地景观</span><span class="en-only">Sites</span></a>
+<a class="" href="structural.html"><span class="ic">⌗</span><span class="zh-only">Structure · 结构构件</span><span class="en-only">Structure</span></a>
+<a class="" href="sites.html"><span class="ic">⛿</span><span class="zh-only">Site · 场地景观</span><span class="en-only">Site</span></a>
 <a class="" href="fitout.html"><span class="ic">⌸</span><span class="zh-only">Fitout · 室内布置</span><span class="en-only">Fitout</span></a>
-<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">Launchpad · 启动台</span><span class="en-only">Launchpad</span></a>
+<div class="nav-h zh-only block">其他 / 旧版 · 3</div><div class="nav-h en-only block">Legacy · 3</div>
+<a class="" href="launchpad.html"><span class="ic">⇪</span><span class="zh-only">LaunchPad · 启动台</span><span class="en-only">LaunchPad</span></a>
 <a class="" href="bracing.html"><span class="ic">⊻</span><span class="zh-only">Bracing · 支撑（NZ）</span><span class="en-only">Bracing</span></a>
 <a class="" href="labeller.html"><span class="ic">◫</span><span class="zh-only">Labeller · 表面标注</span><span class="en-only">Labeller</span></a>
 <div class="nav-h zh-only block">关于</div><div class="nav-h en-only block">About</div>
@@ -227,10 +241,11 @@ html[data-lang="en"] .en-only.block { display:block; }
 
 
 <div class="crumb"><a href="index.html"><span class="zh-only">总览</span><span class="en-only">Overview</span></a>
-  / <span class="zh-only">MetaData · 属性管理</span><span class="en-only">MetaData</span></div>
+  / <span class="zh-only">Metadata · 属性管理</span><span class="en-only">Metadata</span></div>
 <div class="hero">
   <span class="kicker"><span class="zh-only">工具分册</span><span class="en-only">Reference Chapter</span></span>
-  <h1>MetaData · <span class="zh-only">属性管理</span></h1>
+  <h1>Metadata · <span class="zh-only">属性管理</span></h1>
+  <p class="pkg-line"><span class="pkg pkg-suite">ProKit Suite</span><span class="zh-only">随 Archicad Collaborate / Max 提供 · </span><span class="en-only">Included with Archicad Collaborate / Max · </span><a href="https://cadimage.zendesk.com/hc/en-us" target="_blank" rel="noopener"><span class="zh-only">MyCi 知识库 ↗</span><span class="en-only">MyCi knowledge base ↗</span></a></p>
   <p class="zh-only">属性与分类的批量操作面板</p>
   <p class="en-only">Palette for bulk editing properties and classifications</p>
   <div class="meta">
@@ -247,7 +262,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <h3 class="en-only block">3.1 Reviewing Element Metadata</h3>
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/360001692375-3-1-Reviewing-Element-Metadata" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
-  <div class="zh-only"><p>要查看 <em>Metadata</em>（元数据）面板，点击菜单项 *CI Tools ><strong>Metadata</strong>><strong>Show Metadata</strong>P**alette…*</p>
+  <div class="zh-only"><p>要查看 <em>Metadata</em>（元数据）面板，点击菜单项 *ProKit > <strong>Metadata</strong>><strong>Show Metadata</strong>P**alette…*</p>
 <p><img src="img/360001692375_0.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
 <p>该面板的顶部结构与 ARCHICAD 的 <em>Info</em>（信息）面板相似，显示已选中和可编辑构件的数量。相邻的 <em>Live Edit</em>（实时编辑）复选框会显著改变面板的使用方式：</p>
 <ul>
@@ -319,7 +334,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p>请注意，所列出特征标记的文字样式在某些情况下会有所不同。所有条目通常以普通的黑色字体显示，但可能会出现以下替代样式，有时会组合出现：</p>
 <div class="table-wrap"><table><thead><tr><th>蓝色</th><th>唯一特征标记 仅在选中多个构件时相关。当某个特征标记名称并非整个选择集所共有时，即选择集中至少有一个构件没有该特征标记，它会以蓝色显示。这同样适用于单个属性值——选中的构件可能共有该属性但取值不同。更多细节见第 3.3.3 节。</th></tr></thead><tbody><tr><td>**粗体**</td><td>混合属性值 仅对属性相关。当一个属性存在于多个构件中且取值不同时，该属性名称会以粗体显示。点击展开三角即可查看各个属性值。由于它们并非整个选择集所共有，这些取值都会以蓝色显示。</td></tr><tr><td>绿色</td><td>自动注入的特征标记 仅在显示工具默认值时相关（工具已激活且未选中构件），并且属性或分类的自动注入处于激活状态。所选工具的特征标记会显示，但有一处不同：如果有特征标记被添加到静态列表中，它们将覆盖工具设置并以绿色显示。如果注入了分类，它所添加的任何属性也会以绿色显示。更多细节见第 3.2.7 节。</td></tr></tbody></table></div>
 <p>上图中可以看到一些文字样式的示例。这些样式是审核和编辑项目数据的宝贵资源，因为它们能突出差异和潜在问题——更多细节见第 3.2.6 节。</p></div>
-  <div class="en-only"><p>To view the <em>Metadata</em> palette, click the menu item *CI Tools ><strong>Metadata</strong>><strong>Show Metadata</strong>P**alette…*</p>
+  <div class="en-only"><p>To view the <em>Metadata</em> palette, click the menu item *ProKit > <strong>Metadata</strong>><strong>Show Metadata</strong>P**alette…*</p>
 <p><img src="img/360001692375_0.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
 <p>The palette is headed up in a similar way to ARCHICAD’s <em>Info</em> palette, showing the number of selected and editable elements. The adjacent <em>Live Edit</em> checkbox markedly changes how the palette is used:</p>
 <ul>
@@ -395,7 +410,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <summary><span class="zh-only">英文原文对照</span><span class="en-only">Official English Original</span></summary>
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
-      <p>To view the <em>Metadata</em> palette, click the menu item *CI Tools ><strong>Metadata</strong>><strong>Show Metadata</strong>P**alette…*</p>
+      <p>To view the <em>Metadata</em> palette, click the menu item *ProKit > <strong>Metadata</strong>><strong>Show Metadata</strong>P**alette…*</p>
 <p><img src="img/360001692375_0.jpg" alt="3.1 Reviewing Element Metadata 示意图" loading="lazy"></p>
 <p>The palette is headed up in a similar way to ARCHICAD’s <em>Info</em> palette, showing the number of selected and editable elements. The adjacent <em>Live Edit</em> checkbox markedly changes how the palette is used:</p>
 <ul>
@@ -1504,7 +1519,7 @@ html[data-lang="en"] .en-only.block { display:block; }
   </div>
   <div class="art-src"><a href="https://cadimage.zendesk.com/hc/en-us/articles/16173433012751-What-does-the-Metadata-tool-do" target="_blank" rel="noopener">MyCi 官方原文 ↗</a></div>
   <div class="zh-only"><p>Metadata 工具提供了对 Archicad 中属性的强大控制能力。</p>
-<p>Metadata 面板的启动入口位于 CI Tools>Metadata>Show Metadata palette（显示 Metadata 面板）。</p>
+<p>Metadata 面板的启动入口位于 ProKit > Metadata>Show Metadata palette（显示 Metadata 面板）。</p>
 <p><img src="img/16173433012751_0.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
 <p>这会弹出用于处理 Archicad 中构件的面板。</p>
 <p><img src="img/16173433012751_1.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
@@ -1518,7 +1533,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <p>另一个重要特点是：如果我们选中了两个同类型构件，而某些属性不同——例如两面墙的可燃性取值不同——列表会以蓝色下拉形式同时给出两个值。它还会标明每个取值对应的选中项数量，本例中各为一个。</p>
 <p><img src="img/16173433012751_3.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p></div>
   <div class="en-only"><p>The Metadata tool offers powerful control over properties in Archicad.</p>
-<p>The activation of the Metadata palette is under CI Tools>Metadata>Show Metadata palette.</p>
+<p>The activation of the Metadata palette is under ProKit > Metadata>Show Metadata palette.</p>
 <p><img src="img/16173433012751_0.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
 <p> This will bring up the palette for use with Elements in Archicad.</p>
 <p><img src="img/16173433012751_1.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
@@ -1536,7 +1551,7 @@ html[data-lang="en"] .en-only.block { display:block; }
     <div class="orig-body">
       <div class="orig-label"><span class="zh-only">官方英文原文</span><span class="en-only">Official English Original</span></div>
       <p>The Metadata tool offers powerful control over properties in Archicad.</p>
-<p>The activation of the Metadata palette is under CI Tools>Metadata>Show Metadata palette.</p>
+<p>The activation of the Metadata palette is under ProKit > Metadata>Show Metadata palette.</p>
 <p><img src="img/16173433012751_0.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
 <p> This will bring up the palette for use with Elements in Archicad.</p>
 <p><img src="img/16173433012751_1.jpg" alt="What does the Metadata tool do? 示意图" loading="lazy"></p>
@@ -1555,8 +1570,8 @@ html[data-lang="en"] .en-only.block { display:block; }
 </article>
 
 <footer class="foot">
-<span class="zh-only">CI Tools 完全指南 · 内容整理自 Central Innovation / Graphisoft 官方 MyCi 知识库（2026-10 更新）· 2026-11-05</span>
-<span class="en-only">CI Tools Handbook · Content from the official Central Innovation / Graphisoft MyCi knowledge base (updated 2026-10) · 2026-11-05</span>
+<span class="zh-only">ProKit / CI Tools（旧） · 内容依据 Graphisoft AC30 官方帮助与 MyCi 知识库 · 2026-11-23</span>
+<span class="en-only">ProKit / CI Tools (legacy) · Sources: Graphisoft AC30 help and the MyCi knowledge base · 2026-11-23</span>
 </footer>
 </main>
 </div>
