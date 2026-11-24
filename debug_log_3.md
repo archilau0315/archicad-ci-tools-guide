@@ -35,3 +35,19 @@ source/fix_cross_refs.py（重写）、site/quantities.html、site/metadata.html
 3. **CSS/CDN 误伤**：裸数字兜底 regex 会把 CSS 里的 `line-height:1.75`、CDN URL 里的版本号都变成 xref → 解决：先 protect 非正文区域
 4. **嵌套 `<a>`**：4d (section+decimal) 匹配后，4g (section+plain) 的 `\b` word boundary 把 `.` 当边界，又在内部匹配了裸数字 → 解决：阶段 1A/1B 之间加 protect
 5. **范围裸数字锚点错误**：`4 至 4.4` 里的裸 `4` 应该跳 `#s-4-1`，脚本生成了 `#s-4` → 修复：range 函数里加 `if "." in a` 判断
+
+---
+
+## 2026-11-24 · index.html 总览目录章节分组条位置修正
+
+**模块**：`source/add_toc_chapters.py`、`site/index.html`
+
+**变更**：
+1. 修正分隔条插入位置 off-by-one：原逻辑 `reversed(li_info)` 遍历时首次遇到某章拿到的是该章**偏移最大**条目，导致"第 N 章"落在该章最后一个条目之前。改为正序收集每章**第一个**条目的 offset，再倒序插入以保持 offset 稳定。
+2. 增加幂等保护：插入前先用正则清空已有的 `<li class="ch-divider">`，脚本可重复运行不再叠加重复分隔条。
+3. 重新生成 index.html 的 Quantities 目录：9 个章节分组条各出现 1 次，位置分别在第 1/2/3/4/5/6/7/8/9 章首个条目之前。
+
+**备注**：
+- 踩坑：`git checkout -- site/index.html` 恢复的是 HEAD（已含旧错误分隔条的 commit cf39ec1），导致新旧分隔条叠加成 18 条。需 `git checkout HEAD~1 -- site/index.html` 才能回到干净版本。
+- 验证：`_verify_order.py` 输出分隔条序列与条目编号顺序一致；`verify_site.py` 全站 24 页通过。
+- commit `bea1850`，已 push 并部署，线上 HTTP 200。
