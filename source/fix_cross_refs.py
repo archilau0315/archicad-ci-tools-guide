@@ -62,12 +62,70 @@ EN_PATTERNS = [
     (re.compile(r'section\s+(\d+(?:\.\d+)*)', re.IGNORECASE), None),
 ]
 
-def zh_link(text):
-    """把中文"第 x.x.x 节"包成链接，只处理带小数点的（对应 h3 id 存在的）"""
+def zh_link_decimal(text):
+    """中文带小数点：第 3.2.1 节 -> <a href="#s-3-2-1">"""
     def repl(m):
         num = m.group(2)
         return f'{m.group(1)}<a href="{num_to_id(num)}" class="xref" onclick="history.scrollRestoration=\'auto\'">{num}</a>{m.group(3)}'
     return ZH_SECTION_RE.sub(repl, text)
+
+
+def _protect_xrefs(text):
+    """把所有 <a class="xref" ...>...</a> 替换成占位符，避免被后续正则二次匹配"""
+    protect_map = {}
+    def _save(m):
+        key = f'\x00XREF{len(protect_map)}\x00'
+        protect_map[key] = m.group(0)
+        return key
+    # 贪婪匹配最近的 </a>（section 1.3 断行时仍能完整包住）
+    protected = re.sub(r'<a\b[^>]*class="[^"]*xref[^"]*"[^>]*>.*?</a>', _save, text, flags=re.S)
+    return protected, protect_map
+
+
+def _restore(text, protect_map):
+    for k, v in protect_map.items():
+        text = text.replace(k, v)
+    return text
+
+
+def zh_link_plain(text, h3_ids):
+    """中文裸数字：第 5 节 -> 跳到 #s-5-1（该章首个子节）。
+    前提：调用前所有 <a class="xref"> 已被保护为占位符。"""
+    plain_re = re.compile(r'(第\s*)(\d+)(\s*节)')
+    def repl(m):
+        num = m.group(2)
+        target = f"#s-{num}-1"
+        if target.lstrip("#") not in h3_ids:
+            return m.group(0)  # 该章没有子节，不替换
+        return f'{m.group(1)}<a href="{target}" class="xref" onclick="history.scrollRestoration=\'auto\'">{num}</a>{m.group(3)}'
+    return plain_re.sub(repl, text)
+
+
+def en_link_plain(text, h3_ids):
+    """英文裸数字：section 5 / sections 3 and 4 -> #s-5-1 / #s-3-1, #s-4-1。
+    前提：调用前所有 <a class="xref"> 已被保护为占位符。"""
+    # 复数：sections N and M
+    def repl_multi(m):
+        a, sep, b = m.group(1), m.group(2), m.group(3)
+        ta = f"#s-{a}-1" if f"s-{a}-1" in h3_ids else None
+        tb = f"#s-{b}-1" if f"s-{b}-1" in h3_ids else None
+        if not ta or not tb:
+            return m.group(0)
+        return f'<a href="{ta}" class="xref">section {a}</a> {sep} <a href="{tb}" class="xref">section {b}</a>'
+    text = re.sub(
+        r'sections\s+(\d+)\s+(and|or|,)\s+(\d+)',
+        repl_multi, text, flags=re.IGNORECASE
+    )
+
+    # 单数：section N（后面可能跟 Em 标题，如 "section 5, <em>xxx</em>"）
+    def repl_single(m):
+        num = m.group(1)
+        target = f"#s-{num}-1"
+        if target.lstrip("#") not in h3_ids:
+            return m.group(0)
+        return f'<a href="{target}" class="xref">{m.group(0)}</a>'
+    text = re.sub(r'\bsection\s+(\d+)\b', repl_single, text, flags=re.IGNORECASE)
+    return text
 
 def en_link(text):
     """把英文 section 数字包成链接，避免嵌套。
@@ -111,11 +169,22 @@ def process_file(path):
     # Step 1: 给 h3 加 id
     text, h3_count = add_h3_ids(text)
 
-    # Step 2: 替换中文交叉引用
-    text = zh_link(text)
+    # 收集本页所有 h3 锚点（裸数字处理时用来判断 #s-N-1 是否存在）
+    h3_ids = set(re.findall(r'<h3\b[^>]*\sid="(s-[\d\-]+)"', text))
 
-    # Step 3: 替换英文交叉引用
+    # Step 2: 替换带小数点的交叉引用（小数章节号，精确对应 h3）
+    text = zh_link_decimal(text)
     text = en_link(text)
+
+    # Step 2.5: 保护所有已生成的 <a class="xref">，避免裸数字正则在标签内部二次匹配
+    text, protect_map = _protect_xrefs(text)
+
+    # Step 3: 替换裸数字章节引用（跳到该章首个子节）
+    text = zh_link_plain(text, h3_ids)
+    text = en_link_plain(text, h3_ids)
+
+    # Step 3.5: 还原被保护的 xref
+    text = _restore(text, protect_map)
 
     if text != original:
         io.open(path, "w", encoding="utf-8").write(text)
