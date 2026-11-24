@@ -19,8 +19,8 @@ SITE = os.path.join(ROOT, "site")
 CORE = {"annotate", "transformer", "timetracker", "detail"}
 ART_RE = re.compile(r'<div class="art" id="(a-[\w.\-]+)">(.*?)'
                     r'(?=<div class="art" id="a-|</article>)', re.S)
-H3_ZH = re.compile(r'<h3 class="zh-only block">(.*?)</h3>', re.S)
-H3_EN = re.compile(r'<h3 class="en-only block">(.*?)</h3>', re.S)
+H3_ZH = re.compile(r'<h3\b[^>]*class="zh-only block">(.*?)</h3>', re.S)
+H3_EN = re.compile(r'<h3\b[^>]*class="en-only block">(.*?)</h3>', re.S)
 OLD_PATH = re.compile(r"\b[Cc][Ii] Tools\s*(?:→|>|&gt;)")
 STACK_TAGS = {"div", "article", "main", "aside", "details", "script", "style",
               "table", "figure", "ul", "ol"}

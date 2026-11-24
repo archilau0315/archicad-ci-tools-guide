@@ -68,3 +68,11 @@
   .srch-kbd{display:none}
   .srch-input{padding-right:14px}
 }
+
+/* 交叉引用锚点（章节间跳转）*/
+a.xref{color:#2a6580;text-decoration:none;border-bottom:1px dotted #6ba3bd;
+  transition:color .15s,border-color .15s;background:transparent}
+a.xref:hover{color:#1c4a61;border-bottom-style:solid}
+a.xref:focus{outline:2px solid rgba(47,111,143,.35);outline-offset:2px;border-radius:2px}
+/* h3 加了锚点 id 后，跳转时上方留出空间（被顶部搜索吸顶条挡住）*/
+h3[id]{scroll-margin-top:72px}
