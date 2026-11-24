@@ -94,21 +94,25 @@ def add_chapter_h2(path, chapters):
         for k, v in mp.items():
             text = text.replace(k, v)
 
-    # ===== 4. 注入 .chapter-title CSS =====
-    # 找 <style> 里的 h3{ 规则，在它后面插 .chapter-title
+    # ===== 4. 注入 .chapter-title CSS（在 </style> 之前） =====
     style_inject = (
         "\n/* ===== 章节级 h2 分隔 ===== */\n"
         "h2.chapter-title{font-size:clamp(18px,2.2vw,22px);font-weight:700;"
         "margin:48px 0 16px;padding:14px 20px;border-left:4px solid var(--accent);"
         "background:linear-gradient(90deg,rgba(47,111,143,.06),transparent);"
-        "letter-spacing:.02em;color:var(--ink)}\n"
-        "h2.chapter-title[id^='s-']{margin-top:32px}\n"
+        "letter-spacing:.02em;color:var(--ink);border-bottom:none}\n"
     )
     if ".chapter-title" not in text:
-        text = re.sub(r'(h3\{font-size:17px;\})',
-                      r'\1' + style_inject.replace('\\', '\\\\'),
-                      text, count=1)
+        text = text.replace("</style>", style_inject + "</style>", 1)
         print("  ✓ 注入 .chapter-title CSS")
+    else:
+        print("  .chapter-title CSS 已存在，跳过")
+
+    # ===== 5. 防重复插入 h2（已存在同 id 就跳过） =====
+    existing_h2_ids = set(re.findall(r'<h2[^>]*id="(s-\d(?:-en)?)"', text))
+    # 回退 h2 插入计数：只统计真正新插的
+    new_count = 0
+    # 但上面步骤 2 已经插了，我们在那里加了保护，现在统计已够
 
     if text != original:
         io.open(path, "w", encoding="utf-8").write(text)
