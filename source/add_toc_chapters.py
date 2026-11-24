@@ -44,6 +44,9 @@ def add_toc_chapter_groups(path):
     ul_content = text[ul_start:ul_end]
     print(f"Quantities toc-list: {ul_start}-{ul_end}, 含 {ul_content.count('quantities.html')} 个链接")
 
+    # 清理已存在的旧分隔条，保证可重复运行
+    ul_content = re.sub(r'<li class="ch-divider[^"]*">[^<]*</li>', '', ul_content)
+
     # 3. 提取每个 <li> 的章号 + 在 ul_content 里的 offset
     li_pattern = re.compile(
         r'<li>\s*<a\s+href="quantities\.html#[^"]*"[^>]*>\s*'
@@ -74,22 +77,26 @@ def add_toc_chapter_groups(path):
 
     print(f"  条目数: {len(li_info)}, 章节: {sorted(set(c for _,c in li_info), key=int)}")
 
-    # 4. 倒序插入章节分隔 li
-    current_ch = None
+    # 4. 正序遍历，记录每章【第一个】条目的 offset
+    first_off = {}
+    for off, ch_num in li_info:
+        if ch_num not in first_off:
+            first_off[ch_num] = off
+
+    # 5. 倒序插入章节分隔 li（倒序避免 offset 位移）
     changes = 0
-    for off, ch_num in reversed(li_info):
-        if ch_num != current_ch:
-            zh_name, en_name = CHAPTER_NAMES.get(ch_num, (f"第{ch_num}章", f"Ch{ch_num}"))
-            divider = (
-                f'<li class="ch-divider zh-only block">'
-                f'第 {ch_num} 章 {zh_name}</li>'
-                f'<li class="ch-divider en-only block">'
-                f'Chapter {ch_num} {en_name}</li>'
-            )
-            ul_content = ul_content[:off] + divider + ul_content[off:]
-            current_ch = ch_num
-            changes += 1
-            print(f"  ✓ Ch{ch_num}: 在 ul offset {off} 前插入")
+    for ch_num in sorted(first_off, key=int, reverse=True):
+        off = first_off[ch_num]
+        zh_name, en_name = CHAPTER_NAMES.get(ch_num, (f"第{ch_num}章", f"Ch{ch_num}"))
+        divider = (
+            f'<li class="ch-divider zh-only block">'
+            f'第 {ch_num} 章 {zh_name}</li>'
+            f'<li class="ch-divider en-only block">'
+            f'Chapter {ch_num} {en_name}</li>'
+        )
+        ul_content = ul_content[:off] + divider + ul_content[off:]
+        changes += 1
+        print(f"  ✓ Ch{ch_num}: 在 ul offset {off} 前插入")
 
     # 5. 替换回 text
     text = text[:ul_start] + ul_content + text[ul_end:]
