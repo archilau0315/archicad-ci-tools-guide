@@ -60,8 +60,14 @@ figcaption{font-size:12.5px;color:var(--muted);margin-top:-10px}
 .brand a{color:var(--ink);border:none;display:block}
 .brand-t{font-family:"Noto Serif SC","Songti SC",serif;font-size:16px;font-weight:700;
   color:var(--ink);line-height:1.3}
-.brand-t .zh-only{white-space:nowrap}
-.brand-t .en-only{white-space:normal}
+/* brand 区域：zh-only 两行 */
+.brand-t .zh-only{white-space:normal;display:block}
+.brand-t .zh-only .brand-name{display:block;font-size:15px;line-height:1.25}
+.brand-t .zh-only .brand-sub{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-top:2px;line-height:1.2}
+.brand-t .en-only{white-space:normal;display:block}
+.brand-t .en-only .brand-name{display:block;font-size:15px;line-height:1.25}
+.brand-t .en-only .brand-sub{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-top:2px;line-height:1.2}
+
 .brand-s{font-size:11.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
 .nav-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
   color:var(--muted);padding:14px 20px 6px}
@@ -204,7 +210,7 @@ html[data-lang="en"] .en-only.block { display:block; }
 <body>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only"><span class="brand-name">Prokit/CI Tools(旧）</span>完全指南</span><span class="en-only"><span class="brand-name">ProKit / CI Tools (legacy)</span> Complete Guide</span></div><div class="brand-s">Archicad ProKit · AC30</div></a></div>
+<div class="brand"><a href="index.html"><div class="brand-t"><span class="zh-only"><span class="brand-name">Prokit/CI Tools(旧）</span><span class="brand-sub">完全指南</span></span><span class="en-only"><span class="brand-name">ProKit / CI Tools (legacy)</span><span class="brand-sub">Complete Guide</span></span></div><div class="brand-s">Archicad ProKit · AC30</div></a></div>
 <div class="nav-h zh-only block">开始</div><div class="nav-h en-only block">Start</div>
 <a class="" href="index.html"><span class="ic">◈</span><span class="zh-only">总览与快速开始</span><span class="en-only">Overview</span></a>
 <a class="on" href="all.html"><span class="ic">☰</span><span class="zh-only">全量文章索引</span><span class="en-only">All Articles</span></a>
